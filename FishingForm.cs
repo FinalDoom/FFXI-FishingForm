@@ -708,52 +708,31 @@ namespace Fishing
                         string[] tempcommandstring = tbFullactionOther.Text.Split(new String[] {";"}, StringSplitOptions.RemoveEmptyEntries);
 						foreach (string command in tempcommandstring) {
 							string[] tempactionstring = command.Split(new String[] {" "}, StringSplitOptions.RemoveEmptyEntries);
-							if (tempactionstring.Count() < 3)
+							string fish;
+							if (command.Contains("\""))
 							{
-								Stop(false, "Unknown itemizer/itemtools command");
+								fish = command.Split(new String[] {"\""}, StringSplitOptions.RemoveEmptyEntries)[1];
 							}
 							else
 							{
-								//itemtools array is 5 or 4
-								if (tempactionstring.Count() == 5 || tempactionstring.Count() == 4)
-								{
-									string storagemedium = tempactionstring[3];
+								fish = tempactionstring[1];
+							}
+							string storagemedium = tempactionstring[tempactionstring.Length-1].ToLower();
 
-									if (storagemedium.ToLower() == "satchel")
-									{
-										MoveItems(ref tempactionstring, "satchel");
-									}
-									else if (storagemedium.ToLower() == "sack")
-									{
-										MoveItems(ref tempactionstring, "sack");
-									}
-									else
-									{
-										Stop(false, "Unknown destination to move fish");
-									}
-								}
-								//itemizer array is 3
-								else if (tempactionstring.Count() == 3)
-								{
-									string storagemedium = tempactionstring[2];
+							// Check storage location
+							if (storagemedium != "satchel" && storagemedium != "sack")
+							{
+								Stop(false, "Unknown destination to move fish");
+							}
 
-									if (storagemedium.ToLower() == "satchel")
-									{
-										MoveItems(ref tempactionstring, "satchel");
-									}
-									else if (storagemedium.ToLower() == "sack")
-									{
-										MoveItems(ref tempactionstring, "sack");
-									}
-									else
-									{
-										Stop(false, "Unknown destination to move fish");
-									}
-								}
-								else
-								{
-									Stop(false, "Unknown itemizer/itemtools command.");
-								}
+							// Check command type
+							if (tempactionstring[0].StartsWith("/moveitem") || tempactionstring[0].StartsWith("/put"))
+							{
+								MoveItems(ref tempactionstring[0], ref fish, ref storagemedium);
+							}
+							else
+							{
+								Stop(false, "Unknown itemizer/itemtools command.");
 							}
 						}
 					}
@@ -1017,10 +996,9 @@ namespace Fishing
             WaitUntil(Status.Standing);
         } // @ private void Fish()
 
-        private void MoveItems (ref string[] tempstringlist, string storagearea)
+        private void MoveItems(ref string command, ref string itemname, ref string storagearea)
         {
             // Look up item ID
-			string itemname = tempstringlist[1].Trim('"');
             int tempitemid = FFACE.ParseResources.GetItemId(itemname);
             if (storagearea == "sack")
             {
@@ -1035,8 +1013,8 @@ namespace Fishing
                         // Update Status
                         SetStatus(string.Format("Moving {0} to Sack: {1} remaining.", itemname, inventorycount));
                         // Send string to POL
-                        _FFACE.Windower.SendString(string.Join(" ", tempstringlist));
-                        inventorycount--;
+                        _FFACE.Windower.SendString(string.Format("{0} \"{1}\" {2}", command, itemname, storagearea));
+						inventorycount = _FFACE.Item.GetInventoryItemCount((ushort)tempitemid);
                         // The dreaded sleep()!
                         Thread.Sleep(rnd.Next(750,1500));
                     }
@@ -1060,8 +1038,8 @@ namespace Fishing
                         // Update Status
                         SetStatus(string.Format("Moving {0} to Satchel: {1} remaining.", itemname, inventorycount));
                         // Send string to POL
-                        _FFACE.Windower.SendString(string.Join(" ", tempstringlist));
-                        inventorycount--;
+                        _FFACE.Windower.SendString(string.Format("{0} \"{1}\" {2}", command, itemname, storagearea));
+						inventorycount = _FFACE.Item.GetInventoryItemCount((ushort)tempitemid);
                         // The dreaded sleep()!
                         Thread.Sleep(rnd.Next(750, 1500));
                     }
