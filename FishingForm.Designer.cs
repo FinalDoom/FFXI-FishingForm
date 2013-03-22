@@ -157,11 +157,10 @@
             this.cbGMdetectAutostop = new System.Windows.Forms.CheckBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.tbFullactionOther = new System.Windows.Forms.TextBox();
-            this.rbFullactionOther = new System.Windows.Forms.RadioButton();
-            this.rbFullactionWarp = new System.Windows.Forms.RadioButton();
-            this.rbFullactionLogout = new System.Windows.Forms.RadioButton();
-            this.rbFullactionShutdown = new System.Windows.Forms.RadioButton();
-            this.rbFullactionNone = new System.Windows.Forms.RadioButton();
+            this.rbFullactionOther = new System.Windows.Forms.CheckBox();
+            this.rbFullactionWarp = new System.Windows.Forms.CheckBox();
+            this.rbFullactionLogout = new System.Windows.Forms.CheckBox();
+            this.rbFullactionShutdown = new System.Windows.Forms.CheckBox();
             this.timer = new System.Windows.Forms.Timer(this.components);
             this.statusStripMain = new System.Windows.Forms.StatusStrip();
             this.lblVanaDay = new System.Windows.Forms.ToolStripStatusLabel();
@@ -1845,7 +1844,7 @@
             this.cbFatiguedActionWarp.Location = new System.Drawing.Point(11, 19);
             this.cbFatiguedActionWarp.Name = "cbFatiguedActionWarp";
             this.cbFatiguedActionWarp.Size = new System.Drawing.Size(53, 17);
-            this.cbFatiguedActionWarp.TabIndex = 2;
+            this.cbFatiguedActionWarp.TabIndex = 1;
             this.cbFatiguedActionWarp.Text = "Warp";
             this.cbFatiguedActionWarp.UseVisualStyleBackColor = true;
             // 
@@ -1855,7 +1854,7 @@
             this.cbFatiguedActionLogout.Location = new System.Drawing.Point(11, 37);
             this.cbFatiguedActionLogout.Name = "cbFatiguedActionLogout";
             this.cbFatiguedActionLogout.Size = new System.Drawing.Size(63, 17);
-            this.cbFatiguedActionLogout.TabIndex = 1;
+            this.cbFatiguedActionLogout.TabIndex = 2;
             this.cbFatiguedActionLogout.Text = "Logout";
             this.cbFatiguedActionLogout.UseVisualStyleBackColor = true;
             this.cbFatiguedActionLogout.CheckedChanged += new System.EventHandler(this.cbFatiguedActionLogout_CheckedChanged);
@@ -1866,7 +1865,7 @@
             this.cbFatiguedActionShutdown.Location = new System.Drawing.Point(11, 55);
             this.cbFatiguedActionShutdown.Name = "cbFatiguedActionShutdown";
             this.cbFatiguedActionShutdown.Size = new System.Drawing.Size(75, 17);
-            this.cbFatiguedActionShutdown.TabIndex = 1;
+            this.cbFatiguedActionShutdown.TabIndex = 3;
             this.cbFatiguedActionShutdown.Text = "Shutdown";
             this.cbFatiguedActionShutdown.UseVisualStyleBackColor = true;
             this.cbFatiguedActionShutdown.CheckedChanged += new System.EventHandler(this.cbFatiguedActionShutdown_CheckedChanged);
@@ -1901,10 +1900,9 @@
                         | System.Windows.Forms.AnchorStyles.Left)));
             this.groupBox1.Controls.Add(this.tbFullactionOther);
             this.groupBox1.Controls.Add(this.rbFullactionOther);
-            this.groupBox1.Controls.Add(this.rbFullactionWarp);
-            this.groupBox1.Controls.Add(this.rbFullactionLogout);
             this.groupBox1.Controls.Add(this.rbFullactionShutdown);
-            this.groupBox1.Controls.Add(this.rbFullactionNone);
+            this.groupBox1.Controls.Add(this.rbFullactionLogout);
+            this.groupBox1.Controls.Add(this.rbFullactionWarp);
             this.groupBox1.Location = new System.Drawing.Point(6, 6);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(115, 146);
@@ -1915,7 +1913,7 @@
             // tbFullactionOther
             // 
             this.tbFullactionOther.Enabled = false;
-            this.tbFullactionOther.Location = new System.Drawing.Point(8, 116);
+            this.tbFullactionOther.Location = new System.Drawing.Point(8, 37);
             this.tbFullactionOther.Name = "tbFullactionOther";
             this.tbFullactionOther.Size = new System.Drawing.Size(97, 18);
             this.tbFullactionOther.TabIndex = 4;
@@ -1923,18 +1921,18 @@
             // rbFullactionOther
             // 
             this.rbFullactionOther.AutoSize = true;
-            this.rbFullactionOther.Location = new System.Drawing.Point(11, 91);
+            this.rbFullactionOther.Location = new System.Drawing.Point(11, 19);
             this.rbFullactionOther.Name = "rbFullactionOther";
-            this.rbFullactionOther.Size = new System.Drawing.Size(51, 17);
+            this.rbFullactionOther.Size = new System.Drawing.Size(63, 17);
             this.rbFullactionOther.TabIndex = 3;
-            this.rbFullactionOther.Text = "Other";
+            this.rbFullactionOther.Text = "Command";
             this.rbFullactionOther.UseVisualStyleBackColor = true;
             this.rbFullactionOther.CheckedChanged += new System.EventHandler(this.rbFullactionOther_CheckedChanged);
             // 
             // rbFullactionWarp
             // 
             this.rbFullactionWarp.AutoSize = true;
-            this.rbFullactionWarp.Location = new System.Drawing.Point(11, 73);
+            this.rbFullactionWarp.Location = new System.Drawing.Point(11, 58);
             this.rbFullactionWarp.Name = "rbFullactionWarp";
             this.rbFullactionWarp.Size = new System.Drawing.Size(49, 17);
             this.rbFullactionWarp.TabIndex = 2;
@@ -1944,34 +1942,24 @@
             // rbFullactionLogout
             // 
             this.rbFullactionLogout.AutoSize = true;
-            this.rbFullactionLogout.Location = new System.Drawing.Point(11, 55);
+            this.rbFullactionLogout.Location = new System.Drawing.Point(11, 76);
             this.rbFullactionLogout.Name = "rbFullactionLogout";
             this.rbFullactionLogout.Size = new System.Drawing.Size(58, 17);
             this.rbFullactionLogout.TabIndex = 1;
             this.rbFullactionLogout.Text = "Logout";
             this.rbFullactionLogout.UseVisualStyleBackColor = true;
+            this.rbFullactionLogout.CheckedChanged += new System.EventHandler(this.rbFullactionLogout_CheckedChanged);
             // 
             // rbFullactionShutdown
             // 
             this.rbFullactionShutdown.AutoSize = true;
-            this.rbFullactionShutdown.Location = new System.Drawing.Point(11, 37);
+            this.rbFullactionShutdown.Location = new System.Drawing.Point(11, 94);
             this.rbFullactionShutdown.Name = "rbFullactionShutdown";
             this.rbFullactionShutdown.Size = new System.Drawing.Size(63, 17);
             this.rbFullactionShutdown.TabIndex = 1;
             this.rbFullactionShutdown.Text = "Shutdown";
             this.rbFullactionShutdown.UseVisualStyleBackColor = true;
-            // 
-            // rbFullactionNone
-            // 
-            this.rbFullactionNone.AutoSize = true;
-            this.rbFullactionNone.Checked = true;
-            this.rbFullactionNone.Location = new System.Drawing.Point(11, 19);
-            this.rbFullactionNone.Name = "rbFullactionNone";
-            this.rbFullactionNone.Size = new System.Drawing.Size(61, 17);
-            this.rbFullactionNone.TabIndex = 0;
-            this.rbFullactionNone.TabStop = true;
-            this.rbFullactionNone.Text = "Nothing";
-            this.rbFullactionNone.UseVisualStyleBackColor = true;
+            this.rbFullactionShutdown.CheckedChanged += new System.EventHandler(this.rbFullactionShutdown_CheckedChanged);
             // 
             // timer
             // 
@@ -2181,13 +2169,12 @@
         private System.Windows.Forms.CheckBox cbWaistGear;
         private System.Windows.Forms.TabPage tabOptionsPageAdvanced;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.RadioButton rbFullactionWarp;
-        private System.Windows.Forms.RadioButton rbFullactionLogout;
-        private System.Windows.Forms.RadioButton rbFullactionShutdown;
-        private System.Windows.Forms.RadioButton rbFullactionNone;
+        private System.Windows.Forms.CheckBox rbFullactionWarp;
+        private System.Windows.Forms.CheckBox rbFullactionLogout;
+        private System.Windows.Forms.CheckBox rbFullactionShutdown;
         private System.Windows.Forms.GroupBox gbGMDetect;
         private System.Windows.Forms.TextBox tbFullactionOther;
-        private System.Windows.Forms.RadioButton rbFullactionOther;
+        private System.Windows.Forms.CheckBox rbFullactionOther;
         private System.Windows.Forms.CheckBox cbGMdetectAutostop;
         private System.Windows.Forms.GroupBox gbOnFatigue;
         private System.Windows.Forms.CheckBox cbFatiguedActionWarp;
