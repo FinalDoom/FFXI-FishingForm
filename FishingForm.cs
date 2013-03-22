@@ -677,98 +677,96 @@ namespace Fishing
                 return;
             }
 
-            if (_FFACE.Item.InventoryCount == _FFACE.Item.InventoryMax)
+			//move items with itemizer or itemtools or custom script
+            if (_FFACE.Item.InventoryCount == _FFACE.Item.InventoryMax
+					&& rbFullactionOther.Checked)
             {
-				if (rbFullactionShutdown.Checked)
+				if (!string.IsNullOrEmpty(tbFullactionOther.Text))
 				{
-                    _FFACE.Windower.SendString("/shutdown");
-                    Stop(false, "Inventory is full!");
-				}
-                if (rbFullactionLogout.Checked)
-                {
-                    _FFACE.Windower.SendString("/logout");
-                    Stop(false, "Inventory is full!");
-                }
-                if (rbFullactionWarp.Checked)
-                {
-                    _FFACE.Windower.SendString("/ma \"Warp\"");
-                    Stop(false, "Inventory is full!");
-                }
-                if (rbFullactionOther.Checked && !cbEnableItemizerItemTools.Checked)
-                {
-                    _FFACE.Windower.SendString(tbFullactionOther.Text);
-                    Stop(false, "Inventory is full!");
-                }
-                //move items with itemizer or itemtools
-                if (rbFullactionOther.Checked)
-				{
-					if (!string.IsNullOrEmpty(tbFullactionOther.Text))
+					if (cbEnableItemizerItemTools.Checked)
 					{
-						if (cbEnableItemizerItemTools.Checked)
-						{
-							// Get the strings, first split on semicolons for multiple fish
-							string[] tempcommandstring = tbFullactionOther.Text.Split(new String[] {";"}, StringSplitOptions.RemoveEmptyEntries);
-							foreach (string command in tempcommandstring) {
-								string[] tempactionstring = command.Split(new String[] {" "}, StringSplitOptions.RemoveEmptyEntries);
-								// Check command type
-								if (!(tempactionstring[0].StartsWith("/moveitem") || tempactionstring[0].StartsWith("/put")))
-								{
-									Stop(false, "Unknown itemizer/itemtools command.");
-								}
+						// Get the strings, first split on semicolons for multiple fish
+						string[] tempcommandstring = tbFullactionOther.Text.Split(new String[] {";"}, StringSplitOptions.RemoveEmptyEntries);
+						foreach (string command in tempcommandstring) {
+							string[] tempactionstring = command.Split(new String[] {" "}, StringSplitOptions.RemoveEmptyEntries);
+							// Check command type
+							if (!(tempactionstring[0].StartsWith("/moveitem") || tempactionstring[0].StartsWith("/put")))
+							{
+								Stop(false, "Unknown itemizer/itemtools command.");
+							}
 
-								string fish;
-								if (command.Contains("\""))
-								{
-									fish = command.Split(new String[] {"\""}, StringSplitOptions.RemoveEmptyEntries)[1];
-								}
-								else
-								{
-									fish = tempactionstring[1];
-								}
+							string fish;
+							if (command.Contains("\""))
+							{
+								fish = command.Split(new String[] {"\""}, StringSplitOptions.RemoveEmptyEntries)[1];
+							}
+							else
+							{
+								fish = tempactionstring[1];
+							}
 
-								string storagemedium;
-								if (tempactionstring[0].StartsWith("/moveitem"))
-								{
-									storagemedium = tempactionstring[tempactionstring.Length-1].ToLower();
-									// Command ends with a quantity. Get correct storage medium
-									if (storagemedium != "satchel" && storagemedium != "sack")
-									{
-										storagemedium = tempactionstring[tempactionstring.Length-2].ToLower();
-									}
-								}
-								else
-								{
-									storagemedium = tempactionstring[tempactionstring.Length-1].ToLower();
-								}
-
-								// Check storage location
+							string storagemedium;
+							if (tempactionstring[0].StartsWith("/moveitem"))
+							{
+								storagemedium = tempactionstring[tempactionstring.Length-1].ToLower();
+								// Command ends with a quantity. Get correct storage medium
 								if (storagemedium != "satchel" && storagemedium != "sack")
 								{
-									Stop(false, "Unknown destination to move fish");
+									storagemedium = tempactionstring[tempactionstring.Length-2].ToLower();
 								}
-
-								MoveItems(string.Join(" ", tempactionstring), ref fish, ref storagemedium);
-
 							}
-						}
-						else
-						{
-							SetStatus("Running full inventory command.");
-							_FFACE.Windower.SendString(tbFullactionOther.Text);
-							Thread.Sleep(3000);
+							else
+							{
+								storagemedium = tempactionstring[tempactionstring.Length-1].ToLower();
+							}
+
+							// Check storage location
+							if (storagemedium != "satchel" && storagemedium != "sack")
+							{
+								Stop(false, "Unknown destination to move fish");
+							}
+
+							MoveItems(string.Join(" ", tempactionstring), ref fish, ref storagemedium);
 						}
 					}
 					else
 					{
-						Stop(false, "Inventory is full!");
+						SetStatus("Running full inventory command.");
+						_FFACE.Windower.SendString(tbFullactionOther.Text);
+						Thread.Sleep(10000);
 					}
 				}
-                if (rbFullactionNone.Checked)
-                {
-                    Stop(false, "Inventory is full!");
-                }
-                return;
+				else
+				{
+					Stop(false, "Inventory is full!");
+				}
+			}
+            if (_FFACE.Item.InventoryCount == _FFACE.Item.InventoryMax
+					&& rbFullactionOther.Checked)
+            {
+				SetStatus("Inventory is full: Warping");
+				_FFACE.Windower.SendString("/ma \"Warp\"");
+				Thread.Sleep(30000);
+			}
+            if (_FFACE.Item.InventoryCount == _FFACE.Item.InventoryMax
+					&& rbFullactionOther.Checked)
+            {
+				SetStatus("Inventory is full: Logging out");
+				_FFACE.Windower.SendString("/logout");
+				Thread.Sleep(30000);
+			}
+			else if (_FFACE.Item.InventoryCount == _FFACE.Item.InventoryMax
+					&& rbFullactionShutdown.Checked)
+			{
+				SetStatus("Inventory is full: Shutting down");
+				_FFACE.Windower.SendString("/shutdown");
+				Thread.Sleep(30000);
             }
+			if (_FFACE.Item.InventoryCount == _FFACE.Item.InventoryMax)
+			{
+				Stop(false, "Inventory is full!");
+				return;
+			}
 
 			if (Status.Fishing != currentStatus && Status.FishBite != currentStatus)
 			{
@@ -1075,7 +1073,7 @@ namespace Fishing
             }
             if (_FFACE.Item.InventoryCount == _FFACE.Item.InventoryMax)
             {
-                Stop(false, "Inventory is full");
+                Stop(false, "Inventory is full!");
             }
         }
 
@@ -2352,6 +2350,22 @@ namespace Fishing
             tbFullactionOther.Enabled = rbFullactionOther.Checked;
         }
 
+        private void rbFullactionLogout_CheckedChanged(object sender, EventArgs e)
+        {
+			if (rbFullactionLogout.Checked)
+			{
+				rbFullactionShutdown.Checked = false;
+			}
+        }
+
+        private void rbFullactionShutdown_CheckedChanged(object sender, EventArgs e)
+        {
+			if (rbFullactionShutdown.Checked)
+			{
+				rbFullactionLogout.Checked = false;
+			}
+        }
+
         private void cbFatiguedActionLogout_CheckedChanged(object sender, EventArgs e)
         {
 			if (cbFatiguedActionLogout.Checked)
@@ -2569,7 +2583,11 @@ namespace Fishing
                 Settings.Default.Extend = cbExtend.Checked = false;
                 Settings.Default.QuickKill = cbQuickKill.Checked = false;
                 Settings.Default.QuickKillValue = numQuickKill.Value = 15;
-                Settings.Default.FullActionOther = tbFullactionOther.Text = "";
+                Settings.Default.FullActionOtherText = tbFullactionOther.Text = "";
+                Settings.Default.FullActionOther = rbFullactionOther.Checked = false;
+                Settings.Default.FullActionWarp = rbFullactionWarp.Checked = false;
+                Settings.Default.FullActionLogout = rbFullactionLogout.Checked = false;
+                Settings.Default.FullActionShutdown = rbFullactionShutdown.Checked = false;
                 Settings.Default.IgnoreItems = cbIgnoreItem.Checked = true;
                 Settings.Default.IgnoreMonsters = cbIgnoreMonster.Checked = true;
                 Settings.Default.IgnoreSmallFish = cbIgnoreSmallFish.Checked = false;
@@ -2596,7 +2614,6 @@ namespace Fishing
                 Settings.Default.ItemizerItemTools = cbEnableItemizerItemTools.Checked = false;
                 Settings.Default.SneakFishing = cbSneakFishing.Checked = false;
 
-                //Settings.Default.FullAction = rbFullactionNone.Checked = 0;
 
                 if (null != Settings.Default.WindowSize)
                 {
@@ -2635,7 +2652,11 @@ namespace Fishing
                 Settings.Default.Reaction = cbReaction.Checked;
                 Settings.Default.ReactionMax = numReactionHigh.Value;
                 Settings.Default.ReactionMin = numReactionLow.Value;
-                Settings.Default.FullActionOther = tbFullactionOther.Text;
+                Settings.Default.FullActionOtherText = tbFullactionOther.Text;
+				Settings.Default.FullActionOther = rbFullactionOther.Checked;
+				Settings.Default.FullActionWarp = rbFullactionWarp.Checked;
+				Settings.Default.FullActionLogout = rbFullactionLogout.Checked;
+				Settings.Default.FullActionShutdown = rbFullactionShutdown.Checked;
 				Settings.Default.BodyGear = tbBodyGear.SelectedIndex;
 				Settings.Default.HandsGear = tbHandsGear.SelectedIndex;
 				Settings.Default.LegsGear = tbLegsGear.SelectedIndex;
@@ -2665,27 +2686,6 @@ namespace Fishing
                 Settings.Default.ShowFishHP = cbFishHP.Checked;
                 Settings.Default.ItemizerItemTools = cbEnableItemizerItemTools.Checked;
                 Settings.Default.SneakFishing = cbSneakFishing.Checked;
-
-                if (rbFullactionNone.Checked)
-                {
-                    Settings.Default.FullAction = 0;
-                }
-                else if (rbFullactionShutdown.Checked)
-                {
-                    Settings.Default.FullAction = 1;
-                }
-                else if (rbFullactionLogout.Checked)
-                {
-                    Settings.Default.FullAction = 2;
-                }
-                else if (rbFullactionWarp.Checked)
-                {
-                    Settings.Default.FullAction = 3;
-                }
-                else
-                {
-                    Settings.Default.FullAction = 4;
-                }
 
                 if (FormWindowState.Normal == this.WindowState)
                 {
@@ -2721,7 +2721,11 @@ namespace Fishing
             cbReaction.Checked = Settings.Default.Reaction;
             numReactionHigh.Value = Settings.Default.ReactionMax;
             numReactionLow.Value = Settings.Default.ReactionMin;
-            tbFullactionOther.Text = Settings.Default.FullActionOther;
+            tbFullactionOther.Text = Settings.Default.FullActionOtherText;
+			rbFullactionOther.Checked = Settings.Default.FullActionOther;
+			rbFullactionWarp.Checked = Settings.Default.FullActionWarp;
+			rbFullactionLogout.Checked = Settings.Default.FullActionLogout;
+			rbFullactionShutdown.Checked = Settings.Default.FullActionShutdown;
 			tbBodyGear.SelectedIndex = Settings.Default.BodyGear;
 			tbHandsGear.SelectedIndex = Settings.Default.HandsGear;
 			tbLegsGear.SelectedIndex = Settings.Default.LegsGear;
@@ -2751,26 +2755,6 @@ namespace Fishing
             cbEnableItemizerItemTools.Checked = Settings.Default.ItemizerItemTools;
             cbSneakFishing.Checked = Settings.Default.SneakFishing;
 
-            if (Settings.Default.FullAction < 1)
-            {
-                rbFullactionNone.Checked = true;
-            }
-            else if (Settings.Default.FullAction == 1)
-            {
-                rbFullactionShutdown.Checked = true;
-            }
-            else if (Settings.Default.FullAction == 2)
-            {
-                rbFullactionLogout.Checked = true;
-            }
-            else if (Settings.Default.FullAction == 3)
-            {
-                rbFullactionWarp.Checked = true;
-            }
-            else
-            {
-                rbFullactionOther.Checked = true;
-            }
             if (false == Settings.Default.AlwaysOnTop)
             {
                 this.TopMost = false;

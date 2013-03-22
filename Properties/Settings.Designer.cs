@@ -229,25 +229,61 @@ namespace Fishing.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int FullAction {
+        [global::System.Configuration.DefaultSettingValueAttribute("false")]
+        public bool FullActionOther {
             get {
-                return ((int)(this["FullAction"]));
+                return ((bool)(this["FullActionOther"]));
             }
             set {
-                this["FullAction"] = value;
+                this["FullActionOther"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("false")]
+        public bool FullActionWarp {
+            get {
+                return ((bool)(this["FullActionWarp"]));
+            }
+            set {
+                this["FullActionWarp"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("false")]
+        public bool FullActionLogout {
+            get {
+                return ((bool)(this["FullActionLogout"]));
+            }
+            set {
+                this["FullActionLogout"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("false")]
+        public bool FullActionShutdown {
+            get {
+                return ((bool)(this["FullActionShutdown"]));
+            }
+            set {
+                this["FullActionShutdown"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string FullActionOther {
+        public string FullActionOtherText {
             get {
-                return ((string)(this["FullActionOther"]));
+                return ((string)(this["FullActionOtherText"]));
             }
             set {
-                this["FullActionOther"] = value;
+                this["FullActionOtherText"] = value;
             }
         }
         
