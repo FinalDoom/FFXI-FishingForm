@@ -1842,7 +1842,7 @@
             // cbFatiguedActionWarp
             // 
             this.cbFatiguedActionWarp.AutoSize = true;
-            this.cbFatiguedActionWarp.Location = new System.Drawing.Point(11, 55);
+            this.cbFatiguedActionWarp.Location = new System.Drawing.Point(11, 19);
             this.cbFatiguedActionWarp.Name = "cbFatiguedActionWarp";
             this.cbFatiguedActionWarp.Size = new System.Drawing.Size(53, 17);
             this.cbFatiguedActionWarp.TabIndex = 2;
@@ -1863,7 +1863,7 @@
             // cbFatiguedActionShutdown
             // 
             this.cbFatiguedActionShutdown.AutoSize = true;
-            this.cbFatiguedActionShutdown.Location = new System.Drawing.Point(11, 19);
+            this.cbFatiguedActionShutdown.Location = new System.Drawing.Point(11, 55);
             this.cbFatiguedActionShutdown.Name = "cbFatiguedActionShutdown";
             this.cbFatiguedActionShutdown.Size = new System.Drawing.Size(75, 17);
             this.cbFatiguedActionShutdown.TabIndex = 1;
