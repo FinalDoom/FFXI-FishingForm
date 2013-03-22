@@ -700,47 +700,56 @@ namespace Fishing
                     Stop(false, "Inventory is full!");
                 }
                 //move items with itemizer or itemtools
-                if (rbFullactionOther.Checked && cbEnableItemizerItemTools.Checked)
-                {
-                    if (!string.IsNullOrEmpty(tbFullactionOther.Text))
-                    {
-                        // Get the strings, first split on semicolons for multiple fish
-                        string[] tempcommandstring = tbFullactionOther.Text.Split(new String[] {";"}, StringSplitOptions.RemoveEmptyEntries);
-						foreach (string command in tempcommandstring) {
-							string[] tempactionstring = command.Split(new String[] {" "}, StringSplitOptions.RemoveEmptyEntries);
-							string fish;
-							if (command.Contains("\""))
-							{
-								fish = command.Split(new String[] {"\""}, StringSplitOptions.RemoveEmptyEntries)[1];
-							}
-							else
-							{
-								fish = tempactionstring[1];
-							}
-							string storagemedium = tempactionstring[tempactionstring.Length-1].ToLower();
+                if (rbFullactionOther.Checked)
+				{
+					if (!string.IsNullOrEmpty(tbFullactionOther.Text))
+					{
+						if (cbEnableItemizerItemTools.Checked)
+						{
+							// Get the strings, first split on semicolons for multiple fish
+							string[] tempcommandstring = tbFullactionOther.Text.Split(new String[] {";"}, StringSplitOptions.RemoveEmptyEntries);
+							foreach (string command in tempcommandstring) {
+								string[] tempactionstring = command.Split(new String[] {" "}, StringSplitOptions.RemoveEmptyEntries);
+								string fish;
+								if (command.Contains("\""))
+								{
+									fish = command.Split(new String[] {"\""}, StringSplitOptions.RemoveEmptyEntries)[1];
+								}
+								else
+								{
+									fish = tempactionstring[1];
+								}
+								string storagemedium = tempactionstring[tempactionstring.Length-1].ToLower();
 
-							// Check storage location
-							if (storagemedium != "satchel" && storagemedium != "sack")
-							{
-								Stop(false, "Unknown destination to move fish");
-							}
+								// Check storage location
+								if (storagemedium != "satchel" && storagemedium != "sack")
+								{
+									Stop(false, "Unknown destination to move fish");
+								}
 
-							// Check command type
-							if (tempactionstring[0].StartsWith("/moveitem") || tempactionstring[0].StartsWith("/put"))
-							{
-								MoveItems(ref tempactionstring[0], ref fish, ref storagemedium);
-							}
-							else
-							{
-								Stop(false, "Unknown itemizer/itemtools command.");
+								// Check command type
+								if (tempactionstring[0].StartsWith("/moveitem") || tempactionstring[0].StartsWith("/put"))
+								{
+									MoveItems(ref tempactionstring[0], ref fish, ref storagemedium);
+								}
+								else
+								{
+									Stop(false, "Unknown itemizer/itemtools command.");
+								}
 							}
 						}
+						else
+						{
+							SetStatus("Running full inventory command.");
+							_FFACE.Windower.SendString(tbFullactionOther.Text);
+							Thread.Sleep(3000);
+						}
 					}
-                    else
-                    {
-                        Stop(false, "Inventory is full!");
-                    }
-                }
+					else
+					{
+						Stop(false, "Inventory is full!");
+					}
+				}
                 if (rbFullactionNone.Checked)
                 {
                     Stop(false, "Inventory is full!");
