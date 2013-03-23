@@ -17,7 +17,7 @@ player fishing skill level and reel it in. This can be useful for legendary fish
 when the player is not equipped with special rings.
 
 For the FinalDoom edition, you can check out the source and
-submit bugs or ideas at https://bitbucket.org/FinalDoom/ffxi-fishingform.
+submit bugs or ideas at https://bitbucket.org/FinalDoom/ffxi-fishingform/.
 Version control is done using Mercurial and TortoiseHG, and issue tracking
 uses bitbucket's built-in JIRA-like system. The "official" site for downloading
 the most recent version is as above or at http://www.ffevo.net/files/file/214-fishingform-fd-edition/.
