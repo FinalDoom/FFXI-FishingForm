@@ -8,7 +8,7 @@ Overview
 
 A continuation of MisterC's FishingForm, done by FinalDoom.
 This edition seeks to add additional features and fixes.
-MisterC's version's support topic can be found at http://www.ffevo.net/topic/2786-fishingform-v1662-mczip/.
+MisterC's version can be found at http://www.ffevo.net/files/file/171-fishingform-v1662-mczip/.
 
 FishingForm is a GUI application built with Microsoft .NET 3.5 in C#.
 It is meant to run along side Final Fantasy XI to automate the tedium that is fishing.
@@ -16,10 +16,11 @@ It has limited cheat capabilities, namely the ability to "kill" a fish, regardle
 player fishing skill level and reel it in. This can be useful for legendary fish
 when the player is not equipped with special rings.
 
-For the FinalDoom addition, you can check out the source and
+For the FinalDoom edition, you can check out the source and
 submit bugs or ideas at https://bitbucket.org/FinalDoom/ffxi-fishingform.
 Version control is done using Mercurial and TortoiseHG, and issue tracking
-uses bitbucket's built-in JIRA-like system.
+uses bitbucket's built-in JIRA-like system. The "official" site for downloading
+the most recent version is as above or at http://www.ffevo.net/files/file/214-fishingform-fd-edition/.
 
 --------
 Features
@@ -76,3 +77,41 @@ Other
 - Move items when inventory is full using itemizer or ItemTools
 - Warp then optionally log out or shut down when inventory is full or when fatigued
 - GM Detection
+
+-------
+Changes
+-------
+
+1.6.7.17
+--------
+- Full inventory "other" allows custom commands. They have 10 seconds to reduce inventory
+- On full inventory, warp and logout or shutdown will be executed after other command, if inventory continues to be full
+
+1.6.7.16
+--------
+- Itemizer/itemtools accepts multi-word fish
+
+1.6.7.13
+--------
+- Now persists between login/logout
+  - Will attach to single logged in character (beware multiboxers)
+- Minor related bugs TODO
+
+1.6.7.8
+-------
+- Now tracks skillups (including uncertainty on 0.2 or 0.3 level up) in info tab
+- Options includes gear tab for gear equipped when fishing
+- Belts will auto-cast when equipped. Rings TODO
+- When fatigue is reached, can optionally warp then optionally logout or shutdown
+
+1.6.7.3
+-------
+- Cast wait time resets at Japanese midnight
+- Stats tab shows amout of time fished and catches per hour
+- Full inventory "other" command accepts multiple itemizer commands, semicolon separated
+- Fixes stopping for "unknown reason" when there is slight lag on /fish
+- START can be clicked any time, fishing will resume from game state
+
+Previous
+--------
+See MisterC's version.
