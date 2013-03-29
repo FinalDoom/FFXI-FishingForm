@@ -30,6 +30,25 @@ Version control is done using Mercurial (try TortoiseHG_), and issue tracking
 uses bitbucket's built-in JIRA-like system. The "official" site for downloading
 the most recent version is `the bitbucket`_ or at `the FFEvo download page`_.
 
+.. _guide here: http://www.howtogeek.com/howto/windows-vista/make-user-account-control-uac-stop-blacking-out-the-screen-in-windows-vista/
+
+.. IMPORTANT::
+    ---------------------
+    Windows Vista+ Notice
+    ---------------------
+
+    If you are running a system which uses UAC, there are a
+    few extra steps that are necessary to run this (and many other
+    related applications). Firstly, the program must be run as an admin.
+    It currently displays an error about not being able to find FFACE.dll
+    if it is not. Secondly, your UAC settings must be modified to not
+    dim the desktop when requesting administrator privileges. The dimming
+    is actually Windows switching to another desktop, which breaks
+    Final Fantasy for whatever reason. (Note that locking your screen will
+    do the same thing). See the `guide here`_ for how to disable the
+    screen dimming thing. There are a variety of ways to satisfy whatever
+    level of technical expertise you like to practice.
+
 --------
 Features
 --------
