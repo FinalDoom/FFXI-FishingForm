@@ -82,6 +82,10 @@ Other
 Changes
 -------
 
+1.6.7.18
+--------
+- Fixed ring equipping
+
 1.6.7.17
 --------
 - Full inventory "other" allows custom commands. They have 10 seconds to reduce inventory
