@@ -32,11 +32,7 @@ the most recent version is `the bitbucket`_ or at `the FFEvo download page`_.
 
 .. _guide here: http://www.howtogeek.com/howto/windows-vista/make-user-account-control-uac-stop-blacking-out-the-screen-in-windows-vista/
 
-.. IMPORTANT::
-    ---------------------
-    Windows Vista+ Notice
-    ---------------------
-
+.. important:: Windows Vista+ Notice
     If you are running a system which uses UAC, there are a
     few extra steps that are necessary to run this (and many other
     related applications). Firstly, the program must be run as an admin.
