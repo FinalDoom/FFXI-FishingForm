@@ -6,9 +6,12 @@ FishingForm FinalDoom Edition
 Overview
 --------
 
+.. _MisterC's version:
+.. _its FFEvo download page: http://www.ffevo.net/files/file/171-fishingform-v1662-mczip/.
+
 A continuation of MisterC's FishingForm, done by FinalDoom.
 This edition seeks to add additional features and fixes.
-MisterC's version can be found at http://www.ffevo.net/files/file/171-fishingform-v1662-mczip/.
+`MisterC's version`_ can be found at `its FFEvo download page`_.
 
 FishingForm is a GUI application built with Microsoft .NET 3.5 in C#.
 It is meant to run along side Final Fantasy XI to automate the tedium that is fishing.
@@ -16,11 +19,16 @@ It has limited cheat capabilities, namely the ability to "kill" a fish, regardle
 player fishing skill level and reel it in. This can be useful for legendary fish
 when the player is not equipped with special rings.
 
+.. _the bitbucket:
+.. _the FinalDoom edition bitbucket : https://bitbucket.org/FinalDoom/ffxi-fishingform/
+.. _the FFEvo download page: http://www.ffevo.net/files/file/214-fishingform-fd-edition/
+.. _TortoiseHG: http://tortoisehg.bitbucket.org/
+
 For the FinalDoom edition, you can check out the source and
-submit bugs or ideas at https://bitbucket.org/FinalDoom/ffxi-fishingform/.
-Version control is done using Mercurial and TortoiseHG, and issue tracking
+submit bugs or ideas at `the FinalDoom edition bitbucket`_.
+Version control is done using Mercurial (try TortoiseHG_), and issue tracking
 uses bitbucket's built-in JIRA-like system. The "official" site for downloading
-the most recent version is as above or at http://www.ffevo.net/files/file/214-fishingform-fd-edition/.
+the most recent version is `the bitbucket`_ or at `the FFEvo download page`_.
 
 --------
 Features
@@ -114,4 +122,4 @@ Changes
 
 Previous
 --------
-See MisterC's version.
+See `MisterC's version`_.
