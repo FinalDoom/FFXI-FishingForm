@@ -1437,7 +1437,7 @@ namespace Fishing
 			}
 			if (tbLRingGear.Text != "")
 			{
-				_FFACE.Windower.SendString("/equip lring \"" + tbLRingGear.Text + "\"");
+				_FFACE.Windower.SendString("/equip ring1 \"" + tbLRingGear.Text + "\"");
 				if (tbLRingGear.Text == tbRRingGear.Text)
 				{
 					Thread.Sleep(500);
@@ -1445,7 +1445,7 @@ namespace Fishing
 			}
 			if (tbRRingGear.Text != "")
 			{
-				_FFACE.Windower.SendString("/equip rring \"" + tbRRingGear.Text + "\"");
+				_FFACE.Windower.SendString("/equip ring2 \"" + tbRRingGear.Text + "\"");
 			}
 			if (tbHeadGear.Text != "")
 			{
