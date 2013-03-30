@@ -260,7 +260,7 @@
             this.lblBait.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblBait.Name = "lblBait";
             this.lblBait.Size = new System.Drawing.Size(13, 13);
-            this.lblBait.TabIndex = 15;
+            this.lblBait.TabIndex = 5;
             this.lblBait.Text = "--";
             // 
             // lblRod
@@ -271,7 +271,7 @@
             this.lblRod.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblRod.Name = "lblRod";
             this.lblRod.Size = new System.Drawing.Size(13, 13);
-            this.lblRod.TabIndex = 14;
+            this.lblRod.TabIndex = 3;
             this.lblRod.Text = "--";
             // 
             // lblBaitHeader
@@ -282,7 +282,7 @@
             this.lblBaitHeader.Margin = new System.Windows.Forms.Padding(0);
             this.lblBaitHeader.Name = "lblBaitHeader";
             this.lblBaitHeader.Size = new System.Drawing.Size(32, 12);
-            this.lblBaitHeader.TabIndex = 12;
+            this.lblBaitHeader.TabIndex = 4;
             this.lblBaitHeader.Text = "Bait: ";
             // 
             // lblZone
@@ -293,7 +293,7 @@
             this.lblZone.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblZone.Name = "lblZone";
             this.lblZone.Size = new System.Drawing.Size(13, 13);
-            this.lblZone.TabIndex = 13;
+            this.lblZone.TabIndex = 1;
             this.lblZone.Text = "--";
             // 
             // lblRodHeader
@@ -304,7 +304,7 @@
             this.lblRodHeader.Margin = new System.Windows.Forms.Padding(0);
             this.lblRodHeader.Name = "lblRodHeader";
             this.lblRodHeader.Size = new System.Drawing.Size(32, 12);
-            this.lblRodHeader.TabIndex = 11;
+            this.lblRodHeader.TabIndex = 2;
             this.lblRodHeader.Text = "Rod: ";
             // 
             // lblZoneHeader
@@ -315,7 +315,7 @@
             this.lblZoneHeader.Margin = new System.Windows.Forms.Padding(0);
             this.lblZoneHeader.Name = "lblZoneHeader";
             this.lblZoneHeader.Size = new System.Drawing.Size(34, 12);
-            this.lblZoneHeader.TabIndex = 10;
+            this.lblZoneHeader.TabIndex = 0;
             this.lblZoneHeader.Text = "Zone:";
             // 
             // rtbStats
@@ -345,7 +345,7 @@
             this.pnlLog.Margin = new System.Windows.Forms.Padding(0);
             this.pnlLog.Name = "pnlLog";
             this.pnlLog.Size = new System.Drawing.Size(542, 235);
-            this.pnlLog.TabIndex = 34;
+            this.pnlLog.TabIndex = 0;
             // 
             // pnlWanted
             // 
@@ -355,7 +355,7 @@
             this.pnlWanted.Location = new System.Drawing.Point(3, 33);
             this.pnlWanted.Name = "pnlWanted";
             this.pnlWanted.Size = new System.Drawing.Size(140, 73);
-            this.pnlWanted.TabIndex = 41;
+            this.pnlWanted.TabIndex = 2;
             // 
             // cbCatchUnknown
             // 
@@ -364,7 +364,7 @@
             this.cbCatchUnknown.Margin = new System.Windows.Forms.Padding(0);
             this.cbCatchUnknown.Name = "cbCatchUnknown";
             this.cbCatchUnknown.Size = new System.Drawing.Size(81, 15);
-            this.cbCatchUnknown.TabIndex = 10;
+            this.cbCatchUnknown.TabIndex = 1;
             this.cbCatchUnknown.Text = "Unknowns?";
             this.cbCatchUnknown.UseVisualStyleBackColor = true;
             // 
@@ -376,7 +376,7 @@
             this.lblWantedHeader.Margin = new System.Windows.Forms.Padding(0);
             this.lblWantedHeader.Name = "lblWantedHeader";
             this.lblWantedHeader.Size = new System.Drawing.Size(45, 13);
-            this.lblWantedHeader.TabIndex = 7;
+            this.lblWantedHeader.TabIndex = 0;
             this.lblWantedHeader.Text = "Wanted";
             // 
             // lbWanted
@@ -388,7 +388,7 @@
             this.lbWanted.Name = "lbWanted";
             this.lbWanted.Size = new System.Drawing.Size(140, 56);
             this.lbWanted.Sorted = true;
-            this.lbWanted.TabIndex = 8;
+            this.lbWanted.TabIndex = 2;
             this.lbWanted.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listBox_MouseDoubleClick);
             this.lbWanted.MouseDown += new System.Windows.Forms.MouseEventHandler(this.listBox_MouseDown);
             // 
@@ -402,7 +402,7 @@
             this.pnlUnwanted.Margin = new System.Windows.Forms.Padding(0);
             this.pnlUnwanted.Name = "pnlUnwanted";
             this.pnlUnwanted.Size = new System.Drawing.Size(140, 86);
-            this.pnlUnwanted.TabIndex = 40;
+            this.pnlUnwanted.TabIndex = 3;
             // 
             // lbUnwanted
             // 
@@ -415,7 +415,7 @@
             this.lbUnwanted.Name = "lbUnwanted";
             this.lbUnwanted.Size = new System.Drawing.Size(140, 69);
             this.lbUnwanted.Sorted = true;
-            this.lbUnwanted.TabIndex = 9;
+            this.lbUnwanted.TabIndex = 1;
             this.lbUnwanted.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listBox_MouseDoubleClick);
             this.lbUnwanted.MouseDown += new System.Windows.Forms.MouseEventHandler(this.listBox_MouseDown);
             // 
@@ -427,7 +427,7 @@
             this.lblUnwantedHeader.Margin = new System.Windows.Forms.Padding(0);
             this.lblUnwantedHeader.Name = "lblUnwantedHeader";
             this.lblUnwantedHeader.Size = new System.Drawing.Size(56, 13);
-            this.lblUnwantedHeader.TabIndex = 8;
+            this.lblUnwantedHeader.TabIndex = 0;
             this.lblUnwantedHeader.Text = "Unwanted";
             // 
             // btnRefreshLists
@@ -438,7 +438,7 @@
             this.btnRefreshLists.Margin = new System.Windows.Forms.Padding(0);
             this.btnRefreshLists.Name = "btnRefreshLists";
             this.btnRefreshLists.Size = new System.Drawing.Size(31, 30);
-            this.btnRefreshLists.TabIndex = 9;
+            this.btnRefreshLists.TabIndex = 1;
             this.btnRefreshLists.UseVisualStyleBackColor = true;
             this.btnRefreshLists.Click += new System.EventHandler(this.btnRefreshLists_Click);
             // 
@@ -449,7 +449,7 @@
             this.btnStart.Margin = new System.Windows.Forms.Padding(0);
             this.btnStart.Name = "btnStart";
             this.btnStart.Size = new System.Drawing.Size(112, 30);
-            this.btnStart.TabIndex = 39;
+            this.btnStart.TabIndex = 0;
             this.btnStart.Text = "START";
             this.btnStart.UseVisualStyleBackColor = true;
             this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
@@ -496,7 +496,7 @@
             this.btnStartM.Location = new System.Drawing.Point(304, -1);
             this.btnStartM.Name = "btnStartM";
             this.btnStartM.Size = new System.Drawing.Size(22, 22);
-            this.btnStartM.TabIndex = 4;
+            this.btnStartM.TabIndex = 2;
             this.btnStartM.UseVisualStyleBackColor = true;
             this.btnStartM.Click += new System.EventHandler(this.btnStartM_Click);
             // 
@@ -768,7 +768,7 @@
             this.lblEarthTimeHeader.Location = new System.Drawing.Point(5, 147);
             this.lblEarthTimeHeader.Name = "lblEarthTimeHeader";
             this.lblEarthTimeHeader.Size = new System.Drawing.Size(36, 12);
-            this.lblEarthTimeHeader.TabIndex = 47;
+            this.lblEarthTimeHeader.TabIndex = 15;
             this.lblEarthTimeHeader.Text = "Earth:";
             // 
             // lblEarthTime
@@ -777,7 +777,7 @@
             this.lblEarthTime.Location = new System.Drawing.Point(80, 146);
             this.lblEarthTime.Name = "lblEarthTime";
             this.lblEarthTime.Size = new System.Drawing.Size(13, 13);
-            this.lblEarthTime.TabIndex = 46;
+            this.lblEarthTime.TabIndex = 16;
             this.lblEarthTime.Text = "--";
             // 
             // lblVanaTimeHeader
@@ -787,7 +787,7 @@
             this.lblVanaTimeHeader.Location = new System.Drawing.Point(5, 129);
             this.lblVanaTimeHeader.Name = "lblVanaTimeHeader";
             this.lblVanaTimeHeader.Size = new System.Drawing.Size(56, 12);
-            this.lblVanaTimeHeader.TabIndex = 45;
+            this.lblVanaTimeHeader.TabIndex = 13;
             this.lblVanaTimeHeader.Text = "Vana\'diel:";
             // 
             // lblSackSpace
@@ -796,7 +796,7 @@
             this.lblSackSpace.Location = new System.Drawing.Point(80, 43);
             this.lblSackSpace.Name = "lblSackSpace";
             this.lblSackSpace.Size = new System.Drawing.Size(28, 13);
-            this.lblSackSpace.TabIndex = 22;
+            this.lblSackSpace.TabIndex = 5;
             this.lblSackSpace.Text = "-- / --";
             // 
             // lblNoCatchAt
@@ -805,7 +805,7 @@
             this.lblNoCatchAt.Location = new System.Drawing.Point(207, 43);
             this.lblNoCatchAt.Name = "lblNoCatchAt";
             this.lblNoCatchAt.Size = new System.Drawing.Size(13, 13);
-            this.lblNoCatchAt.TabIndex = 44;
+            this.lblNoCatchAt.TabIndex = 11;
             this.lblNoCatchAt.Text = "--";
             // 
             // lblSatchelSpace
@@ -814,7 +814,7 @@
             this.lblSatchelSpace.Location = new System.Drawing.Point(80, 24);
             this.lblSatchelSpace.Name = "lblSatchelSpace";
             this.lblSatchelSpace.Size = new System.Drawing.Size(28, 13);
-            this.lblSatchelSpace.TabIndex = 21;
+            this.lblSatchelSpace.TabIndex = 3;
             this.lblSatchelSpace.Text = "-- / --";
             // 
             // lblGil
@@ -823,7 +823,7 @@
             this.lblGil.Location = new System.Drawing.Point(207, 24);
             this.lblGil.Name = "lblGil";
             this.lblGil.Size = new System.Drawing.Size(13, 13);
-            this.lblGil.TabIndex = 43;
+            this.lblGil.TabIndex = 9;
             this.lblGil.Text = "--";
             // 
             // lblInventorySpace
@@ -832,7 +832,7 @@
             this.lblInventorySpace.Location = new System.Drawing.Point(80, 5);
             this.lblInventorySpace.Name = "lblInventorySpace";
             this.lblInventorySpace.Size = new System.Drawing.Size(28, 13);
-            this.lblInventorySpace.TabIndex = 20;
+            this.lblInventorySpace.TabIndex = 1;
             this.lblInventorySpace.Text = "-- / --";
             // 
             // lblGilHeader
@@ -842,7 +842,7 @@
             this.lblGilHeader.Location = new System.Drawing.Point(132, 24);
             this.lblGilHeader.Name = "lblGilHeader";
             this.lblGilHeader.Size = new System.Drawing.Size(64, 12);
-            this.lblGilHeader.TabIndex = 42;
+            this.lblGilHeader.TabIndex = 8;
             this.lblGilHeader.Text = "Current Gil:";
             // 
             // lblSackHeader
@@ -852,7 +852,7 @@
             this.lblSackHeader.Location = new System.Drawing.Point(5, 43);
             this.lblSackHeader.Name = "lblSackHeader";
             this.lblSackHeader.Size = new System.Drawing.Size(59, 12);
-            this.lblSackHeader.TabIndex = 19;
+            this.lblSackHeader.TabIndex = 4;
             this.lblSackHeader.Text = "Mog Sack:";
             // 
             // lblVanaTime
@@ -861,7 +861,7 @@
             this.lblVanaTime.Location = new System.Drawing.Point(80, 128);
             this.lblVanaTime.Name = "lblVanaTime";
             this.lblVanaTime.Size = new System.Drawing.Size(13, 13);
-            this.lblVanaTime.TabIndex = 41;
+            this.lblVanaTime.TabIndex = 14;
             this.lblVanaTime.Text = "--";
             // 
             // lblSkill
@@ -870,7 +870,7 @@
             this.lblSkill.Location = new System.Drawing.Point(207, 5);
             this.lblSkill.Name = "lblSkill";
             this.lblSkill.Size = new System.Drawing.Size(13, 13);
-            this.lblSkill.TabIndex = 18;
+            this.lblSkill.TabIndex = 7;
             this.lblSkill.Text = "--";
             // 
             // lblSatchelHeader
@@ -880,7 +880,7 @@
             this.lblSatchelHeader.Location = new System.Drawing.Point(5, 24);
             this.lblSatchelHeader.Name = "lblSatchelHeader";
             this.lblSatchelHeader.Size = new System.Drawing.Size(72, 12);
-            this.lblSatchelHeader.TabIndex = 18;
+            this.lblSatchelHeader.TabIndex = 2;
             this.lblSatchelHeader.Text = "Mog Satchel:";
             // 
             // lblInventoryHeader
@@ -890,7 +890,7 @@
             this.lblInventoryHeader.Location = new System.Drawing.Point(5, 5);
             this.lblInventoryHeader.Name = "lblInventoryHeader";
             this.lblInventoryHeader.Size = new System.Drawing.Size(58, 12);
-            this.lblInventoryHeader.TabIndex = 17;
+            this.lblInventoryHeader.TabIndex = 0;
             this.lblInventoryHeader.Text = "Inventory:";
             // 
             // lblSkillHeader
@@ -900,7 +900,7 @@
             this.lblSkillHeader.Location = new System.Drawing.Point(132, 5);
             this.lblSkillHeader.Name = "lblSkillHeader";
             this.lblSkillHeader.Size = new System.Drawing.Size(71, 12);
-            this.lblSkillHeader.TabIndex = 17;
+            this.lblSkillHeader.TabIndex = 6;
             this.lblSkillHeader.Text = "Fishing Skill:";
             // 
             // lblNoCatchAtHeader
@@ -910,7 +910,7 @@
             this.lblNoCatchAtHeader.Location = new System.Drawing.Point(132, 43);
             this.lblNoCatchAtHeader.Name = "lblNoCatchAtHeader";
             this.lblNoCatchAtHeader.Size = new System.Drawing.Size(54, 12);
-            this.lblNoCatchAtHeader.TabIndex = 40;
+            this.lblNoCatchAtHeader.TabIndex = 10;
             this.lblNoCatchAtHeader.Text = "No catch:";
             // 
             // gbInfo
@@ -926,7 +926,7 @@
             this.gbInfo.Name = "gbInfo";
             this.gbInfo.Padding = new System.Windows.Forms.Padding(0);
             this.gbInfo.Size = new System.Drawing.Size(267, 67);
-            this.gbInfo.TabIndex = 17;
+            this.gbInfo.TabIndex = 12;
             this.gbInfo.TabStop = false;
             // 
             // tabDisplayPageOptions
@@ -978,7 +978,7 @@
             this.cbSneakFishing.Location = new System.Drawing.Point(145, 25);
             this.cbSneakFishing.Name = "cbSneakFishing";
             this.cbSneakFishing.Size = new System.Drawing.Size(110, 17);
-            this.cbSneakFishing.TabIndex = 58;
+            this.cbSneakFishing.TabIndex = 3;
             this.cbSneakFishing.Text = "Use Sneak fishing";
             this.cbSneakFishing.UseVisualStyleBackColor = true;
             // 
@@ -997,7 +997,7 @@
             0});
             this.numMaxCatch.Name = "numMaxCatch";
             this.numMaxCatch.Size = new System.Drawing.Size(35, 18);
-            this.numMaxCatch.TabIndex = 57;
+            this.numMaxCatch.TabIndex = 5;
             this.numMaxCatch.Value = new decimal(new int[] {
             200,
             0,
@@ -1010,7 +1010,7 @@
             this.cbEnableItemizerItemTools.Location = new System.Drawing.Point(145, 46);
             this.cbEnableItemizerItemTools.Name = "cbEnableItemizerItemTools";
             this.cbEnableItemizerItemTools.Size = new System.Drawing.Size(130, 17);
-            this.cbEnableItemizerItemTools.TabIndex = 49;
+            this.cbEnableItemizerItemTools.TabIndex = 6;
             this.cbEnableItemizerItemTools.Text = "Use Itemizer/ItemTools";
             this.cbEnableItemizerItemTools.UseVisualStyleBackColor = true;
             this.cbEnableItemizerItemTools.CheckedChanged += new System.EventHandler(this.cbEnableItemizerItemTools_CheckedChanged);
@@ -1021,7 +1021,7 @@
             this.cbMaxCatch.Location = new System.Drawing.Point(7, 46);
             this.cbMaxCatch.Name = "cbMaxCatch";
             this.cbMaxCatch.Size = new System.Drawing.Size(88, 17);
-            this.cbMaxCatch.TabIndex = 56;
+            this.cbMaxCatch.TabIndex = 4;
             this.cbMaxCatch.Text = "Limit Catches";
             this.cbMaxCatch.UseVisualStyleBackColor = true;
             // 
@@ -1033,7 +1033,7 @@
             this.cbTellDetect.Location = new System.Drawing.Point(7, 25);
             this.cbTellDetect.Name = "cbTellDetect";
             this.cbTellDetect.Size = new System.Drawing.Size(89, 17);
-            this.cbTellDetect.TabIndex = 48;
+            this.cbTellDetect.TabIndex = 2;
             this.cbTellDetect.Text = "Tell Detection";
             this.cbTellDetect.UseVisualStyleBackColor = true;
             // 
@@ -1049,7 +1049,7 @@
             this.gbGeneralFishing.Location = new System.Drawing.Point(3, 61);
             this.gbGeneralFishing.Name = "gbGeneralFishing";
             this.gbGeneralFishing.Size = new System.Drawing.Size(216, 52);
-            this.gbGeneralFishing.TabIndex = 47;
+            this.gbGeneralFishing.TabIndex = 7;
             this.gbGeneralFishing.TabStop = false;
             // 
             // lblCastWait
@@ -1060,7 +1060,7 @@
             this.lblCastWait.Margin = new System.Windows.Forms.Padding(0);
             this.lblCastWait.Name = "lblCastWait";
             this.lblCastWait.Size = new System.Drawing.Size(78, 13);
-            this.lblCastWait.TabIndex = 42;
+            this.lblCastWait.TabIndex = 0;
             this.lblCastWait.Text = "Cast wait time: ";
             this.lblCastWait.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -1078,7 +1078,7 @@
             0});
             this.numMaxNoCatch.Name = "numMaxNoCatch";
             this.numMaxNoCatch.Size = new System.Drawing.Size(38, 18);
-            this.numMaxNoCatch.TabIndex = 43;
+            this.numMaxNoCatch.TabIndex = 5;
             this.numMaxNoCatch.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.numMaxNoCatch.Value = new decimal(new int[] {
             20,
@@ -1091,7 +1091,7 @@
             this.btnCastReset.Location = new System.Drawing.Point(164, 8);
             this.btnCastReset.Name = "btnCastReset";
             this.btnCastReset.Size = new System.Drawing.Size(47, 20);
-            this.btnCastReset.TabIndex = 45;
+            this.btnCastReset.TabIndex = 3;
             this.btnCastReset.Text = "Reset";
             this.btnCastReset.UseVisualStyleBackColor = true;
             this.btnCastReset.Click += new System.EventHandler(this.btnCastReset_Click);
@@ -1119,7 +1119,7 @@
             65536});
             this.numCastIntervalLow.Name = "numCastIntervalLow";
             this.numCastIntervalLow.Size = new System.Drawing.Size(38, 18);
-            this.numCastIntervalLow.TabIndex = 40;
+            this.numCastIntervalLow.TabIndex = 1;
             this.numCastIntervalLow.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.numCastIntervalLow.Value = new decimal(new int[] {
             30,
@@ -1138,7 +1138,7 @@
             this.lblMaxNoCatch.Margin = new System.Windows.Forms.Padding(0);
             this.lblMaxNoCatch.Name = "lblMaxNoCatch";
             this.lblMaxNoCatch.Size = new System.Drawing.Size(73, 13);
-            this.lblMaxNoCatch.TabIndex = 44;
+            this.lblMaxNoCatch.TabIndex = 4;
             this.lblMaxNoCatch.Text = "Max no catch:";
             this.lblMaxNoCatch.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -1165,7 +1165,7 @@
             65536});
             this.numCastIntervalHigh.Name = "numCastIntervalHigh";
             this.numCastIntervalHigh.Size = new System.Drawing.Size(38, 18);
-            this.numCastIntervalHigh.TabIndex = 41;
+            this.numCastIntervalHigh.TabIndex = 2;
             this.numCastIntervalHigh.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.numCastIntervalHigh.Value = new decimal(new int[] {
             35,
@@ -1184,7 +1184,7 @@
             this.trackOpacity.Minimum = 1;
             this.trackOpacity.Name = "trackOpacity";
             this.trackOpacity.Size = new System.Drawing.Size(78, 21);
-            this.trackOpacity.TabIndex = 33;
+            this.trackOpacity.TabIndex = 6;
             this.trackOpacity.Value = 10;
             this.trackOpacity.Scroll += new System.EventHandler(this.trackOpacity_Scroll);
             // 
@@ -1194,7 +1194,7 @@
             this.cbStopSound.Location = new System.Drawing.Point(145, 4);
             this.cbStopSound.Name = "cbStopSound";
             this.cbStopSound.Size = new System.Drawing.Size(106, 17);
-            this.cbStopSound.TabIndex = 46;
+            this.cbStopSound.TabIndex = 1;
             this.cbStopSound.Text = "Sounds on errors";
             this.cbStopSound.UseVisualStyleBackColor = true;
             // 
@@ -1203,7 +1203,7 @@
             this.btnSettingsSave.Location = new System.Drawing.Point(7, 116);
             this.btnSettingsSave.Name = "btnSettingsSave";
             this.btnSettingsSave.Size = new System.Drawing.Size(92, 22);
-            this.btnSettingsSave.TabIndex = 32;
+            this.btnSettingsSave.TabIndex = 8;
             this.btnSettingsSave.Text = "Save Settings";
             this.btnSettingsSave.UseVisualStyleBackColor = true;
             this.btnSettingsSave.Click += new System.EventHandler(this.btnSettingsSave_Click);
@@ -1213,7 +1213,7 @@
             this.btnSettingsReset.Location = new System.Drawing.Point(105, 116);
             this.btnSettingsReset.Name = "btnSettingsReset";
             this.btnSettingsReset.Size = new System.Drawing.Size(92, 22);
-            this.btnSettingsReset.TabIndex = 31;
+            this.btnSettingsReset.TabIndex = 9;
             this.btnSettingsReset.Text = "Reset Settings";
             this.btnSettingsReset.UseVisualStyleBackColor = true;
             this.btnSettingsReset.Click += new System.EventHandler(this.btnSettingsReset_Click);
@@ -1226,7 +1226,7 @@
             this.cbAlwaysOnTop.Location = new System.Drawing.Point(7, 4);
             this.cbAlwaysOnTop.Name = "cbAlwaysOnTop";
             this.cbAlwaysOnTop.Size = new System.Drawing.Size(92, 17);
-            this.cbAlwaysOnTop.TabIndex = 30;
+            this.cbAlwaysOnTop.TabIndex = 0;
             this.cbAlwaysOnTop.Text = "Always on top";
             this.cbAlwaysOnTop.UseVisualStyleBackColor = true;
             this.cbAlwaysOnTop.CheckedChanged += new System.EventHandler(this.cbAlwaysOnTop_CheckedChanged);
@@ -1266,7 +1266,7 @@
             this.cbFishHP.Location = new System.Drawing.Point(7, 4);
             this.cbFishHP.Name = "cbFishHP";
             this.cbFishHP.Size = new System.Drawing.Size(114, 17);
-            this.cbFishHP.TabIndex = 54;
+            this.cbFishHP.TabIndex = 0;
             this.cbFishHP.Text = "Show fish HP[time]";
             this.cbFishHP.UseVisualStyleBackColor = true;
             // 
@@ -1292,7 +1292,7 @@
             65536});
             this.numReactionHigh.Name = "numReactionHigh";
             this.numReactionHigh.Size = new System.Drawing.Size(35, 18);
-            this.numReactionHigh.TabIndex = 11;
+            this.numReactionHigh.TabIndex = 18;
             this.numReactionHigh.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.numReactionHigh.Value = new decimal(new int[] {
             20,
@@ -1318,7 +1318,7 @@
             65536});
             this.numReactionLow.Name = "numReactionLow";
             this.numReactionLow.Size = new System.Drawing.Size(35, 18);
-            this.numReactionLow.TabIndex = 10;
+            this.numReactionLow.TabIndex = 17;
             this.numReactionLow.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.numReactionLow.Value = new decimal(new int[] {
             5,
@@ -1333,7 +1333,7 @@
             this.cbReaction.Location = new System.Drawing.Point(7, 104);
             this.cbReaction.Name = "cbReaction";
             this.cbReaction.Size = new System.Drawing.Size(56, 17);
-            this.cbReaction.TabIndex = 49;
+            this.cbReaction.TabIndex = 16;
             this.cbReaction.Text = "React:";
             this.cbReaction.UseVisualStyleBackColor = true;
             // 
@@ -1343,7 +1343,7 @@
             this.numFakeLargeIntervalLow.Margin = new System.Windows.Forms.Padding(0);
             this.numFakeLargeIntervalLow.Name = "numFakeLargeIntervalLow";
             this.numFakeLargeIntervalLow.Size = new System.Drawing.Size(35, 18);
-            this.numFakeLargeIntervalLow.TabIndex = 39;
+            this.numFakeLargeIntervalLow.TabIndex = 14;
             this.numFakeLargeIntervalLow.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.numFakeLargeIntervalLow.Value = new decimal(new int[] {
             90,
@@ -1359,7 +1359,7 @@
             this.cbReleaseSmall.Location = new System.Drawing.Point(7, 84);
             this.cbReleaseSmall.Name = "cbReleaseSmall";
             this.cbReleaseSmall.Size = new System.Drawing.Size(52, 17);
-            this.cbReleaseSmall.TabIndex = 41;
+            this.cbReleaseSmall.TabIndex = 10;
             this.cbReleaseSmall.Text = "Fake!";
             this.cbReleaseSmall.UseVisualStyleBackColor = true;
             // 
@@ -1374,7 +1374,7 @@
             0});
             this.numFakeLargeIntervalHigh.Name = "numFakeLargeIntervalHigh";
             this.numFakeLargeIntervalHigh.Size = new System.Drawing.Size(35, 18);
-            this.numFakeLargeIntervalHigh.TabIndex = 40;
+            this.numFakeLargeIntervalHigh.TabIndex = 15;
             this.numFakeLargeIntervalHigh.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.numFakeLargeIntervalHigh.Value = new decimal(new int[] {
             100,
@@ -1389,7 +1389,7 @@
             this.numFakeSmallIntervalLow.Margin = new System.Windows.Forms.Padding(0);
             this.numFakeSmallIntervalLow.Name = "numFakeSmallIntervalLow";
             this.numFakeSmallIntervalLow.Size = new System.Drawing.Size(35, 18);
-            this.numFakeSmallIntervalLow.TabIndex = 15;
+            this.numFakeSmallIntervalLow.TabIndex = 11;
             this.numFakeSmallIntervalLow.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.numFakeSmallIntervalLow.Value = new decimal(new int[] {
             50,
@@ -1405,7 +1405,7 @@
             this.cbReleaseLarge.Location = new System.Drawing.Point(142, 84);
             this.cbReleaseLarge.Name = "cbReleaseLarge";
             this.cbReleaseLarge.Size = new System.Drawing.Size(58, 17);
-            this.cbReleaseLarge.TabIndex = 42;
+            this.cbReleaseLarge.TabIndex = 13;
             this.cbReleaseLarge.Text = "Fake!!!";
             this.cbReleaseLarge.UseVisualStyleBackColor = true;
             // 
@@ -1415,7 +1415,7 @@
             this.cbIgnoreLargeFish.Location = new System.Drawing.Point(142, 64);
             this.cbIgnoreLargeFish.Name = "cbIgnoreLargeFish";
             this.cbIgnoreLargeFish.Size = new System.Drawing.Size(108, 17);
-            this.cbIgnoreLargeFish.TabIndex = 53;
+            this.cbIgnoreLargeFish.TabIndex = 9;
             this.cbIgnoreLargeFish.Text = "Ignore Large Fish";
             this.cbIgnoreLargeFish.UseVisualStyleBackColor = true;
             // 
@@ -1430,7 +1430,7 @@
             0});
             this.numFakeSmallIntervalHigh.Name = "numFakeSmallIntervalHigh";
             this.numFakeSmallIntervalHigh.Size = new System.Drawing.Size(35, 18);
-            this.numFakeSmallIntervalHigh.TabIndex = 16;
+            this.numFakeSmallIntervalHigh.TabIndex = 12;
             this.numFakeSmallIntervalHigh.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.numFakeSmallIntervalHigh.Value = new decimal(new int[] {
             75,
@@ -1445,7 +1445,7 @@
             this.cbIgnoreSmallFish.Location = new System.Drawing.Point(7, 64);
             this.cbIgnoreSmallFish.Name = "cbIgnoreSmallFish";
             this.cbIgnoreSmallFish.Size = new System.Drawing.Size(106, 17);
-            this.cbIgnoreSmallFish.TabIndex = 52;
+            this.cbIgnoreSmallFish.TabIndex = 8;
             this.cbIgnoreSmallFish.Text = "Ignore Small Fish";
             this.cbIgnoreSmallFish.UseVisualStyleBackColor = true;
             // 
@@ -1457,7 +1457,7 @@
             this.cbIgnoreItem.Location = new System.Drawing.Point(142, 44);
             this.cbIgnoreItem.Name = "cbIgnoreItem";
             this.cbIgnoreItem.Size = new System.Drawing.Size(84, 17);
-            this.cbIgnoreItem.TabIndex = 50;
+            this.cbIgnoreItem.TabIndex = 7;
             this.cbIgnoreItem.Text = "Ignore Items";
             this.cbIgnoreItem.UseVisualStyleBackColor = true;
             // 
@@ -1469,7 +1469,7 @@
             this.cbIgnoreMonster.Location = new System.Drawing.Point(7, 44);
             this.cbIgnoreMonster.Name = "cbIgnoreMonster";
             this.cbIgnoreMonster.Size = new System.Drawing.Size(102, 17);
-            this.cbIgnoreMonster.TabIndex = 51;
+            this.cbIgnoreMonster.TabIndex = 6;
             this.cbIgnoreMonster.Text = "Ignore Monsters";
             this.cbIgnoreMonster.UseVisualStyleBackColor = true;
             // 
@@ -1479,7 +1479,7 @@
             this.lblKillSeconds.Location = new System.Drawing.Point(246, 25);
             this.lblKillSeconds.Name = "lblKillSeconds";
             this.lblKillSeconds.Size = new System.Drawing.Size(46, 13);
-            this.lblKillSeconds.TabIndex = 48;
+            this.lblKillSeconds.TabIndex = 5;
             this.lblKillSeconds.Text = "seconds";
             // 
             // numQuickKill
@@ -1497,7 +1497,7 @@
             0});
             this.numQuickKill.Name = "numQuickKill";
             this.numQuickKill.Size = new System.Drawing.Size(35, 18);
-            this.numQuickKill.TabIndex = 45;
+            this.numQuickKill.TabIndex = 4;
             this.numQuickKill.Value = new decimal(new int[] {
             15,
             0,
@@ -1510,7 +1510,7 @@
             this.cbQuickKill.Location = new System.Drawing.Point(142, 24);
             this.cbQuickKill.Name = "cbQuickKill";
             this.cbQuickKill.Size = new System.Drawing.Size(63, 17);
-            this.cbQuickKill.TabIndex = 44;
+            this.cbQuickKill.TabIndex = 3;
             this.cbQuickKill.Text = "Kill after";
             this.cbQuickKill.UseVisualStyleBackColor = true;
             // 
@@ -1522,7 +1522,7 @@
             this.cbAutoKill.Location = new System.Drawing.Point(142, 4);
             this.cbAutoKill.Name = "cbAutoKill";
             this.cbAutoKill.Size = new System.Drawing.Size(110, 17);
-            this.cbAutoKill.TabIndex = 43;
+            this.cbAutoKill.TabIndex = 1;
             this.cbAutoKill.Text = "Kill fish at warning";
             this.cbAutoKill.UseVisualStyleBackColor = true;
             // 
@@ -1532,7 +1532,7 @@
             this.cbExtend.Location = new System.Drawing.Point(7, 24);
             this.cbExtend.Name = "cbExtend";
             this.cbExtend.Size = new System.Drawing.Size(96, 17);
-            this.cbExtend.TabIndex = 42;
+            this.cbExtend.TabIndex = 2;
             this.cbExtend.Text = "Extend timeout";
             this.cbExtend.UseVisualStyleBackColor = true;
             // 
@@ -1573,7 +1573,7 @@
             this.lblBodyGear.Location = new System.Drawing.Point(6, 9);
             this.lblBodyGear.Name = "lblBodyGear";
             this.lblBodyGear.Size = new System.Drawing.Size(31, 13);
-            this.lblBodyGear.TabIndex = 1;
+            this.lblBodyGear.TabIndex = 0;
             this.lblBodyGear.Text = "Body";
             // 
             // tbBodyGear
@@ -1589,7 +1589,7 @@
             this.tbBodyGear.Location = new System.Drawing.Point(49, 7);
             this.tbBodyGear.Name = "tbBodyGear";
             this.tbBodyGear.Size = new System.Drawing.Size(97, 20);
-            this.tbBodyGear.TabIndex = 2;
+            this.tbBodyGear.TabIndex = 1;
             // 
             // lblHandsGear
             // 
@@ -1597,7 +1597,7 @@
             this.lblHandsGear.Location = new System.Drawing.Point(6, 33);
             this.lblHandsGear.Name = "lblHandsGear";
             this.lblHandsGear.Size = new System.Drawing.Size(37, 13);
-            this.lblHandsGear.TabIndex = 3;
+            this.lblHandsGear.TabIndex = 2;
             this.lblHandsGear.Text = "Hands";
             // 
             // tbHandsGear
@@ -1612,7 +1612,7 @@
             this.tbHandsGear.Location = new System.Drawing.Point(49, 30);
             this.tbHandsGear.Name = "tbHandsGear";
             this.tbHandsGear.Size = new System.Drawing.Size(97, 20);
-            this.tbHandsGear.TabIndex = 4;
+            this.tbHandsGear.TabIndex = 3;
             // 
             // lblLegsGear
             // 
@@ -1620,7 +1620,7 @@
             this.lblLegsGear.Location = new System.Drawing.Point(6, 57);
             this.lblLegsGear.Name = "lblLegsGear";
             this.lblLegsGear.Size = new System.Drawing.Size(30, 13);
-            this.lblLegsGear.TabIndex = 5;
+            this.lblLegsGear.TabIndex = 4;
             this.lblLegsGear.Text = "Legs";
             // 
             // tbLegsGear
@@ -1635,7 +1635,7 @@
             this.tbLegsGear.Location = new System.Drawing.Point(49, 54);
             this.tbLegsGear.Name = "tbLegsGear";
             this.tbLegsGear.Size = new System.Drawing.Size(97, 20);
-            this.tbLegsGear.TabIndex = 6;
+            this.tbLegsGear.TabIndex = 5;
             // 
             // lblFeetGear
             // 
@@ -1643,7 +1643,7 @@
             this.lblFeetGear.Location = new System.Drawing.Point(6, 81);
             this.lblFeetGear.Name = "lblFeetGear";
             this.lblFeetGear.Size = new System.Drawing.Size(28, 13);
-            this.lblFeetGear.TabIndex = 7;
+            this.lblFeetGear.TabIndex = 6;
             this.lblFeetGear.Text = "Feet";
             // 
             // tbFeetGear
@@ -1659,7 +1659,7 @@
             this.tbFeetGear.Location = new System.Drawing.Point(49, 78);
             this.tbFeetGear.Name = "tbFeetGear";
             this.tbFeetGear.Size = new System.Drawing.Size(97, 20);
-            this.tbFeetGear.TabIndex = 8;
+            this.tbFeetGear.TabIndex = 7;
             // 
             // lblLRingGear
             // 
@@ -1667,7 +1667,7 @@
             this.lblLRingGear.Location = new System.Drawing.Point(172, 80);
             this.lblLRingGear.Name = "lblLRingGear";
             this.lblLRingGear.Size = new System.Drawing.Size(49, 13);
-            this.lblLRingGear.TabIndex = 9;
+            this.lblLRingGear.TabIndex = 15;
             this.lblLRingGear.Text = "Left Ring";
             // 
             // tbLRingGear
@@ -1687,7 +1687,7 @@
             this.tbLRingGear.Location = new System.Drawing.Point(233, 77);
             this.tbLRingGear.Name = "tbLRingGear";
             this.tbLRingGear.Size = new System.Drawing.Size(97, 20);
-            this.tbLRingGear.TabIndex = 10;
+            this.tbLRingGear.TabIndex = 16;
             this.tbLRingGear.SelectedIndexChanged += new System.EventHandler(this.tbLRingGear_SelectedIndexChanged);
             // 
             // cbLRingGear
@@ -1697,7 +1697,7 @@
             this.cbLRingGear.Location = new System.Drawing.Point(336, 79);
             this.cbLRingGear.Name = "cbLRingGear";
             this.cbLRingGear.Size = new System.Drawing.Size(40, 17);
-            this.cbLRingGear.TabIndex = 11;
+            this.cbLRingGear.TabIndex = 17;
             this.cbLRingGear.Text = "AE";
             this.cbLRingGear.UseVisualStyleBackColor = true;
             // 
@@ -1707,7 +1707,7 @@
             this.lblRRingGear.Location = new System.Drawing.Point(172, 104);
             this.lblRRingGear.Name = "lblRRingGear";
             this.lblRRingGear.Size = new System.Drawing.Size(55, 13);
-            this.lblRRingGear.TabIndex = 12;
+            this.lblRRingGear.TabIndex = 18;
             this.lblRRingGear.Text = "Right Ring";
             // 
             // tbRRingGear
@@ -1727,7 +1727,7 @@
             this.tbRRingGear.Location = new System.Drawing.Point(233, 101);
             this.tbRRingGear.Name = "tbRRingGear";
             this.tbRRingGear.Size = new System.Drawing.Size(97, 20);
-            this.tbRRingGear.TabIndex = 13;
+            this.tbRRingGear.TabIndex = 19;
             this.tbRRingGear.SelectedIndexChanged += new System.EventHandler(this.tbRRingGear_SelectedIndexChanged);
             // 
             // cbRRingGear
@@ -1737,7 +1737,7 @@
             this.cbRRingGear.Location = new System.Drawing.Point(336, 103);
             this.cbRRingGear.Name = "cbRRingGear";
             this.cbRRingGear.Size = new System.Drawing.Size(40, 17);
-            this.cbRRingGear.TabIndex = 14;
+            this.cbRRingGear.TabIndex = 20;
             this.cbRRingGear.Text = "AE";
             this.cbRRingGear.UseVisualStyleBackColor = true;
             // 
@@ -1747,7 +1747,7 @@
             this.lblHeadGear.Location = new System.Drawing.Point(172, 9);
             this.lblHeadGear.Name = "lblHeadGear";
             this.lblHeadGear.Size = new System.Drawing.Size(32, 13);
-            this.lblHeadGear.TabIndex = 15;
+            this.lblHeadGear.TabIndex = 8;
             this.lblHeadGear.Text = "Head";
             // 
             // tbHeadGear
@@ -1761,7 +1761,7 @@
             this.tbHeadGear.Location = new System.Drawing.Point(233, 6);
             this.tbHeadGear.Name = "tbHeadGear";
             this.tbHeadGear.Size = new System.Drawing.Size(97, 20);
-            this.tbHeadGear.TabIndex = 16;
+            this.tbHeadGear.TabIndex = 9;
             // 
             // lblNeckGear
             // 
@@ -1769,7 +1769,7 @@
             this.lblNeckGear.Location = new System.Drawing.Point(172, 33);
             this.lblNeckGear.Name = "lblNeckGear";
             this.lblNeckGear.Size = new System.Drawing.Size(30, 13);
-            this.lblNeckGear.TabIndex = 17;
+            this.lblNeckGear.TabIndex = 10;
             this.lblNeckGear.Text = "Neck";
             // 
             // tbNeckGear
@@ -1783,7 +1783,7 @@
             this.tbNeckGear.Location = new System.Drawing.Point(233, 30);
             this.tbNeckGear.Name = "tbNeckGear";
             this.tbNeckGear.Size = new System.Drawing.Size(97, 20);
-            this.tbNeckGear.TabIndex = 18;
+            this.tbNeckGear.TabIndex = 11;
             // 
             // lblWaistGear
             // 
@@ -1791,7 +1791,7 @@
             this.lblWaistGear.Location = new System.Drawing.Point(172, 56);
             this.lblWaistGear.Name = "lblWaistGear";
             this.lblWaistGear.Size = new System.Drawing.Size(32, 13);
-            this.lblWaistGear.TabIndex = 19;
+            this.lblWaistGear.TabIndex = 12;
             this.lblWaistGear.Text = "Waist";
             // 
             // tbWaistGear
@@ -1806,7 +1806,7 @@
             this.tbWaistGear.Location = new System.Drawing.Point(233, 53);
             this.tbWaistGear.Name = "tbWaistGear";
             this.tbWaistGear.Size = new System.Drawing.Size(97, 20);
-            this.tbWaistGear.TabIndex = 20;
+            this.tbWaistGear.TabIndex = 13;
             this.tbWaistGear.SelectedIndexChanged += new System.EventHandler(this.tbWaistGear_SelectedIndexChanged);
             // 
             // cbWaistGear
@@ -1816,7 +1816,7 @@
             this.cbWaistGear.Location = new System.Drawing.Point(336, 56);
             this.cbWaistGear.Name = "cbWaistGear";
             this.cbWaistGear.Size = new System.Drawing.Size(40, 17);
-            this.cbWaistGear.TabIndex = 21;
+            this.cbWaistGear.TabIndex = 14;
             this.cbWaistGear.Text = "AE";
             this.cbWaistGear.UseVisualStyleBackColor = true;
             // 
@@ -1853,7 +1853,7 @@
             this.cbFatiguedActionWarp.Location = new System.Drawing.Point(11, 19);
             this.cbFatiguedActionWarp.Name = "cbFatiguedActionWarp";
             this.cbFatiguedActionWarp.Size = new System.Drawing.Size(50, 17);
-            this.cbFatiguedActionWarp.TabIndex = 1;
+            this.cbFatiguedActionWarp.TabIndex = 0;
             this.cbFatiguedActionWarp.Text = "Warp";
             this.cbFatiguedActionWarp.UseVisualStyleBackColor = true;
             // 
@@ -1863,7 +1863,7 @@
             this.cbFatiguedActionLogout.Location = new System.Drawing.Point(11, 37);
             this.cbFatiguedActionLogout.Name = "cbFatiguedActionLogout";
             this.cbFatiguedActionLogout.Size = new System.Drawing.Size(59, 17);
-            this.cbFatiguedActionLogout.TabIndex = 2;
+            this.cbFatiguedActionLogout.TabIndex = 1;
             this.cbFatiguedActionLogout.Text = "Logout";
             this.cbFatiguedActionLogout.UseVisualStyleBackColor = true;
             this.cbFatiguedActionLogout.CheckedChanged += new System.EventHandler(this.cbFatiguedActionLogout_CheckedChanged);
@@ -1874,7 +1874,7 @@
             this.cbFatiguedActionShutdown.Location = new System.Drawing.Point(11, 55);
             this.cbFatiguedActionShutdown.Name = "cbFatiguedActionShutdown";
             this.cbFatiguedActionShutdown.Size = new System.Drawing.Size(74, 17);
-            this.cbFatiguedActionShutdown.TabIndex = 3;
+            this.cbFatiguedActionShutdown.TabIndex = 2;
             this.cbFatiguedActionShutdown.Text = "Shutdown";
             this.cbFatiguedActionShutdown.UseVisualStyleBackColor = true;
             this.cbFatiguedActionShutdown.CheckedChanged += new System.EventHandler(this.cbFatiguedActionShutdown_CheckedChanged);
@@ -1899,7 +1899,7 @@
             this.cbGMdetectAutostop.Location = new System.Drawing.Point(10, 17);
             this.cbGMdetectAutostop.Name = "cbGMdetectAutostop";
             this.cbGMdetectAutostop.Size = new System.Drawing.Size(84, 17);
-            this.cbGMdetectAutostop.TabIndex = 10;
+            this.cbGMdetectAutostop.TabIndex = 0;
             this.cbGMdetectAutostop.Text = "Stop Fishing";
             this.cbGMdetectAutostop.UseVisualStyleBackColor = true;
             // 
@@ -1925,7 +1925,7 @@
             this.tbFullactionOther.Location = new System.Drawing.Point(8, 37);
             this.tbFullactionOther.Name = "tbFullactionOther";
             this.tbFullactionOther.Size = new System.Drawing.Size(97, 18);
-            this.tbFullactionOther.TabIndex = 4;
+            this.tbFullactionOther.TabIndex = 1;
             // 
             // rbFullactionOther
             // 
@@ -1933,7 +1933,7 @@
             this.rbFullactionOther.Location = new System.Drawing.Point(11, 19);
             this.rbFullactionOther.Name = "rbFullactionOther";
             this.rbFullactionOther.Size = new System.Drawing.Size(73, 17);
-            this.rbFullactionOther.TabIndex = 3;
+            this.rbFullactionOther.TabIndex = 0;
             this.rbFullactionOther.Text = "Command";
             this.rbFullactionOther.UseVisualStyleBackColor = true;
             this.rbFullactionOther.CheckedChanged += new System.EventHandler(this.rbFullactionOther_CheckedChanged);
@@ -1944,7 +1944,7 @@
             this.rbFullactionShutdown.Location = new System.Drawing.Point(11, 94);
             this.rbFullactionShutdown.Name = "rbFullactionShutdown";
             this.rbFullactionShutdown.Size = new System.Drawing.Size(74, 17);
-            this.rbFullactionShutdown.TabIndex = 1;
+            this.rbFullactionShutdown.TabIndex = 4;
             this.rbFullactionShutdown.Text = "Shutdown";
             this.rbFullactionShutdown.UseVisualStyleBackColor = true;
             this.rbFullactionShutdown.CheckedChanged += new System.EventHandler(this.rbFullactionShutdown_CheckedChanged);
@@ -1955,7 +1955,7 @@
             this.rbFullactionLogout.Location = new System.Drawing.Point(11, 76);
             this.rbFullactionLogout.Name = "rbFullactionLogout";
             this.rbFullactionLogout.Size = new System.Drawing.Size(59, 17);
-            this.rbFullactionLogout.TabIndex = 1;
+            this.rbFullactionLogout.TabIndex = 3;
             this.rbFullactionLogout.Text = "Logout";
             this.rbFullactionLogout.UseVisualStyleBackColor = true;
             this.rbFullactionLogout.CheckedChanged += new System.EventHandler(this.rbFullactionLogout_CheckedChanged);
@@ -1987,7 +1987,7 @@
             this.statusStripMain.Location = new System.Drawing.Point(0, 210);
             this.statusStripMain.Name = "statusStripMain";
             this.statusStripMain.Size = new System.Drawing.Size(542, 25);
-            this.statusStripMain.TabIndex = 35;
+            this.statusStripMain.TabIndex = 1;
             this.statusStripMain.Text = "statusStrip1";
             // 
             // lblVanaDay
