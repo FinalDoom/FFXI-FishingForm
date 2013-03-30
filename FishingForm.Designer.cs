@@ -1253,10 +1253,10 @@
             this.tabOptionsPageFight.Controls.Add(this.cbQuickKill);
             this.tabOptionsPageFight.Controls.Add(this.cbAutoKill);
             this.tabOptionsPageFight.Controls.Add(this.cbExtend);
-            this.tabOptionsPageFight.Location = new System.Drawing.Point(4, 21);
+            this.tabOptionsPageFight.Location = new System.Drawing.Point(4, 22);
             this.tabOptionsPageFight.Name = "tabOptionsPageFight";
             this.tabOptionsPageFight.Padding = new System.Windows.Forms.Padding(3);
-            this.tabOptionsPageFight.Size = new System.Drawing.Size(382, 160);
+            this.tabOptionsPageFight.Size = new System.Drawing.Size(382, 159);
             this.tabOptionsPageFight.TabIndex = 2;
             this.tabOptionsPageFight.Text = "Fight";
             // 
@@ -1664,7 +1664,7 @@
             // lblLRingGear
             // 
             this.lblLRingGear.AutoSize = true;
-            this.lblLRingGear.Location = new System.Drawing.Point(172, 80);
+            this.lblLRingGear.Location = new System.Drawing.Point(161, 80);
             this.lblLRingGear.Name = "lblLRingGear";
             this.lblLRingGear.Size = new System.Drawing.Size(49, 13);
             this.lblLRingGear.TabIndex = 15;
@@ -1684,7 +1684,7 @@
             "Noddy Ring",
             "Puffin ring",
             "Seagull ring"});
-            this.tbLRingGear.Location = new System.Drawing.Point(233, 77);
+            this.tbLRingGear.Location = new System.Drawing.Point(222, 77);
             this.tbLRingGear.Name = "tbLRingGear";
             this.tbLRingGear.Size = new System.Drawing.Size(97, 20);
             this.tbLRingGear.TabIndex = 16;
@@ -1694,7 +1694,7 @@
             // 
             this.cbLRingGear.AutoSize = true;
             this.cbLRingGear.Enabled = false;
-            this.cbLRingGear.Location = new System.Drawing.Point(336, 79);
+            this.cbLRingGear.Location = new System.Drawing.Point(325, 79);
             this.cbLRingGear.Name = "cbLRingGear";
             this.cbLRingGear.Size = new System.Drawing.Size(40, 17);
             this.cbLRingGear.TabIndex = 17;
@@ -1704,7 +1704,7 @@
             // lblRRingGear
             // 
             this.lblRRingGear.AutoSize = true;
-            this.lblRRingGear.Location = new System.Drawing.Point(172, 104);
+            this.lblRRingGear.Location = new System.Drawing.Point(161, 104);
             this.lblRRingGear.Name = "lblRRingGear";
             this.lblRRingGear.Size = new System.Drawing.Size(55, 13);
             this.lblRRingGear.TabIndex = 18;
@@ -1724,7 +1724,7 @@
             "Noddy Ring",
             "Puffin ring",
             "Seagull ring"});
-            this.tbRRingGear.Location = new System.Drawing.Point(233, 101);
+            this.tbRRingGear.Location = new System.Drawing.Point(222, 101);
             this.tbRRingGear.Name = "tbRRingGear";
             this.tbRRingGear.Size = new System.Drawing.Size(97, 20);
             this.tbRRingGear.TabIndex = 19;
@@ -1734,7 +1734,7 @@
             // 
             this.cbRRingGear.AutoSize = true;
             this.cbRRingGear.Enabled = false;
-            this.cbRRingGear.Location = new System.Drawing.Point(336, 103);
+            this.cbRRingGear.Location = new System.Drawing.Point(325, 103);
             this.cbRRingGear.Name = "cbRRingGear";
             this.cbRRingGear.Size = new System.Drawing.Size(40, 17);
             this.cbRRingGear.TabIndex = 20;
@@ -1744,7 +1744,7 @@
             // lblHeadGear
             // 
             this.lblHeadGear.AutoSize = true;
-            this.lblHeadGear.Location = new System.Drawing.Point(172, 9);
+            this.lblHeadGear.Location = new System.Drawing.Point(161, 9);
             this.lblHeadGear.Name = "lblHeadGear";
             this.lblHeadGear.Size = new System.Drawing.Size(32, 13);
             this.lblHeadGear.TabIndex = 8;
@@ -1758,7 +1758,7 @@
             this.tbHeadGear.Items.AddRange(new object[] {
             "",
             "Trainee\'s spectacles"});
-            this.tbHeadGear.Location = new System.Drawing.Point(233, 6);
+            this.tbHeadGear.Location = new System.Drawing.Point(222, 6);
             this.tbHeadGear.Name = "tbHeadGear";
             this.tbHeadGear.Size = new System.Drawing.Size(97, 20);
             this.tbHeadGear.TabIndex = 9;
@@ -1766,7 +1766,7 @@
             // lblNeckGear
             // 
             this.lblNeckGear.AutoSize = true;
-            this.lblNeckGear.Location = new System.Drawing.Point(172, 33);
+            this.lblNeckGear.Location = new System.Drawing.Point(161, 33);
             this.lblNeckGear.Name = "lblNeckGear";
             this.lblNeckGear.Size = new System.Drawing.Size(30, 13);
             this.lblNeckGear.TabIndex = 10;
@@ -1780,7 +1780,7 @@
             this.tbNeckGear.Items.AddRange(new object[] {
             "",
             "Fisher\'s torque"});
-            this.tbNeckGear.Location = new System.Drawing.Point(233, 30);
+            this.tbNeckGear.Location = new System.Drawing.Point(222, 30);
             this.tbNeckGear.Name = "tbNeckGear";
             this.tbNeckGear.Size = new System.Drawing.Size(97, 20);
             this.tbNeckGear.TabIndex = 11;
@@ -1788,7 +1788,7 @@
             // lblWaistGear
             // 
             this.lblWaistGear.AutoSize = true;
-            this.lblWaistGear.Location = new System.Drawing.Point(172, 56);
+            this.lblWaistGear.Location = new System.Drawing.Point(161, 56);
             this.lblWaistGear.Name = "lblWaistGear";
             this.lblWaistGear.Size = new System.Drawing.Size(32, 13);
             this.lblWaistGear.TabIndex = 12;
@@ -1803,7 +1803,7 @@
             "",
             "Fisher\'s Rope",
             "Fisherman\'s Belt"});
-            this.tbWaistGear.Location = new System.Drawing.Point(233, 53);
+            this.tbWaistGear.Location = new System.Drawing.Point(222, 53);
             this.tbWaistGear.Name = "tbWaistGear";
             this.tbWaistGear.Size = new System.Drawing.Size(97, 20);
             this.tbWaistGear.TabIndex = 13;
@@ -1813,7 +1813,7 @@
             // 
             this.cbWaistGear.AutoSize = true;
             this.cbWaistGear.Enabled = false;
-            this.cbWaistGear.Location = new System.Drawing.Point(336, 56);
+            this.cbWaistGear.Location = new System.Drawing.Point(325, 56);
             this.cbWaistGear.Name = "cbWaistGear";
             this.cbWaistGear.Size = new System.Drawing.Size(40, 17);
             this.cbWaistGear.TabIndex = 14;
@@ -1826,10 +1826,10 @@
             this.tabOptionsPageAdvanced.Controls.Add(this.gbOnFatigue);
             this.tabOptionsPageAdvanced.Controls.Add(this.gbGMDetect);
             this.tabOptionsPageAdvanced.Controls.Add(this.groupBox1);
-            this.tabOptionsPageAdvanced.Location = new System.Drawing.Point(4, 21);
+            this.tabOptionsPageAdvanced.Location = new System.Drawing.Point(4, 22);
             this.tabOptionsPageAdvanced.Name = "tabOptionsPageAdvanced";
             this.tabOptionsPageAdvanced.Padding = new System.Windows.Forms.Padding(3);
-            this.tabOptionsPageAdvanced.Size = new System.Drawing.Size(382, 160);
+            this.tabOptionsPageAdvanced.Size = new System.Drawing.Size(382, 159);
             this.tabOptionsPageAdvanced.TabIndex = 5;
             this.tabOptionsPageAdvanced.Text = "Other";
             // 
@@ -1842,7 +1842,7 @@
             this.gbOnFatigue.Controls.Add(this.cbFatiguedActionShutdown);
             this.gbOnFatigue.Location = new System.Drawing.Point(248, 6);
             this.gbOnFatigue.Name = "gbOnFatigue";
-            this.gbOnFatigue.Size = new System.Drawing.Size(113, 146);
+            this.gbOnFatigue.Size = new System.Drawing.Size(113, 145);
             this.gbOnFatigue.TabIndex = 2;
             this.gbOnFatigue.TabStop = false;
             this.gbOnFatigue.Text = "On Fatigue Stop";
@@ -1886,7 +1886,7 @@
             this.gbGMDetect.Controls.Add(this.cbGMdetectAutostop);
             this.gbGMDetect.Location = new System.Drawing.Point(127, 6);
             this.gbGMDetect.Name = "gbGMDetect";
-            this.gbGMDetect.Size = new System.Drawing.Size(113, 146);
+            this.gbGMDetect.Size = new System.Drawing.Size(113, 145);
             this.gbGMDetect.TabIndex = 1;
             this.gbGMDetect.TabStop = false;
             this.gbGMDetect.Text = "GM Detection";
@@ -1914,7 +1914,7 @@
             this.groupBox1.Controls.Add(this.rbFullactionWarp);
             this.groupBox1.Location = new System.Drawing.Point(6, 6);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(115, 146);
+            this.groupBox1.Size = new System.Drawing.Size(115, 145);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "On Full Inventory";
