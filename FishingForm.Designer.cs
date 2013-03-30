@@ -127,27 +127,27 @@
             this.cbAutoKill = new System.Windows.Forms.CheckBox();
             this.cbExtend = new System.Windows.Forms.CheckBox();
             this.tabOptionsPageGear = new System.Windows.Forms.TabPage();
-			this.lblBodyGear = new System.Windows.Forms.Label();
-			this.tbBodyGear = new System.Windows.Forms.ComboBox();
-			this.lblHandsGear = new System.Windows.Forms.Label();
-			this.tbHandsGear = new System.Windows.Forms.ComboBox();
-			this.lblLegsGear = new System.Windows.Forms.Label();
-			this.tbLegsGear = new System.Windows.Forms.ComboBox();
-			this.lblFeetGear = new System.Windows.Forms.Label();
-			this.tbFeetGear = new System.Windows.Forms.ComboBox();
-			this.lblLRingGear = new System.Windows.Forms.Label();
-			this.tbLRingGear = new System.Windows.Forms.ComboBox();
-			this.cbLRingGear = new System.Windows.Forms.CheckBox();
-			this.lblRRingGear = new System.Windows.Forms.Label();
-			this.tbRRingGear = new System.Windows.Forms.ComboBox();
-			this.cbRRingGear = new System.Windows.Forms.CheckBox();
-			this.lblHeadGear = new System.Windows.Forms.Label();
-			this.tbHeadGear = new System.Windows.Forms.ComboBox();
-			this.lblNeckGear = new System.Windows.Forms.Label();
-			this.tbNeckGear = new System.Windows.Forms.ComboBox();
-			this.lblWaistGear = new System.Windows.Forms.Label();
-			this.tbWaistGear = new System.Windows.Forms.ComboBox();
-			this.cbWaistGear = new System.Windows.Forms.CheckBox();
+            this.lblBodyGear = new System.Windows.Forms.Label();
+            this.tbBodyGear = new System.Windows.Forms.ComboBox();
+            this.lblHandsGear = new System.Windows.Forms.Label();
+            this.tbHandsGear = new System.Windows.Forms.ComboBox();
+            this.lblLegsGear = new System.Windows.Forms.Label();
+            this.tbLegsGear = new System.Windows.Forms.ComboBox();
+            this.lblFeetGear = new System.Windows.Forms.Label();
+            this.tbFeetGear = new System.Windows.Forms.ComboBox();
+            this.lblLRingGear = new System.Windows.Forms.Label();
+            this.tbLRingGear = new System.Windows.Forms.ComboBox();
+            this.cbLRingGear = new System.Windows.Forms.CheckBox();
+            this.lblRRingGear = new System.Windows.Forms.Label();
+            this.tbRRingGear = new System.Windows.Forms.ComboBox();
+            this.cbRRingGear = new System.Windows.Forms.CheckBox();
+            this.lblHeadGear = new System.Windows.Forms.Label();
+            this.tbHeadGear = new System.Windows.Forms.ComboBox();
+            this.lblNeckGear = new System.Windows.Forms.Label();
+            this.tbNeckGear = new System.Windows.Forms.ComboBox();
+            this.lblWaistGear = new System.Windows.Forms.Label();
+            this.tbWaistGear = new System.Windows.Forms.ComboBox();
+            this.cbWaistGear = new System.Windows.Forms.CheckBox();
             this.tabOptionsPageAdvanced = new System.Windows.Forms.TabPage();
             this.gbOnFatigue = new System.Windows.Forms.GroupBox();
             this.cbFatiguedActionWarp = new System.Windows.Forms.CheckBox();
@@ -158,9 +158,9 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.tbFullactionOther = new System.Windows.Forms.TextBox();
             this.rbFullactionOther = new System.Windows.Forms.CheckBox();
-            this.rbFullactionWarp = new System.Windows.Forms.CheckBox();
-            this.rbFullactionLogout = new System.Windows.Forms.CheckBox();
             this.rbFullactionShutdown = new System.Windows.Forms.CheckBox();
+            this.rbFullactionLogout = new System.Windows.Forms.CheckBox();
+            this.rbFullactionWarp = new System.Windows.Forms.CheckBox();
             this.timer = new System.Windows.Forms.Timer(this.components);
             this.statusStripMain = new System.Windows.Forms.StatusStrip();
             this.lblVanaDay = new System.Windows.Forms.ToolStripStatusLabel();
@@ -328,7 +328,7 @@
             this.rtbStats.Margin = new System.Windows.Forms.Padding(0);
             this.rtbStats.Name = "rtbStats";
             this.rtbStats.ReadOnly = true;
-            this.rtbStats.Size = new System.Drawing.Size(326, 167);
+            this.rtbStats.Size = new System.Drawing.Size(390, 185);
             this.rtbStats.TabIndex = 10;
             this.rtbStats.Text = "";
             // 
@@ -344,7 +344,7 @@
             this.pnlLog.Location = new System.Drawing.Point(0, 0);
             this.pnlLog.Margin = new System.Windows.Forms.Padding(0);
             this.pnlLog.Name = "pnlLog";
-            this.pnlLog.Size = new System.Drawing.Size(478, 235);
+            this.pnlLog.Size = new System.Drawing.Size(542, 235);
             this.pnlLog.TabIndex = 34;
             // 
             // pnlWanted
@@ -394,8 +394,8 @@
             // 
             // pnlUnwanted
             // 
-            this.pnlUnwanted.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)));
+            this.pnlUnwanted.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.pnlUnwanted.Controls.Add(this.lbUnwanted);
             this.pnlUnwanted.Controls.Add(this.lblUnwantedHeader);
             this.pnlUnwanted.Location = new System.Drawing.Point(3, 106);
@@ -406,8 +406,8 @@
             // 
             // lbUnwanted
             // 
-            this.lbUnwanted.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)));
+            this.lbUnwanted.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.lbUnwanted.FormattingEnabled = true;
             this.lbUnwanted.IntegralHeight = false;
             this.lbUnwanted.Location = new System.Drawing.Point(0, 16);
@@ -457,9 +457,9 @@
             // Extras
             // 
             this.Extras.AccessibleName = "";
-            this.Extras.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.Extras.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.Extras.Controls.Add(this.tabDisplayPageChat);
             this.Extras.Controls.Add(this.tabDisplayPageStats);
             this.Extras.Controls.Add(this.tabDisplayPageInfo);
@@ -471,7 +471,7 @@
             this.Extras.Name = "Extras";
             this.Extras.Padding = new System.Drawing.Point(0, 0);
             this.Extras.SelectedIndex = 0;
-            this.Extras.Size = new System.Drawing.Size(334, 210);
+            this.Extras.Size = new System.Drawing.Size(398, 210);
             this.Extras.TabIndex = 8;
             // 
             // tabDisplayPageChat
@@ -485,7 +485,7 @@
             this.tabDisplayPageChat.Location = new System.Drawing.Point(4, 21);
             this.tabDisplayPageChat.Name = "tabDisplayPageChat";
             this.tabDisplayPageChat.Padding = new System.Windows.Forms.Padding(3);
-            this.tabDisplayPageChat.Size = new System.Drawing.Size(326, 167);
+            this.tabDisplayPageChat.Size = new System.Drawing.Size(390, 185);
             this.tabDisplayPageChat.TabIndex = 3;
             this.tabDisplayPageChat.Text = "Chat";
             // 
@@ -493,7 +493,7 @@
             // 
             this.btnStartM.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnStartM.Image = global::Fishing.Properties.Resources.icon_play;
-            this.btnStartM.Location = new System.Drawing.Point(240, -1);
+            this.btnStartM.Location = new System.Drawing.Point(304, -1);
             this.btnStartM.Name = "btnStartM";
             this.btnStartM.Size = new System.Drawing.Size(22, 22);
             this.btnStartM.TabIndex = 4;
@@ -505,7 +505,7 @@
             this.btnResize.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnResize.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.btnResize.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnResize.Location = new System.Drawing.Point(304, -1);
+            this.btnResize.Location = new System.Drawing.Point(368, -1);
             this.btnResize.Name = "btnResize";
             this.btnResize.Size = new System.Drawing.Size(22, 22);
             this.btnResize.TabIndex = 3;
@@ -515,15 +515,15 @@
             // 
             // tbChat
             // 
-            this.tbChat.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbChat.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tbChat.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.tbChat.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F);
             this.tbChat.ForeColor = System.Drawing.SystemColors.WindowText;
             this.tbChat.Location = new System.Drawing.Point(0, 0);
             this.tbChat.MaxLength = 120;
             this.tbChat.Name = "tbChat";
-            this.tbChat.Size = new System.Drawing.Size(240, 20);
+            this.tbChat.Size = new System.Drawing.Size(304, 20);
             this.tbChat.TabIndex = 2;
             this.tbChat.WordWrap = false;
             this.tbChat.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tbChat_KeyDown);
@@ -532,7 +532,7 @@
             // btnChatSend
             // 
             this.btnChatSend.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnChatSend.Location = new System.Drawing.Point(261, -1);
+            this.btnChatSend.Location = new System.Drawing.Point(325, -1);
             this.btnChatSend.Name = "btnChatSend";
             this.btnChatSend.Size = new System.Drawing.Size(44, 22);
             this.btnChatSend.TabIndex = 1;
@@ -542,9 +542,9 @@
             // 
             // tabChat
             // 
-            this.tabChat.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.tabChat.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tabChat.Controls.Add(this.tabChatPageLog);
             this.tabChat.Controls.Add(this.tabChatPageFishing);
             this.tabChat.Controls.Add(this.tabChatPageTell);
@@ -556,7 +556,7 @@
             this.tabChat.Multiline = true;
             this.tabChat.Name = "tabChat";
             this.tabChat.SelectedIndex = 0;
-            this.tabChat.Size = new System.Drawing.Size(329, 145);
+            this.tabChat.Size = new System.Drawing.Size(393, 163);
             this.tabChat.TabIndex = 0;
             this.tabChat.TabStop = false;
             this.tabChat.SelectedIndexChanged += new System.EventHandler(this.tabChat_SelectedIndexChanged);
@@ -567,7 +567,7 @@
             this.tabChatPageLog.Controls.Add(this.rtbChat);
             this.tabChatPageLog.Location = new System.Drawing.Point(4, 21);
             this.tabChatPageLog.Name = "tabChatPageLog";
-            this.tabChatPageLog.Size = new System.Drawing.Size(321, 120);
+            this.tabChatPageLog.Size = new System.Drawing.Size(385, 138);
             this.tabChatPageLog.TabIndex = 0;
             this.tabChatPageLog.Text = "Log";
             this.tabChatPageLog.UseVisualStyleBackColor = true;
@@ -583,7 +583,7 @@
             this.rtbChat.Margin = new System.Windows.Forms.Padding(0);
             this.rtbChat.Name = "rtbChat";
             this.rtbChat.ReadOnly = true;
-            this.rtbChat.Size = new System.Drawing.Size(321, 120);
+            this.rtbChat.Size = new System.Drawing.Size(385, 138);
             this.rtbChat.TabIndex = 0;
             this.rtbChat.TabStop = false;
             this.rtbChat.Text = "";
@@ -594,7 +594,7 @@
             this.tabChatPageFishing.Controls.Add(this.rtbFish);
             this.tabChatPageFishing.Location = new System.Drawing.Point(4, 22);
             this.tabChatPageFishing.Name = "tabChatPageFishing";
-            this.tabChatPageFishing.Size = new System.Drawing.Size(321, 119);
+            this.tabChatPageFishing.Size = new System.Drawing.Size(385, 137);
             this.tabChatPageFishing.TabIndex = 1;
             this.tabChatPageFishing.Text = "Fishing";
             this.tabChatPageFishing.UseVisualStyleBackColor = true;
@@ -610,7 +610,7 @@
             this.rtbFish.Margin = new System.Windows.Forms.Padding(0);
             this.rtbFish.Name = "rtbFish";
             this.rtbFish.ReadOnly = true;
-            this.rtbFish.Size = new System.Drawing.Size(321, 119);
+            this.rtbFish.Size = new System.Drawing.Size(385, 137);
             this.rtbFish.TabIndex = 1;
             this.rtbFish.TabStop = false;
             this.rtbFish.Text = "";
@@ -620,7 +620,7 @@
             this.tabChatPageTell.Controls.Add(this.rtbTell);
             this.tabChatPageTell.Location = new System.Drawing.Point(4, 22);
             this.tabChatPageTell.Name = "tabChatPageTell";
-            this.tabChatPageTell.Size = new System.Drawing.Size(321, 119);
+            this.tabChatPageTell.Size = new System.Drawing.Size(385, 137);
             this.tabChatPageTell.TabIndex = 2;
             this.tabChatPageTell.Text = "Tell";
             this.tabChatPageTell.UseVisualStyleBackColor = true;
@@ -636,7 +636,7 @@
             this.rtbTell.Margin = new System.Windows.Forms.Padding(0);
             this.rtbTell.Name = "rtbTell";
             this.rtbTell.ReadOnly = true;
-            this.rtbTell.Size = new System.Drawing.Size(321, 119);
+            this.rtbTell.Size = new System.Drawing.Size(385, 137);
             this.rtbTell.TabIndex = 1;
             this.rtbTell.TabStop = false;
             this.rtbTell.Text = "";
@@ -647,7 +647,7 @@
             this.tabChatPageParty.Controls.Add(this.rtbParty);
             this.tabChatPageParty.Location = new System.Drawing.Point(4, 22);
             this.tabChatPageParty.Name = "tabChatPageParty";
-            this.tabChatPageParty.Size = new System.Drawing.Size(321, 119);
+            this.tabChatPageParty.Size = new System.Drawing.Size(385, 137);
             this.tabChatPageParty.TabIndex = 3;
             this.tabChatPageParty.Text = "PT";
             this.tabChatPageParty.UseVisualStyleBackColor = true;
@@ -663,7 +663,7 @@
             this.rtbParty.Margin = new System.Windows.Forms.Padding(0);
             this.rtbParty.Name = "rtbParty";
             this.rtbParty.ReadOnly = true;
-            this.rtbParty.Size = new System.Drawing.Size(321, 119);
+            this.rtbParty.Size = new System.Drawing.Size(385, 137);
             this.rtbParty.TabIndex = 1;
             this.rtbParty.Text = "";
             this.rtbParty.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.rtbParty_LinkClicked);
@@ -673,7 +673,7 @@
             this.tabChatPageLS.Controls.Add(this.rtbShell);
             this.tabChatPageLS.Location = new System.Drawing.Point(4, 22);
             this.tabChatPageLS.Name = "tabChatPageLS";
-            this.tabChatPageLS.Size = new System.Drawing.Size(321, 119);
+            this.tabChatPageLS.Size = new System.Drawing.Size(385, 137);
             this.tabChatPageLS.TabIndex = 4;
             this.tabChatPageLS.Text = "LS";
             this.tabChatPageLS.UseVisualStyleBackColor = true;
@@ -689,7 +689,7 @@
             this.rtbShell.Margin = new System.Windows.Forms.Padding(0);
             this.rtbShell.Name = "rtbShell";
             this.rtbShell.ReadOnly = true;
-            this.rtbShell.Size = new System.Drawing.Size(321, 119);
+            this.rtbShell.Size = new System.Drawing.Size(385, 137);
             this.rtbShell.TabIndex = 1;
             this.rtbShell.TabStop = false;
             this.rtbShell.Text = "";
@@ -700,7 +700,7 @@
             this.tabChatPageSay.Controls.Add(this.rtbSay);
             this.tabChatPageSay.Location = new System.Drawing.Point(4, 22);
             this.tabChatPageSay.Name = "tabChatPageSay";
-            this.tabChatPageSay.Size = new System.Drawing.Size(321, 119);
+            this.tabChatPageSay.Size = new System.Drawing.Size(385, 137);
             this.tabChatPageSay.TabIndex = 5;
             this.tabChatPageSay.Text = "Say";
             this.tabChatPageSay.UseVisualStyleBackColor = true;
@@ -716,7 +716,7 @@
             this.rtbSay.Margin = new System.Windows.Forms.Padding(0);
             this.rtbSay.Name = "rtbSay";
             this.rtbSay.ReadOnly = true;
-            this.rtbSay.Size = new System.Drawing.Size(321, 119);
+            this.rtbSay.Size = new System.Drawing.Size(385, 137);
             this.rtbSay.TabIndex = 1;
             this.rtbSay.TabStop = false;
             this.rtbSay.Text = "";
@@ -729,7 +729,7 @@
             this.tabDisplayPageStats.Location = new System.Drawing.Point(4, 21);
             this.tabDisplayPageStats.Margin = new System.Windows.Forms.Padding(0);
             this.tabDisplayPageStats.Name = "tabDisplayPageStats";
-            this.tabDisplayPageStats.Size = new System.Drawing.Size(326, 167);
+            this.tabDisplayPageStats.Size = new System.Drawing.Size(390, 185);
             this.tabDisplayPageStats.TabIndex = 0;
             this.tabDisplayPageStats.Text = "Stats";
             this.tabDisplayPageStats.UseVisualStyleBackColor = true;
@@ -757,7 +757,7 @@
             this.tabDisplayPageInfo.Location = new System.Drawing.Point(4, 21);
             this.tabDisplayPageInfo.Margin = new System.Windows.Forms.Padding(0);
             this.tabDisplayPageInfo.Name = "tabDisplayPageInfo";
-            this.tabDisplayPageInfo.Size = new System.Drawing.Size(326, 167);
+            this.tabDisplayPageInfo.Size = new System.Drawing.Size(390, 185);
             this.tabDisplayPageInfo.TabIndex = 1;
             this.tabDisplayPageInfo.Text = "Info";
             // 
@@ -936,7 +936,7 @@
             this.tabDisplayPageOptions.Location = new System.Drawing.Point(4, 21);
             this.tabDisplayPageOptions.Margin = new System.Windows.Forms.Padding(0);
             this.tabDisplayPageOptions.Name = "tabDisplayPageOptions";
-            this.tabDisplayPageOptions.Size = new System.Drawing.Size(326, 185);
+            this.tabDisplayPageOptions.Size = new System.Drawing.Size(390, 185);
             this.tabDisplayPageOptions.TabIndex = 2;
             this.tabDisplayPageOptions.Text = "Options";
             // 
@@ -950,7 +950,7 @@
             this.tabOptions.Location = new System.Drawing.Point(0, 0);
             this.tabOptions.Name = "tabOptions";
             this.tabOptions.SelectedIndex = 0;
-            this.tabOptions.Size = new System.Drawing.Size(326, 185);
+            this.tabOptions.Size = new System.Drawing.Size(390, 185);
             this.tabOptions.TabIndex = 38;
             // 
             // tabOptionsPageForm
@@ -968,7 +968,7 @@
             this.tabOptionsPageForm.Controls.Add(this.cbAlwaysOnTop);
             this.tabOptionsPageForm.Location = new System.Drawing.Point(4, 21);
             this.tabOptionsPageForm.Name = "tabOptionsPageForm";
-            this.tabOptionsPageForm.Size = new System.Drawing.Size(318, 142);
+            this.tabOptionsPageForm.Size = new System.Drawing.Size(382, 160);
             this.tabOptionsPageForm.TabIndex = 3;
             this.tabOptionsPageForm.Text = "General";
             // 
@@ -1066,8 +1066,8 @@
             // 
             // numMaxNoCatch
             // 
-            this.numMaxNoCatch.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)));
+            this.numMaxNoCatch.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.numMaxNoCatch.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.numMaxNoCatch.Location = new System.Drawing.Point(83, 31);
             this.numMaxNoCatch.Margin = new System.Windows.Forms.Padding(0);
@@ -1130,8 +1130,8 @@
             // 
             // lblMaxNoCatch
             // 
-            this.lblMaxNoCatch.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)));
+            this.lblMaxNoCatch.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.lblMaxNoCatch.AutoSize = true;
             this.lblMaxNoCatch.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblMaxNoCatch.Location = new System.Drawing.Point(3, 33);
@@ -1253,10 +1253,10 @@
             this.tabOptionsPageFight.Controls.Add(this.cbQuickKill);
             this.tabOptionsPageFight.Controls.Add(this.cbAutoKill);
             this.tabOptionsPageFight.Controls.Add(this.cbExtend);
-            this.tabOptionsPageFight.Location = new System.Drawing.Point(4, 22);
+            this.tabOptionsPageFight.Location = new System.Drawing.Point(4, 21);
             this.tabOptionsPageFight.Name = "tabOptionsPageFight";
             this.tabOptionsPageFight.Padding = new System.Windows.Forms.Padding(3);
-            this.tabOptionsPageFight.Size = new System.Drawing.Size(318, 141);
+            this.tabOptionsPageFight.Size = new System.Drawing.Size(382, 160);
             this.tabOptionsPageFight.TabIndex = 2;
             this.tabOptionsPageFight.Text = "Fight";
             // 
@@ -1539,276 +1539,285 @@
             // tabOptionsPageGear
             // 
             this.tabOptionsPageGear.BackColor = System.Drawing.SystemColors.Control;
-			this.tabOptionsPageGear.Controls.Add(this.lblBodyGear);
-			this.tabOptionsPageGear.Controls.Add(this.tbBodyGear);
-			this.tabOptionsPageGear.Controls.Add(this.lblHandsGear);
-			this.tabOptionsPageGear.Controls.Add(this.tbHandsGear);
-			this.tabOptionsPageGear.Controls.Add(this.lblLegsGear);
-			this.tabOptionsPageGear.Controls.Add(this.tbLegsGear);
-			this.tabOptionsPageGear.Controls.Add(this.lblFeetGear);
-			this.tabOptionsPageGear.Controls.Add(this.tbFeetGear);
-			this.tabOptionsPageGear.Controls.Add(this.lblLRingGear);
-			this.tabOptionsPageGear.Controls.Add(this.tbLRingGear);
-			this.tabOptionsPageGear.Controls.Add(this.cbLRingGear);
-			this.tabOptionsPageGear.Controls.Add(this.lblRRingGear);
-			this.tabOptionsPageGear.Controls.Add(this.tbRRingGear);
-			this.tabOptionsPageGear.Controls.Add(this.cbRRingGear);
-			this.tabOptionsPageGear.Controls.Add(this.lblHeadGear);
-			this.tabOptionsPageGear.Controls.Add(this.tbHeadGear);
-			this.tabOptionsPageGear.Controls.Add(this.lblNeckGear);
-			this.tabOptionsPageGear.Controls.Add(this.tbNeckGear);
-			this.tabOptionsPageGear.Controls.Add(this.lblWaistGear);
-			this.tabOptionsPageGear.Controls.Add(this.tbWaistGear);
-			this.tabOptionsPageGear.Controls.Add(this.cbWaistGear);
-            this.tabOptionsPageGear.Location = new System.Drawing.Point(4, 22);
+            this.tabOptionsPageGear.Controls.Add(this.lblBodyGear);
+            this.tabOptionsPageGear.Controls.Add(this.tbBodyGear);
+            this.tabOptionsPageGear.Controls.Add(this.lblHandsGear);
+            this.tabOptionsPageGear.Controls.Add(this.tbHandsGear);
+            this.tabOptionsPageGear.Controls.Add(this.lblLegsGear);
+            this.tabOptionsPageGear.Controls.Add(this.tbLegsGear);
+            this.tabOptionsPageGear.Controls.Add(this.lblFeetGear);
+            this.tabOptionsPageGear.Controls.Add(this.tbFeetGear);
+            this.tabOptionsPageGear.Controls.Add(this.lblLRingGear);
+            this.tabOptionsPageGear.Controls.Add(this.tbLRingGear);
+            this.tabOptionsPageGear.Controls.Add(this.cbLRingGear);
+            this.tabOptionsPageGear.Controls.Add(this.lblRRingGear);
+            this.tabOptionsPageGear.Controls.Add(this.tbRRingGear);
+            this.tabOptionsPageGear.Controls.Add(this.cbRRingGear);
+            this.tabOptionsPageGear.Controls.Add(this.lblHeadGear);
+            this.tabOptionsPageGear.Controls.Add(this.tbHeadGear);
+            this.tabOptionsPageGear.Controls.Add(this.lblNeckGear);
+            this.tabOptionsPageGear.Controls.Add(this.tbNeckGear);
+            this.tabOptionsPageGear.Controls.Add(this.lblWaistGear);
+            this.tabOptionsPageGear.Controls.Add(this.tbWaistGear);
+            this.tabOptionsPageGear.Controls.Add(this.cbWaistGear);
+            this.tabOptionsPageGear.Location = new System.Drawing.Point(4, 21);
             this.tabOptionsPageGear.Name = "tabOptionsPageGear";
             this.tabOptionsPageGear.Padding = new System.Windows.Forms.Padding(3);
-            this.tabOptionsPageGear.Size = new System.Drawing.Size(318, 159);
+            this.tabOptionsPageGear.Size = new System.Drawing.Size(382, 160);
             this.tabOptionsPageGear.TabIndex = 4;
             this.tabOptionsPageGear.Text = "Gear";
             // 
             // lblBodyGear
             // 
             this.lblBodyGear.AutoSize = true;
-            this.lblBodyGear.Location = new System.Drawing.Point(7, 14);
+            this.lblBodyGear.Location = new System.Drawing.Point(6, 9);
             this.lblBodyGear.Name = "lblBodyGear";
-            this.lblBodyGear.Size = new System.Drawing.Size(46, 13);
+            this.lblBodyGear.Size = new System.Drawing.Size(31, 13);
             this.lblBodyGear.TabIndex = 1;
             this.lblBodyGear.Text = "Body";
             // 
             // tbBodyGear
             // 
-            this.tbBodyGear.Location = new System.Drawing.Point(65, 12);
+            this.tbBodyGear.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.tbBodyGear.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.tbBodyGear.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.tbBodyGear.Items.AddRange(new object[] {
+            "",
+            "Angler\'s tunica",
+            "Fisherman\'s smock",
+            "Fisherman\'s tunica"});
+            this.tbBodyGear.Location = new System.Drawing.Point(49, 7);
             this.tbBodyGear.Name = "tbBodyGear";
-            this.tbBodyGear.Size = new System.Drawing.Size(97, 18);
-			this.tbBodyGear.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.tbBodyGear.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-			this.tbBodyGear.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.tbBodyGear.Size = new System.Drawing.Size(97, 20);
             this.tbBodyGear.TabIndex = 2;
-			this.tbBodyGear.Items.Add("");
-			this.tbBodyGear.Items.Add("Angler's tunica");
-			this.tbBodyGear.Items.Add("Fisherman's smock");
-			this.tbBodyGear.Items.Add("Fisherman's tunica");
             // 
             // lblHandsGear
             // 
             this.lblHandsGear.AutoSize = true;
-            this.lblHandsGear.Location = new System.Drawing.Point(7, 35);
+            this.lblHandsGear.Location = new System.Drawing.Point(6, 33);
             this.lblHandsGear.Name = "lblHandsGear";
-            this.lblHandsGear.Size = new System.Drawing.Size(46, 13);
+            this.lblHandsGear.Size = new System.Drawing.Size(37, 13);
             this.lblHandsGear.TabIndex = 3;
             this.lblHandsGear.Text = "Hands";
             // 
             // tbHandsGear
             // 
-            this.tbHandsGear.Location = new System.Drawing.Point(65, 33);
+            this.tbHandsGear.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.tbHandsGear.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.tbHandsGear.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.tbHandsGear.Items.AddRange(new object[] {
+            "",
+            "Angler\'s gloves",
+            "Fisherman\'s gloves"});
+            this.tbHandsGear.Location = new System.Drawing.Point(49, 30);
             this.tbHandsGear.Name = "tbHandsGear";
-            this.tbHandsGear.Size = new System.Drawing.Size(97, 18);
-			this.tbHandsGear.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.tbHandsGear.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-			this.tbHandsGear.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.tbHandsGear.Size = new System.Drawing.Size(97, 20);
             this.tbHandsGear.TabIndex = 4;
-			this.tbHandsGear.Items.Add("");
-			this.tbHandsGear.Items.Add("Angler's gloves");
-			this.tbHandsGear.Items.Add("Fisherman's gloves");
             // 
             // lblLegsGear
             // 
             this.lblLegsGear.AutoSize = true;
-            this.lblLegsGear.Location = new System.Drawing.Point(7, 56);
+            this.lblLegsGear.Location = new System.Drawing.Point(6, 57);
             this.lblLegsGear.Name = "lblLegsGear";
-            this.lblLegsGear.Size = new System.Drawing.Size(46, 13);
+            this.lblLegsGear.Size = new System.Drawing.Size(30, 13);
             this.lblLegsGear.TabIndex = 5;
             this.lblLegsGear.Text = "Legs";
             // 
             // tbLegsGear
             // 
-            this.tbLegsGear.Location = new System.Drawing.Point(65, 54);
+            this.tbLegsGear.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.tbLegsGear.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.tbLegsGear.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.tbLegsGear.Items.AddRange(new object[] {
+            "",
+            "Angler\'s hose",
+            "Fisherman\'s hose"});
+            this.tbLegsGear.Location = new System.Drawing.Point(49, 54);
             this.tbLegsGear.Name = "tbLegsGear";
-            this.tbLegsGear.Size = new System.Drawing.Size(97, 18);
-			this.tbLegsGear.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.tbLegsGear.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-			this.tbLegsGear.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.tbLegsGear.Size = new System.Drawing.Size(97, 20);
             this.tbLegsGear.TabIndex = 6;
-			this.tbLegsGear.Items.Add("");
-			this.tbLegsGear.Items.Add("Angler's hose");
-			this.tbLegsGear.Items.Add("Fisherman's hose");
             // 
             // lblFeetGear
             // 
             this.lblFeetGear.AutoSize = true;
-            this.lblFeetGear.Location = new System.Drawing.Point(7, 77);
+            this.lblFeetGear.Location = new System.Drawing.Point(6, 81);
             this.lblFeetGear.Name = "lblFeetGear";
-            this.lblFeetGear.Size = new System.Drawing.Size(46, 13);
+            this.lblFeetGear.Size = new System.Drawing.Size(28, 13);
             this.lblFeetGear.TabIndex = 7;
             this.lblFeetGear.Text = "Feet";
             // 
             // tbFeetGear
             // 
-            this.tbFeetGear.Location = new System.Drawing.Point(65, 75);
+            this.tbFeetGear.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.tbFeetGear.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.tbFeetGear.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.tbFeetGear.Items.AddRange(new object[] {
+            "",
+            "Angler\'s boots",
+            "Fisherman\'s boots",
+            "Waders"});
+            this.tbFeetGear.Location = new System.Drawing.Point(49, 78);
             this.tbFeetGear.Name = "tbFeetGear";
-            this.tbFeetGear.Size = new System.Drawing.Size(97, 18);
-			this.tbFeetGear.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.tbFeetGear.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-			this.tbFeetGear.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.tbFeetGear.Size = new System.Drawing.Size(97, 20);
             this.tbFeetGear.TabIndex = 8;
-			this.tbFeetGear.Items.Add("");
-			this.tbFeetGear.Items.Add("Angler's boots");
-			this.tbFeetGear.Items.Add("Fisherman's boots");
-			this.tbFeetGear.Items.Add("Waders");
             // 
             // lblLRingGear
             // 
             this.lblLRingGear.AutoSize = true;
-            this.lblLRingGear.Location = new System.Drawing.Point(7, 108);
+            this.lblLRingGear.Location = new System.Drawing.Point(172, 80);
             this.lblLRingGear.Name = "lblLRingGear";
-            this.lblLRingGear.Size = new System.Drawing.Size(46, 13);
+            this.lblLRingGear.Size = new System.Drawing.Size(49, 13);
             this.lblLRingGear.TabIndex = 9;
             this.lblLRingGear.Text = "Left Ring";
             // 
             // tbLRingGear
             // 
-            this.tbLRingGear.Location = new System.Drawing.Point(65, 106);
+            this.tbLRingGear.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.tbLRingGear.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.tbLRingGear.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.tbLRingGear.Items.AddRange(new object[] {
+            "",
+            "Albatross ring",
+            "Pelican ring",
+            "Penguin ring",
+            "Heron ring",
+            "Noddy Ring",
+            "Puffin ring",
+            "Seagull ring"});
+            this.tbLRingGear.Location = new System.Drawing.Point(233, 77);
             this.tbLRingGear.Name = "tbLRingGear";
-            this.tbLRingGear.Size = new System.Drawing.Size(97, 18);
-			this.tbLRingGear.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.tbLRingGear.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-			this.tbLRingGear.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.tbLRingGear.Size = new System.Drawing.Size(97, 20);
             this.tbLRingGear.TabIndex = 10;
-			this.tbLRingGear.Items.Add("");
-			this.tbLRingGear.Items.Add("Albatross ring");
-			this.tbLRingGear.Items.Add("Pelican ring");
-			this.tbLRingGear.Items.Add("Penguin ring");
-			this.tbLRingGear.Items.Add("Heron ring");
-			this.tbLRingGear.Items.Add("Noddy Ring");
-			this.tbLRingGear.Items.Add("Puffin ring");
-			this.tbLRingGear.Items.Add("Seagull ring");
-			this.tbLRingGear.SelectedIndexChanged += new System.EventHandler(tbLRingGear_SelectedIndexChanged);
+            this.tbLRingGear.SelectedIndexChanged += new System.EventHandler(this.tbLRingGear_SelectedIndexChanged);
             // 
             // cbLRingGear
             // 
-			this.cbLRingGear.Enabled = false;
             this.cbLRingGear.AutoSize = true;
-            this.cbLRingGear.Location = new System.Drawing.Point(178, 108);
+            this.cbLRingGear.Enabled = false;
+            this.cbLRingGear.Location = new System.Drawing.Point(336, 79);
             this.cbLRingGear.Name = "cbLRingGear";
-            this.cbLRingGear.Size = new System.Drawing.Size(53, 17);
+            this.cbLRingGear.Size = new System.Drawing.Size(40, 17);
             this.cbLRingGear.TabIndex = 11;
-            this.cbLRingGear.Text = "Use enchantment";
+            this.cbLRingGear.Text = "AE";
             this.cbLRingGear.UseVisualStyleBackColor = true;
             // 
             // lblRRingGear
             // 
             this.lblRRingGear.AutoSize = true;
-            this.lblRRingGear.Location = new System.Drawing.Point(7, 129);
+            this.lblRRingGear.Location = new System.Drawing.Point(172, 104);
             this.lblRRingGear.Name = "lblRRingGear";
-            this.lblRRingGear.Size = new System.Drawing.Size(46, 13);
+            this.lblRRingGear.Size = new System.Drawing.Size(55, 13);
             this.lblRRingGear.TabIndex = 12;
             this.lblRRingGear.Text = "Right Ring";
             // 
             // tbRRingGear
             // 
-            this.tbRRingGear.Location = new System.Drawing.Point(65, 127);
+            this.tbRRingGear.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.tbRRingGear.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.tbRRingGear.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.tbRRingGear.Items.AddRange(new object[] {
+            "",
+            "Albatross ring",
+            "Pelican ring",
+            "Penguin ring",
+            "Heron ring",
+            "Noddy Ring",
+            "Puffin ring",
+            "Seagull ring"});
+            this.tbRRingGear.Location = new System.Drawing.Point(233, 101);
             this.tbRRingGear.Name = "tbRRingGear";
-            this.tbRRingGear.Size = new System.Drawing.Size(97, 18);
-			this.tbRRingGear.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.tbRRingGear.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-			this.tbRRingGear.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.tbRRingGear.Size = new System.Drawing.Size(97, 20);
             this.tbRRingGear.TabIndex = 13;
-			this.tbRRingGear.Items.Add("");
-			this.tbRRingGear.Items.Add("Albatross ring");
-			this.tbRRingGear.Items.Add("Pelican ring");
-			this.tbRRingGear.Items.Add("Penguin ring");
-			this.tbRRingGear.Items.Add("Heron ring");
-			this.tbRRingGear.Items.Add("Noddy Ring");
-			this.tbRRingGear.Items.Add("Puffin ring");
-			this.tbRRingGear.Items.Add("Seagull ring");
-			this.tbRRingGear.SelectedIndexChanged += new System.EventHandler(tbRRingGear_SelectedIndexChanged);
+            this.tbRRingGear.SelectedIndexChanged += new System.EventHandler(this.tbRRingGear_SelectedIndexChanged);
             // 
             // cbRRingGear
             // 
-            this.cbRRingGear.Enabled = false;
             this.cbRRingGear.AutoSize = true;
-            this.cbRRingGear.Location = new System.Drawing.Point(178, 129);
+            this.cbRRingGear.Enabled = false;
+            this.cbRRingGear.Location = new System.Drawing.Point(336, 103);
             this.cbRRingGear.Name = "cbRRingGear";
-            this.cbRRingGear.Size = new System.Drawing.Size(53, 17);
+            this.cbRRingGear.Size = new System.Drawing.Size(40, 17);
             this.cbRRingGear.TabIndex = 14;
-            this.cbRRingGear.Text = "Use enchantment";
+            this.cbRRingGear.Text = "AE";
             this.cbRRingGear.UseVisualStyleBackColor = true;
             // 
             // lblHeadGear
             // 
             this.lblHeadGear.AutoSize = true;
-            this.lblHeadGear.Location = new System.Drawing.Point(180, 14);
+            this.lblHeadGear.Location = new System.Drawing.Point(172, 9);
             this.lblHeadGear.Name = "lblHeadGear";
-            this.lblHeadGear.Size = new System.Drawing.Size(46, 13);
+            this.lblHeadGear.Size = new System.Drawing.Size(32, 13);
             this.lblHeadGear.TabIndex = 15;
             this.lblHeadGear.Text = "Head";
             // 
             // tbHeadGear
             // 
-            this.tbHeadGear.Location = new System.Drawing.Point(215, 12);
+            this.tbHeadGear.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.tbHeadGear.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.tbHeadGear.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.tbHeadGear.Items.AddRange(new object[] {
+            "",
+            "Trainee\'s spectacles"});
+            this.tbHeadGear.Location = new System.Drawing.Point(233, 6);
             this.tbHeadGear.Name = "tbHeadGear";
-            this.tbHeadGear.Size = new System.Drawing.Size(97, 18);
-			this.tbHeadGear.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.tbHeadGear.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-			this.tbHeadGear.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.tbHeadGear.Size = new System.Drawing.Size(97, 20);
             this.tbHeadGear.TabIndex = 16;
-			this.tbHeadGear.Items.Add("");
-			this.tbHeadGear.Items.Add("Trainee's spectacles");
             // 
             // lblNeckGear
             // 
             this.lblNeckGear.AutoSize = true;
-            this.lblNeckGear.Location = new System.Drawing.Point(180, 35);
+            this.lblNeckGear.Location = new System.Drawing.Point(172, 33);
             this.lblNeckGear.Name = "lblNeckGear";
-            this.lblNeckGear.Size = new System.Drawing.Size(46, 13);
+            this.lblNeckGear.Size = new System.Drawing.Size(30, 13);
             this.lblNeckGear.TabIndex = 17;
             this.lblNeckGear.Text = "Neck";
             // 
             // tbNeckGear
             // 
-            this.tbNeckGear.Location = new System.Drawing.Point(215, 33);
+            this.tbNeckGear.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.tbNeckGear.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.tbNeckGear.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.tbNeckGear.Items.AddRange(new object[] {
+            "",
+            "Fisher\'s torque"});
+            this.tbNeckGear.Location = new System.Drawing.Point(233, 30);
             this.tbNeckGear.Name = "tbNeckGear";
-            this.tbNeckGear.Size = new System.Drawing.Size(97, 18);
-			this.tbNeckGear.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.tbNeckGear.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-			this.tbNeckGear.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.tbNeckGear.Size = new System.Drawing.Size(97, 20);
             this.tbNeckGear.TabIndex = 18;
-			this.tbNeckGear.Items.Add("");
-			this.tbNeckGear.Items.Add("Fisher's torque");
             // 
             // lblWaistGear
             // 
             this.lblWaistGear.AutoSize = true;
-            this.lblWaistGear.Location = new System.Drawing.Point(180, 56);
+            this.lblWaistGear.Location = new System.Drawing.Point(172, 56);
             this.lblWaistGear.Name = "lblWaistGear";
-            this.lblWaistGear.Size = new System.Drawing.Size(46, 13);
+            this.lblWaistGear.Size = new System.Drawing.Size(32, 13);
             this.lblWaistGear.TabIndex = 19;
             this.lblWaistGear.Text = "Waist";
             // 
             // tbWaistGear
             // 
-            this.tbWaistGear.Location = new System.Drawing.Point(215, 54);
+            this.tbWaistGear.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.tbWaistGear.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.tbWaistGear.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.tbWaistGear.Items.AddRange(new object[] {
+            "",
+            "Fisher\'s Rope",
+            "Fisherman\'s Belt"});
+            this.tbWaistGear.Location = new System.Drawing.Point(233, 53);
             this.tbWaistGear.Name = "tbWaistGear";
-            this.tbWaistGear.Size = new System.Drawing.Size(97, 18);
-			this.tbWaistGear.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.tbWaistGear.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-			this.tbWaistGear.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.tbWaistGear.Size = new System.Drawing.Size(97, 20);
             this.tbWaistGear.TabIndex = 20;
-			this.tbWaistGear.Items.Add("");
-			this.tbWaistGear.Items.Add("Fisher's Rope");
-			this.tbWaistGear.Items.Add("Fisherman's Belt");
-			this.tbWaistGear.SelectedIndexChanged += new System.EventHandler(tbWaistGear_SelectedIndexChanged);
+            this.tbWaistGear.SelectedIndexChanged += new System.EventHandler(this.tbWaistGear_SelectedIndexChanged);
             // 
             // cbWaistGear
             // 
-			this.cbWaistGear.Enabled = false;
             this.cbWaistGear.AutoSize = true;
-            this.cbWaistGear.Location = new System.Drawing.Point(215, 77);
+            this.cbWaistGear.Enabled = false;
+            this.cbWaistGear.Location = new System.Drawing.Point(336, 56);
             this.cbWaistGear.Name = "cbWaistGear";
-            this.cbWaistGear.Size = new System.Drawing.Size(53, 17);
+            this.cbWaistGear.Size = new System.Drawing.Size(40, 17);
             this.cbWaistGear.TabIndex = 21;
-            this.cbWaistGear.Text = "Use enchantment";
+            this.cbWaistGear.Text = "AE";
             this.cbWaistGear.UseVisualStyleBackColor = true;
             // 
             // tabOptionsPageAdvanced
@@ -1817,17 +1826,17 @@
             this.tabOptionsPageAdvanced.Controls.Add(this.gbOnFatigue);
             this.tabOptionsPageAdvanced.Controls.Add(this.gbGMDetect);
             this.tabOptionsPageAdvanced.Controls.Add(this.groupBox1);
-            this.tabOptionsPageAdvanced.Location = new System.Drawing.Point(4, 22);
+            this.tabOptionsPageAdvanced.Location = new System.Drawing.Point(4, 21);
             this.tabOptionsPageAdvanced.Name = "tabOptionsPageAdvanced";
             this.tabOptionsPageAdvanced.Padding = new System.Windows.Forms.Padding(3);
-            this.tabOptionsPageAdvanced.Size = new System.Drawing.Size(318, 159);
+            this.tabOptionsPageAdvanced.Size = new System.Drawing.Size(382, 160);
             this.tabOptionsPageAdvanced.TabIndex = 5;
             this.tabOptionsPageAdvanced.Text = "Other";
             // 
             // gbOnFatigue
             // 
-            this.gbOnFatigue.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)));
+            this.gbOnFatigue.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.gbOnFatigue.Controls.Add(this.cbFatiguedActionWarp);
             this.gbOnFatigue.Controls.Add(this.cbFatiguedActionLogout);
             this.gbOnFatigue.Controls.Add(this.cbFatiguedActionShutdown);
@@ -1843,7 +1852,7 @@
             this.cbFatiguedActionWarp.AutoSize = true;
             this.cbFatiguedActionWarp.Location = new System.Drawing.Point(11, 19);
             this.cbFatiguedActionWarp.Name = "cbFatiguedActionWarp";
-            this.cbFatiguedActionWarp.Size = new System.Drawing.Size(53, 17);
+            this.cbFatiguedActionWarp.Size = new System.Drawing.Size(50, 17);
             this.cbFatiguedActionWarp.TabIndex = 1;
             this.cbFatiguedActionWarp.Text = "Warp";
             this.cbFatiguedActionWarp.UseVisualStyleBackColor = true;
@@ -1853,7 +1862,7 @@
             this.cbFatiguedActionLogout.AutoSize = true;
             this.cbFatiguedActionLogout.Location = new System.Drawing.Point(11, 37);
             this.cbFatiguedActionLogout.Name = "cbFatiguedActionLogout";
-            this.cbFatiguedActionLogout.Size = new System.Drawing.Size(63, 17);
+            this.cbFatiguedActionLogout.Size = new System.Drawing.Size(59, 17);
             this.cbFatiguedActionLogout.TabIndex = 2;
             this.cbFatiguedActionLogout.Text = "Logout";
             this.cbFatiguedActionLogout.UseVisualStyleBackColor = true;
@@ -1864,7 +1873,7 @@
             this.cbFatiguedActionShutdown.AutoSize = true;
             this.cbFatiguedActionShutdown.Location = new System.Drawing.Point(11, 55);
             this.cbFatiguedActionShutdown.Name = "cbFatiguedActionShutdown";
-            this.cbFatiguedActionShutdown.Size = new System.Drawing.Size(75, 17);
+            this.cbFatiguedActionShutdown.Size = new System.Drawing.Size(74, 17);
             this.cbFatiguedActionShutdown.TabIndex = 3;
             this.cbFatiguedActionShutdown.Text = "Shutdown";
             this.cbFatiguedActionShutdown.UseVisualStyleBackColor = true;
@@ -1872,8 +1881,8 @@
             // 
             // gbGMDetect
             // 
-            this.gbGMDetect.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)));
+            this.gbGMDetect.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.gbGMDetect.Controls.Add(this.cbGMdetectAutostop);
             this.gbGMDetect.Location = new System.Drawing.Point(127, 6);
             this.gbGMDetect.Name = "gbGMDetect";
@@ -1896,8 +1905,8 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)));
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.groupBox1.Controls.Add(this.tbFullactionOther);
             this.groupBox1.Controls.Add(this.rbFullactionOther);
             this.groupBox1.Controls.Add(this.rbFullactionShutdown);
@@ -1923,43 +1932,43 @@
             this.rbFullactionOther.AutoSize = true;
             this.rbFullactionOther.Location = new System.Drawing.Point(11, 19);
             this.rbFullactionOther.Name = "rbFullactionOther";
-            this.rbFullactionOther.Size = new System.Drawing.Size(63, 17);
+            this.rbFullactionOther.Size = new System.Drawing.Size(73, 17);
             this.rbFullactionOther.TabIndex = 3;
             this.rbFullactionOther.Text = "Command";
             this.rbFullactionOther.UseVisualStyleBackColor = true;
             this.rbFullactionOther.CheckedChanged += new System.EventHandler(this.rbFullactionOther_CheckedChanged);
-            // 
-            // rbFullactionWarp
-            // 
-            this.rbFullactionWarp.AutoSize = true;
-            this.rbFullactionWarp.Location = new System.Drawing.Point(11, 58);
-            this.rbFullactionWarp.Name = "rbFullactionWarp";
-            this.rbFullactionWarp.Size = new System.Drawing.Size(49, 17);
-            this.rbFullactionWarp.TabIndex = 2;
-            this.rbFullactionWarp.Text = "Warp";
-            this.rbFullactionWarp.UseVisualStyleBackColor = true;
-            // 
-            // rbFullactionLogout
-            // 
-            this.rbFullactionLogout.AutoSize = true;
-            this.rbFullactionLogout.Location = new System.Drawing.Point(11, 76);
-            this.rbFullactionLogout.Name = "rbFullactionLogout";
-            this.rbFullactionLogout.Size = new System.Drawing.Size(58, 17);
-            this.rbFullactionLogout.TabIndex = 1;
-            this.rbFullactionLogout.Text = "Logout";
-            this.rbFullactionLogout.UseVisualStyleBackColor = true;
-            this.rbFullactionLogout.CheckedChanged += new System.EventHandler(this.rbFullactionLogout_CheckedChanged);
             // 
             // rbFullactionShutdown
             // 
             this.rbFullactionShutdown.AutoSize = true;
             this.rbFullactionShutdown.Location = new System.Drawing.Point(11, 94);
             this.rbFullactionShutdown.Name = "rbFullactionShutdown";
-            this.rbFullactionShutdown.Size = new System.Drawing.Size(63, 17);
+            this.rbFullactionShutdown.Size = new System.Drawing.Size(74, 17);
             this.rbFullactionShutdown.TabIndex = 1;
             this.rbFullactionShutdown.Text = "Shutdown";
             this.rbFullactionShutdown.UseVisualStyleBackColor = true;
             this.rbFullactionShutdown.CheckedChanged += new System.EventHandler(this.rbFullactionShutdown_CheckedChanged);
+            // 
+            // rbFullactionLogout
+            // 
+            this.rbFullactionLogout.AutoSize = true;
+            this.rbFullactionLogout.Location = new System.Drawing.Point(11, 76);
+            this.rbFullactionLogout.Name = "rbFullactionLogout";
+            this.rbFullactionLogout.Size = new System.Drawing.Size(59, 17);
+            this.rbFullactionLogout.TabIndex = 1;
+            this.rbFullactionLogout.Text = "Logout";
+            this.rbFullactionLogout.UseVisualStyleBackColor = true;
+            this.rbFullactionLogout.CheckedChanged += new System.EventHandler(this.rbFullactionLogout_CheckedChanged);
+            // 
+            // rbFullactionWarp
+            // 
+            this.rbFullactionWarp.AutoSize = true;
+            this.rbFullactionWarp.Location = new System.Drawing.Point(11, 58);
+            this.rbFullactionWarp.Name = "rbFullactionWarp";
+            this.rbFullactionWarp.Size = new System.Drawing.Size(50, 17);
+            this.rbFullactionWarp.TabIndex = 2;
+            this.rbFullactionWarp.Text = "Warp";
+            this.rbFullactionWarp.UseVisualStyleBackColor = true;
             // 
             // timer
             // 
@@ -1975,9 +1984,9 @@
             this.lblStatus,
             this.lblHP,
             this.progressBarST});
-            this.statusStripMain.Location = new System.Drawing.Point(0, 192);
+            this.statusStripMain.Location = new System.Drawing.Point(0, 210);
             this.statusStripMain.Name = "statusStripMain";
-            this.statusStripMain.Size = new System.Drawing.Size(478, 25);
+            this.statusStripMain.Size = new System.Drawing.Size(542, 25);
             this.statusStripMain.TabIndex = 35;
             this.statusStripMain.Text = "statusStrip1";
             // 
@@ -2011,7 +2020,7 @@
             // 
             this.lblStatus.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblStatus.Name = "lblStatus";
-            this.lblStatus.Size = new System.Drawing.Size(215, 20);
+            this.lblStatus.Size = new System.Drawing.Size(279, 20);
             this.lblStatus.Spring = true;
             this.lblStatus.Text = "Idle.";
             this.lblStatus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -2088,7 +2097,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.numFakeSmallIntervalHigh)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numQuickKill)).EndInit();
             this.tabOptionsPageGear.ResumeLayout(false);
+            this.tabOptionsPageGear.PerformLayout();
             this.tabOptionsPageAdvanced.ResumeLayout(false);
+            this.gbOnFatigue.ResumeLayout(false);
+            this.gbOnFatigue.PerformLayout();
             this.gbGMDetect.ResumeLayout(false);
             this.gbGMDetect.PerformLayout();
             this.groupBox1.ResumeLayout(false);
