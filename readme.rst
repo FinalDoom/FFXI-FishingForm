@@ -106,6 +106,11 @@ Other
 Changes
 -------
 
+1.6.7.19
+--------
+- Fixed tab order
+- Slightly redone gear options page
+
 1.6.7.18
 --------
 - Fixed ring equipping
