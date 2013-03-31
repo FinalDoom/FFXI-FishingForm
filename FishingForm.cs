@@ -741,29 +741,26 @@ namespace Fishing
 					Stop(false, "Inventory is full!");
 				}
 			}
-            if (_FFACE.Item.InventoryCount == _FFACE.Item.InventoryMax
-					&& rbFullactionOther.Checked)
+            if (_FFACE.Item.InventoryCount == _FFACE.Item.InventoryMax)
             {
-				SetStatus("Inventory is full: Warping");
-				_FFACE.Windower.SendString("/ma \"Warp\"");
-				Thread.Sleep(30000);
-			}
-            if (_FFACE.Item.InventoryCount == _FFACE.Item.InventoryMax
-					&& rbFullactionOther.Checked)
-            {
-				SetStatus("Inventory is full: Logging out");
-				_FFACE.Windower.SendString("/logout");
-				Thread.Sleep(30000);
-			}
-			else if (_FFACE.Item.InventoryCount == _FFACE.Item.InventoryMax
-					&& rbFullactionShutdown.Checked)
-			{
-				SetStatus("Inventory is full: Shutting down");
-				_FFACE.Windower.SendString("/shutdown");
-				Thread.Sleep(30000);
-            }
-			if (_FFACE.Item.InventoryCount == _FFACE.Item.InventoryMax)
-			{
+                if (rbFullactionWarp.Checked)
+                {
+                    SetStatus("Inventory is full: Warping");
+                    _FFACE.Windower.SendString("/ma \"Warp\"");
+                    Thread.Sleep(30000);
+                }
+                if (rbFullactionLogout.Checked)
+                {
+                    SetStatus("Inventory is full: Logging out");
+                    _FFACE.Windower.SendString("/logout");
+                    Thread.Sleep(30000);
+                }
+			    else if (rbFullactionShutdown.Checked)
+			    {
+				    SetStatus("Inventory is full: Shutting down");
+				    _FFACE.Windower.SendString("/shutdown");
+				    Thread.Sleep(30000);
+                }
 				Stop(false, "Inventory is full!");
 				return;
 			}
@@ -1070,10 +1067,6 @@ namespace Fishing
                     SetStatus("Satchel is full");
 					Thread.Sleep(750);
                 }
-            }
-            if (_FFACE.Item.InventoryCount == _FFACE.Item.InventoryMax)
-            {
-                Stop(false, "Inventory is full!");
             }
         }
 
