@@ -205,7 +205,14 @@ namespace Fishing
                 }
                 catch (DllNotFoundException)   //occurs when FFACE.dll cannot be found
                 {
-                    MessageBox.Show("FFACE.dll was not found in the program's directory!", "Error");
+                    if (File.Exists(Application.StartupPath + "\\FFACE.dll"))
+                    {
+                        MessageBox.Show("Please run FishingForm.exe as an Administrator.", "Error");
+                    }
+                    else
+                    {
+                        MessageBox.Show("FFACE.dll was not found in the program's directory!", "Error");
+                    }
                     Environment.Exit(0);
                 }
                 catch (EntryPointNotFoundException)   //occurs when 'CreateInstance' entry point in FFACE.dll cannot be found
