@@ -1849,7 +1849,7 @@
             this.gbExhaustedBait.Size = new System.Drawing.Size(113, 78);
             this.gbExhaustedBait.TabIndex = 3;
             this.gbExhaustedBait.TabStop = false;
-            this.gbExhaustedBait.Text = "On Exhausted Bait";
+            this.gbExhaustedBait.Text = "On Bait Exhausted";
             // 
             // cbBaitActionWarp
             // 

@@ -116,6 +116,9 @@ namespace Fishing
 			toolTip.SetToolTip(cbRRingGear, "Automatically use right ring enchantment.");
 			toolTip.SetToolTip(cbWaistGear, "Automatically use belt enchantment.");
             toolTip.SetToolTip(cbGMdetectAutostop, "Issue STOP on detection of a GM.");
+            toolTip.SetToolTip(cbBaitActionShutdown, "Shut down when out of bait.");
+            toolTip.SetToolTip(cbBaitActionLogout, "Log out when out of bait.");
+            toolTip.SetToolTip(cbBaitActionWarp, "Warp when out of bait.");
 			toolTip.SetToolTip(cbFatiguedActionShutdown, "Shut down when catch limit is reached.");
 			toolTip.SetToolTip(cbFatiguedActionLogout, "Log out when catch limit is reached.");
 			toolTip.SetToolTip(cbFatiguedActionWarp, "Warp when catch limit is reached.");
@@ -322,7 +325,7 @@ namespace Fishing
 
                 if (!IsRodBaitEquipped())
                 {
-                    Stop(false, "Out of bait.");
+                    OutOfBait("Out of bait.");
                     return;
                 }
             }
@@ -1524,27 +1527,49 @@ namespace Fishing
 
         delegate void VoidBoolStrDelegate(bool param1, string param2);
 
-		private void Fatigued(string message)
-		{
-			if (cbFatiguedActionWarp.Checked)
-			{
-				_FFACE.Windower.SendString("/ma \"Warp\" <me>");
-				SetStatus("Fatigue limit reached: Warping");
-				Thread.Sleep(30000);
-			}
-			if (cbFatiguedActionShutdown.Checked)
-			{
-				_FFACE.Windower.SendString("/shutdown");
-				SetStatus("Fatigue limit reached: Shutting down");
-			}
-			else if (cbFatiguedActionLogout.Checked)
-			{
-				_FFACE.Windower.SendString("/logout");
-				SetStatus("Fatigue limit reached: Logging out");
-			}
-			Thread.Sleep(33000);
-			Stop(false, message);
-		}
+        private void OutOfBait(string message)
+        {
+            if (cbBaitActionWarp.Checked)
+            {
+                _FFACE.Windower.SendString("/ma \"Warp\" <me>");
+                SetStatus("Fatigue limit reached: Warping");
+                Thread.Sleep(30000);
+            }
+            if (cbBaitActionShutdown.Checked)
+            {
+                _FFACE.Windower.SendString("/shutdown");
+                SetStatus("Fatigue limit reached: Shutting down");
+            }
+            else if (cbBaitActionLogout.Checked)
+            {
+                _FFACE.Windower.SendString("/logout");
+                SetStatus("Fatigue limit reached: Logging out");
+            }
+            Thread.Sleep(33000);
+            Stop(false, message);
+        }
+
+        private void Fatigued(string message)
+        {
+            if (cbFatiguedActionWarp.Checked)
+            {
+                _FFACE.Windower.SendString("/ma \"Warp\" <me>");
+                SetStatus("Fatigue limit reached: Warping");
+                Thread.Sleep(30000);
+            }
+            if (cbFatiguedActionShutdown.Checked)
+            {
+                _FFACE.Windower.SendString("/shutdown");
+                SetStatus("Fatigue limit reached: Shutting down");
+            }
+            else if (cbFatiguedActionLogout.Checked)
+            {
+                _FFACE.Windower.SendString("/logout");
+                SetStatus("Fatigue limit reached: Logging out");
+            }
+            Thread.Sleep(33000);
+            Stop(false, message);
+        }
 
         private void Stop(bool zoned, string status)
         {
@@ -2631,6 +2656,9 @@ namespace Fishing
 				Settings.Default.WaistGear = tbWaistGear.SelectedIndex = 0;
 				Settings.Default.WaistEnchantment = cbWaistGear.Checked = true;
                 Settings.Default.GMAutoStop = cbGMdetectAutostop.Checked = true;
+                Settings.Default.BaitShutdown = cbBaitActionShutdown.Checked = false;
+                Settings.Default.BaitLogout = cbBaitActionLogout.Checked = false;
+                Settings.Default.BaitWarp = cbBaitActionWarp.Checked = false;
 				Settings.Default.FatiguedShutdown = cbFatiguedActionShutdown.Checked = false;
 				Settings.Default.FatiguedLogout = cbFatiguedActionLogout.Checked = false;
 				Settings.Default.FatiguedWarp = cbFatiguedActionWarp.Checked = false;
@@ -2696,6 +2724,9 @@ namespace Fishing
 				Settings.Default.WaistGear = tbWaistGear.SelectedIndex;
 				Settings.Default.WaistEnchantment = cbWaistGear.Checked;
                 Settings.Default.GMAutoStop = cbGMdetectAutostop.Checked;
+                Settings.Default.BaitShutdown = cbBaitActionShutdown.Checked;
+                Settings.Default.BaitLogout = cbBaitActionLogout.Checked;
+                Settings.Default.BaitWarp = cbBaitActionWarp.Checked;
 				Settings.Default.FatiguedShutdown = cbFatiguedActionShutdown.Checked;
 				Settings.Default.FatiguedLogout = cbFatiguedActionLogout.Checked;
 				Settings.Default.FatiguedWarp = cbFatiguedActionWarp.Checked;
@@ -2765,6 +2796,9 @@ namespace Fishing
 			tbWaistGear.SelectedIndex = Settings.Default.WaistGear;
 			cbWaistGear.Checked = Settings.Default.WaistEnchantment;
             cbGMdetectAutostop.Checked = Settings.Default.GMAutoStop;
+            cbBaitActionShutdown.Checked = Settings.Default.BaitShutdown;
+            cbBaitActionLogout.Checked = Settings.Default.BaitLogout;
+            cbBaitActionWarp.Checked = Settings.Default.BaitWarp;
 			cbFatiguedActionShutdown.Checked = Settings.Default.FatiguedShutdown;
 			cbFatiguedActionLogout.Checked = Settings.Default.FatiguedLogout;
 			cbFatiguedActionWarp.Checked = Settings.Default.FatiguedWarp;
