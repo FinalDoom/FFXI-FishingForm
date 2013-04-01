@@ -99,12 +99,29 @@ Gear
 Other
 -----
 - Move items when inventory is full using itemizer or ItemTools
-- Warp then optionally log out or shut down when inventory is full or when fatigued
+- Warp then optionally log out or shut down when inventory is full, when fatigued, or when out of bait
 - GM Detection
 
 -------
 Changes
 -------
+
+1.6.7.23
+--------
+- Added warp/logout-shutdown on out of bait
+
+1.6.7.22
+--------
+- Error message when not run as admin is more descriptive
+
+1.6.7.21
+--------
+- Rings should auto-cast somewhat intelligently
+- Warp fixed for anyone not using spellcast
+
+1.6.7.20
+--------
+- Fixed warp, etc. on full inventory
 
 1.6.7.19
 --------
