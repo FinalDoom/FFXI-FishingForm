@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
@@ -180,6 +181,10 @@ namespace Fishing
 					_Player = null;
                     FileVersionInfo ver = FileVersionInfo.GetVersionInfo("fishing.exe");
                     this.Text = string.Format("FishingForm v{0}-mC-FD", ver.FileVersion);
+                    btnSaveCharacterSettings.Enabled = false;
+                    btnCharacterSettingsReset.Enabled = false;
+                    btnSaveCharacterSettings.Text = "For Character";
+                    btnCharacterSettingsReset.Text = "From Character's";
 					_Process = null;
 					return;
 				}
@@ -190,6 +195,11 @@ namespace Fishing
 					_Player = new FFACE.PlayerTools(_FFACE._InstanceID);
                     FileVersionInfo ver = FileVersionInfo.GetVersionInfo("fishing.exe");
                     this.Text = string.Format("FishingForm v{0}-mC-FD  ({1})", ver.FileVersion, ChooseProcess.ThisProcess.POLName);
+                    btnSaveCharacterSettings.Enabled = true;
+                    btnCharacterSettingsReset.Enabled = true;
+                    characterName = ChooseProcess.ThisProcess.POLName.Split(new String[] { " " }, StringSplitOptions.RemoveEmptyEntries)[0];
+                    btnSaveCharacterSettings.Text = "For " + characterName;
+                    btnCharacterSettingsReset.Text = "From " + characterName + "'s";
 
                     //windower path
                     //_FFACE = new FFACE((int)PID);
@@ -2637,7 +2647,7 @@ namespace Fishing
 
         private void btnSettingsReset_Click(object sender, EventArgs e)
         {
-            string message = "Do you really want to reset the settings?";
+            string message = "Do you really want to reset the settings to default?";
             string caption = "Reset Option Settings";
             MessageBoxButtons buttons = MessageBoxButtons.YesNo;
             DialogResult result = MessageBox.Show(message, caption, buttons);
@@ -2656,12 +2666,12 @@ namespace Fishing
                 Settings.Default.Opacity = trackOpacity.Value = 10;
                 this.Opacity = trackOpacity.Value;
                 Settings.Default.FakeLarge = cbReleaseLarge.Checked = false;
-                Settings.Default.FakeLargeMax = 100;
-                Settings.Default.FakeLargeMin = 90;
+                Settings.Default.FakeLargeMax = numFakeLargeIntervalHigh.Value = 100;
+                Settings.Default.FakeLargeMin = numFakeLargeIntervalLow.Value = 90;
                 Settings.Default.FakeSmall = cbReleaseSmall.Checked = false;
-                Settings.Default.FakeSmallMax = 75;
-                Settings.Default.FakeSmallMin = 50;
-                Settings.Default.MaxNoCatch = 20;
+                Settings.Default.FakeSmallMax = numFakeSmallIntervalHigh.Value = 75;
+                Settings.Default.FakeSmallMin = numFakeSmallIntervalLow.Value = 50;
+                Settings.Default.MaxNoCatch = numMaxCatch.Value = 20;
                 Settings.Default.ReactionMax = numReactionHigh.Value = 2.0M;
                 Settings.Default.ReactionMin = numReactionLow.Value = 0.5M;
                 Settings.Default.Reaction = cbReaction.Checked = false;
@@ -2715,10 +2725,83 @@ namespace Fishing
 
         } // @ private void btnSettingsReset_Click
 
+        private void btnCharacterSettingsReset_Click(object sender, EventArgs e)
+        {
+            string characterName = _Process.POLName.Split(new String[] { " " }, StringSplitOptions.RemoveEmptyEntries)[0];
+            string message = "Do you really want to reset the settings to " + characterName + "'s saved values?";
+            string caption = "Reset Option Settings";
+            MessageBoxButtons buttons = MessageBoxButtons.YesNo;
+            DialogResult result = MessageBox.Show(message, caption, buttons);
+
+            if (DialogResult.Yes == result)
+            {
+                Settings characterSettings = Settings.Default.GetCharacterSettings(characterName);
+                cbAlwaysOnTop.Checked = (bool)characterSettings.AlwaysOnTop;
+                cbMaxCatch.Checked = (bool)characterSettings.MaxCatch;
+                numMaxCatch.Value = (decimal)characterSettings.MaxCatchValue;
+                numCastIntervalHigh.Value = (decimal)characterSettings.CastMax;
+                numCastIntervalLow.Value = (decimal)characterSettings.CastMin;
+                cbCatchUnknown.Checked = (bool)characterSettings.CatchUnknown;
+                trackOpacity.Value = (int)characterSettings.Opacity;
+                this.Opacity = trackOpacity.Value;
+                cbReleaseLarge.Checked = (bool)characterSettings.FakeLarge;
+                numFakeLargeIntervalHigh.Value = (decimal)characterSettings.FakeLargeMax;
+                numFakeLargeIntervalLow.Value = (decimal)characterSettings.FakeLargeMin;
+                cbReleaseSmall.Checked = (bool)characterSettings.FakeSmall;
+                numFakeSmallIntervalHigh.Value = (decimal)characterSettings.FakeSmallMax;
+                numFakeSmallIntervalLow.Value = (decimal)characterSettings.FakeSmallMin;
+                numMaxCatch.Value = (decimal)characterSettings.MaxNoCatch;
+                numReactionHigh.Value = (decimal)characterSettings.ReactionMax;
+                numReactionLow.Value = (decimal)characterSettings.ReactionMin;
+                cbReaction.Checked = (bool)characterSettings.Reaction;
+                cbAutoKill.Checked = (bool)characterSettings.AutoKill;
+                cbExtend.Checked = (bool)characterSettings.Extend;
+                cbQuickKill.Checked = (bool)characterSettings.QuickKill;
+                numQuickKill.Value = (decimal)characterSettings.QuickKillValue;
+                tbFullactionOther.Text = (string)characterSettings.FullActionOtherText;
+                rbFullactionOther.Checked = (bool)characterSettings.FullActionOther;
+                rbFullactionWarp.Checked = (bool)characterSettings.FullActionWarp;
+                rbFullactionLogout.Checked = (bool)characterSettings.FullActionLogout;
+                rbFullactionShutdown.Checked = (bool)characterSettings.FullActionShutdown;
+                cbIgnoreItem.Checked = (bool)characterSettings.IgnoreItems;
+                cbIgnoreMonster.Checked = (bool)characterSettings.IgnoreMonsters;
+                cbIgnoreSmallFish.Checked = (bool)characterSettings.IgnoreSmallFish;
+                cbIgnoreLargeFish.Checked = (bool)characterSettings.IgnoreLargeFish;
+                tbBodyGear.SelectedIndex = (int)characterSettings.BodyGear;
+                tbHandsGear.SelectedIndex = (int)characterSettings.HandsGear;
+                tbLegsGear.SelectedIndex = (int)characterSettings.LegsGear;
+                tbFeetGear.SelectedIndex = (int)characterSettings.FeetGear;
+                tbLRingGear.SelectedIndex = (int)characterSettings.LRingGear;
+                cbLRingGear.Checked = (bool)characterSettings.LRingEnchantment;
+                tbRRingGear.SelectedIndex = (int)characterSettings.RRingGear;
+                cbRRingGear.Checked = (bool)characterSettings.RRingEnchantment;
+                tbHeadGear.SelectedIndex = (int)characterSettings.HeadGear;
+                tbNeckGear.SelectedIndex = (int)characterSettings.NeckGear;
+                tbWaistGear.SelectedIndex = (int)characterSettings.WaistGear;
+                cbWaistGear.Checked = (bool)characterSettings.WaistEnchantment;
+                cbGMdetectAutostop.Checked = (bool)characterSettings.GMAutoStop;
+                cbBaitActionShutdown.Checked = (bool)characterSettings.BaitShutdown;
+                cbBaitActionLogout.Checked = (bool)characterSettings.BaitLogout;
+                cbBaitActionWarp.Checked = (bool)characterSettings.BaitWarp;
+                cbFatiguedActionShutdown.Checked = (bool)characterSettings.FatiguedShutdown;
+                cbFatiguedActionLogout.Checked = (bool)characterSettings.FatiguedLogout;
+                cbFatiguedActionWarp.Checked = (bool)characterSettings.FatiguedWarp;
+                cbStopSound.Checked = (bool)characterSettings.StopSound;
+                cbTellDetect.Checked = (bool)characterSettings.TellDetect;
+                cbFishHP.Checked = (bool)characterSettings.ShowFishHP;
+                cbEnableItemizerItemTools.Checked = (bool)characterSettings.ItemizerItemTools;
+                cbSneakFishing.Checked = (bool)characterSettings.SneakFishing;
+
+                SetNoCatch((int)characterSettings.MaxNoCatch);
+                this.TopMost = true;
+            }
+
+        } // @ private void btnCharacterSettingsReset_Click
+
         private void btnSettingsSave_Click(object sender, EventArgs e)
         {
-            string message = "Do you really want to save the current settings?";
-            string caption = "Save Option Settings";
+            string message = "Do you really want to save the current settings as default?";
+            string caption = "Save Default Option Settings";
             MessageBoxButtons buttons = MessageBoxButtons.YesNo;
             DialogResult result = MessageBox.Show(message, caption, buttons);
 
@@ -2792,6 +2875,76 @@ namespace Fishing
             }
 
         } // @ private void btnSettingsSave_Click
+
+        private void btnSaveCharacterSettings_Click(object sender, EventArgs e)
+        {
+            string characterName = _Process.POLName.Split(new String[] { " " }, StringSplitOptions.RemoveEmptyEntries)[0];
+            string message = "Do you really want to save the current settings for " + characterName + "?";
+            string caption = "Save " + characterName + "'s Option Settings";
+            MessageBoxButtons buttons = MessageBoxButtons.YesNo;
+            DialogResult result = MessageBox.Show(message, caption, buttons);
+
+            if (DialogResult.Yes == result)
+            {
+                Settings characterSettings = Settings.Default.GetCharacterSettings(characterName);
+                characterSettings.AlwaysOnTop = cbAlwaysOnTop.Checked;
+                characterSettings.MaxCatch = cbMaxCatch.Checked;
+                characterSettings.MaxCatchValue = numMaxCatch.Value;
+                characterSettings.CastMax = numCastIntervalHigh.Value;
+                characterSettings.CastMin = numCastIntervalLow.Value;
+                characterSettings.CatchUnknown = cbCatchUnknown.Checked;
+                characterSettings.Opacity = trackOpacity.Value;
+                characterSettings.FakeLarge = cbReleaseLarge.Checked;
+                characterSettings.FakeLargeMax = numFakeLargeIntervalHigh.Value;
+                characterSettings.FakeLargeMin = numFakeLargeIntervalLow.Value;
+                characterSettings.FakeSmall = cbReleaseSmall.Checked;
+                characterSettings.FakeSmallMax = numFakeSmallIntervalHigh.Value;
+                characterSettings.FakeSmallMin = numFakeSmallIntervalLow.Value;
+                characterSettings.MaxNoCatch = numMaxNoCatch.Value;
+                characterSettings.Reaction = cbReaction.Checked;
+                characterSettings.ReactionMax = numReactionHigh.Value;
+                characterSettings.ReactionMin = numReactionLow.Value;
+                characterSettings.FullActionOtherText = tbFullactionOther.Text;
+                characterSettings.FullActionOther = rbFullactionOther.Checked;
+                characterSettings.FullActionWarp = rbFullactionWarp.Checked;
+                characterSettings.FullActionLogout = rbFullactionLogout.Checked;
+                characterSettings.FullActionShutdown = rbFullactionShutdown.Checked;
+                characterSettings.BodyGear = tbBodyGear.SelectedIndex;
+                characterSettings.HandsGear = tbHandsGear.SelectedIndex;
+                characterSettings.LegsGear = tbLegsGear.SelectedIndex;
+                characterSettings.FeetGear = tbFeetGear.SelectedIndex;
+                characterSettings.LRingGear = tbLRingGear.SelectedIndex;
+                characterSettings.LRingEnchantment = cbLRingGear.Checked;
+                characterSettings.RRingGear = tbRRingGear.SelectedIndex;
+                characterSettings.RRingEnchantment = cbRRingGear.Checked;
+                characterSettings.HeadGear = tbHeadGear.SelectedIndex;
+                characterSettings.NeckGear = tbNeckGear.SelectedIndex;
+                characterSettings.WaistGear = tbWaistGear.SelectedIndex;
+                characterSettings.WaistEnchantment = cbWaistGear.Checked;
+                characterSettings.GMAutoStop = cbGMdetectAutostop.Checked;
+                characterSettings.BaitShutdown = cbBaitActionShutdown.Checked;
+                characterSettings.BaitLogout = cbBaitActionLogout.Checked;
+                characterSettings.BaitWarp = cbBaitActionWarp.Checked;
+                characterSettings.FatiguedShutdown = cbFatiguedActionShutdown.Checked;
+                characterSettings.FatiguedLogout = cbFatiguedActionLogout.Checked;
+                characterSettings.FatiguedWarp = cbFatiguedActionWarp.Checked;
+                characterSettings.StopSound = cbStopSound.Checked;
+                characterSettings.AutoKill = cbAutoKill.Checked;
+                characterSettings.Extend = cbExtend.Checked;
+                characterSettings.QuickKill = cbQuickKill.Checked;
+                characterSettings.QuickKillValue = numQuickKill.Value;
+                characterSettings.IgnoreItems = cbIgnoreItem.Checked;
+                characterSettings.IgnoreMonsters = cbIgnoreMonster.Checked;
+                characterSettings.IgnoreSmallFish = cbIgnoreSmallFish.Checked;
+                characterSettings.IgnoreLargeFish = cbIgnoreLargeFish.Checked;
+                characterSettings.TellDetect = cbTellDetect.Checked;
+                characterSettings.ShowFishHP = cbFishHP.Checked;
+                characterSettings.ItemizerItemTools = cbEnableItemizerItemTools.Checked;
+                characterSettings.SneakFishing = cbSneakFishing.Checked;
+
+                Settings.Default.Save();
+            }
+        } // @private void btnSaveCharacterSettings_Click
 
         private void FishingForm_Load(object sender, EventArgs e)
         {

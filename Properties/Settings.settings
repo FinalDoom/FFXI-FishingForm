@@ -170,5 +170,8 @@
     <Setting Name="BaitShutdown" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
+    <Setting Name="CharacterSettings" Type="System.String" Scope="User">
+      <Value Profile="(Default)">poop</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
