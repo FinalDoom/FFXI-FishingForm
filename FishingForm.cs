@@ -1350,6 +1350,7 @@ namespace Fishing
             Stop(false, "Fatal chat log error, attempting to recover.");
 
             _FFACE = null;
+            ChooseProcess(null);
             _FFACE = new FFACE(_Process.POLID);
 
             if (wasFishing)
