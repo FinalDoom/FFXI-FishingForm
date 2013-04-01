@@ -2417,7 +2417,11 @@ namespace Fishing
 
         private void rbFullactionOther_CheckedChanged(object sender, EventArgs e)
         {
-            tbFullactionOther.Enabled = rbFullactionOther.Checked;
+            tbFullactionOther.Enabled = rbFullactionOther.Checked || cbEnableItemizerItemTools.Checked;
+            if (rbFullactionOther.Checked)
+            {
+                cbEnableItemizerItemTools.Checked = false;
+            }
         }
 
         private void rbFullactionLogout_CheckedChanged(object sender, EventArgs e)
@@ -3085,9 +3089,14 @@ namespace Fishing
 
         private void cbEnableItemizerItemTools_CheckedChanged(object sender, EventArgs e)
         {
-            if (cbEnableItemizerItemTools.Checked && OptionsConfigured)
+            tbFullactionOther.Enabled = rbFullactionOther.Checked || cbEnableItemizerItemTools.Checked;
+            if (cbEnableItemizerItemTools.Checked)
             {
-                MessageBox.Show("NOTE: Option requires you to have the FFXI Windower Itemizer.dll plugin or Ashita ItemTools.dll extension loaded.\r\n\r\nYou must use the command under Options->Other->On Full Inventory with [Other] selected, e.g.:\r\n\r\n    /put \"Hakuryu\" sack\r\n    /puts \"Black Sole\" satchel\r\n\r\n    /moveitem \"Hakuryu\" inventory sack 1\r\n    /moveitem \"Black Sole\" inventory satchel 12");
+                rbFullactionOther.Checked = false;
+                if (OptionsConfigured)
+                {
+                    MessageBox.Show("NOTE: Option requires you to have the FFXI Windower Itemizer.dll plugin or Ashita ItemTools.dll extension loaded.\r\n\r\nYou must enter the command below, e.g.:\r\n\r\n    /put \"Hakuryu\" sack\r\n    /puts \"Black Sole\" satchel\r\n\r\n    /moveitem \"Hakuryu\" inventory sack 1\r\n    /moveitem \"Black Sole\" inventory satchel 12\r\n\r\nYou may also enter several commands, separated by semicolons.");
+                }
             }
         }
 
