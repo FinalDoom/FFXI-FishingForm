@@ -746,7 +746,7 @@ namespace Fishing
                 if (rbFullactionWarp.Checked)
                 {
                     SetStatus("Inventory is full: Warping");
-                    _FFACE.Windower.SendString("/ma \"Warp\"");
+                    _FFACE.Windower.SendString("/ma \"Warp\" <me>");
                     Thread.Sleep(30000);
                 }
                 if (rbFullactionLogout.Checked)
@@ -1511,7 +1511,7 @@ namespace Fishing
 		{
 			if (cbFatiguedActionWarp.Checked)
 			{
-				_FFACE.Windower.SendString("/ma \"Warp\"");
+				_FFACE.Windower.SendString("/ma \"Warp\" <me>");
 				SetStatus("Fatigue limit reached: Warping");
 				Thread.Sleep(30000);
 			}
