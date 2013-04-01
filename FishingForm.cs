@@ -2376,6 +2376,22 @@ namespace Fishing
 			}
         }
 
+        private void cbBaitActionLogout_CheckedChanged(object sender, EventArgs e)
+        {
+            if (cbBaitActionLogout.Checked)
+            {
+                cbBaitActionShutdown.Checked = false;
+            }
+        }
+
+        private void cbBaitActionShutdown_CheckedChanged(object sender, EventArgs e)
+        {
+            if (cbBaitActionShutdown.Checked)
+            {
+                cbBaitActionLogout.Checked = false;
+            }
+        }
+
         private void cbFatiguedActionLogout_CheckedChanged(object sender, EventArgs e)
         {
 			if (cbFatiguedActionLogout.Checked)
