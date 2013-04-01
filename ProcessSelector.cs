@@ -93,7 +93,7 @@ namespace Fishing
 
             if(0 == p.Length)  //no 'pol' process found, error out
             {
-                MessageBox.Show("Please fully log into an FFXI character before trying to start.", "Error");
+                MessageBox.Show("Please fully log into an FFXI character before trying to start.\r\n\r\nVana'diel times displayed will be estimates before start.", "Error");
 				error = true;
 				return;
             }
@@ -101,7 +101,7 @@ namespace Fishing
             {
                 if(ignoreThese.IsMatch(p[0].MainWindowTitle))  //if not fully logged in, error out
                 {
-					MessageBox.Show("Please fully log into an FFXI character before trying to start.", "Error");
+                    MessageBox.Show("Please fully log into an FFXI character before trying to start.\r\n\r\nVana'diel times displayed will be estimates before start.", "Error");
 					error = true;
 					return;
                 }
@@ -116,7 +116,7 @@ namespace Fishing
 
                 if(-1 == index)  //none of the 'pol' processes were actually logged in
                 {
-					MessageBox.Show("Please fully log into an FFXI character before trying to start.", "Error");
+                    MessageBox.Show("Please fully log into an FFXI character before trying to start.\r\n\r\nVana'diel times displayed will be estimates before start.", "Error");
 					error = true;
 					return;
                 }
