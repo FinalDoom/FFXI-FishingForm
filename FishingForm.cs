@@ -1454,13 +1454,36 @@ namespace Fishing
 			}
         } // @ private void GearUp()
 
+        private int GetNeededEnchantments()
+        {
+            int enchantmentsNeeded = 0;
+            if (cbLRingGear.Enabled && cbLRingGear.Checked)
+            {
+                enchantmentsNeeded++;
+            }
+            if (cbRRingGear.Enabled && cbRRingGear.Checked)
+            {
+                enchantmentsNeeded++;
+            }
+            foreach (StatusEffect se in _Player.StatusEffects)
+            {
+                if (StatusEffect.Enchantment == se)
+                {
+                    enchantmentsNeeded--;
+                }
+            }
+            return enchantmentsNeeded;
+        }
+
 		private void CheckEnchantment() {
 			// Check if fishing support is available and not on (Fisherman's belt)
 			if (cbWaistGear.Enabled && cbWaistGear.Checked)
 			{
 				bool enchantInactive = true;
-				foreach (StatusEffect se in _Player.StatusEffects) {
-					if (StatusEffect.Fishing_Imagery == se) {
+				foreach (StatusEffect se in _Player.StatusEffects)
+                {
+					if (StatusEffect.Fishing_Imagery == se)
+                    {
 						enchantInactive = false;
 					}
 				}
@@ -1471,37 +1494,24 @@ namespace Fishing
 					WaitUntil(Status.Standing);
 				}
 			}
+            // Count enchantment effects the playe is under to compare to enabled ring count
+            int enchantmentsNeeded = GetNeededEnchantments();
 			// Check if left ring enchantments are available and not on
-			if (cbLRingGear.Enabled && cbLRingGear.Checked)
+			if (cbLRingGear.Enabled && cbLRingGear.Checked && enchantmentsNeeded > 0)
 			{
-				bool enchantInactive = false; // TODO get the actual status effects for pelican, albatross, and penguin rings
-				foreach (StatusEffect se in _Player.StatusEffects) {
-					if (StatusEffect.Fishing_Imagery == se) {
-						enchantInactive = false;
-					}
-				}
-				if (enchantInactive)
-				{
-					SetStatus(string.Format("Using left ring ({0})", tbLRingGear.Text));
-					_FFACE.Windower.SendString("/item \"" + tbLRingGear.Text + "\" <me>");
-					WaitUntil(Status.Standing);
-				}
+				SetStatus(string.Format("Using left ring ({0})", tbLRingGear.Text));
+				_FFACE.Windower.SendString("/item \"" + tbLRingGear.Text + "\" <me>");
+                Thread.Sleep(500);
+				WaitUntil(Status.Standing);
+                enchantmentsNeeded = GetNeededEnchantments();
 			}
 			// Check if right ring enchantments are available and not on
-			if (cbRRingGear.Enabled && cbRRingGear.Checked)
+			if (cbRRingGear.Enabled && cbRRingGear.Checked && enchantmentsNeeded > 0)
 			{
-				bool enchantInactive = false; // TODO get the actual status effects for pelican, albatross, and penguin rings
-				foreach (StatusEffect se in _Player.StatusEffects) {
-					if (StatusEffect.Fishing_Imagery == se) {
-						enchantInactive = false;
-					}
-				}
-				if (enchantInactive)
-				{
-					SetStatus(string.Format("Using right ring ({0})", tbRRingGear.Text));
-					_FFACE.Windower.SendString("/item \"" + tbRRingGear.Text + "\" <me>");
-					WaitUntil(Status.Standing);
-				}
+				SetStatus(string.Format("Using right ring ({0})", tbRRingGear.Text));
+                _FFACE.Windower.SendString("/item \"" + tbRRingGear.Text + "\" <me>");
+                Thread.Sleep(500);
+				WaitUntil(Status.Standing);
 			}
 		}
 
