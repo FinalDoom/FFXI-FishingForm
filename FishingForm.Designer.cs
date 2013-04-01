@@ -89,6 +89,10 @@
             this.tabDisplayPageOptions = new System.Windows.Forms.TabPage();
             this.tabOptions = new System.Windows.Forms.TabControl();
             this.tabOptionsPageForm = new System.Windows.Forms.TabPage();
+            this.lblResetSettings = new System.Windows.Forms.Label();
+            this.lblSaveSettings = new System.Windows.Forms.Label();
+            this.btnCharacterSettingsReset = new System.Windows.Forms.Button();
+            this.btnSaveCharacterSettings = new System.Windows.Forms.Button();
             this.cbSneakFishing = new System.Windows.Forms.CheckBox();
             this.numMaxCatch = new System.Windows.Forms.NumericUpDown();
             this.cbEnableItemizerItemTools = new System.Windows.Forms.CheckBox();
@@ -961,6 +965,10 @@
             // tabOptionsPageForm
             // 
             this.tabOptionsPageForm.BackColor = System.Drawing.SystemColors.Control;
+            this.tabOptionsPageForm.Controls.Add(this.lblResetSettings);
+            this.tabOptionsPageForm.Controls.Add(this.lblSaveSettings);
+            this.tabOptionsPageForm.Controls.Add(this.btnCharacterSettingsReset);
+            this.tabOptionsPageForm.Controls.Add(this.btnSaveCharacterSettings);
             this.tabOptionsPageForm.Controls.Add(this.cbSneakFishing);
             this.tabOptionsPageForm.Controls.Add(this.numMaxCatch);
             this.tabOptionsPageForm.Controls.Add(this.cbEnableItemizerItemTools);
@@ -976,6 +984,44 @@
             this.tabOptionsPageForm.Size = new System.Drawing.Size(364, 171);
             this.tabOptionsPageForm.TabIndex = 3;
             this.tabOptionsPageForm.Text = "General";
+            // 
+            // lblResetSettings
+            // 
+            this.lblResetSettings.AutoSize = true;
+            this.lblResetSettings.Location = new System.Drawing.Point(9, 147);
+            this.lblResetSettings.Name = "lblResetSettings";
+            this.lblResetSettings.Size = new System.Drawing.Size(72, 13);
+            this.lblResetSettings.TabIndex = 13;
+            this.lblResetSettings.Text = "Load Settings";
+            // 
+            // lblSaveSettings
+            // 
+            this.lblSaveSettings.AutoSize = true;
+            this.lblSaveSettings.Location = new System.Drawing.Point(9, 124);
+            this.lblSaveSettings.Name = "lblSaveSettings";
+            this.lblSaveSettings.Size = new System.Drawing.Size(73, 13);
+            this.lblSaveSettings.TabIndex = 12;
+            this.lblSaveSettings.Text = "Save Settings";
+            // 
+            // btnCharacterSettingsReset
+            // 
+            this.btnCharacterSettingsReset.Location = new System.Drawing.Point(87, 142);
+            this.btnCharacterSettingsReset.Name = "btnCharacterSettingsReset";
+            this.btnCharacterSettingsReset.Size = new System.Drawing.Size(136, 22);
+            this.btnCharacterSettingsReset.TabIndex = 11;
+            this.btnCharacterSettingsReset.Text = "From Character\'s";
+            this.btnCharacterSettingsReset.UseVisualStyleBackColor = true;
+            this.btnCharacterSettingsReset.Click += new System.EventHandler(this.btnCharacterSettingsReset_Click);
+            // 
+            // btnSaveCharacterSettings
+            // 
+            this.btnSaveCharacterSettings.Location = new System.Drawing.Point(87, 119);
+            this.btnSaveCharacterSettings.Name = "btnSaveCharacterSettings";
+            this.btnSaveCharacterSettings.Size = new System.Drawing.Size(136, 22);
+            this.btnSaveCharacterSettings.TabIndex = 10;
+            this.btnSaveCharacterSettings.Text = "For Character";
+            this.btnSaveCharacterSettings.UseVisualStyleBackColor = true;
+            this.btnSaveCharacterSettings.Click += new System.EventHandler(this.btnSaveCharacterSettings_Click);
             // 
             // cbSneakFishing
             // 
@@ -1205,21 +1251,21 @@
             // 
             // btnSettingsSave
             // 
-            this.btnSettingsSave.Location = new System.Drawing.Point(7, 116);
+            this.btnSettingsSave.Location = new System.Drawing.Point(229, 119);
             this.btnSettingsSave.Name = "btnSettingsSave";
-            this.btnSettingsSave.Size = new System.Drawing.Size(92, 22);
+            this.btnSettingsSave.Size = new System.Drawing.Size(77, 22);
             this.btnSettingsSave.TabIndex = 8;
-            this.btnSettingsSave.Text = "Save Settings";
+            this.btnSettingsSave.Text = "As Default";
             this.btnSettingsSave.UseVisualStyleBackColor = true;
             this.btnSettingsSave.Click += new System.EventHandler(this.btnSettingsSave_Click);
             // 
             // btnSettingsReset
             // 
-            this.btnSettingsReset.Location = new System.Drawing.Point(105, 116);
+            this.btnSettingsReset.Location = new System.Drawing.Point(229, 142);
             this.btnSettingsReset.Name = "btnSettingsReset";
-            this.btnSettingsReset.Size = new System.Drawing.Size(92, 22);
+            this.btnSettingsReset.Size = new System.Drawing.Size(77, 23);
             this.btnSettingsReset.TabIndex = 9;
-            this.btnSettingsReset.Text = "Reset Settings";
+            this.btnSettingsReset.Text = "From Default";
             this.btnSettingsReset.UseVisualStyleBackColor = true;
             this.btnSettingsReset.Click += new System.EventHandler(this.btnSettingsReset_Click);
             // 
@@ -2314,6 +2360,10 @@
         private System.Windows.Forms.CheckBox cbBaitActionWarp;
         private System.Windows.Forms.CheckBox cbBaitActionLogout;
         private System.Windows.Forms.CheckBox cbBaitActionShutdown;
+        private System.Windows.Forms.Button btnSaveCharacterSettings;
+        private System.Windows.Forms.Label lblResetSettings;
+        private System.Windows.Forms.Label lblSaveSettings;
+        private System.Windows.Forms.Button btnCharacterSettingsReset;
     }
 }
 
