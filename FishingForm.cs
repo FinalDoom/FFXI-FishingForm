@@ -2010,7 +2010,12 @@ namespace Fishing
         private void UpdateInfo()
         {
             //set rod and bait labels
-            if (string.IsNullOrEmpty(GetRodName(_FFACE.Item.GetEquippedItemID(EquipSlot.Range))))
+            if (_FFACE == null)
+            {
+                lblRod.ForeColor = SystemColors.ControlText;
+                lblRod.Text = "--";
+            }
+            else if (string.IsNullOrEmpty(GetRodName(_FFACE.Item.GetEquippedItemID(EquipSlot.Range))))
             {
                 lblRod.ForeColor = Color.Red;
                 lblRod.Text = "No rod equipped!";
@@ -2021,7 +2026,12 @@ namespace Fishing
                 lblRod.Text = GetRodName(_FFACE.Item.GetEquippedItemID(EquipSlot.Range));
             }
 
-            if (string.IsNullOrEmpty(GetBaitName(_FFACE.Item.GetEquippedItemID(EquipSlot.Ammo))))
+            if (_FFACE == null)
+            {
+                lblBait.ForeColor = SystemColors.ControlText;
+                lblBait.Text = "--";
+            }
+            else if (string.IsNullOrEmpty(GetBaitName(_FFACE.Item.GetEquippedItemID(EquipSlot.Ammo))))
             {
                 lblBait.ForeColor = Color.Red;
                 lblBait.Text = "No bait equipped!";
@@ -2073,8 +2083,8 @@ namespace Fishing
             // the rest
             lblVanaTime.Text = string.Format("{0}/{1}/{2}, {3}, {4}:{5}, {6} Moon" + " ({7}%)", vanaNow.Month, vanaNow.Day, vanaNow.Year, vanaNow.DayType, vanaNow.Hour, vanaNow.Minute.ToString("00"), vanaNow.GetMoonPhaseName(vanaNow.MoonPhase), vanaNow.MoonPercent);
             lblEarthTime.Text = DateTime.Now.ToString("MMM. d, yyyy h:mm:ss tt");
-			string skillS = Math.Max(_FFACE.Player.GetCraftDetails(Craft.Fishing).Level, skillLevel).ToString();
-			if (skillDecimalMin > 0 || skillDecimalMax > 0)
+			string skillS = _FFACE == null ? "--" : Math.Max(_FFACE.Player.GetCraftDetails(Craft.Fishing).Level, skillLevel).ToString();
+			if (_FFACE != null && (skillDecimalMin > 0 || skillDecimalMax > 0))
 			{
 				skillS += " (." + skillDecimalMin.ToString();
 				if (skillDecimalMin != skillDecimalMax)
@@ -2085,7 +2095,12 @@ namespace Fishing
 			}
             lblSkill.Text = skillS;
 
-            if (_FFACE.Item.InventoryCount != -1)
+            if (_FFACE == null)
+            {
+                lblInventorySpace.Text = "-- / --";
+                lblGil.Text = "--";
+            }
+            else if (_FFACE.Item.InventoryCount != -1)
             {
                 lblInventorySpace.Text = string.Format("{0} / {1}", _FFACE.Item.InventoryCount, _FFACE.Item.InventoryMax);
                 lblGil.Text = string.Format("{0:#,#}", _FFACE.Item.CurrentGil);
@@ -2096,18 +2111,37 @@ namespace Fishing
                 lblGil.Text = "N/A";
             }
 
-            if (_FFACE.Item.SatchelCount != -1)
+            if (_FFACE == null)
+            {
+                lblSatchelSpace.Text = "-- / --";
+            }
+            else if (_FFACE.Item.SatchelCount != -1)
+            {
                 lblSatchelSpace.Text = string.Format("{0} / {1}", _FFACE.Item.SatchelCount, _FFACE.Item.SatchelMax);
+            }
             else
+            {
                 lblSatchelSpace.Text = "N/A";
+            }
 
-            if (_FFACE.Item.SackCount != -1)
+            if (_FFACE == null)
+            {
+                lblSackSpace.Text = "-- / --";
+            }
+            else if (_FFACE.Item.SackCount != -1)
+            {
                 lblSackSpace.Text = string.Format("{0} / {1}", _FFACE.Item.SackCount, _FFACE.Item.SackMax);
+            }
             else
+            {
                 lblSackSpace.Text = "N/A";
+            }
 
             lblVanaClock.Text = string.Format("{0}:{1}", vanaNow.Hour, vanaNow.Minute.ToString("00"));
-            SetLblZone(GetZoneName(_FFACE.Player.Zone));
+            if (_FFACE != null)
+            {
+                SetLblZone(GetZoneName(_FFACE.Player.Zone));
+            }
         }
 
         private void ExtendChat()
@@ -2842,13 +2876,58 @@ namespace Fishing
 
         private void timer_Tick(object sender, EventArgs e)
         {
-			if (_FFACE == null)
-			{
-				return;
-			}
             int workDone = FishChat.NewChat();
-            currentStatus = _FFACE.Player.Status;
-            vanaNow = _FFACE.Timer.GetVanaTime();
+            if (_FFACE != null)
+            {
+                currentStatus = _FFACE.Player.Status;
+                vanaNow = _FFACE.Timer.GetVanaTime();
+            }
+            // No FFACE, so calculate vanaNow based on system clock
+            else
+            {
+                // get the server time (in seconds) based on local clock (inaccurate)
+                DateTime origin = new DateTime(1970, 1, 1, 0, 0, 0, 0);
+                TimeSpan diff = DateTime.UtcNow - origin;
+                long baseTime = (long)Math.Floor(diff.TotalSeconds);
+
+                // calculate the difference between server time and 
+                // 1/1/1970 00:00:00 unix time -> "Vana'Diel time in seconds"
+                long timeInSeconds = ((long)baseTime + 92514960) * 25;
+
+                // how many days
+                decimal dayOfYear = Math.Floor((decimal)(timeInSeconds / (decimal)86400));
+
+                vanaNow = new FFACETools.FFACE.TimerTools.VanaTime();
+                vanaNow.DayType = (Weekday)(dayOfYear % 8);
+                vanaNow.Day = (byte)((dayOfYear % 30) + 1);
+                vanaNow.Month = (byte)(((dayOfYear % 360) / 30) + 1);
+                vanaNow.Year = (short)(dayOfYear / 360);
+                vanaNow.Hour = (byte)((timeInSeconds / 3600) % 24);
+                vanaNow.Minute = (byte)((timeInSeconds / 60) % 60);
+                // can't floor on a long, so need to shrink it first
+                vanaNow.Second = (byte)((timeInSeconds - (System.Math.Floor((decimal)(timeInSeconds / 60)) * 60)));
+
+                // calculate moon phase/percent
+                decimal moonPhase = (dayOfYear + (decimal)26) % 84;
+
+                // calculate moon percent
+                decimal moonPercent = (((42 - moonPhase) * 100) / 42);
+                if (0 > moonPercent)
+                    moonPercent = Math.Abs(moonPercent);
+
+                // get final moon percent
+                vanaNow.MoonPercent = (byte)Math.Floor((moonPercent + (decimal)0.5));
+
+                // get final moon phase
+                if (38 <= moonPhase)
+                {
+                    vanaNow.MoonPhase = (MoonPhase)Math.Floor((moonPhase - (decimal)38) / (decimal)7);
+                }
+                else
+                {
+                    vanaNow.MoonPhase = (MoonPhase)Math.Floor((moonPhase + (decimal)46) / (decimal)7);
+                }
+            }
 
             if (-1 == workDone)  //error code from FishChat.NewChat() means chat failed
             {
@@ -2861,7 +2940,8 @@ namespace Fishing
                 UpdateChat();
             }
 
-			DateTime japanNow = _FFACE.Timer.ServerTimeUTC.AddHours(9);
+			DateTime japanNow = _FFACE != null ? _FFACE.Timer.ServerTimeUTC : DateTime.UtcNow;
+            japanNow = japanNow.AddHours(9);
 			if (japanNow.CompareTo(japanNextMidnight) > 0)
 			{
 				// Reset cast wait time
@@ -2875,7 +2955,8 @@ namespace Fishing
 
 		private DateTime GetNextMidnight()
 		{
-			DateTime midnight = _FFACE.Timer.ServerTimeUTC.AddHours(9).AddDays(1);
+			DateTime midnight = _FFACE != null ? _FFACE.Timer.ServerTimeUTC : DateTime.UtcNow;
+            midnight = midnight.AddHours(9).AddDays(1);
 			midnight = new DateTime(midnight.Year, midnight.Month, midnight.Day);
 			return midnight;
 		}
