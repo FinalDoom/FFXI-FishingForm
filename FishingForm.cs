@@ -1461,46 +1461,46 @@ namespace Fishing
 
 		private void GearUp()
 		{
-			if (tbBodyGear.Text != "")
+			if (!string.IsNullOrEmpty(tbBodyGear.Text) && GetGearName(_FFACE.Item.GetEquippedItemID(EquipSlot.Body)) != tbBodyGear.Text)
 			{
 				_FFACE.Windower.SendString("/equip body \"" + tbBodyGear.Text + "\"");
-			}
-			if (tbHandsGear.Text != "")
+            }
+            if (!string.IsNullOrEmpty(tbHandsGear.Text) && GetGearName(_FFACE.Item.GetEquippedItemID(EquipSlot.Hands)) != tbHandsGear.Text)
 			{
 				_FFACE.Windower.SendString("/equip hands \"" + tbHandsGear.Text + "\"");
-			}
-			if (tbLegsGear.Text != "")
+            }
+            if (!string.IsNullOrEmpty(tbLegsGear.Text) && GetGearName(_FFACE.Item.GetEquippedItemID(EquipSlot.Legs)) != tbLegsGear.Text)
 			{
 				_FFACE.Windower.SendString("/equip legs \"" + tbLegsGear.Text + "\"");
-			}
-			if (tbFeetGear.Text != "")
+            }
+            if (!string.IsNullOrEmpty(tbFeetGear.Text) && GetGearName(_FFACE.Item.GetEquippedItemID(EquipSlot.Feet)) != tbFeetGear.Text)
 			{
 				_FFACE.Windower.SendString("/equip feet \"" + tbFeetGear.Text + "\"");
+            }
+            if (!string.IsNullOrEmpty(tbHeadGear.Text) && GetGearName(_FFACE.Item.GetEquippedItemID(EquipSlot.Head)) != tbHeadGear.Text)
+			{
+				_FFACE.Windower.SendString("/equip head \"" + tbHeadGear.Text + "\"");
+            }
+            if (!string.IsNullOrEmpty(tbNeckGear.Text) && GetGearName(_FFACE.Item.GetEquippedItemID(EquipSlot.Neck)) != tbNeckGear.Text)
+			{
+				_FFACE.Windower.SendString("/equip neck \"" + tbNeckGear.Text + "\"");
+            }
+            if (!string.IsNullOrEmpty(tbWaistGear.Text) && GetGearName(_FFACE.Item.GetEquippedItemID(EquipSlot.Waist)) != tbWaistGear.Text)
+			{
+				_FFACE.Windower.SendString("/equip waist \"" + tbWaistGear.Items[tbWaistGear.SelectedIndex].ToString() + "\"");
 			}
-			if (tbLRingGear.Text != "")
+            if (!string.IsNullOrEmpty(tbLRingGear.Text) && GetGearName(_FFACE.Item.GetEquippedItemID(EquipSlot.RingLeft)) != tbLRingGear.Text)
 			{
 				_FFACE.Windower.SendString("/equip ring1 \"" + tbLRingGear.Text + "\"");
 				if (tbLRingGear.Text == tbRRingGear.Text)
 				{
 					Thread.Sleep(500);
 				}
-			}
-			if (tbRRingGear.Text != "")
+            }
+            if (!string.IsNullOrEmpty(tbRRingGear.Text) && GetGearName(_FFACE.Item.GetEquippedItemID(EquipSlot.RingRight)) != tbRRingGear.Text)
 			{
 				_FFACE.Windower.SendString("/equip ring2 \"" + tbRRingGear.Text + "\"");
-			}
-			if (tbHeadGear.Text != "")
-			{
-				_FFACE.Windower.SendString("/equip head \"" + tbHeadGear.Text + "\"");
-			}
-			if (tbNeckGear.Text != "")
-			{
-				_FFACE.Windower.SendString("/equip neck \"" + tbNeckGear.Text + "\"");
-			}
-			if (tbWaistGear.SelectedIndex != 0)
-			{
-				_FFACE.Windower.SendString("/equip waist \"" + tbWaistGear.Items[tbWaistGear.SelectedIndex].ToString() + "\"");
-			}
+            }
         } // @ private void GearUp()
 
         private int GetNeededEnchantments()
