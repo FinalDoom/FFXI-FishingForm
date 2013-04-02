@@ -106,6 +106,19 @@ Other
 Changes
 -------
 
+1.6.7.26
+--------
+- Automatically re-equip broken rods
+- Rod and bait can be selected in options panel for easy equipping
+
+1.6.7.25
+--------
+- Itemtools checkbox is on last options page
+
+1.6.7.24
+--------
+- Vana'diel time is estimated from system time when not logged in
+
 1.6.7.23
 --------
 - Added warp/logout-shutdown on out of bait
