@@ -106,6 +106,10 @@ Other
 Changes
 -------
 
+1.6.7.27
+--------
+- Fixed rod/bait options, they save and don't break things
+
 1.6.7.26
 --------
 - Automatically re-equip broken rods

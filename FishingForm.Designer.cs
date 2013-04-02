@@ -1574,38 +1574,8 @@
             this.tbBaitGear.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.tbBaitGear.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.tbBaitGear.FormattingEnabled = true;
-            this.tbBaitGear.Items.AddRange(new object[] {
-            "",
-            "Dried Squid",
-            "Fly Lure",
-            "Frog Lure",
-            "Lizard Lure",
-            "Minnow",
-            "Robber Rig",
-            "Rogue Rig",
-            "Sabiki Rig",
-            "Shrimp Lure",
-            "Sinking Minnow",
-            "Worm Lure",
-            "Crayfish Ball",
-            "Drill Calamary",
-            "Dwarf Pugil",
-            "Giant Shell Bug",
-            "Insect Ball",
-            "Little Worm",
-            "Lufaise Fly",
-            "Lugworm",
-            "Meatball",
-            "Peeled Crayfish",
-            "Peeled Lobster",
-            "Rotten Meat",
-            "Sardine Ball",
-            "Shell Bug",
-            "Sliced of Bluetail",
-            "Slice of Carp",
-            "Sliced Cod",
-            "Sliced Sardine",
-            "Trout Ball"});
+            this.tbBaitGear.Items.Add("");
+            this.tbBaitGear.Items.AddRange(Dictionaries.baitList.ToArray());
             this.tbBaitGear.Location = new System.Drawing.Point(49, 30);
             this.tbBaitGear.Name = "tbBaitGear";
             this.tbBaitGear.Size = new System.Drawing.Size(97, 20);
@@ -1617,22 +1587,8 @@
             this.tbRodGear.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.tbRodGear.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.tbRodGear.FormattingEnabled = true;
-            this.tbRodGear.Items.AddRange(new object[] {
-            "",
-            "Ebisu Fishing Rod",
-            "Lu Shang\'s Fishing Rod",
-            "Bamboo Fishing Rod",
-            "Clothespole",
-            "Fastwater Fishing Rod",
-            "Hume Fishing Rod",
-            "Mithran Fishing Rod",
-            "Tarutaru Fishing Rod",
-            "Yew Fishing Rod",
-            "Carbon Fishing Rod",
-            "Composite Fishing Rod",
-            "Halcyon Rod",
-            "Single Hook Fishing Rod",
-            "Maze Monger Fishing Rod"});
+            this.tbRodGear.Items.Add("");
+            this.tbRodGear.Items.AddRange(Dictionaries.rodList.ToArray());
             this.tbRodGear.Location = new System.Drawing.Point(49, 6);
             this.tbRodGear.Name = "tbRodGear";
             this.tbRodGear.Size = new System.Drawing.Size(97, 20);
@@ -1670,11 +1626,8 @@
             this.tbBodyGear.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.tbBodyGear.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.tbBodyGear.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.tbBodyGear.Items.AddRange(new object[] {
-            "",
-            "Angler\'s tunica",
-            "Fisherman\'s smock",
-            "Fisherman\'s tunica"});
+            this.tbBodyGear.Items.Add("");
+            this.tbBodyGear.Items.AddRange(Dictionaries.gearList.GetRange(0,4).ToArray());
             this.tbBodyGear.Location = new System.Drawing.Point(49, 54);
             this.tbBodyGear.Name = "tbBodyGear";
             this.tbBodyGear.Size = new System.Drawing.Size(97, 20);
@@ -1694,10 +1647,8 @@
             this.tbHandsGear.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.tbHandsGear.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.tbHandsGear.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.tbHandsGear.Items.AddRange(new object[] {
-            "",
-            "Angler\'s gloves",
-            "Fisherman\'s gloves"});
+            this.tbHandsGear.Items.Add("");
+            this.tbHandsGear.Items.AddRange(Dictionaries.gearList.GetRange(4,2).ToArray());
             this.tbHandsGear.Location = new System.Drawing.Point(49, 77);
             this.tbHandsGear.Name = "tbHandsGear";
             this.tbHandsGear.Size = new System.Drawing.Size(97, 20);
@@ -1717,10 +1668,8 @@
             this.tbLegsGear.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.tbLegsGear.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.tbLegsGear.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.tbLegsGear.Items.AddRange(new object[] {
-            "",
-            "Angler\'s hose",
-            "Fisherman\'s hose"});
+            this.tbLegsGear.Items.Add("");
+            this.tbLegsGear.Items.AddRange(Dictionaries.gearList.GetRange(6, 2).ToArray());
             this.tbLegsGear.Location = new System.Drawing.Point(49, 101);
             this.tbLegsGear.Name = "tbLegsGear";
             this.tbLegsGear.Size = new System.Drawing.Size(97, 20);
@@ -1740,15 +1689,87 @@
             this.tbFeetGear.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.tbFeetGear.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.tbFeetGear.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.tbFeetGear.Items.AddRange(new object[] {
-            "",
-            "Angler\'s boots",
-            "Fisherman\'s boots",
-            "Waders"});
+            this.tbFeetGear.Items.Add("");
+            this.tbFeetGear.Items.AddRange(Dictionaries.gearList.GetRange(8, 3).ToArray());
             this.tbFeetGear.Location = new System.Drawing.Point(49, 125);
             this.tbFeetGear.Name = "tbFeetGear";
             this.tbFeetGear.Size = new System.Drawing.Size(97, 20);
             this.tbFeetGear.TabIndex = 11;
+            // 
+            // lblHeadGear
+            // 
+            this.lblHeadGear.AutoSize = true;
+            this.lblHeadGear.Location = new System.Drawing.Point(161, 9);
+            this.lblHeadGear.Name = "lblHeadGear";
+            this.lblHeadGear.Size = new System.Drawing.Size(32, 13);
+            this.lblHeadGear.TabIndex = 12;
+            this.lblHeadGear.Text = "Head";
+            // 
+            // tbHeadGear
+            // 
+            this.tbHeadGear.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.tbHeadGear.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.tbHeadGear.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.tbHeadGear.Items.Add("");
+            this.tbHeadGear.Items.AddRange(Dictionaries.gearList.GetRange(11, 1).ToArray());
+            this.tbHeadGear.Location = new System.Drawing.Point(222, 6);
+            this.tbHeadGear.Name = "tbHeadGear";
+            this.tbHeadGear.Size = new System.Drawing.Size(97, 20);
+            this.tbHeadGear.TabIndex = 13;
+            // 
+            // lblNeckGear
+            // 
+            this.lblNeckGear.AutoSize = true;
+            this.lblNeckGear.Location = new System.Drawing.Point(161, 33);
+            this.lblNeckGear.Name = "lblNeckGear";
+            this.lblNeckGear.Size = new System.Drawing.Size(30, 13);
+            this.lblNeckGear.TabIndex = 14;
+            this.lblNeckGear.Text = "Neck";
+            // 
+            // tbNeckGear
+            // 
+            this.tbNeckGear.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.tbNeckGear.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.tbNeckGear.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.tbNeckGear.Items.Add("");
+            this.tbNeckGear.Items.AddRange(Dictionaries.gearList.GetRange(12, 1).ToArray());
+            this.tbNeckGear.Location = new System.Drawing.Point(222, 30);
+            this.tbNeckGear.Name = "tbNeckGear";
+            this.tbNeckGear.Size = new System.Drawing.Size(97, 20);
+            this.tbNeckGear.TabIndex = 15;
+            // 
+            // lblWaistGear
+            // 
+            this.lblWaistGear.AutoSize = true;
+            this.lblWaistGear.Location = new System.Drawing.Point(161, 56);
+            this.lblWaistGear.Name = "lblWaistGear";
+            this.lblWaistGear.Size = new System.Drawing.Size(32, 13);
+            this.lblWaistGear.TabIndex = 16;
+            this.lblWaistGear.Text = "Waist";
+            // 
+            // tbWaistGear
+            // 
+            this.tbWaistGear.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.tbWaistGear.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.tbWaistGear.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.tbWaistGear.Items.Add("");
+            this.tbWaistGear.Items.AddRange(Dictionaries.gearList.GetRange(13, 2).ToArray());
+            this.tbWaistGear.Location = new System.Drawing.Point(222, 53);
+            this.tbWaistGear.Name = "tbWaistGear";
+            this.tbWaistGear.Size = new System.Drawing.Size(97, 20);
+            this.tbWaistGear.TabIndex = 17;
+            this.tbWaistGear.SelectedIndexChanged += new System.EventHandler(this.tbWaistGear_SelectedIndexChanged);
+            // 
+            // cbWaistGear
+            // 
+            this.cbWaistGear.AutoSize = true;
+            this.cbWaistGear.Enabled = false;
+            this.cbWaistGear.Location = new System.Drawing.Point(325, 56);
+            this.cbWaistGear.Name = "cbWaistGear";
+            this.cbWaistGear.Size = new System.Drawing.Size(40, 17);
+            this.cbWaistGear.TabIndex = 18;
+            this.cbWaistGear.Text = "AE";
+            this.cbWaistGear.UseVisualStyleBackColor = true;
             // 
             // lblLRingGear
             // 
@@ -1764,15 +1785,8 @@
             this.tbLRingGear.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.tbLRingGear.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.tbLRingGear.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.tbLRingGear.Items.AddRange(new object[] {
-            "",
-            "Albatross ring",
-            "Pelican ring",
-            "Penguin ring",
-            "Heron ring",
-            "Noddy Ring",
-            "Puffin ring",
-            "Seagull ring"});
+            this.tbLRingGear.Items.Add("");
+            this.tbLRingGear.Items.AddRange(Dictionaries.gearList.GetRange(15, 6).ToArray());
             this.tbLRingGear.Location = new System.Drawing.Point(222, 77);
             this.tbLRingGear.Name = "tbLRingGear";
             this.tbLRingGear.Size = new System.Drawing.Size(97, 20);
@@ -1804,15 +1818,8 @@
             this.tbRRingGear.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.tbRRingGear.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.tbRRingGear.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.tbRRingGear.Items.AddRange(new object[] {
-            "",
-            "Albatross ring",
-            "Pelican ring",
-            "Penguin ring",
-            "Heron ring",
-            "Noddy Ring",
-            "Puffin ring",
-            "Seagull ring"});
+            this.tbRRingGear.Items.Add("");
+            this.tbRRingGear.Items.AddRange(Dictionaries.gearList.GetRange(15, 6).ToArray());
             this.tbRRingGear.Location = new System.Drawing.Point(222, 101);
             this.tbRRingGear.Name = "tbRRingGear";
             this.tbRRingGear.Size = new System.Drawing.Size(97, 20);
@@ -1829,85 +1836,6 @@
             this.cbRRingGear.TabIndex = 24;
             this.cbRRingGear.Text = "AE";
             this.cbRRingGear.UseVisualStyleBackColor = true;
-            // 
-            // lblHeadGear
-            // 
-            this.lblHeadGear.AutoSize = true;
-            this.lblHeadGear.Location = new System.Drawing.Point(161, 9);
-            this.lblHeadGear.Name = "lblHeadGear";
-            this.lblHeadGear.Size = new System.Drawing.Size(32, 13);
-            this.lblHeadGear.TabIndex = 12;
-            this.lblHeadGear.Text = "Head";
-            // 
-            // tbHeadGear
-            // 
-            this.tbHeadGear.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.tbHeadGear.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.tbHeadGear.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.tbHeadGear.Items.AddRange(new object[] {
-            "",
-            "Trainee\'s spectacles"});
-            this.tbHeadGear.Location = new System.Drawing.Point(222, 6);
-            this.tbHeadGear.Name = "tbHeadGear";
-            this.tbHeadGear.Size = new System.Drawing.Size(97, 20);
-            this.tbHeadGear.TabIndex = 13;
-            // 
-            // lblNeckGear
-            // 
-            this.lblNeckGear.AutoSize = true;
-            this.lblNeckGear.Location = new System.Drawing.Point(161, 33);
-            this.lblNeckGear.Name = "lblNeckGear";
-            this.lblNeckGear.Size = new System.Drawing.Size(30, 13);
-            this.lblNeckGear.TabIndex = 14;
-            this.lblNeckGear.Text = "Neck";
-            // 
-            // tbNeckGear
-            // 
-            this.tbNeckGear.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.tbNeckGear.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.tbNeckGear.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.tbNeckGear.Items.AddRange(new object[] {
-            "",
-            "Fisher\'s torque"});
-            this.tbNeckGear.Location = new System.Drawing.Point(222, 30);
-            this.tbNeckGear.Name = "tbNeckGear";
-            this.tbNeckGear.Size = new System.Drawing.Size(97, 20);
-            this.tbNeckGear.TabIndex = 15;
-            // 
-            // lblWaistGear
-            // 
-            this.lblWaistGear.AutoSize = true;
-            this.lblWaistGear.Location = new System.Drawing.Point(161, 56);
-            this.lblWaistGear.Name = "lblWaistGear";
-            this.lblWaistGear.Size = new System.Drawing.Size(32, 13);
-            this.lblWaistGear.TabIndex = 16;
-            this.lblWaistGear.Text = "Waist";
-            // 
-            // tbWaistGear
-            // 
-            this.tbWaistGear.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.tbWaistGear.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.tbWaistGear.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.tbWaistGear.Items.AddRange(new object[] {
-            "",
-            "Fisher\'s Rope",
-            "Fisherman\'s Belt"});
-            this.tbWaistGear.Location = new System.Drawing.Point(222, 53);
-            this.tbWaistGear.Name = "tbWaistGear";
-            this.tbWaistGear.Size = new System.Drawing.Size(97, 20);
-            this.tbWaistGear.TabIndex = 17;
-            this.tbWaistGear.SelectedIndexChanged += new System.EventHandler(this.tbWaistGear_SelectedIndexChanged);
-            // 
-            // cbWaistGear
-            // 
-            this.cbWaistGear.AutoSize = true;
-            this.cbWaistGear.Enabled = false;
-            this.cbWaistGear.Location = new System.Drawing.Point(325, 56);
-            this.cbWaistGear.Name = "cbWaistGear";
-            this.cbWaistGear.Size = new System.Drawing.Size(40, 17);
-            this.cbWaistGear.TabIndex = 18;
-            this.cbWaistGear.Text = "AE";
-            this.cbWaistGear.UseVisualStyleBackColor = true;
             // 
             // tabOptionsPageAdvanced
             // 
