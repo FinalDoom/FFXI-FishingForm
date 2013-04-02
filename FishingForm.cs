@@ -112,6 +112,8 @@ namespace Fishing
             toolTip.SetToolTip(cbIgnoreMonster, "Ignore and release all monsters.");
             toolTip.SetToolTip(cbIgnoreSmallFish, "Ignore and release all small fish.");
             toolTip.SetToolTip(cbIgnoreLargeFish, "Ignore and release all large fish.");
+            toolTip.SetToolTip(tbRodGear, "Automatically equip rod when none equipped or when one breaks. Will use currently equipped rod if not specified.");
+            toolTip.SetToolTip(tbBaitGear, "Automatically equip rod when none equipped or when exhausted. Will use currently equipped bait if not specified.");
 			toolTip.SetToolTip(cbLRingGear, "Automatically use left ring enchantment.");
 			toolTip.SetToolTip(cbRRingGear, "Automatically use right ring enchantment.");
 			toolTip.SetToolTip(cbWaistGear, "Automatically use belt enchantment.");
@@ -262,13 +264,15 @@ namespace Fishing
 
         } // @ private void BackgroundFishing()
 
-        private void Cast()
+        private bool CheckRodAndBait()
         {
+            string strZone = GetZoneName(_FFACE.Player.Zone);
             string strBait = LastBaitName;
             string strRod = LastRodName;
-            string strZone = GetZoneName(_FFACE.Player.Zone);
-            string strEquipMessage = string.Format("/equip ammo \"{0}\"", LastBaitName);
+            string rod = GetRodName(_FFACE.Item.GetEquippedItemID(EquipSlot.Range));
             string bait = GetBaitName(_FFACE.Item.GetEquippedItemID(EquipSlot.Ammo));
+            string strRodEquipMessage = string.Format("/equip range \"{0}\"", LastRodName);
+            string strBaitEquipMessage = string.Format("/equip ammo \"{0}\"", LastBaitName);
 
             if ((string.IsNullOrEmpty(lblZone.Text)) || (lblZone.Text != strZone))
             {
@@ -276,6 +280,50 @@ namespace Fishing
                 PopulateLists();
             }
 
+            if (string.IsNullOrEmpty(rod))
+            {
+                _FFACE.Windower.SendString(strRodEquipMessage);
+            }
+            if (string.IsNullOrEmpty(bait))
+            {
+                _FFACE.Windower.SendString(strBaitEquipMessage);
+                Thread.Sleep(2000);
+            }
+            if (IsRodBaitEquipped())  //check to see if bait/rod changed since last loop
+            {
+                if (LastBaitName != strBait)
+                {
+                    strBaitEquipMessage = string.Format("/equip ammo \"{0}\"", LastBaitName);
+                    PopulateLists();
+                }
+
+                if (LastRodName != strRod)
+                {
+                    strRodEquipMessage = string.Format("/equip range \"{0}\"", LastRodName);
+                }
+
+                if ((LastRodName != strRod) || (lblZone.Text != strZone))
+                {
+                    PopulateLists();
+                }
+            }
+            else  //if IsRodBaitEquipped returns false, most likely out of bait, reequip
+            {
+                _FFACE.Windower.SendString(strRodEquipMessage);
+                _FFACE.Windower.SendString(strBaitEquipMessage);
+                Thread.Sleep(1000);  //pause to give the game time to equip bait
+
+                if (!IsRodBaitEquipped())
+                {
+                    OutOfBait("Out of bait.");
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        private void Cast()
+        {
             if (IsSneakEnabled())
             {
                 if (!IsStatusEffectActive(StatusEffect.Sneak))
@@ -300,41 +348,13 @@ namespace Fishing
 
             }
 
-            if (string.IsNullOrEmpty(bait))
-            {
-                _FFACE.Windower.SendString(strEquipMessage);
-                Thread.Sleep(2000);
-            }
-            if (IsRodBaitEquipped())  //check to see if bait/rod changed since last loop
-            {
-                if (LastBaitName != strBait)
-                {
-                    strEquipMessage = string.Format("/equip ammo \"{0}\"", LastBaitName);
-                    PopulateLists();
-                }
-
-                if ((LastRodName != strRod) || (lblZone.Text != strZone))
-                {
-                    PopulateLists();
-                }
-            }
-            else  //if IsRodBaitEquipped returns false, most likely out of bait, reequip
-            {
-                _FFACE.Windower.SendString(strEquipMessage);
-                Thread.Sleep(1000);  //pause to give the game time to equip bait
-
-                if (!IsRodBaitEquipped())
-                {
-                    OutOfBait("Out of bait.");
-                    return;
-                }
-            }
+            CheckRodAndBait();
 
             uint baitCount = _FFACE.Item.GetEquippedItemCount(EquipSlot.Ammo);
             uint baitLeft = _FFACE.Item.GetInventoryItemCount((ushort) _FFACE.Item.GetEquippedItemID(EquipSlot.Ammo));
 
 			CheckEnchantment();
-            SetStatus(string.Format("Casting a {0} [{1}].", strBait, baitLeft));
+            SetStatus(string.Format("Casting a {0} [{1}].", LastBaitName, baitLeft));
 
             _FFACE.Windower.SendString("/fish");
 
@@ -1174,14 +1194,22 @@ namespace Fishing
 
         private bool IsRodBaitEquipped()
         {
-            string bait = GetBaitName(_FFACE.Item.GetEquippedItemID(EquipSlot.Ammo));
-            string rod = GetRodName(_FFACE.Item.GetEquippedItemID(EquipSlot.Range));
+            string bait = tbBaitGear.Text;
+            if (string.IsNullOrEmpty(bait))
+            {
+                bait = GetBaitName(_FFACE.Item.GetEquippedItemID(EquipSlot.Ammo));
+            }
+            string rod = tbRodGear.Text;
+            if (string.IsNullOrEmpty(rod))
+            {
+                rod = GetRodName(_FFACE.Item.GetEquippedItemID(EquipSlot.Range));
+            }
             currentZone = _FFACE.Player.Zone;
+            SetBait(bait);
+            SetRod(rod);
 
             if ((!string.IsNullOrEmpty(rod)) && (!string.IsNullOrEmpty(bait)))
             {
-                SetBait(bait);
-                SetRod(rod);
                 SetLblZone(GetZoneName(currentZone));
 
                 return true;
@@ -1234,7 +1262,11 @@ namespace Fishing
                 case FishResult.RodBreak:
                     FishStats.rodBreakCount++;
                     FishStats.AddFish(FishStats.rodBreakFishes, currentFish);
-                    Stop(false, "Your rod is broken.");
+                    SetStatus("Your rod is broken. Attempting to re-equip.");
+                    if (!CheckRodAndBait())
+                    {
+                        Stop(false, "Your rod is broken.");
+                    }
                     break;
                 case FishResult.Success:
                     FishStats.caughtCount++;
@@ -2497,25 +2529,19 @@ namespace Fishing
 
         private void btnStart_Click(object sender, EventArgs e)
         {
-//            SetStatus("Clicked");
-//            Thread.Sleep(1000);
             if ("STOP" == btnStart.Text)
             {
                 stopSound = false;
                 statusWarningColor = false;
                 Stop(false, "Idle.");
             }
-            else  //"START" == btnStart.Text
+            else
             {
-//                SetStatus("Coloring");
-//                Thread.Sleep(1000);
                 btnStart.BackColor = SystemColors.Control;
                 btnStart.ForeColor = SystemColors.ControlText;
                 statusStripMain.BackColor = SystemColors.Control;
                 statusStripMain.ForeColor = SystemColors.ControlText;
 
-//                SetStatus("Checking process 1");
-//                Thread.Sleep(1000);
 				if (!CheckProcess())
 				{
 					return;
@@ -2523,7 +2549,6 @@ namespace Fishing
 
                 if (!IsRodBaitEquipped())
                 {
-                    SetStatus("No rod or bait equipped.");
                     btnStart.BackColor = Color.Red;
                     btnStart.ForeColor = Color.White;
                     statusStripMain.BackColor = Color.Red;
@@ -2544,16 +2569,20 @@ namespace Fishing
                 Stop(false, "Idle.");
                 chatbig = true;
             }
-            else  //"START" == btnStart.Text
+            else
             {
                 btnStart.BackColor = SystemColors.Control;
                 btnStart.ForeColor = SystemColors.ControlText;
                 statusStripMain.BackColor = SystemColors.Control;
                 statusStripMain.ForeColor = SystemColors.ControlText;
 
+                if (!CheckProcess())
+                {
+                    return;
+                }
+
                 if (!IsRodBaitEquipped())
                 {
-                    SetStatus("No rod or bait equipped.");
                     btnStart.BackColor = Color.Red;
                     btnStart.ForeColor = Color.White;
                     statusStripMain.BackColor = Color.Red;
