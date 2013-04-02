@@ -126,6 +126,10 @@
             this.cbAutoKill = new System.Windows.Forms.CheckBox();
             this.cbExtend = new System.Windows.Forms.CheckBox();
             this.tabOptionsPageGear = new System.Windows.Forms.TabPage();
+            this.tbBaitGear = new System.Windows.Forms.ComboBox();
+            this.tbRodGear = new System.Windows.Forms.ComboBox();
+            this.lblBaitGear = new System.Windows.Forms.Label();
+            this.lblRodGear = new System.Windows.Forms.Label();
             this.lblBodyGear = new System.Windows.Forms.Label();
             this.tbBodyGear = new System.Windows.Forms.ComboBox();
             this.lblHandsGear = new System.Windows.Forms.Label();
@@ -956,7 +960,7 @@
             this.tabOptions.Name = "tabOptions";
             this.tabOptions.SelectedIndex = 0;
             this.tabOptions.Size = new System.Drawing.Size(372, 194);
-            this.tabOptions.TabIndex = 38;
+            this.tabOptions.TabIndex = 0;
             // 
             // tabOptionsPageForm
             // 
@@ -1246,10 +1250,10 @@
             this.tabOptionsPageFight.Controls.Add(this.cbQuickKill);
             this.tabOptionsPageFight.Controls.Add(this.cbAutoKill);
             this.tabOptionsPageFight.Controls.Add(this.cbExtend);
-            this.tabOptionsPageFight.Location = new System.Drawing.Point(4, 22);
+            this.tabOptionsPageFight.Location = new System.Drawing.Point(4, 21);
             this.tabOptionsPageFight.Name = "tabOptionsPageFight";
             this.tabOptionsPageFight.Padding = new System.Windows.Forms.Padding(3);
-            this.tabOptionsPageFight.Size = new System.Drawing.Size(364, 168);
+            this.tabOptionsPageFight.Size = new System.Drawing.Size(364, 169);
             this.tabOptionsPageFight.TabIndex = 2;
             this.tabOptionsPageFight.Text = "Fight";
             // 
@@ -1532,6 +1536,10 @@
             // tabOptionsPageGear
             // 
             this.tabOptionsPageGear.BackColor = System.Drawing.SystemColors.Control;
+            this.tabOptionsPageGear.Controls.Add(this.tbBaitGear);
+            this.tabOptionsPageGear.Controls.Add(this.tbRodGear);
+            this.tabOptionsPageGear.Controls.Add(this.lblBaitGear);
+            this.tabOptionsPageGear.Controls.Add(this.lblRodGear);
             this.tabOptionsPageGear.Controls.Add(this.lblBodyGear);
             this.tabOptionsPageGear.Controls.Add(this.tbBodyGear);
             this.tabOptionsPageGear.Controls.Add(this.lblHandsGear);
@@ -1553,20 +1561,108 @@
             this.tabOptionsPageGear.Controls.Add(this.lblWaistGear);
             this.tabOptionsPageGear.Controls.Add(this.tbWaistGear);
             this.tabOptionsPageGear.Controls.Add(this.cbWaistGear);
-            this.tabOptionsPageGear.Location = new System.Drawing.Point(4, 22);
+            this.tabOptionsPageGear.Location = new System.Drawing.Point(4, 21);
             this.tabOptionsPageGear.Name = "tabOptionsPageGear";
             this.tabOptionsPageGear.Padding = new System.Windows.Forms.Padding(3);
-            this.tabOptionsPageGear.Size = new System.Drawing.Size(364, 168);
+            this.tabOptionsPageGear.Size = new System.Drawing.Size(364, 169);
             this.tabOptionsPageGear.TabIndex = 4;
             this.tabOptionsPageGear.Text = "Gear";
+            // 
+            // tbBaitGear
+            // 
+            this.tbBaitGear.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.tbBaitGear.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.tbBaitGear.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.tbBaitGear.FormattingEnabled = true;
+            this.tbBaitGear.Items.AddRange(new object[] {
+            "",
+            "Dried Squid",
+            "Fly Lure",
+            "Frog Lure",
+            "Lizard Lure",
+            "Minnow",
+            "Robber Rig",
+            "Rogue Rig",
+            "Sabiki Rig",
+            "Shrimp Lure",
+            "Sinking Minnow",
+            "Worm Lure",
+            "Crayfish Ball",
+            "Drill Calamary",
+            "Dwarf Pugil",
+            "Giant Shell Bug",
+            "Insect Ball",
+            "Little Worm",
+            "Lufaise Fly",
+            "Lugworm",
+            "Meatball",
+            "Peeled Crayfish",
+            "Peeled Lobster",
+            "Rotten Meat",
+            "Sardine Ball",
+            "Shell Bug",
+            "Sliced of Bluetail",
+            "Slice of Carp",
+            "Sliced Cod",
+            "Sliced Sardine",
+            "Trout Ball"});
+            this.tbBaitGear.Location = new System.Drawing.Point(49, 30);
+            this.tbBaitGear.Name = "tbBaitGear";
+            this.tbBaitGear.Size = new System.Drawing.Size(97, 20);
+            this.tbBaitGear.TabIndex = 3;
+            // 
+            // tbRodGear
+            // 
+            this.tbRodGear.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.tbRodGear.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.tbRodGear.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.tbRodGear.FormattingEnabled = true;
+            this.tbRodGear.Items.AddRange(new object[] {
+            "",
+            "Ebisu Fishing Rod",
+            "Lu Shang\'s Fishing Rod",
+            "Bamboo Fishing Rod",
+            "Clothespole",
+            "Fastwater Fishing Rod",
+            "Hume Fishing Rod",
+            "Mithran Fishing Rod",
+            "Tarutaru Fishing Rod",
+            "Yew Fishing Rod",
+            "Carbon Fishing Rod",
+            "Composite Fishing Rod",
+            "Halcyon Rod",
+            "Single Hook Fishing Rod",
+            "Maze Monger Fishing Rod"});
+            this.tbRodGear.Location = new System.Drawing.Point(49, 6);
+            this.tbRodGear.Name = "tbRodGear";
+            this.tbRodGear.Size = new System.Drawing.Size(97, 20);
+            this.tbRodGear.TabIndex = 1;
+            // 
+            // lblBaitGear
+            // 
+            this.lblBaitGear.AutoSize = true;
+            this.lblBaitGear.Location = new System.Drawing.Point(6, 33);
+            this.lblBaitGear.Name = "lblBaitGear";
+            this.lblBaitGear.Size = new System.Drawing.Size(25, 13);
+            this.lblBaitGear.TabIndex = 2;
+            this.lblBaitGear.Text = "Bait";
+            // 
+            // lblRodGear
+            // 
+            this.lblRodGear.AutoSize = true;
+            this.lblRodGear.Location = new System.Drawing.Point(6, 9);
+            this.lblRodGear.Name = "lblRodGear";
+            this.lblRodGear.Size = new System.Drawing.Size(26, 13);
+            this.lblRodGear.TabIndex = 0;
+            this.lblRodGear.Text = "Rod";
             // 
             // lblBodyGear
             // 
             this.lblBodyGear.AutoSize = true;
-            this.lblBodyGear.Location = new System.Drawing.Point(6, 9);
+            this.lblBodyGear.Location = new System.Drawing.Point(6, 56);
             this.lblBodyGear.Name = "lblBodyGear";
             this.lblBodyGear.Size = new System.Drawing.Size(31, 13);
-            this.lblBodyGear.TabIndex = 0;
+            this.lblBodyGear.TabIndex = 4;
             this.lblBodyGear.Text = "Body";
             // 
             // tbBodyGear
@@ -1579,18 +1675,18 @@
             "Angler\'s tunica",
             "Fisherman\'s smock",
             "Fisherman\'s tunica"});
-            this.tbBodyGear.Location = new System.Drawing.Point(49, 7);
+            this.tbBodyGear.Location = new System.Drawing.Point(49, 54);
             this.tbBodyGear.Name = "tbBodyGear";
             this.tbBodyGear.Size = new System.Drawing.Size(97, 20);
-            this.tbBodyGear.TabIndex = 1;
+            this.tbBodyGear.TabIndex = 5;
             // 
             // lblHandsGear
             // 
             this.lblHandsGear.AutoSize = true;
-            this.lblHandsGear.Location = new System.Drawing.Point(6, 33);
+            this.lblHandsGear.Location = new System.Drawing.Point(6, 80);
             this.lblHandsGear.Name = "lblHandsGear";
             this.lblHandsGear.Size = new System.Drawing.Size(37, 13);
-            this.lblHandsGear.TabIndex = 2;
+            this.lblHandsGear.TabIndex = 6;
             this.lblHandsGear.Text = "Hands";
             // 
             // tbHandsGear
@@ -1602,18 +1698,18 @@
             "",
             "Angler\'s gloves",
             "Fisherman\'s gloves"});
-            this.tbHandsGear.Location = new System.Drawing.Point(49, 30);
+            this.tbHandsGear.Location = new System.Drawing.Point(49, 77);
             this.tbHandsGear.Name = "tbHandsGear";
             this.tbHandsGear.Size = new System.Drawing.Size(97, 20);
-            this.tbHandsGear.TabIndex = 3;
+            this.tbHandsGear.TabIndex = 7;
             // 
             // lblLegsGear
             // 
             this.lblLegsGear.AutoSize = true;
-            this.lblLegsGear.Location = new System.Drawing.Point(6, 57);
+            this.lblLegsGear.Location = new System.Drawing.Point(6, 104);
             this.lblLegsGear.Name = "lblLegsGear";
             this.lblLegsGear.Size = new System.Drawing.Size(30, 13);
-            this.lblLegsGear.TabIndex = 4;
+            this.lblLegsGear.TabIndex = 8;
             this.lblLegsGear.Text = "Legs";
             // 
             // tbLegsGear
@@ -1625,18 +1721,18 @@
             "",
             "Angler\'s hose",
             "Fisherman\'s hose"});
-            this.tbLegsGear.Location = new System.Drawing.Point(49, 54);
+            this.tbLegsGear.Location = new System.Drawing.Point(49, 101);
             this.tbLegsGear.Name = "tbLegsGear";
             this.tbLegsGear.Size = new System.Drawing.Size(97, 20);
-            this.tbLegsGear.TabIndex = 5;
+            this.tbLegsGear.TabIndex = 9;
             // 
             // lblFeetGear
             // 
             this.lblFeetGear.AutoSize = true;
-            this.lblFeetGear.Location = new System.Drawing.Point(6, 81);
+            this.lblFeetGear.Location = new System.Drawing.Point(6, 128);
             this.lblFeetGear.Name = "lblFeetGear";
             this.lblFeetGear.Size = new System.Drawing.Size(28, 13);
-            this.lblFeetGear.TabIndex = 6;
+            this.lblFeetGear.TabIndex = 10;
             this.lblFeetGear.Text = "Feet";
             // 
             // tbFeetGear
@@ -1649,10 +1745,10 @@
             "Angler\'s boots",
             "Fisherman\'s boots",
             "Waders"});
-            this.tbFeetGear.Location = new System.Drawing.Point(49, 78);
+            this.tbFeetGear.Location = new System.Drawing.Point(49, 125);
             this.tbFeetGear.Name = "tbFeetGear";
             this.tbFeetGear.Size = new System.Drawing.Size(97, 20);
-            this.tbFeetGear.TabIndex = 7;
+            this.tbFeetGear.TabIndex = 11;
             // 
             // lblLRingGear
             // 
@@ -1660,7 +1756,7 @@
             this.lblLRingGear.Location = new System.Drawing.Point(161, 80);
             this.lblLRingGear.Name = "lblLRingGear";
             this.lblLRingGear.Size = new System.Drawing.Size(49, 13);
-            this.lblLRingGear.TabIndex = 15;
+            this.lblLRingGear.TabIndex = 19;
             this.lblLRingGear.Text = "Left Ring";
             // 
             // tbLRingGear
@@ -1680,7 +1776,7 @@
             this.tbLRingGear.Location = new System.Drawing.Point(222, 77);
             this.tbLRingGear.Name = "tbLRingGear";
             this.tbLRingGear.Size = new System.Drawing.Size(97, 20);
-            this.tbLRingGear.TabIndex = 16;
+            this.tbLRingGear.TabIndex = 20;
             this.tbLRingGear.SelectedIndexChanged += new System.EventHandler(this.tbLRingGear_SelectedIndexChanged);
             // 
             // cbLRingGear
@@ -1690,7 +1786,7 @@
             this.cbLRingGear.Location = new System.Drawing.Point(325, 79);
             this.cbLRingGear.Name = "cbLRingGear";
             this.cbLRingGear.Size = new System.Drawing.Size(40, 17);
-            this.cbLRingGear.TabIndex = 17;
+            this.cbLRingGear.TabIndex = 21;
             this.cbLRingGear.Text = "AE";
             this.cbLRingGear.UseVisualStyleBackColor = true;
             // 
@@ -1700,7 +1796,7 @@
             this.lblRRingGear.Location = new System.Drawing.Point(161, 104);
             this.lblRRingGear.Name = "lblRRingGear";
             this.lblRRingGear.Size = new System.Drawing.Size(55, 13);
-            this.lblRRingGear.TabIndex = 18;
+            this.lblRRingGear.TabIndex = 22;
             this.lblRRingGear.Text = "Right Ring";
             // 
             // tbRRingGear
@@ -1720,7 +1816,7 @@
             this.tbRRingGear.Location = new System.Drawing.Point(222, 101);
             this.tbRRingGear.Name = "tbRRingGear";
             this.tbRRingGear.Size = new System.Drawing.Size(97, 20);
-            this.tbRRingGear.TabIndex = 19;
+            this.tbRRingGear.TabIndex = 23;
             this.tbRRingGear.SelectedIndexChanged += new System.EventHandler(this.tbRRingGear_SelectedIndexChanged);
             // 
             // cbRRingGear
@@ -1730,7 +1826,7 @@
             this.cbRRingGear.Location = new System.Drawing.Point(325, 103);
             this.cbRRingGear.Name = "cbRRingGear";
             this.cbRRingGear.Size = new System.Drawing.Size(40, 17);
-            this.cbRRingGear.TabIndex = 20;
+            this.cbRRingGear.TabIndex = 24;
             this.cbRRingGear.Text = "AE";
             this.cbRRingGear.UseVisualStyleBackColor = true;
             // 
@@ -1740,7 +1836,7 @@
             this.lblHeadGear.Location = new System.Drawing.Point(161, 9);
             this.lblHeadGear.Name = "lblHeadGear";
             this.lblHeadGear.Size = new System.Drawing.Size(32, 13);
-            this.lblHeadGear.TabIndex = 8;
+            this.lblHeadGear.TabIndex = 12;
             this.lblHeadGear.Text = "Head";
             // 
             // tbHeadGear
@@ -1754,7 +1850,7 @@
             this.tbHeadGear.Location = new System.Drawing.Point(222, 6);
             this.tbHeadGear.Name = "tbHeadGear";
             this.tbHeadGear.Size = new System.Drawing.Size(97, 20);
-            this.tbHeadGear.TabIndex = 9;
+            this.tbHeadGear.TabIndex = 13;
             // 
             // lblNeckGear
             // 
@@ -1762,7 +1858,7 @@
             this.lblNeckGear.Location = new System.Drawing.Point(161, 33);
             this.lblNeckGear.Name = "lblNeckGear";
             this.lblNeckGear.Size = new System.Drawing.Size(30, 13);
-            this.lblNeckGear.TabIndex = 10;
+            this.lblNeckGear.TabIndex = 14;
             this.lblNeckGear.Text = "Neck";
             // 
             // tbNeckGear
@@ -1776,7 +1872,7 @@
             this.tbNeckGear.Location = new System.Drawing.Point(222, 30);
             this.tbNeckGear.Name = "tbNeckGear";
             this.tbNeckGear.Size = new System.Drawing.Size(97, 20);
-            this.tbNeckGear.TabIndex = 11;
+            this.tbNeckGear.TabIndex = 15;
             // 
             // lblWaistGear
             // 
@@ -1784,7 +1880,7 @@
             this.lblWaistGear.Location = new System.Drawing.Point(161, 56);
             this.lblWaistGear.Name = "lblWaistGear";
             this.lblWaistGear.Size = new System.Drawing.Size(32, 13);
-            this.lblWaistGear.TabIndex = 12;
+            this.lblWaistGear.TabIndex = 16;
             this.lblWaistGear.Text = "Waist";
             // 
             // tbWaistGear
@@ -1799,7 +1895,7 @@
             this.tbWaistGear.Location = new System.Drawing.Point(222, 53);
             this.tbWaistGear.Name = "tbWaistGear";
             this.tbWaistGear.Size = new System.Drawing.Size(97, 20);
-            this.tbWaistGear.TabIndex = 13;
+            this.tbWaistGear.TabIndex = 17;
             this.tbWaistGear.SelectedIndexChanged += new System.EventHandler(this.tbWaistGear_SelectedIndexChanged);
             // 
             // cbWaistGear
@@ -1809,7 +1905,7 @@
             this.cbWaistGear.Location = new System.Drawing.Point(325, 56);
             this.cbWaistGear.Name = "cbWaistGear";
             this.cbWaistGear.Size = new System.Drawing.Size(40, 17);
-            this.cbWaistGear.TabIndex = 14;
+            this.cbWaistGear.TabIndex = 18;
             this.cbWaistGear.Text = "AE";
             this.cbWaistGear.UseVisualStyleBackColor = true;
             // 
@@ -2314,6 +2410,10 @@
         private System.Windows.Forms.CheckBox cbBaitActionLogout;
         private System.Windows.Forms.CheckBox cbBaitActionShutdown;
         private System.Windows.Forms.CheckBox cbEnableItemizerItemTools;
+        private System.Windows.Forms.ComboBox tbBaitGear;
+        private System.Windows.Forms.ComboBox tbRodGear;
+        private System.Windows.Forms.Label lblBaitGear;
+        private System.Windows.Forms.Label lblRodGear;
     }
 }
 
