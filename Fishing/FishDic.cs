@@ -170,59 +170,72 @@ namespace Fishing
         #region RodDictionary
         public static Dictionary<string, int> rodDictionary = new Dictionary<string, int>()
         {
+            {"Ebisu Fishing Rod", 17011},
+            {"Lu Shang's F. Rod", 17386},
             {"Bamboo Fish. Rod", 17389},
             {"Carbon Fish. Rod", 17384},
             {"Clothespole", 17383},
             {"Comp. Fishing Rod", 17381},
-            {"Ebisu Fishing Rod", 17011},
             {"Fastwater F. Rod", 17388},
             {"Glass Fiber F. Rod", 17385},
             {"Halcyon Rod", 17015},
             {"Hume Fishing Rod", 17014},
-            {"Lu Shang's F. Rod", 17386},
-            {"MMM Fishing Rod", 19319},
             {"Mithran Fish. Rod", 17380},
             {"S.H. Fishing Rod", 17382},
             {"Tarutaru F. Rod", 17387},
             {"Willow Fish. Rod", 17391},
-            {"Yew Fishing Rod", 17390}
+            {"Yew Fishing Rod", 17390},
+            {"MMM Fishing Rod", 19319}
         };
+        public static List<string> rodList = new List<string>(rodDictionary.Keys);
         #endregion
 
-        #region GearDictionary 
+        #region GearDictionary
         public static Dictionary<string, int> gearDictionary = new Dictionary<string, int>()
         {
-            //placeholder for proper gear check/swap at some point
-            {"Angler's Boots", 14172},
-            {"Angler's Gloves", 14071},
-            {"Angler's Hose", 14293},
+            // Body
             {"Angler's Tunica", 13809},
-            {"Duchy Earring", 16042},
-            {"Empire Earring", 16049},
-            {"Federation Earring", 16041},
             {"Fisherman's Apron", 14400},
-            {"Fisherman's Boots", 14171},
-            {"Fisherman's Gloves", 14070},
-            {"Fisherman's Hose", 14292},
             {"Fisherman's Smock", 11337},
             {"Fisherman's Tunica", 13808},
+            // Hands
+            {"Angler's Gloves", 14071},
+            {"Fisherman's Gloves", 14070},
+            // Legs
+            {"Angler's Hose", 14293},
+            {"Fisherman's Hose", 14292},
+            // Feet
+            {"Angler's Boots", 14172},
+            {"Fisherman's Boots", 14171},
+            {"Waders", 14195},
+            // Head
+            {"Trainee's Spectacles", 11499},
+            // Neck
             {"Fisher's Torque", 10925},
+            // Waist
+            {"Fisher's Rope", 11768},
+            {"Fisherman's Belt", 15452},
+            // Rings
             {"Heron Ring", 15846},
-            {"Kazham Earring", 16046},
-            {"Kingdom Earring", 16039},
-            {"Mhaura Earring", 16044},
-            {"Nashmau Earring", 16050},
             {"Noddy Ring", 11655},
             {"Norg Earring", 16047},
             {"Penguin Ring", 15556},
             {"Puffin Ring", 11654},
+            {"Seagull Ring", 15845},
+            // Earrings
+            {"Duchy Earring", 16042},
+            {"Empire Earring", 16049},
+            {"Federation Earring", 16041},
+            {"Kazham Earring", 16046},
+            {"Kingdom Earring", 16039},
+            {"Mhaura Earring", 16044},
+            {"Nashmau Earring", 16050},
             {"Rabao Earring", 16045},
             {"Republic Earring", 16040},
             {"Safehold Earring", 16048},
-            {"Seagull Ring", 15845},
-            {"Selbina Earring", 16043},
-            {"Waders", 14195}
+            {"Selbina Earring", 16043}
         };
+        public static List<string> gearList = new List<string>(gearDictionary.Keys);
         #endregion
 
         #region BaitDictionary
@@ -264,6 +277,7 @@ namespace Fishing
             {"Sliced Sardine", 17392},
             {"Trout Ball", 16999}
         };
+        public static List<string> baitList = new List<string>(baitDictionary.Keys);
         #endregion
     }
 }

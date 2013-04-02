@@ -2711,6 +2711,8 @@ namespace Fishing
                 Settings.Default.IgnoreMonsters = cbIgnoreMonster.Checked = true;
                 Settings.Default.IgnoreSmallFish = cbIgnoreSmallFish.Checked = false;
                 Settings.Default.IgnoreLargeFish = cbIgnoreLargeFish.Checked = false;
+                Settings.Default.RodGear = tbRodGear.SelectedIndex = 0;
+                Settings.Default.BaitGear = tbBaitGear.SelectedIndex = 0;
 				Settings.Default.BodyGear = tbBodyGear.SelectedIndex = 0;
 				Settings.Default.HandsGear = tbHandsGear.SelectedIndex = 0;
 				Settings.Default.LegsGear = tbLegsGear.SelectedIndex = 0;
@@ -2778,7 +2780,9 @@ namespace Fishing
 				Settings.Default.FullActionOther = rbFullactionOther.Checked;
 				Settings.Default.FullActionWarp = rbFullactionWarp.Checked;
 				Settings.Default.FullActionLogout = rbFullactionLogout.Checked;
-				Settings.Default.FullActionShutdown = rbFullactionShutdown.Checked;
+                Settings.Default.FullActionShutdown = rbFullactionShutdown.Checked;
+                Settings.Default.RodGear = tbRodGear.SelectedIndex;
+                Settings.Default.BaitGear = tbBaitGear.SelectedIndex;
 				Settings.Default.BodyGear = tbBodyGear.SelectedIndex;
 				Settings.Default.HandsGear = tbHandsGear.SelectedIndex;
 				Settings.Default.LegsGear = tbLegsGear.SelectedIndex;
@@ -2850,7 +2854,9 @@ namespace Fishing
 			rbFullactionOther.Checked = Settings.Default.FullActionOther;
 			rbFullactionWarp.Checked = Settings.Default.FullActionWarp;
 			rbFullactionLogout.Checked = Settings.Default.FullActionLogout;
-			rbFullactionShutdown.Checked = Settings.Default.FullActionShutdown;
+            rbFullactionShutdown.Checked = Settings.Default.FullActionShutdown;
+            tbRodGear.SelectedIndex = Settings.Default.RodGear;
+            tbBaitGear.SelectedIndex = Settings.Default.BaitGear;
 			tbBodyGear.SelectedIndex = Settings.Default.BodyGear;
 			tbHandsGear.SelectedIndex = Settings.Default.HandsGear;
 			tbLegsGear.SelectedIndex = Settings.Default.LegsGear;

@@ -694,5 +694,29 @@ namespace Fishing.Properties {
                 this["BaitShutdown"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int RodGear {
+            get {
+                return ((int)(this["RodGear"]));
+            }
+            set {
+                this["RodGear"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int BaitGear {
+            get {
+                return ((int)(this["BaitGear"]));
+            }
+            set {
+                this["BaitGear"] = value;
+            }
+        }
     }
 }
