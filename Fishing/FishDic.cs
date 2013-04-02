@@ -236,6 +236,24 @@ namespace Fishing
             {"Selbina Earring", 16043}
         };
         public static List<string> gearList = new List<string>(gearDictionary.Keys);
+        public static int bodyIndex = 0;
+        public static int bodyCount = 4;
+        public static int handsIndex = 4;
+        public static int handsCount = 2;
+        public static int legsIndex = 6;
+        public static int legsCount = 2;
+        public static int feetIndex = 8;
+        public static int feetCount = 3;
+        public static int headIndex = 11;
+        public static int headCount = 1;
+        public static int neckIndex = 12;
+        public static int neckCount = 1;
+        public static int waistIndex = 13;
+        public static int waistCount = 2;
+        public static int ringsIndex = 15;
+        public static int ringsCount = 6;
+        public static int earringsIndex = 21;
+        public static int earringsCount = 11;
         #endregion
 
         #region BaitDictionary

@@ -707,93 +707,7 @@ namespace Fishing
                 return;
             }
 
-			//move items with itemizer or itemtools or custom script
-            if (_FFACE.Item.InventoryCount == _FFACE.Item.InventoryMax
-					&& rbFullactionOther.Checked)
-            {
-				if (!string.IsNullOrEmpty(tbFullactionOther.Text))
-				{
-					if (cbEnableItemizerItemTools.Checked)
-					{
-						// Get the strings, first split on semicolons for multiple fish
-						string[] tempcommandstring = tbFullactionOther.Text.Split(new String[] {";"}, StringSplitOptions.RemoveEmptyEntries);
-						foreach (string command in tempcommandstring) {
-							string[] tempactionstring = command.Split(new String[] {" "}, StringSplitOptions.RemoveEmptyEntries);
-							// Check command type
-							if (!(tempactionstring[0].StartsWith("/moveitem") || tempactionstring[0].StartsWith("/put")))
-							{
-								Stop(false, "Unknown itemizer/itemtools command.");
-							}
-
-							string fish;
-							if (command.Contains("\""))
-							{
-								fish = command.Split(new String[] {"\""}, StringSplitOptions.RemoveEmptyEntries)[1];
-							}
-							else
-							{
-								fish = tempactionstring[1];
-							}
-
-							string storagemedium;
-							if (tempactionstring[0].StartsWith("/moveitem"))
-							{
-								storagemedium = tempactionstring[tempactionstring.Length-1].ToLower();
-								// Command ends with a quantity. Get correct storage medium
-								if (storagemedium != "satchel" && storagemedium != "sack")
-								{
-									storagemedium = tempactionstring[tempactionstring.Length-2].ToLower();
-								}
-							}
-							else
-							{
-								storagemedium = tempactionstring[tempactionstring.Length-1].ToLower();
-							}
-
-							// Check storage location
-							if (storagemedium != "satchel" && storagemedium != "sack")
-							{
-								Stop(false, "Unknown destination to move fish");
-							}
-
-							MoveItems(string.Join(" ", tempactionstring), ref fish, ref storagemedium);
-						}
-					}
-					else
-					{
-						SetStatus("Running full inventory command.");
-						_FFACE.Windower.SendString(tbFullactionOther.Text);
-						Thread.Sleep(10000);
-					}
-				}
-				else
-				{
-					Stop(false, "Inventory is full!");
-				}
-			}
-            if (_FFACE.Item.InventoryCount == _FFACE.Item.InventoryMax)
-            {
-                if (rbFullactionWarp.Checked)
-                {
-                    SetStatus("Inventory is full: Warping");
-                    _FFACE.Windower.SendString("/ma \"Warp\" <me>");
-                    Thread.Sleep(30000);
-                }
-                if (rbFullactionLogout.Checked)
-                {
-                    SetStatus("Inventory is full: Logging out");
-                    _FFACE.Windower.SendString("/logout");
-                    Thread.Sleep(30000);
-                }
-			    else if (rbFullactionShutdown.Checked)
-			    {
-				    SetStatus("Inventory is full: Shutting down");
-				    _FFACE.Windower.SendString("/shutdown");
-				    Thread.Sleep(30000);
-                }
-				Stop(false, "Inventory is full!");
-				return;
-			}
+            CheckInventory();
 
 			if (Status.Fishing != currentStatus && Status.FishBite != currentStatus)
 			{
@@ -1042,6 +956,98 @@ namespace Fishing
             }
             WaitUntil(Status.Standing);
         } // @ private void Fish()
+
+        private void CheckInventory()
+        {
+            //move items with itemizer or itemtools or custom script
+            if (_FFACE.Item.InventoryCount == _FFACE.Item.InventoryMax
+                    && rbFullactionOther.Checked)
+            {
+                if (!string.IsNullOrEmpty(tbFullactionOther.Text))
+                {
+                    if (cbEnableItemizerItemTools.Checked)
+                    {
+                        // Get the strings, first split on semicolons for multiple fish
+                        string[] tempcommandstring = tbFullactionOther.Text.Split(new String[] { ";" }, StringSplitOptions.RemoveEmptyEntries);
+                        foreach (string command in tempcommandstring)
+                        {
+                            string[] tempactionstring = command.Split(new String[] { " " }, StringSplitOptions.RemoveEmptyEntries);
+                            // Check command type
+                            if (!(tempactionstring[0].StartsWith("/moveitem") || tempactionstring[0].StartsWith("/put")))
+                            {
+                                Stop(false, "Unknown itemizer/itemtools command.");
+                            }
+
+                            string fish;
+                            if (command.Contains("\""))
+                            {
+                                fish = command.Split(new String[] { "\"" }, StringSplitOptions.RemoveEmptyEntries)[1];
+                            }
+                            else
+                            {
+                                fish = tempactionstring[1];
+                            }
+
+                            string storagemedium;
+                            if (tempactionstring[0].StartsWith("/moveitem"))
+                            {
+                                storagemedium = tempactionstring[tempactionstring.Length - 1].ToLower();
+                                // Command ends with a quantity. Get correct storage medium
+                                if (storagemedium != "satchel" && storagemedium != "sack")
+                                {
+                                    storagemedium = tempactionstring[tempactionstring.Length - 2].ToLower();
+                                }
+                            }
+                            else
+                            {
+                                storagemedium = tempactionstring[tempactionstring.Length - 1].ToLower();
+                            }
+
+                            // Check storage location
+                            if (storagemedium != "satchel" && storagemedium != "sack")
+                            {
+                                Stop(false, "Unknown destination to move fish");
+                            }
+
+                            MoveItems(string.Join(" ", tempactionstring), ref fish, ref storagemedium);
+                        }
+                    }
+                    else
+                    {
+                        SetStatus("Running full inventory command.");
+                        _FFACE.Windower.SendString(tbFullactionOther.Text);
+                        Thread.Sleep(10000);
+                    }
+                }
+                else
+                {
+                    Stop(false, "Inventory is full!");
+                }
+            }
+            if (_FFACE.Item.InventoryCount == _FFACE.Item.InventoryMax)
+            {
+                if (rbFullactionWarp.Checked)
+                {
+                    SetStatus("Inventory is full: Warping");
+                    _FFACE.Windower.SendString("/ma \"Warp\" <me>");
+                    Thread.Sleep(30000);
+                }
+                if (rbFullactionLogout.Checked)
+                {
+                    SetStatus("Inventory is full: Logging out");
+                    _FFACE.Windower.SendString("/logout");
+                    Thread.Sleep(30000);
+                }
+                else if (rbFullactionShutdown.Checked)
+                {
+                    SetStatus("Inventory is full: Shutting down");
+                    _FFACE.Windower.SendString("/shutdown");
+                    Thread.Sleep(30000);
+                }
+                Stop(false, "Inventory is full!");
+                return;
+            }
+        }
 
         private void MoveItems(string command, ref string itemname, ref string storagearea)
         {

@@ -1627,7 +1627,7 @@
             this.tbBodyGear.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.tbBodyGear.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.tbBodyGear.Items.Add("");
-            this.tbBodyGear.Items.AddRange(Dictionaries.gearList.GetRange(0,4).ToArray());
+            this.tbBodyGear.Items.AddRange(Dictionaries.gearList.GetRange(Dictionaries.bodyIndex, Dictionaries.bodyCount).ToArray());
             this.tbBodyGear.Location = new System.Drawing.Point(49, 54);
             this.tbBodyGear.Name = "tbBodyGear";
             this.tbBodyGear.Size = new System.Drawing.Size(97, 20);
@@ -1648,7 +1648,7 @@
             this.tbHandsGear.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.tbHandsGear.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.tbHandsGear.Items.Add("");
-            this.tbHandsGear.Items.AddRange(Dictionaries.gearList.GetRange(4,2).ToArray());
+            this.tbHandsGear.Items.AddRange(Dictionaries.gearList.GetRange(Dictionaries.handsIndex, Dictionaries.handsCount).ToArray());
             this.tbHandsGear.Location = new System.Drawing.Point(49, 77);
             this.tbHandsGear.Name = "tbHandsGear";
             this.tbHandsGear.Size = new System.Drawing.Size(97, 20);
@@ -1669,7 +1669,7 @@
             this.tbLegsGear.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.tbLegsGear.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.tbLegsGear.Items.Add("");
-            this.tbLegsGear.Items.AddRange(Dictionaries.gearList.GetRange(6, 2).ToArray());
+            this.tbLegsGear.Items.AddRange(Dictionaries.gearList.GetRange(Dictionaries.legsIndex, Dictionaries.legsCount).ToArray());
             this.tbLegsGear.Location = new System.Drawing.Point(49, 101);
             this.tbLegsGear.Name = "tbLegsGear";
             this.tbLegsGear.Size = new System.Drawing.Size(97, 20);
@@ -1690,7 +1690,7 @@
             this.tbFeetGear.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.tbFeetGear.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.tbFeetGear.Items.Add("");
-            this.tbFeetGear.Items.AddRange(Dictionaries.gearList.GetRange(8, 3).ToArray());
+            this.tbFeetGear.Items.AddRange(Dictionaries.gearList.GetRange(Dictionaries.feetIndex, Dictionaries.feetCount).ToArray());
             this.tbFeetGear.Location = new System.Drawing.Point(49, 125);
             this.tbFeetGear.Name = "tbFeetGear";
             this.tbFeetGear.Size = new System.Drawing.Size(97, 20);
@@ -1711,7 +1711,7 @@
             this.tbHeadGear.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.tbHeadGear.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.tbHeadGear.Items.Add("");
-            this.tbHeadGear.Items.AddRange(Dictionaries.gearList.GetRange(11, 1).ToArray());
+            this.tbHeadGear.Items.AddRange(Dictionaries.gearList.GetRange(Dictionaries.headIndex, Dictionaries.headCount).ToArray());
             this.tbHeadGear.Location = new System.Drawing.Point(222, 6);
             this.tbHeadGear.Name = "tbHeadGear";
             this.tbHeadGear.Size = new System.Drawing.Size(97, 20);
@@ -1732,7 +1732,7 @@
             this.tbNeckGear.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.tbNeckGear.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.tbNeckGear.Items.Add("");
-            this.tbNeckGear.Items.AddRange(Dictionaries.gearList.GetRange(12, 1).ToArray());
+            this.tbNeckGear.Items.AddRange(Dictionaries.gearList.GetRange(Dictionaries.neckIndex, Dictionaries.neckCount).ToArray());
             this.tbNeckGear.Location = new System.Drawing.Point(222, 30);
             this.tbNeckGear.Name = "tbNeckGear";
             this.tbNeckGear.Size = new System.Drawing.Size(97, 20);
@@ -1753,7 +1753,7 @@
             this.tbWaistGear.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.tbWaistGear.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.tbWaistGear.Items.Add("");
-            this.tbWaistGear.Items.AddRange(Dictionaries.gearList.GetRange(13, 2).ToArray());
+            this.tbWaistGear.Items.AddRange(Dictionaries.gearList.GetRange(Dictionaries.waistIndex, Dictionaries.waistCount).ToArray());
             this.tbWaistGear.Location = new System.Drawing.Point(222, 53);
             this.tbWaistGear.Name = "tbWaistGear";
             this.tbWaistGear.Size = new System.Drawing.Size(97, 20);
@@ -1786,7 +1786,7 @@
             this.tbLRingGear.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.tbLRingGear.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.tbLRingGear.Items.Add("");
-            this.tbLRingGear.Items.AddRange(Dictionaries.gearList.GetRange(15, 6).ToArray());
+            this.tbLRingGear.Items.AddRange(Dictionaries.gearList.GetRange(Dictionaries.ringsIndex, Dictionaries.ringsCount).ToArray());
             this.tbLRingGear.Location = new System.Drawing.Point(222, 77);
             this.tbLRingGear.Name = "tbLRingGear";
             this.tbLRingGear.Size = new System.Drawing.Size(97, 20);
@@ -1819,7 +1819,7 @@
             this.tbRRingGear.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.tbRRingGear.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.tbRRingGear.Items.Add("");
-            this.tbRRingGear.Items.AddRange(Dictionaries.gearList.GetRange(15, 6).ToArray());
+            this.tbRRingGear.Items.AddRange(Dictionaries.gearList.GetRange(Dictionaries.ringsIndex, Dictionaries.ringsCount).ToArray());
             this.tbRRingGear.Location = new System.Drawing.Point(222, 101);
             this.tbRRingGear.Name = "tbRRingGear";
             this.tbRRingGear.Size = new System.Drawing.Size(97, 20);
