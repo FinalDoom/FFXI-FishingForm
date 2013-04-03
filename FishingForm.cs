@@ -961,7 +961,7 @@ namespace Fishing
         {
             //move items with itemizer or itemtools or custom script
             if (_FFACE.Item.InventoryCount == _FFACE.Item.InventoryMax
-                    && rbFullactionOther.Checked)
+                    && (cbEnableItemizerItemTools.Checked || rbFullactionOther.Checked))
             {
                 if (!string.IsNullOrEmpty(tbFullactionOther.Text))
                 {
@@ -1012,7 +1012,7 @@ namespace Fishing
                             MoveItems(string.Join(" ", tempactionstring), ref fish, ref storagemedium);
                         }
                     }
-                    else
+                    else if (rbFullactionOther.Checked)
                     {
                         SetStatus("Running full inventory command.");
                         _FFACE.Windower.SendString(tbFullactionOther.Text);
