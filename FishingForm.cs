@@ -130,6 +130,18 @@ namespace Fishing
             toolTip.SetToolTip(cbMaxCatch, "Stops fishing when # of catches reached; value resets when limit is reached.");
             toolTip.SetToolTip(cbSneakFishing, "Will cast the spell Sneak prior to casting.");
 
+            this.tbBaitGear.Items.AddRange(Dictionaries.baitList.ToArray());
+            this.tbRodGear.Items.AddRange(Dictionaries.rodList.ToArray());
+            this.tbBodyGear.Items.AddRange(Dictionaries.gearList.GetRange(Dictionaries.bodyIndex, Dictionaries.bodyCount).ToArray());
+            this.tbHandsGear.Items.AddRange(Dictionaries.gearList.GetRange(Dictionaries.handsIndex, Dictionaries.handsCount).ToArray());
+            this.tbLegsGear.Items.AddRange(Dictionaries.gearList.GetRange(Dictionaries.legsIndex, Dictionaries.legsCount).ToArray());
+            this.tbFeetGear.Items.AddRange(Dictionaries.gearList.GetRange(Dictionaries.feetIndex, Dictionaries.feetCount).ToArray());
+            this.tbHeadGear.Items.AddRange(Dictionaries.gearList.GetRange(Dictionaries.headIndex, Dictionaries.headCount).ToArray());
+            this.tbNeckGear.Items.AddRange(Dictionaries.gearList.GetRange(Dictionaries.neckIndex, Dictionaries.neckCount).ToArray());
+            this.tbWaistGear.Items.AddRange(Dictionaries.gearList.GetRange(Dictionaries.waistIndex, Dictionaries.waistCount).ToArray());
+            this.tbLRingGear.Items.AddRange(Dictionaries.gearList.GetRange(Dictionaries.ringsIndex, Dictionaries.ringsCount).ToArray());
+            this.tbRRingGear.Items.AddRange(Dictionaries.gearList.GetRange(Dictionaries.ringsIndex, Dictionaries.ringsCount).ToArray());
+
             FishDB.OnChanged += new FishDB.DBChanged(PopulateLists);
             FishStats.OnChanged += new FishStats.FishStatsChanged(UpdateStats);
 
