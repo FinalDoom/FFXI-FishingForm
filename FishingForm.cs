@@ -1982,6 +1982,7 @@ namespace Fishing
                     {
                         if (tabChat.SelectedTab.Name != "tabChatPageTell" && FishChat.chatLog[FishChat.tellLogAdded - 1].Text.Length >= 2 && FishChat.chatLog[FishChat.tellLogAdded - 1].Text.Substring(0, 2) != ">>")
                         {
+                            doFlashWindow();
                             tabChatPageTell.Text = " Tell (!!!)";
                             statusStripMain.BackColor = Color.Plum;
                         }
@@ -2043,6 +2044,10 @@ namespace Fishing
 
         #region Methods_Advanced
 
+        private void doFlashWindow()
+        {
+            FlashWindow.Flash(this);
+        }
 
         private void gmDetect()
         {
