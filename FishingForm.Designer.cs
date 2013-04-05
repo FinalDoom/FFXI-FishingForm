@@ -89,10 +89,10 @@
             this.tabDisplayPageOptions = new System.Windows.Forms.TabPage();
             this.tabOptions = new System.Windows.Forms.TabControl();
             this.tabOptionsPageForm = new System.Windows.Forms.TabPage();
+            this.cbTellDetect = new System.Windows.Forms.CheckBox();
             this.cbSneakFishing = new System.Windows.Forms.CheckBox();
             this.numMaxCatch = new System.Windows.Forms.NumericUpDown();
             this.cbMaxCatch = new System.Windows.Forms.CheckBox();
-            this.cbTellDetect = new System.Windows.Forms.CheckBox();
             this.gbGeneralFishing = new System.Windows.Forms.GroupBox();
             this.lblCastWait = new System.Windows.Forms.Label();
             this.numMaxNoCatch = new System.Windows.Forms.NumericUpDown();
@@ -105,6 +105,12 @@
             this.btnSettingsSave = new System.Windows.Forms.Button();
             this.btnSettingsReset = new System.Windows.Forms.Button();
             this.cbAlwaysOnTop = new System.Windows.Forms.CheckBox();
+            this.tabOptionsPageChat = new System.Windows.Forms.TabPage();
+            this.panelChatDetect = new System.Windows.Forms.Panel();
+            this.lblChatDetect = new System.Windows.Forms.Label();
+            this.btnChatDetectAdd = new System.Windows.Forms.Button();
+            this.gbGMDetect = new System.Windows.Forms.GroupBox();
+            this.cbGMdetectAutostop = new System.Windows.Forms.CheckBox();
             this.tabOptionsPageFight = new System.Windows.Forms.TabPage();
             this.cbFishHP = new System.Windows.Forms.CheckBox();
             this.numReactionHigh = new System.Windows.Forms.NumericUpDown();
@@ -160,15 +166,13 @@
             this.cbFatiguedActionWarp = new System.Windows.Forms.CheckBox();
             this.cbFatiguedActionLogout = new System.Windows.Forms.CheckBox();
             this.cbFatiguedActionShutdown = new System.Windows.Forms.CheckBox();
-            this.gbGMDetect = new System.Windows.Forms.GroupBox();
-            this.cbGMdetectAutostop = new System.Windows.Forms.CheckBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.cbEnableItemizerItemTools = new System.Windows.Forms.CheckBox();
             this.tbFullactionOther = new System.Windows.Forms.TextBox();
             this.rbFullactionOther = new System.Windows.Forms.CheckBox();
             this.rbFullactionShutdown = new System.Windows.Forms.CheckBox();
             this.rbFullactionLogout = new System.Windows.Forms.CheckBox();
             this.rbFullactionWarp = new System.Windows.Forms.CheckBox();
+            this.cbEnableItemizerItemTools = new System.Windows.Forms.CheckBox();
             this.timer = new System.Windows.Forms.Timer(this.components);
             this.statusStripMain = new System.Windows.Forms.StatusStrip();
             this.lblVanaDay = new System.Windows.Forms.ToolStripStatusLabel();
@@ -203,6 +207,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.numCastIntervalLow)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numCastIntervalHigh)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackOpacity)).BeginInit();
+            this.tabOptionsPageChat.SuspendLayout();
+            this.panelChatDetect.SuspendLayout();
+            this.gbGMDetect.SuspendLayout();
             this.tabOptionsPageFight.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numReactionHigh)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numReactionLow)).BeginInit();
@@ -215,7 +222,6 @@
             this.tabOptionsPageAdvanced.SuspendLayout();
             this.gbExhaustedBait.SuspendLayout();
             this.gbOnFatigue.SuspendLayout();
-            this.gbGMDetect.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.statusStripMain.SuspendLayout();
             this.SuspendLayout();
@@ -627,9 +633,9 @@
             // tabChatPageTell
             // 
             this.tabChatPageTell.Controls.Add(this.rtbTell);
-            this.tabChatPageTell.Location = new System.Drawing.Point(4, 22);
+            this.tabChatPageTell.Location = new System.Drawing.Point(4, 21);
             this.tabChatPageTell.Name = "tabChatPageTell";
-            this.tabChatPageTell.Size = new System.Drawing.Size(367, 146);
+            this.tabChatPageTell.Size = new System.Drawing.Size(367, 147);
             this.tabChatPageTell.TabIndex = 2;
             this.tabChatPageTell.Text = "Tell";
             this.tabChatPageTell.UseVisualStyleBackColor = true;
@@ -645,7 +651,7 @@
             this.rtbTell.Margin = new System.Windows.Forms.Padding(0);
             this.rtbTell.Name = "rtbTell";
             this.rtbTell.ReadOnly = true;
-            this.rtbTell.Size = new System.Drawing.Size(367, 146);
+            this.rtbTell.Size = new System.Drawing.Size(367, 147);
             this.rtbTell.TabIndex = 1;
             this.rtbTell.TabStop = false;
             this.rtbTell.Text = "";
@@ -952,6 +958,7 @@
             // tabOptions
             // 
             this.tabOptions.Controls.Add(this.tabOptionsPageForm);
+            this.tabOptions.Controls.Add(this.tabOptionsPageChat);
             this.tabOptions.Controls.Add(this.tabOptionsPageFight);
             this.tabOptions.Controls.Add(this.tabOptionsPageGear);
             this.tabOptions.Controls.Add(this.tabOptionsPageAdvanced);
@@ -965,10 +972,10 @@
             // tabOptionsPageForm
             // 
             this.tabOptionsPageForm.BackColor = System.Drawing.SystemColors.Control;
+            this.tabOptionsPageForm.Controls.Add(this.cbTellDetect);
             this.tabOptionsPageForm.Controls.Add(this.cbSneakFishing);
             this.tabOptionsPageForm.Controls.Add(this.numMaxCatch);
             this.tabOptionsPageForm.Controls.Add(this.cbMaxCatch);
-            this.tabOptionsPageForm.Controls.Add(this.cbTellDetect);
             this.tabOptionsPageForm.Controls.Add(this.gbGeneralFishing);
             this.tabOptionsPageForm.Controls.Add(this.cbStopSound);
             this.tabOptionsPageForm.Controls.Add(this.btnSettingsSave);
@@ -979,6 +986,18 @@
             this.tabOptionsPageForm.Size = new System.Drawing.Size(364, 169);
             this.tabOptionsPageForm.TabIndex = 3;
             this.tabOptionsPageForm.Text = "General";
+            // 
+            // cbTellDetect
+            // 
+            this.cbTellDetect.AutoSize = true;
+            this.cbTellDetect.Checked = true;
+            this.cbTellDetect.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbTellDetect.Location = new System.Drawing.Point(7, 25);
+            this.cbTellDetect.Name = "cbTellDetect";
+            this.cbTellDetect.Size = new System.Drawing.Size(89, 17);
+            this.cbTellDetect.TabIndex = 10;
+            this.cbTellDetect.Text = "Tell Detection";
+            this.cbTellDetect.UseVisualStyleBackColor = true;
             // 
             // cbSneakFishing
             // 
@@ -1021,18 +1040,6 @@
             this.cbMaxCatch.TabIndex = 4;
             this.cbMaxCatch.Text = "Limit Catches";
             this.cbMaxCatch.UseVisualStyleBackColor = true;
-            // 
-            // cbTellDetect
-            // 
-            this.cbTellDetect.AutoSize = true;
-            this.cbTellDetect.Checked = true;
-            this.cbTellDetect.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbTellDetect.Location = new System.Drawing.Point(7, 25);
-            this.cbTellDetect.Name = "cbTellDetect";
-            this.cbTellDetect.Size = new System.Drawing.Size(89, 17);
-            this.cbTellDetect.TabIndex = 2;
-            this.cbTellDetect.Text = "Tell Detection";
-            this.cbTellDetect.UseVisualStyleBackColor = true;
             // 
             // gbGeneralFishing
             // 
@@ -1227,6 +1234,74 @@
             this.cbAlwaysOnTop.Text = "Always on top";
             this.cbAlwaysOnTop.UseVisualStyleBackColor = true;
             this.cbAlwaysOnTop.CheckedChanged += new System.EventHandler(this.cbAlwaysOnTop_CheckedChanged);
+            // 
+            // tabOptionsPageChat
+            // 
+            this.tabOptionsPageChat.Controls.Add(this.panelChatDetect);
+            this.tabOptionsPageChat.Controls.Add(this.gbGMDetect);
+            this.tabOptionsPageChat.Location = new System.Drawing.Point(4, 22);
+            this.tabOptionsPageChat.Name = "tabOptionsPageChat";
+            this.tabOptionsPageChat.Padding = new System.Windows.Forms.Padding(3);
+            this.tabOptionsPageChat.Size = new System.Drawing.Size(364, 168);
+            this.tabOptionsPageChat.TabIndex = 6;
+            this.tabOptionsPageChat.Text = "Chat";
+            this.tabOptionsPageChat.UseVisualStyleBackColor = true;
+            // 
+            // panelChatDetect
+            // 
+            this.panelChatDetect.AutoScroll = true;
+            this.panelChatDetect.Controls.Add(this.lblChatDetect);
+            this.panelChatDetect.Controls.Add(this.btnChatDetectAdd);
+            this.panelChatDetect.Location = new System.Drawing.Point(102, 7);
+            this.panelChatDetect.Name = "panelChatDetect";
+            this.panelChatDetect.Size = new System.Drawing.Size(262, 156);
+            this.panelChatDetect.TabIndex = 1;
+            this.panelChatDetect.Tag = "";
+            this.panelChatDetect.Text = "Chat Detect";
+            this.panelChatDetect.Scroll += new System.Windows.Forms.ScrollEventHandler(this.panelChatDetect_Scroll);
+            // 
+            // lblChatDetect
+            // 
+            this.lblChatDetect.AutoSize = true;
+            this.lblChatDetect.Location = new System.Drawing.Point(3, 0);
+            this.lblChatDetect.Name = "lblChatDetect";
+            this.lblChatDetect.Size = new System.Drawing.Size(100, 13);
+            this.lblChatDetect.TabIndex = 6;
+            this.lblChatDetect.Text = "Chat Detect Actions";
+            // 
+            // btnChatDetectAdd
+            // 
+            this.btnChatDetectAdd.Location = new System.Drawing.Point(220, 17);
+            this.btnChatDetectAdd.Name = "btnChatDetectAdd";
+            this.btnChatDetectAdd.Size = new System.Drawing.Size(23, 23);
+            this.btnChatDetectAdd.TabIndex = 5;
+            this.btnChatDetectAdd.Text = "+";
+            this.btnChatDetectAdd.UseVisualStyleBackColor = true;
+            this.btnChatDetectAdd.Click += new System.EventHandler(this.btnChatDetectAdd_Remove_click);
+            // 
+            // gbGMDetect
+            // 
+            this.gbGMDetect.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.gbGMDetect.Controls.Add(this.cbGMdetectAutostop);
+            this.gbGMDetect.Location = new System.Drawing.Point(6, 7);
+            this.gbGMDetect.Name = "gbGMDetect";
+            this.gbGMDetect.Size = new System.Drawing.Size(93, 154);
+            this.gbGMDetect.TabIndex = 0;
+            this.gbGMDetect.TabStop = false;
+            this.gbGMDetect.Text = "GM Detection";
+            // 
+            // cbGMdetectAutostop
+            // 
+            this.cbGMdetectAutostop.AutoSize = true;
+            this.cbGMdetectAutostop.Checked = true;
+            this.cbGMdetectAutostop.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbGMdetectAutostop.Location = new System.Drawing.Point(6, 17);
+            this.cbGMdetectAutostop.Name = "cbGMdetectAutostop";
+            this.cbGMdetectAutostop.Size = new System.Drawing.Size(84, 17);
+            this.cbGMdetectAutostop.TabIndex = 0;
+            this.cbGMdetectAutostop.Text = "Stop Fishing";
+            this.cbGMdetectAutostop.UseVisualStyleBackColor = true;
             // 
             // tabOptionsPageFight
             // 
@@ -1842,12 +1917,11 @@
             this.tabOptionsPageAdvanced.BackColor = System.Drawing.SystemColors.Control;
             this.tabOptionsPageAdvanced.Controls.Add(this.gbExhaustedBait);
             this.tabOptionsPageAdvanced.Controls.Add(this.gbOnFatigue);
-            this.tabOptionsPageAdvanced.Controls.Add(this.gbGMDetect);
             this.tabOptionsPageAdvanced.Controls.Add(this.groupBox1);
-            this.tabOptionsPageAdvanced.Location = new System.Drawing.Point(4, 21);
+            this.tabOptionsPageAdvanced.Location = new System.Drawing.Point(4, 22);
             this.tabOptionsPageAdvanced.Name = "tabOptionsPageAdvanced";
             this.tabOptionsPageAdvanced.Padding = new System.Windows.Forms.Padding(3);
-            this.tabOptionsPageAdvanced.Size = new System.Drawing.Size(364, 169);
+            this.tabOptionsPageAdvanced.Size = new System.Drawing.Size(364, 168);
             this.tabOptionsPageAdvanced.TabIndex = 5;
             this.tabOptionsPageAdvanced.Text = "Other";
             // 
@@ -1856,9 +1930,9 @@
             this.gbExhaustedBait.Controls.Add(this.cbBaitActionWarp);
             this.gbExhaustedBait.Controls.Add(this.cbBaitActionLogout);
             this.gbExhaustedBait.Controls.Add(this.cbBaitActionShutdown);
-            this.gbExhaustedBait.Location = new System.Drawing.Point(246, 7);
+            this.gbExhaustedBait.Location = new System.Drawing.Point(131, 7);
             this.gbExhaustedBait.Name = "gbExhaustedBait";
-            this.gbExhaustedBait.Size = new System.Drawing.Size(113, 76);
+            this.gbExhaustedBait.Size = new System.Drawing.Size(111, 154);
             this.gbExhaustedBait.TabIndex = 3;
             this.gbExhaustedBait.TabStop = false;
             this.gbExhaustedBait.Text = "On Bait Exhausted";
@@ -1902,9 +1976,9 @@
             this.gbOnFatigue.Controls.Add(this.cbFatiguedActionWarp);
             this.gbOnFatigue.Controls.Add(this.cbFatiguedActionLogout);
             this.gbOnFatigue.Controls.Add(this.cbFatiguedActionShutdown);
-            this.gbOnFatigue.Location = new System.Drawing.Point(246, 85);
+            this.gbOnFatigue.Location = new System.Drawing.Point(248, 7);
             this.gbOnFatigue.Name = "gbOnFatigue";
-            this.gbOnFatigue.Size = new System.Drawing.Size(113, 76);
+            this.gbOnFatigue.Size = new System.Drawing.Size(110, 153);
             this.gbOnFatigue.TabIndex = 2;
             this.gbOnFatigue.TabStop = false;
             this.gbOnFatigue.Text = "On Fatigue Stop";
@@ -1941,64 +2015,29 @@
             this.cbFatiguedActionShutdown.UseVisualStyleBackColor = true;
             this.cbFatiguedActionShutdown.CheckedChanged += new System.EventHandler(this.cbFatiguedActionShutdown_CheckedChanged);
             // 
-            // gbGMDetect
-            // 
-            this.gbGMDetect.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.gbGMDetect.Controls.Add(this.cbGMdetectAutostop);
-            this.gbGMDetect.Location = new System.Drawing.Point(127, 6);
-            this.gbGMDetect.Name = "gbGMDetect";
-            this.gbGMDetect.Size = new System.Drawing.Size(113, 155);
-            this.gbGMDetect.TabIndex = 1;
-            this.gbGMDetect.TabStop = false;
-            this.gbGMDetect.Text = "GM Detection";
-            // 
-            // cbGMdetectAutostop
-            // 
-            this.cbGMdetectAutostop.AutoSize = true;
-            this.cbGMdetectAutostop.Checked = true;
-            this.cbGMdetectAutostop.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbGMdetectAutostop.Location = new System.Drawing.Point(6, 17);
-            this.cbGMdetectAutostop.Name = "cbGMdetectAutostop";
-            this.cbGMdetectAutostop.Size = new System.Drawing.Size(84, 17);
-            this.cbGMdetectAutostop.TabIndex = 0;
-            this.cbGMdetectAutostop.Text = "Stop Fishing";
-            this.cbGMdetectAutostop.UseVisualStyleBackColor = true;
-            // 
             // groupBox1
             // 
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-            this.groupBox1.Controls.Add(this.cbEnableItemizerItemTools);
             this.groupBox1.Controls.Add(this.tbFullactionOther);
             this.groupBox1.Controls.Add(this.rbFullactionOther);
             this.groupBox1.Controls.Add(this.rbFullactionShutdown);
             this.groupBox1.Controls.Add(this.rbFullactionLogout);
             this.groupBox1.Controls.Add(this.rbFullactionWarp);
+            this.groupBox1.Controls.Add(this.cbEnableItemizerItemTools);
             this.groupBox1.Location = new System.Drawing.Point(6, 6);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(115, 155);
+            this.groupBox1.Size = new System.Drawing.Size(119, 154);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "On Full Inventory";
-            // 
-            // cbEnableItemizerItemTools
-            // 
-            this.cbEnableItemizerItemTools.AutoSize = true;
-            this.cbEnableItemizerItemTools.Location = new System.Drawing.Point(6, 17);
-            this.cbEnableItemizerItemTools.Name = "cbEnableItemizerItemTools";
-            this.cbEnableItemizerItemTools.Size = new System.Drawing.Size(109, 17);
-            this.cbEnableItemizerItemTools.TabIndex = 0;
-            this.cbEnableItemizerItemTools.Text = "Itemizer/ItemTools";
-            this.cbEnableItemizerItemTools.UseVisualStyleBackColor = true;
-            this.cbEnableItemizerItemTools.CheckedChanged += new System.EventHandler(this.cbEnableItemizerItemTools_CheckedChanged);
             // 
             // tbFullactionOther
             // 
             this.tbFullactionOther.Enabled = false;
             this.tbFullactionOther.Location = new System.Drawing.Point(6, 53);
             this.tbFullactionOther.Name = "tbFullactionOther";
-            this.tbFullactionOther.Size = new System.Drawing.Size(97, 18);
+            this.tbFullactionOther.Size = new System.Drawing.Size(107, 18);
             this.tbFullactionOther.TabIndex = 2;
             // 
             // rbFullactionOther
@@ -2043,6 +2082,17 @@
             this.rbFullactionWarp.TabIndex = 3;
             this.rbFullactionWarp.Text = "Warp";
             this.rbFullactionWarp.UseVisualStyleBackColor = true;
+            // 
+            // cbEnableItemizerItemTools
+            // 
+            this.cbEnableItemizerItemTools.AutoSize = true;
+            this.cbEnableItemizerItemTools.Location = new System.Drawing.Point(6, 17);
+            this.cbEnableItemizerItemTools.Name = "cbEnableItemizerItemTools";
+            this.cbEnableItemizerItemTools.Size = new System.Drawing.Size(109, 17);
+            this.cbEnableItemizerItemTools.TabIndex = 0;
+            this.cbEnableItemizerItemTools.Text = "Itemizer/ItemTools";
+            this.cbEnableItemizerItemTools.UseVisualStyleBackColor = false;
+            this.cbEnableItemizerItemTools.CheckedChanged += new System.EventHandler(this.cbEnableItemizerItemTools_CheckedChanged);
             // 
             // timer
             // 
@@ -2161,6 +2211,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.numCastIntervalLow)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numCastIntervalHigh)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackOpacity)).EndInit();
+            this.tabOptionsPageChat.ResumeLayout(false);
+            this.panelChatDetect.ResumeLayout(false);
+            this.panelChatDetect.PerformLayout();
+            this.gbGMDetect.ResumeLayout(false);
+            this.gbGMDetect.PerformLayout();
             this.tabOptionsPageFight.ResumeLayout(false);
             this.tabOptionsPageFight.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numReactionHigh)).EndInit();
@@ -2177,8 +2232,6 @@
             this.gbExhaustedBait.PerformLayout();
             this.gbOnFatigue.ResumeLayout(false);
             this.gbOnFatigue.PerformLayout();
-            this.gbGMDetect.ResumeLayout(false);
-            this.gbGMDetect.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.statusStripMain.ResumeLayout(false);
@@ -2260,10 +2313,8 @@
         private System.Windows.Forms.CheckBox rbFullactionWarp;
         private System.Windows.Forms.CheckBox rbFullactionLogout;
         private System.Windows.Forms.CheckBox rbFullactionShutdown;
-        private System.Windows.Forms.GroupBox gbGMDetect;
         private System.Windows.Forms.TextBox tbFullactionOther;
         private System.Windows.Forms.CheckBox rbFullactionOther;
-        private System.Windows.Forms.CheckBox cbGMdetectAutostop;
         private System.Windows.Forms.GroupBox gbOnFatigue;
         private System.Windows.Forms.CheckBox cbFatiguedActionWarp;
         private System.Windows.Forms.CheckBox cbFatiguedActionLogout;
@@ -2327,7 +2378,6 @@
         private System.Windows.Forms.Label lblVanaTimeHeader;
         private System.Windows.Forms.Label lblEarthTime;
         private System.Windows.Forms.Label lblEarthTimeHeader;
-        private System.Windows.Forms.CheckBox cbTellDetect;
         private System.Windows.Forms.Button btnStartM;
         private System.Windows.Forms.CheckBox cbFishHP;
         private System.Windows.Forms.NumericUpDown numMaxCatch;
@@ -2342,6 +2392,13 @@
         private System.Windows.Forms.ComboBox tbRodGear;
         private System.Windows.Forms.Label lblBaitGear;
         private System.Windows.Forms.Label lblRodGear;
+        private System.Windows.Forms.TabPage tabOptionsPageChat;
+        private System.Windows.Forms.GroupBox gbGMDetect;
+        private System.Windows.Forms.CheckBox cbGMdetectAutostop;
+        private System.Windows.Forms.Panel panelChatDetect;
+        private System.Windows.Forms.Button btnChatDetectAdd;
+        private System.Windows.Forms.CheckBox cbTellDetect;
+        private System.Windows.Forms.Label lblChatDetect;
     }
 }
 
