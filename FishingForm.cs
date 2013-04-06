@@ -2131,6 +2131,7 @@ namespace Fishing
             {
                 if (!cbStopSound.Checked && File.Exists("warning.wav"))
                 {
+                    doFlashWindow();
                     SoundPlayer spWave = new SoundPlayer("warning.wav");
                     spWave.Play();
                 }
