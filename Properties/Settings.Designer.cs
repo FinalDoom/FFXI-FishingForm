@@ -718,5 +718,29 @@ namespace Fishing.Properties {
                 this["BaitGear"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool SkillCap {
+            get {
+                return ((bool)(this["SkillCap"]));
+            }
+            set {
+                this["SkillCap"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("110")]
+        public decimal SkillCapLevel {
+            get {
+                return ((decimal)(this["SkillCapLevel"]));
+            }
+            set {
+                this["SkillCapLevel"] = value;
+            }
+        }
     }
 }

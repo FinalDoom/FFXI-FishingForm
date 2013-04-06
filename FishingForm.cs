@@ -151,6 +151,7 @@ namespace Fishing
             toolTip.SetToolTip(cbEnableItemizerItemTools, "Enables Itemizer plugin support to store fish when inventory is full.");
             toolTip.SetToolTip(cbMaxCatch, "Stops fishing when # of catches reached; value resets when limit is reached.");
             toolTip.SetToolTip(cbSneakFishing, "Will cast the spell Sneak prior to casting.");
+            toolTip.SetToolTip(cbSkillCap, "Stop when skill reaches specified level.");
 
             this.tbBaitGear.Items.AddRange(Dictionaries.baitList.ToArray());
             this.tbRodGear.Items.AddRange(Dictionaries.rodList.ToArray());
@@ -283,6 +284,13 @@ namespace Fishing
                 {
                     SetNoCatch(consecutiveNoCatchCount = 0);
                     Fatigued("Fatigue limit reached: Max no catches.");
+                    return;
+                }
+
+                // Stop at skill level
+                if (cbSkillCap.Checked && numSkillCap.Value <= Math.Max(_FFACE.Player.GetCraftDetails(Craft.Fishing).Level, skillLevel))
+                {
+                    Stop(false, "Fishing skill cap reached.");
                     return;
                 }
 
@@ -2779,6 +2787,8 @@ namespace Fishing
                 Settings.Default.AlwaysOnTop = cbAlwaysOnTop.Checked = true;
                 Settings.Default.MaxCatch = cbMaxCatch.Checked = false;
                 Settings.Default.MaxCatchValue = numMaxCatch.Value = 200;
+                Settings.Default.SkillCap = cbSkillCap.Checked = false;
+                Settings.Default.SkillCapLevel = numSkillCap.Value = 110;
                 Settings.Default.CastMax = numCastIntervalHigh.Value = 3.5M;
                 Settings.Default.CastMin = numCastIntervalLow.Value = 3.0M;
                 Settings.Default.CatchUnknown = cbCatchUnknown.Checked = false;
@@ -2864,6 +2874,8 @@ namespace Fishing
                 Settings.Default.AlwaysOnTop = cbAlwaysOnTop.Checked;
                 Settings.Default.MaxCatch = cbMaxCatch.Checked;
                 Settings.Default.MaxCatchValue = numMaxCatch.Value;
+                Settings.Default.SkillCap = cbSkillCap.Checked;
+                Settings.Default.SkillCapLevel = numSkillCap.Value;
                 Settings.Default.CastMax = numCastIntervalHigh.Value;
                 Settings.Default.CastMin = numCastIntervalLow.Value;
                 Settings.Default.CatchUnknown = cbCatchUnknown.Checked;
@@ -2946,6 +2958,8 @@ namespace Fishing
             cbAlwaysOnTop.Checked = Settings.Default.AlwaysOnTop;
             cbMaxCatch.Checked = Settings.Default.MaxCatch;
             numMaxCatch.Value = Settings.Default.MaxCatchValue;
+            cbSkillCap.Checked = Settings.Default.SkillCap;
+            numSkillCap.Value = Settings.Default.SkillCapLevel;
             numCastIntervalHigh.Value = Settings.Default.CastMax;
             numCastIntervalLow.Value = Settings.Default.CastMin;
             cbCatchUnknown.Checked = Settings.Default.CatchUnknown;

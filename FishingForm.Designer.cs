@@ -89,6 +89,8 @@
             this.tabDisplayPageOptions = new System.Windows.Forms.TabPage();
             this.tabOptions = new System.Windows.Forms.TabControl();
             this.tabOptionsPageForm = new System.Windows.Forms.TabPage();
+            this.numSkillCap = new System.Windows.Forms.NumericUpDown();
+            this.cbSkillCap = new System.Windows.Forms.CheckBox();
             this.cbTellDetect = new System.Windows.Forms.CheckBox();
             this.cbSneakFishing = new System.Windows.Forms.CheckBox();
             this.numMaxCatch = new System.Windows.Forms.NumericUpDown();
@@ -201,6 +203,7 @@
             this.tabDisplayPageOptions.SuspendLayout();
             this.tabOptions.SuspendLayout();
             this.tabOptionsPageForm.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numSkillCap)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numMaxCatch)).BeginInit();
             this.gbGeneralFishing.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numMaxNoCatch)).BeginInit();
@@ -633,9 +636,9 @@
             // tabChatPageTell
             // 
             this.tabChatPageTell.Controls.Add(this.rtbTell);
-            this.tabChatPageTell.Location = new System.Drawing.Point(4, 21);
+            this.tabChatPageTell.Location = new System.Drawing.Point(4, 22);
             this.tabChatPageTell.Name = "tabChatPageTell";
-            this.tabChatPageTell.Size = new System.Drawing.Size(367, 147);
+            this.tabChatPageTell.Size = new System.Drawing.Size(367, 146);
             this.tabChatPageTell.TabIndex = 2;
             this.tabChatPageTell.Text = "Tell";
             this.tabChatPageTell.UseVisualStyleBackColor = true;
@@ -651,7 +654,7 @@
             this.rtbTell.Margin = new System.Windows.Forms.Padding(0);
             this.rtbTell.Name = "rtbTell";
             this.rtbTell.ReadOnly = true;
-            this.rtbTell.Size = new System.Drawing.Size(367, 147);
+            this.rtbTell.Size = new System.Drawing.Size(367, 146);
             this.rtbTell.TabIndex = 1;
             this.rtbTell.TabStop = false;
             this.rtbTell.Text = "";
@@ -972,6 +975,8 @@
             // tabOptionsPageForm
             // 
             this.tabOptionsPageForm.BackColor = System.Drawing.SystemColors.Control;
+            this.tabOptionsPageForm.Controls.Add(this.numSkillCap);
+            this.tabOptionsPageForm.Controls.Add(this.cbSkillCap);
             this.tabOptionsPageForm.Controls.Add(this.cbTellDetect);
             this.tabOptionsPageForm.Controls.Add(this.cbSneakFishing);
             this.tabOptionsPageForm.Controls.Add(this.numMaxCatch);
@@ -986,6 +991,38 @@
             this.tabOptionsPageForm.Size = new System.Drawing.Size(364, 169);
             this.tabOptionsPageForm.TabIndex = 3;
             this.tabOptionsPageForm.Text = "General";
+            // 
+            // numSkillCap
+            // 
+            this.numSkillCap.Location = new System.Drawing.Point(236, 45);
+            this.numSkillCap.Maximum = new decimal(new int[] {
+            110,
+            0,
+            0,
+            0});
+            this.numSkillCap.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numSkillCap.Name = "numSkillCap";
+            this.numSkillCap.Size = new System.Drawing.Size(35, 18);
+            this.numSkillCap.TabIndex = 12;
+            this.numSkillCap.Value = new decimal(new int[] {
+            110,
+            0,
+            0,
+            0});
+            // 
+            // cbSkillCap
+            // 
+            this.cbSkillCap.AutoSize = true;
+            this.cbSkillCap.Location = new System.Drawing.Point(145, 46);
+            this.cbSkillCap.Name = "cbSkillCap";
+            this.cbSkillCap.Size = new System.Drawing.Size(85, 17);
+            this.cbSkillCap.TabIndex = 11;
+            this.cbSkillCap.Text = "Limit Skillups";
+            this.cbSkillCap.UseVisualStyleBackColor = true;
             // 
             // cbTellDetect
             // 
@@ -2204,6 +2241,7 @@
             this.tabOptions.ResumeLayout(false);
             this.tabOptionsPageForm.ResumeLayout(false);
             this.tabOptionsPageForm.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numSkillCap)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numMaxCatch)).EndInit();
             this.gbGeneralFishing.ResumeLayout(false);
             this.gbGeneralFishing.PerformLayout();
@@ -2399,6 +2437,8 @@
         private System.Windows.Forms.Button btnChatDetectAdd;
         private System.Windows.Forms.CheckBox cbTellDetect;
         private System.Windows.Forms.Label lblChatDetect;
+        private System.Windows.Forms.NumericUpDown numSkillCap;
+        private System.Windows.Forms.CheckBox cbSkillCap;
     }
 }
 
