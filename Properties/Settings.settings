@@ -176,8 +176,11 @@
     <Setting Name="BaitGear" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
-    <Setting Name="ChatDetect" Type="System.Int32[]" Scope="User">
-      <Value Profile="(Default)" />
+    <Setting Name="SkillCap" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="SkillCapLevel" Type="System.Decimal" Scope="User">
+      <Value Profile="(Default)">110</Value>
     </Setting>
   </Settings>
 </SettingsFile>
