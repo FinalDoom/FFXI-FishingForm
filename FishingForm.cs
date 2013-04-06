@@ -1044,7 +1044,7 @@ namespace Fishing
                             // Check storage location
                             if (storagemedium != "satchel" && storagemedium != "sack")
                             {
-                                Stop(false, "Unknown destination to move fish");
+                                Stop(false, "Unknown destination to move fish.");
                             }
 
                             MoveItems(string.Join(" ", tempactionstring), ref fish, ref storagemedium);
@@ -1066,19 +1066,19 @@ namespace Fishing
             {
                 if (rbFullactionWarp.Checked)
                 {
-                    SetStatus("Inventory is full: Warping");
+                    SetStatus("Inventory is full: Warping.");
                     _FFACE.Windower.SendString("/ma \"Warp\" <me>");
                     Thread.Sleep(30000);
                 }
                 if (rbFullactionLogout.Checked)
                 {
-                    SetStatus("Inventory is full: Logging out");
+                    SetStatus("Inventory is full: Logging out.");
                     _FFACE.Windower.SendString("/logout");
                     Thread.Sleep(30000);
                 }
                 else if (rbFullactionShutdown.Checked)
                 {
-                    SetStatus("Inventory is full: Shutting down");
+                    SetStatus("Inventory is full: Shutting down.");
                     _FFACE.Windower.SendString("/shutdown");
                     Thread.Sleep(30000);
                 }
@@ -1109,11 +1109,11 @@ namespace Fishing
                         // The dreaded sleep()!
                         Thread.Sleep(rnd.Next(750,1500));
                     }
-                    SetStatus(string.Format("Finished moving {0} to Sack", itemname));
+                    SetStatus(string.Format("Finished moving {0} to Sack.", itemname));
                 }
                 else
                 {
-                    SetStatus("Sack is full");
+                    SetStatus("Sack is full.");
 					Thread.Sleep(750);
                 }
             }
@@ -1134,11 +1134,11 @@ namespace Fishing
                         // The dreaded sleep()!
                         Thread.Sleep(rnd.Next(750, 1500));
                     }
-                    SetStatus(string.Format("Finished moving {0} to Sack", itemname));
+                    SetStatus(string.Format("Finished moving {0} to Sack.", itemname));
                 }
                 else
                 {
-                    SetStatus("Satchel is full");
+                    SetStatus("Satchel is full.");
 					Thread.Sleep(750);
                 }
             }
@@ -1461,7 +1461,7 @@ namespace Fishing
 				ChooseProcess(null);
 				if (_Process == null || !_Process.IsAvailable)
 				{
-					SetStatus("No FFXI process available");
+					SetStatus("No FFXI process available.");
 					return false;
 				}
 			}
@@ -1585,7 +1585,7 @@ namespace Fishing
 				}
 				if (enchantInactive)
 				{
-					SetStatus("Using Fisherman's belt");
+					SetStatus("Using Fisherman's belt.");
 					_FFACE.Windower.SendString("/item \"" + tbWaistGear.Items[tbWaistGear.SelectedIndex].ToString() + "\" <me>");
 					WaitUntil(Status.Standing);
 				}
@@ -1595,7 +1595,7 @@ namespace Fishing
 			// Check if left ring enchantments are available and not on
 			if (cbLRingGear.Enabled && cbLRingGear.Checked && enchantmentsNeeded > 0)
 			{
-				SetStatus(string.Format("Using left ring ({0})", tbLRingGear.Text));
+				SetStatus(string.Format("Using left ring ({0}).", tbLRingGear.Text));
 				_FFACE.Windower.SendString("/item \"" + tbLRingGear.Text + "\" <me>");
                 Thread.Sleep(500);
 				WaitUntil(Status.Standing);
@@ -1604,7 +1604,7 @@ namespace Fishing
 			// Check if right ring enchantments are available and not on
 			if (cbRRingGear.Enabled && cbRRingGear.Checked && enchantmentsNeeded > 0)
 			{
-				SetStatus(string.Format("Using right ring ({0})", tbRRingGear.Text));
+				SetStatus(string.Format("Using right ring ({0}).", tbRRingGear.Text));
                 _FFACE.Windower.SendString("/item \"" + tbRRingGear.Text + "\" <me>");
                 Thread.Sleep(500);
 				WaitUntil(Status.Standing);
@@ -1618,18 +1618,18 @@ namespace Fishing
             if (cbBaitActionWarp.Checked)
             {
                 _FFACE.Windower.SendString("/ma \"Warp\" <me>");
-                SetStatus("Fatigue limit reached: Warping");
+                SetStatus("Fatigue limit reached: Warping.");
                 Thread.Sleep(30000);
             }
             if (cbBaitActionShutdown.Checked)
             {
                 _FFACE.Windower.SendString("/shutdown");
-                SetStatus("Fatigue limit reached: Shutting down");
+                SetStatus("Fatigue limit reached: Shutting down.");
             }
             else if (cbBaitActionLogout.Checked)
             {
                 _FFACE.Windower.SendString("/logout");
-                SetStatus("Fatigue limit reached: Logging out");
+                SetStatus("Fatigue limit reached: Logging out.");
             }
             Thread.Sleep(33000);
             Stop(false, message);
@@ -1640,18 +1640,18 @@ namespace Fishing
             if (cbFatiguedActionWarp.Checked)
             {
                 _FFACE.Windower.SendString("/ma \"Warp\" <me>");
-                SetStatus("Fatigue limit reached: Warping");
+                SetStatus("Fatigue limit reached: Warping.");
                 Thread.Sleep(30000);
             }
             if (cbFatiguedActionShutdown.Checked)
             {
                 _FFACE.Windower.SendString("/shutdown");
-                SetStatus("Fatigue limit reached: Shutting down");
+                SetStatus("Fatigue limit reached: Shutting down.");
             }
             else if (cbFatiguedActionLogout.Checked)
             {
                 _FFACE.Windower.SendString("/logout");
-                SetStatus("Fatigue limit reached: Logging out");
+                SetStatus("Fatigue limit reached: Logging out.");
             }
             Thread.Sleep(33000);
             Stop(false, message);
@@ -2326,7 +2326,7 @@ namespace Fishing
         {
             if (_FFACE == null)
             {
-                SetStatus("No FFXI process available");
+                SetStatus("No FFXI process available.");
                 return;
             }
             if ((0 < tbChat.Text.Length) && (!tbChat.Text.Equals(allSpaces)))
