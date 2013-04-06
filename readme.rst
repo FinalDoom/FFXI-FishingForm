@@ -81,7 +81,12 @@ General
 - Sound on errors/stop
 - Basic tell detection alert
 - Auto-cast sneak for sneak fishing
+- Stop fishing at target skill level
 - Cast wait resets at JP midnight
+
+Chat
+----
+- Stop fishing, flash window, note on chat log for incoming tell, PT, LS, say chat
 
 Fight
 -----
@@ -105,6 +110,21 @@ Other
 -------
 Changes
 -------
+
+1.6.7.31
+--------
+- Bug fixes
+- Option to stop fishing at target skill level
+
+1.6.7.30
+--------
+- Customizable chat detection options
+  - Additional options easily added. Ask away
+
+1.6.7.29
+--------
+- Bug fixes
+- Tell and gm detect flashes window
 
 1.6.7.28
 --------
