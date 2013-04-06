@@ -111,10 +111,13 @@ Other
 Changes
 -------
 
+1.6.7.32
+--------
+- Option to stop fishing at target skill level
+
 1.6.7.31
 --------
 - Bug fixes
-- Option to stop fishing at target skill level
 
 1.6.7.30
 --------
