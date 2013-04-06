@@ -3261,17 +3261,17 @@ namespace Fishing
             }
             else if (tabChat.SelectedTab.Name == "tabChatPageParty")
             {
-                tabChatPageTell.Text = "PT";
+                tabChatPageParty.Text = "PT";
                 statusStripMain.BackColor = SystemColors.Control;
             }
             else if (tabChat.SelectedTab.Name == "tabChatPageLS")
             {
-                tabChatPageTell.Text = "LS";
+                tabChatPageLS.Text = "LS";
                 statusStripMain.BackColor = SystemColors.Control;
             }
             else if (tabChat.SelectedTab.Name == "tabChatPageSay")
             {
-                tabChatPageTell.Text = "Say";
+                tabChatPageSay.Text = "Say";
                 statusStripMain.BackColor = SystemColors.Control;
             }
         }
@@ -3410,6 +3410,8 @@ namespace Fishing
                 chatDetectLblReceivedList.Remove(chatDetectLblReceivedList[index]);
                 chatDetectCmbChatActionList.Remove(chatDetectCmbChatActionList[index]);
                 chatDetectBtnChatRemoveList.Remove(chatDetectBtnChatRemoveList[index]);
+
+                cmbChatDetection_SelectedIndexChanged(null, EventArgs.Empty);
             }
         }
 
