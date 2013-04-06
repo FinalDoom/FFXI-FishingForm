@@ -1238,6 +1238,10 @@ namespace Fishing
 
         private bool IsRodBaitEquipped()
         {
+            if (_FFACE == null)
+            {
+                return false;
+            }
             string bait = tbBaitGear.Text;
             if (string.IsNullOrEmpty(bait))
             {
@@ -2320,6 +2324,11 @@ namespace Fishing
 
         private void btnChatSend_Click(object sender, EventArgs e)
         {
+            if (_FFACE == null)
+            {
+                SetStatus("No FFXI process available");
+                return;
+            }
             if ((0 < tbChat.Text.Length) && (!tbChat.Text.Equals(allSpaces)))
             {
                 _FFACE.Windower.SendString(tbChat.Text);
