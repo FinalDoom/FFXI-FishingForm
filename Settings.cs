@@ -24,6 +24,10 @@
         {
             get
             {
+                if (this["ChatDetect"] == null)
+                {
+                    return new int[] { };
+                }
                 return ((int[])(this["ChatDetect"]));
             }
             set
