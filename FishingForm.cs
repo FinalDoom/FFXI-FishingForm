@@ -1992,14 +1992,14 @@ namespace Fishing
                 {
                     UpdateChatLogs(rtbParty, FishChat.partyLog, FishChat.partyLogAdded);
 
-                    DoCustomChatActions(partyActions, FishChat.partyLogAdded, FishChat.partyLog, playerChatParty, "Party chat received!", " PT (!!!)");
+                    DoCustomChatActions(partyActions, FishChat.partyLogAdded, FishChat.partyLog, playerChatParty, "Party chat received!", tabChatPageParty, " PT (!!!)");
                 }
 
                 if (0 < FishChat.shellLogAdded)
                 {
                     UpdateChatLogs(rtbShell, FishChat.shellLog, FishChat.shellLogAdded);
 
-                    DoCustomChatActions(shellActions, FishChat.shellLogAdded, FishChat.shellLog, playerChatLinkshell, "Linkshell chat received!", " LS (!!!)");
+                    DoCustomChatActions(shellActions, FishChat.shellLogAdded, FishChat.shellLog, playerChatLinkshell, "Linkshell chat received!", tabChatPageLS, " LS (!!!)");
                 }
 
                 if (0 < FishChat.tellLogAdded)
@@ -2011,20 +2011,20 @@ namespace Fishing
                     {
                         tellActions |= (int)ChatAction.Note;
                     }
-                    DoCustomChatActions(tellActions, FishChat.tellLogAdded, FishChat.tellLog, ">>", "Tell received!", " Tell (!!!)");
+                    DoCustomChatActions(tellActions, FishChat.tellLogAdded, FishChat.tellLog, ">>", "Tell received!", tabChatPageTell, " Tell (!!!)");
                     tellActions = oldTellActions;
                 }
                 if (0 < FishChat.sayLogAdded)
                 {
                     UpdateChatLogs(rtbSay, FishChat.sayLog, FishChat.sayLogAdded);
 
-                    DoCustomChatActions(sayActions, FishChat.sayLogAdded, FishChat.sayLog, playerChatSay, "Say chat received!", " Say (!!!)");
+                    DoCustomChatActions(sayActions, FishChat.sayLogAdded, FishChat.sayLog, playerChatSay, "Say chat received!", tabChatPageSay, " Say (!!!)");
                 }
                 FishChat.Clear();  //clear ___LogAdded variables for next update
             }
         }
 
-        private void DoCustomChatActions(int actions, int newCount, List<FFACE.ChatTools.ChatLine> chatLines, string testPrefix, string stopText, string tabText)
+        private void DoCustomChatActions(int actions, int newCount, List<FFACE.ChatTools.ChatLine> chatLines, string testPrefix, string stopText, TabPage tabPage, string tabText)
         {
             // Do any custom say actions
             if (actions > 0)
@@ -2041,7 +2041,7 @@ namespace Fishing
                         }
                         if ((actions & (int)ChatAction.Note) == (int)ChatAction.Note)
                         {
-                            tabChatPageSay.Text = tabText;
+                            tabPage.Text = tabText;
                             statusStripMain.BackColor = chatLines[0].Color;
                         }
                         if ((actions & (int)ChatAction.Flash) == (int)ChatAction.Flash)
