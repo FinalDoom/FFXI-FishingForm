@@ -182,6 +182,7 @@ namespace Fishing
             }
 
             _FFACE = null;
+            _Player = null;
 
 
         }
@@ -1425,17 +1426,22 @@ namespace Fishing
             Stop(false, "Fatal chat log error, attempting to recover.");
 
             _FFACE = null;
+            _Player = null;
             ChooseProcess(null);
-            _FFACE = new FFACE(_Process.POLID);
+            if (_Process != null)
+            {
+                _FFACE = new FFACE(_Process.POLID);
+                _Player = _FFACE.Player;
 
-            if (wasFishing)
-            {
-                SetStatus("Reattached to process, attempting to restart fishing.");
-                Start();  //restart the fishing loop if the user was fishing
-            }
-            else
-            {
-                SetStatus("Reattached to process after chat error, ready to fish.");
+                if (wasFishing)
+                {
+                    SetStatus("Reattached to process, attempting to restart fishing.");
+                    Start();  //restart the fishing loop if the user was fishing
+                }
+                else
+                {
+                    SetStatus("Reattached to process after chat error, ready to fish.");
+                }
             }
 
         } // @ private void Reattach()
@@ -3022,7 +3028,7 @@ namespace Fishing
         private void timer_Tick(object sender, EventArgs e)
         {
             int workDone = FishChat.NewChat();
-            if (_FFACE != null)
+            if (_FFACE != null && _Process != null && _Process.IsAvailable)
             {
                 currentStatus = _FFACE.Player.Status;
                 vanaNow = _FFACE.Timer.GetVanaTime();
@@ -3030,6 +3036,12 @@ namespace Fishing
             // No FFACE, so calculate vanaNow based on system clock
             else
             {
+                // Reset FFACE
+                if (_FFACE != null || _Process != null)
+                {
+                    workDone = -1;
+                }
+
                 // get the server time (in seconds) based on local clock (inaccurate)
                 DateTime origin = new DateTime(1970, 1, 1, 0, 0, 0, 0);
                 TimeSpan diff = DateTime.UtcNow - origin;
