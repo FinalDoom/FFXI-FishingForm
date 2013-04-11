@@ -48,7 +48,7 @@
             this.lbUnwanted = new System.Windows.Forms.ListBox();
             this.btnRefreshLists = new System.Windows.Forms.Button();
             this.btnStart = new System.Windows.Forms.Button();
-            this.Extras = new System.Windows.Forms.TabControl();
+            this.tabDisplay = new System.Windows.Forms.TabControl();
             this.tabDisplayPageChat = new System.Windows.Forms.TabPage();
             this.btnStartM = new System.Windows.Forms.Button();
             this.btnResize = new System.Windows.Forms.Button();
@@ -188,7 +188,7 @@
             this.pnlLog.SuspendLayout();
             this.pnlWanted.SuspendLayout();
             this.pnlUnwanted.SuspendLayout();
-            this.Extras.SuspendLayout();
+            this.tabDisplay.SuspendLayout();
             this.tabDisplayPageChat.SuspendLayout();
             this.tabChat.SuspendLayout();
             this.tabChatPageLog.SuspendLayout();
@@ -357,7 +357,7 @@
             this.pnlLog.Controls.Add(this.pnlUnwanted);
             this.pnlLog.Controls.Add(this.btnRefreshLists);
             this.pnlLog.Controls.Add(this.btnStart);
-            this.pnlLog.Controls.Add(this.Extras);
+            this.pnlLog.Controls.Add(this.tabDisplay);
             this.pnlLog.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlLog.Location = new System.Drawing.Point(0, 0);
             this.pnlLog.Margin = new System.Windows.Forms.Padding(0);
@@ -472,25 +472,26 @@
             this.btnStart.UseVisualStyleBackColor = true;
             this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
             // 
-            // Extras
+            // tabDisplay
             // 
-            this.Extras.AccessibleName = "";
-            this.Extras.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.tabDisplay.AccessibleName = "";
+            this.tabDisplay.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.Extras.Controls.Add(this.tabDisplayPageChat);
-            this.Extras.Controls.Add(this.tabDisplayPageStats);
-            this.Extras.Controls.Add(this.tabDisplayPageInfo);
-            this.Extras.Controls.Add(this.tabDisplayPageOptions);
-            this.Extras.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F);
-            this.Extras.HotTrack = true;
-            this.Extras.Location = new System.Drawing.Point(146, 0);
-            this.Extras.Margin = new System.Windows.Forms.Padding(0);
-            this.Extras.Name = "Extras";
-            this.Extras.Padding = new System.Drawing.Point(0, 0);
-            this.Extras.SelectedIndex = 0;
-            this.Extras.Size = new System.Drawing.Size(380, 219);
-            this.Extras.TabIndex = 8;
+            this.tabDisplay.Controls.Add(this.tabDisplayPageChat);
+            this.tabDisplay.Controls.Add(this.tabDisplayPageStats);
+            this.tabDisplay.Controls.Add(this.tabDisplayPageInfo);
+            this.tabDisplay.Controls.Add(this.tabDisplayPageOptions);
+            this.tabDisplay.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F);
+            this.tabDisplay.HotTrack = true;
+            this.tabDisplay.Location = new System.Drawing.Point(146, 0);
+            this.tabDisplay.Margin = new System.Windows.Forms.Padding(0);
+            this.tabDisplay.Name = "tabDisplay";
+            this.tabDisplay.Padding = new System.Drawing.Point(0, 0);
+            this.tabDisplay.SelectedIndex = 0;
+            this.tabDisplay.Size = new System.Drawing.Size(380, 219);
+            this.tabDisplay.TabIndex = 8;
+            this.tabDisplay.SelectedIndexChanged += new System.EventHandler(this.tabDisplay_SelectedIndexChanged);
             // 
             // tabDisplayPageChat
             // 
@@ -2214,6 +2215,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FishingForm";
             this.TopMost = true;
+            this.Activated += new System.EventHandler(this.FishingForm_Activated);
             this.Load += new System.EventHandler(this.FishingForm_Load);
             this.contextMenuStats.ResumeLayout(false);
             this.contextMenuListBox.ResumeLayout(false);
@@ -2222,7 +2224,7 @@
             this.pnlWanted.PerformLayout();
             this.pnlUnwanted.ResumeLayout(false);
             this.pnlUnwanted.PerformLayout();
-            this.Extras.ResumeLayout(false);
+            this.tabDisplay.ResumeLayout(false);
             this.tabDisplayPageChat.ResumeLayout(false);
             this.tabDisplayPageChat.PerformLayout();
             this.tabChat.ResumeLayout(false);
@@ -2295,7 +2297,7 @@
         private System.Windows.Forms.Label lblZoneHeader;
         private System.Windows.Forms.RichTextBox rtbStats;
         private System.Windows.Forms.Panel pnlLog;
-        private System.Windows.Forms.TabControl Extras;
+        private System.Windows.Forms.TabControl tabDisplay;
         private System.Windows.Forms.TabPage tabDisplayPageStats;
         private System.Windows.Forms.TabPage tabDisplayPageInfo;
         private System.Windows.Forms.TabPage tabDisplayPageOptions;
