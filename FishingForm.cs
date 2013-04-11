@@ -2280,8 +2280,6 @@ namespace Fishing
         private void ExtendChat()
         {
             int formWidth = this.Width;
-            int extrasWidth = Extras.Width;
-
 
             if (chatbig)
             {
@@ -2291,8 +2289,8 @@ namespace Fishing
                 btnStart.Visible = false;
                 btnRefreshLists.Visible = false;
                 cbCatchUnknown.Visible = false;
-                Extras.Location = new Point(0, 0);
-                Extras.Width = formWidth - 15;
+                tabDisplay.Location = new Point(0, 0);
+                tabDisplay.Width = formWidth - 15;
 
                 tbChat.Width = formWidth - 109;
                 btnStartM.Visible = true;
@@ -2307,8 +2305,8 @@ namespace Fishing
                 btnStart.Visible = true;
                 btnRefreshLists.Visible = true;
                 cbCatchUnknown.Visible = true;
-                Extras.Location = new Point(145, 0);
-                Extras.Width = formWidth - 160;
+                tabDisplay.Location = new Point(145, 0);
+                tabDisplay.Width = formWidth - 160;
 
                 tbChat.Width = formWidth - 233;
                 btnStartM.Visible = false;
@@ -2447,9 +2445,67 @@ namespace Fishing
 
         } // @ private void tbChat_KeyPress
 
+
+
+        private void btnResize_Click(object sender, EventArgs e)
+        {
+            if (chatbig)
+            {
+                chatbig = false;
+                ExtendChat();
+            }
+            else
+            {
+                chatbig = true;
+                ExtendChat();
+            }
+        }
+
+        private void tabChat_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (tabChat.SelectedTab == tabChatPageTell)
+            {
+                tabChatPageTell.Text = "Tell";
+                statusStripMain.BackColor = SystemColors.Control;
+            }
+            else if (tabChat.SelectedTab == tabChatPageParty)
+            {
+                tabChatPageParty.Text = "PT";
+                statusStripMain.BackColor = SystemColors.Control;
+            }
+            else if (tabChat.SelectedTab == tabChatPageLS)
+            {
+                tabChatPageLS.Text = "LS";
+                statusStripMain.BackColor = SystemColors.Control;
+            }
+            else if (tabChat.SelectedTab == tabChatPageSay)
+            {
+                tabChatPageSay.Text = "Say";
+                statusStripMain.BackColor = SystemColors.Control;
+            }
+        }
+
+        private void FishingForm_Activated(object sender, EventArgs e)
+        {
+            if (tabDisplay.SelectedTab == tabDisplayPageChat)
+            {
+                tabChat_SelectedIndexChanged(tabDisplayPageChat, EventArgs.Empty);
+            }
+        }
+
+        private void tabDisplay_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (tabDisplay.SelectedTab == tabDisplayPageChat)
+            {
+                tabChat_SelectedIndexChanged(tabDisplayPageChat, EventArgs.Empty);
+            }
+        }
+
         #endregion //Events_Chat
 
         #region Events_Options
+
+        #region General
 
         private void cbAlwaysOnTop_CheckedChanged(object sender, EventArgs e)
         {
@@ -2484,6 +2540,29 @@ namespace Fishing
 
         } // @ private void numFakeLargeIntervalHigh_ValueChanged
 
+        private void numMaxNoCatch_ValueChanged(object sender, EventArgs e)
+        {
+            SetNoCatch((int)numMaxNoCatch.Value);
+
+        } // @ private void numMaxNoCatch_ValueChanged
+
+        private void trackOpacity_Scroll(object sender, EventArgs e)
+        {
+            if (10 == trackOpacity.Value)
+            {
+                this.Opacity = 0.99;
+            }
+            else
+            {
+                this.Opacity = (double)trackOpacity.Value / 10;
+            }
+
+        } // @ private void trackOpacity_Scroll
+
+        #endregion //General
+
+        #region Fight
+
         private void numFakeLargeIntervalLow_ValueChanged(object sender, EventArgs e)
         {
             if (numFakeLargeIntervalLow.Value > numFakeLargeIntervalHigh.Value)
@@ -2511,12 +2590,6 @@ namespace Fishing
 
         } // @ private void numFakeSmallIntervalLow_ValueChanged
 
-        private void numMaxNoCatch_ValueChanged(object sender, EventArgs e)
-        {
-            SetNoCatch((int)numMaxNoCatch.Value);
-
-        } // @ private void numMaxNoCatch_ValueChanged
-
         private void numReactionHigh_ValueChanged(object sender, EventArgs e)
         {
             if (numReactionLow.Value > numReactionHigh.Value)
@@ -2539,18 +2612,28 @@ namespace Fishing
 
         } // @ private void numReactionLow_ValueChanged
 
-        private void trackOpacity_Scroll(object sender, EventArgs e)
-        {
-            if (10 == trackOpacity.Value)
-            {
-                this.Opacity = 0.99;
-            }
-            else
-            {
-                this.Opacity = (double)trackOpacity.Value / 10;
-            }
+        #endregion //Fight
 
-        } // @ private void trackOpacity_Scroll
+        #region Gear
+
+        private void tbLRingGear_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            cbLRingGear.Enabled = (tbLRingGear.SelectedIndex > 0 && tbLRingGear.SelectedIndex < 4);
+        }
+
+        private void tbRRingGear_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            cbRRingGear.Enabled = (tbRRingGear.SelectedIndex > 0 && tbRRingGear.SelectedIndex < 4);
+        }
+
+        private void tbWaistGear_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            cbWaistGear.Enabled = tbWaistGear.SelectedIndex == 2;
+        }
+
+        #endregion //Gear
+
+        #region Other
 
         private void rbFullactionOther_CheckedChanged(object sender, EventArgs e)
         {
@@ -2609,26 +2692,207 @@ namespace Fishing
 			}
         }
 
+        private void cbEnableItemizerItemTools_CheckedChanged(object sender, EventArgs e)
+        {
+            tbFullactionOther.Enabled = rbFullactionOther.Checked || cbEnableItemizerItemTools.Checked;
+            if (cbEnableItemizerItemTools.Checked)
+            {
+                rbFullactionOther.Checked = false;
+                if (OptionsConfigured)
+                {
+                    MessageBox.Show("NOTE: Option requires you to have the FFXI Windower Itemizer.dll plugin or Ashita ItemTools.dll extension loaded.\r\n\r\nYou must enter the command below, e.g.:\r\n\r\n    /put \"Hakuryu\" sack\r\n    /puts \"Black Sole\" satchel\r\n\r\n    /moveitem \"Hakuryu\" inventory sack 1\r\n    /moveitem \"Black Sole\" inventory satchel 12\r\n\r\nYou may also enter several commands, separated by semicolons.");
+                }
+            }
+        }
+
+        #endregion //Other
+
+        #region Chat
+
+        private void btnChatDetectAdd_Remove_click(object sender, EventArgs e)
+        {
+            Button btn = (Button)sender;
+            if (btn.Text.Equals("+"))
+            {
+                int offset = 23 * chatDetectBtnChatRemoveList.Count;
+                int taboffset = 5 * chatDetectBtnChatRemoveList.Count;
+                // 
+                // cmbChatAction
+                // 
+                ComboBox cmbChatAction = new ComboBox();
+                cmbChatAction.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+                cmbChatAction.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+                cmbChatAction.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+                cmbChatAction.FormattingEnabled = true;
+                cmbChatAction.Items.AddRange(new object[] {
+            "Stop Fishing",
+            "Note On Tab",
+            "Flash Window"});
+                cmbChatAction.Location = new System.Drawing.Point(136, 19 + offset + panelChatDetect.AutoScrollPosition.Y);
+                cmbChatAction.Name = "cmbChatAction";
+                cmbChatAction.Size = new System.Drawing.Size(83, 20);
+                cmbChatAction.TabIndex = 3 + taboffset;
+                cmbChatAction.SelectedIndexChanged += new System.EventHandler(this.cmbChatDetection_SelectedIndexChanged);
+                chatDetectCmbChatActionList.Add(cmbChatAction);
+                // 
+                // cmbChatType
+                // 
+                ComboBox cmbChatType = new ComboBox();
+                cmbChatType.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+                cmbChatType.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+                cmbChatType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+                cmbChatType.FormattingEnabled = true;
+                cmbChatType.Items.AddRange(new object[] {
+            "Tell",
+            "Party",
+            "Linkshell",
+            "Say"});
+                cmbChatType.Location = new System.Drawing.Point(23, 19 + offset + panelChatDetect.AutoScrollPosition.Y);
+                cmbChatType.Name = "cmbChatType";
+                cmbChatType.Size = new System.Drawing.Size(61, 20);
+                cmbChatType.TabIndex = 1 + taboffset;
+                cmbChatType.SelectedIndexChanged += new System.EventHandler(this.cmbChatDetection_SelectedIndexChanged);
+                chatDetectCmbChatTypeList.Add(cmbChatType);
+                // 
+                // lblChatOn
+                // 
+                Label lblChatOn = new Label();
+                lblChatOn.AutoSize = true;
+                lblChatOn.Location = new System.Drawing.Point(2, 22 + offset + panelChatDetect.AutoScrollPosition.Y);
+                lblChatOn.Name = "lblChatOn";
+                lblChatOn.Size = new System.Drawing.Size(21, 13);
+                lblChatOn.TabIndex = 0 + taboffset;
+                lblChatOn.Text = "On";
+                chatDetectLblOnList.Add(lblChatOn);
+                // 
+                // btnRemoveChatDetect
+                // 
+                Button btnRemoveChatDetect = new Button();
+                btnRemoveChatDetect.Location = new System.Drawing.Point(220, 17 + offset + panelChatDetect.AutoScrollPosition.Y);
+                btnRemoveChatDetect.Name = "btnRemoveChatDetect";
+                btnRemoveChatDetect.Size = new System.Drawing.Size(23, 23);
+                btnRemoveChatDetect.TabIndex = 4 + taboffset;
+                btnRemoveChatDetect.Text = "-";
+                btnRemoveChatDetect.UseVisualStyleBackColor = true;
+                btnRemoveChatDetect.Click += new System.EventHandler(this.btnChatDetectAdd_Remove_click);
+                chatDetectBtnChatRemoveList.Add(btnRemoveChatDetect);
+                // 
+                // lblChatReceived
+                // 
+                Label lblChatReceived = new Label();
+                lblChatReceived.AutoSize = true;
+                lblChatReceived.Location = new System.Drawing.Point(84, 22 + offset + panelChatDetect.AutoScrollPosition.Y);
+                lblChatReceived.Name = "lblChatReceived";
+                lblChatReceived.Size = new System.Drawing.Size(54, 13);
+                lblChatReceived.TabIndex = 2 + taboffset;
+                lblChatReceived.Text = "Received,";
+                chatDetectLblReceivedList.Add(lblChatReceived);
+
+                panelChatDetect.SuspendLayout();
+                // Move Add button down
+                btnChatDetectAdd.Location = new System.Drawing.Point(btnChatDetectAdd.Location.X, btnChatDetectAdd.Location.Y + 23);
+                btnChatDetectAdd.TabIndex = 5 + taboffset;
+
+                panelChatDetect.Controls.Add(cmbChatAction);
+                panelChatDetect.Controls.Add(cmbChatType);
+                panelChatDetect.Controls.Add(lblChatOn);
+                panelChatDetect.Controls.Add(btnRemoveChatDetect);
+                panelChatDetect.Controls.Add(lblChatReceived);
+                lblChatOn.Focus();
+                panelChatDetect.ResumeLayout();
+            }
+            else
+            {
+                int index = (int)Math.Round(((double)btn.Location.Y - 17) / 23);
+
+                panelChatDetect.SuspendLayout();
+                for (int i = index + 1; i < chatDetectBtnChatRemoveList.Count; ++i)
+                {
+                    chatDetectLblOnList[i].Location = new System.Drawing.Point(chatDetectLblOnList[i].Location.X, chatDetectLblOnList[i].Location.Y - 23);
+                    chatDetectCmbChatTypeList[i].Location = new System.Drawing.Point(chatDetectCmbChatTypeList[i].Location.X, chatDetectCmbChatTypeList[i].Location.Y - 23);
+                    chatDetectLblReceivedList[i].Location = new System.Drawing.Point(chatDetectLblReceivedList[i].Location.X, chatDetectLblReceivedList[i].Location.Y - 23);
+                    chatDetectCmbChatActionList[i].Location = new System.Drawing.Point(chatDetectCmbChatActionList[i].Location.X, chatDetectCmbChatActionList[i].Location.Y - 23);
+                    chatDetectBtnChatRemoveList[i].Location = new System.Drawing.Point(chatDetectBtnChatRemoveList[i].Location.X, chatDetectBtnChatRemoveList[i].Location.Y - 23);
+                }
+                btnChatDetectAdd.Location = new System.Drawing.Point(btnChatDetectAdd.Location.X, btnChatDetectAdd.Location.Y - 23);
+
+                panelChatDetect.Controls.Remove(chatDetectLblOnList[index]);
+                panelChatDetect.Controls.Remove(chatDetectCmbChatTypeList[index]);
+                panelChatDetect.Controls.Remove(chatDetectLblReceivedList[index]);
+                panelChatDetect.Controls.Remove(chatDetectCmbChatActionList[index]);
+                panelChatDetect.Controls.Remove(chatDetectBtnChatRemoveList[index]);
+                panelChatDetect.ResumeLayout();
+
+                chatDetectLblOnList.Remove(chatDetectLblOnList[index]);
+                chatDetectCmbChatTypeList.Remove(chatDetectCmbChatTypeList[index]);
+                chatDetectLblReceivedList.Remove(chatDetectLblReceivedList[index]);
+                chatDetectCmbChatActionList.Remove(chatDetectCmbChatActionList[index]);
+                chatDetectBtnChatRemoveList.Remove(chatDetectBtnChatRemoveList[index]);
+
+                cmbChatDetection_SelectedIndexChanged(null, EventArgs.Empty);
+            }
+        }
+
+        private void panelChatDetect_Scroll(object sender, ScrollEventArgs e)
+        {
+            panelChatDetect.Focus();
+        }
+
+        private void cmbChatDetection_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            tellActions = 0;
+            partyActions = 0;
+            shellActions = 0;
+            sayActions = 0;
+            string type;
+            string action;
+            ChatAction tmpAction = 0;
+            for (int i = 0; i < chatDetectBtnChatRemoveList.Count; ++i)
+            {
+                if (chatDetectCmbChatTypeList[i].SelectedItem == null)
+                {
+                    continue;
+                }
+                type = chatDetectCmbChatTypeList[i].SelectedItem.ToString();
+                if (chatDetectCmbChatActionList[i].SelectedItem == null)
+                {
+                    continue;
+                }
+                action = chatDetectCmbChatActionList[i].SelectedItem.ToString();
+                if (action.StartsWith("Stop"))
+                {
+                    tmpAction = ChatAction.Stop;
+                }
+                else if (action.StartsWith("Note"))
+                {
+                    tmpAction = ChatAction.Note;
+                }
+                else if (action.StartsWith("Flash"))
+                {
+                    tmpAction = ChatAction.Flash;
+                }
+                if (type.Equals("Tell"))
+                {
+                    tellActions |= (int)tmpAction;
+                }
+                else if (type.Equals("Linkshell"))
+                {
+                    shellActions |= (int)tmpAction;
+                }
+                else if (type.Equals("Party"))
+                {
+                    partyActions |= (int)tmpAction;
+                }
+                else if (type.Equals("Say"))
+                {
+                    sayActions |= (int)tmpAction;
+                }
+            }
+        }
+
+        #endregion //Chat
+
         #endregion //Events_Options
-
-		#region Events_Gear
-
-		private void tbLRingGear_SelectedIndexChanged(object sender, EventArgs e)
-		{
-			cbLRingGear.Enabled = (tbLRingGear.SelectedIndex > 0 && tbLRingGear.SelectedIndex < 4);
-		}
-
-		private void tbRRingGear_SelectedIndexChanged(object sender, EventArgs e)
-		{
-			cbRRingGear.Enabled = (tbRRingGear.SelectedIndex > 0 && tbRRingGear.SelectedIndex < 4);
-		}
-
-		private void tbWaistGear_SelectedIndexChanged(object sender, EventArgs e)
-		{
-			cbWaistGear.Enabled = tbWaistGear.SelectedIndex == 2;
-		}
-
-        #endregion //Events_Gear
 
         #region Events_Miscellaneous
 
@@ -3238,239 +3502,7 @@ namespace Fishing
 
         #endregion //Events_Wanted/UnwantedLists
 
-        private void btnResize_Click(object sender, EventArgs e)
-        {
-            if (chatbig)
-            {
-                chatbig = false;
-                ExtendChat();
-            }
-            else
-            {
-                chatbig = true;
-                ExtendChat();
-            }
-        }
-
-        private void tabChat_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (tabChat.SelectedTab.Name == "tabChatPageTell")
-            {
-                tabChatPageTell.Text = "Tell";
-                statusStripMain.BackColor = SystemColors.Control;
-            }
-            else if (tabChat.SelectedTab.Name == "tabChatPageParty")
-            {
-                tabChatPageParty.Text = "PT";
-                statusStripMain.BackColor = SystemColors.Control;
-            }
-            else if (tabChat.SelectedTab.Name == "tabChatPageLS")
-            {
-                tabChatPageLS.Text = "LS";
-                statusStripMain.BackColor = SystemColors.Control;
-            }
-            else if (tabChat.SelectedTab.Name == "tabChatPageSay")
-            {
-                tabChatPageSay.Text = "Say";
-                statusStripMain.BackColor = SystemColors.Control;
-            }
-        }
-
         #endregion //Events
-
-        private void cbEnableItemizerItemTools_CheckedChanged(object sender, EventArgs e)
-        {
-            tbFullactionOther.Enabled = rbFullactionOther.Checked || cbEnableItemizerItemTools.Checked;
-            if (cbEnableItemizerItemTools.Checked)
-            {
-                rbFullactionOther.Checked = false;
-                if (OptionsConfigured)
-                {
-                    MessageBox.Show("NOTE: Option requires you to have the FFXI Windower Itemizer.dll plugin or Ashita ItemTools.dll extension loaded.\r\n\r\nYou must enter the command below, e.g.:\r\n\r\n    /put \"Hakuryu\" sack\r\n    /puts \"Black Sole\" satchel\r\n\r\n    /moveitem \"Hakuryu\" inventory sack 1\r\n    /moveitem \"Black Sole\" inventory satchel 12\r\n\r\nYou may also enter several commands, separated by semicolons.");
-                }
-            }
-        }
-
-        private void btnChatDetectAdd_Remove_click(object sender, EventArgs e)
-        {
-            Button btn = (Button)sender;
-            if (btn.Text.Equals("+"))
-            {
-                int offset =  23 * chatDetectBtnChatRemoveList.Count;
-                int taboffset = 5 * chatDetectBtnChatRemoveList.Count;
-                // 
-                // cmbChatAction
-                // 
-                ComboBox cmbChatAction = new ComboBox();
-                cmbChatAction.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-                cmbChatAction.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-                cmbChatAction.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-                cmbChatAction.FormattingEnabled = true;
-                cmbChatAction.Items.AddRange(new object[] {
-            "Stop Fishing",
-            "Note On Tab",
-            "Flash Window"});
-                cmbChatAction.Location = new System.Drawing.Point(136, 19 + offset + panelChatDetect.AutoScrollPosition.Y);
-                cmbChatAction.Name = "cmbChatAction";
-                cmbChatAction.Size = new System.Drawing.Size(83, 20);
-                cmbChatAction.TabIndex = 3 + taboffset;
-                cmbChatAction.SelectedIndexChanged += new System.EventHandler(this.cmbChatDetection_SelectedIndexChanged);
-                chatDetectCmbChatActionList.Add(cmbChatAction);
-                // 
-                // cmbChatType
-                // 
-                ComboBox cmbChatType = new ComboBox();
-                cmbChatType.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-                cmbChatType.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-                cmbChatType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-                cmbChatType.FormattingEnabled = true;
-                cmbChatType.Items.AddRange(new object[] {
-            "Tell",
-            "Party",
-            "Linkshell",
-            "Say"});
-                cmbChatType.Location = new System.Drawing.Point(23, 19 + offset + panelChatDetect.AutoScrollPosition.Y);
-                cmbChatType.Name = "cmbChatType";
-                cmbChatType.Size = new System.Drawing.Size(61, 20);
-                cmbChatType.TabIndex = 1 + taboffset;
-                cmbChatType.SelectedIndexChanged += new System.EventHandler(this.cmbChatDetection_SelectedIndexChanged);
-                chatDetectCmbChatTypeList.Add(cmbChatType);
-                // 
-                // lblChatOn
-                // 
-                Label lblChatOn = new Label();
-                lblChatOn.AutoSize = true;
-                lblChatOn.Location = new System.Drawing.Point(2, 22 + offset + panelChatDetect.AutoScrollPosition.Y);
-                lblChatOn.Name = "lblChatOn";
-                lblChatOn.Size = new System.Drawing.Size(21, 13);
-                lblChatOn.TabIndex = 0 + taboffset;
-                lblChatOn.Text = "On";
-                chatDetectLblOnList.Add(lblChatOn);
-                // 
-                // btnRemoveChatDetect
-                // 
-                Button btnRemoveChatDetect = new Button();
-                btnRemoveChatDetect.Location = new System.Drawing.Point(220, 17 + offset + panelChatDetect.AutoScrollPosition.Y);
-                btnRemoveChatDetect.Name = "btnRemoveChatDetect";
-                btnRemoveChatDetect.Size = new System.Drawing.Size(23, 23);
-                btnRemoveChatDetect.TabIndex = 4 + taboffset;
-                btnRemoveChatDetect.Text = "-";
-                btnRemoveChatDetect.UseVisualStyleBackColor = true;
-                btnRemoveChatDetect.Click += new System.EventHandler(this.btnChatDetectAdd_Remove_click);
-                chatDetectBtnChatRemoveList.Add(btnRemoveChatDetect);
-                // 
-                // lblChatReceived
-                // 
-                Label lblChatReceived = new Label();
-                lblChatReceived.AutoSize = true;
-                lblChatReceived.Location = new System.Drawing.Point(84, 22 + offset + panelChatDetect.AutoScrollPosition.Y);
-                lblChatReceived.Name = "lblChatReceived";
-                lblChatReceived.Size = new System.Drawing.Size(54, 13);
-                lblChatReceived.TabIndex = 2 + taboffset;
-                lblChatReceived.Text = "Received,";
-                chatDetectLblReceivedList.Add(lblChatReceived);
-
-                panelChatDetect.SuspendLayout();
-                // Move Add button down
-                btnChatDetectAdd.Location = new System.Drawing.Point(btnChatDetectAdd.Location.X, btnChatDetectAdd.Location.Y + 23);
-                btnChatDetectAdd.TabIndex = 5 + taboffset;
-
-                panelChatDetect.Controls.Add(cmbChatAction);
-                panelChatDetect.Controls.Add(cmbChatType);
-                panelChatDetect.Controls.Add(lblChatOn);
-                panelChatDetect.Controls.Add(btnRemoveChatDetect);
-                panelChatDetect.Controls.Add(lblChatReceived);
-                lblChatOn.Focus();
-                panelChatDetect.ResumeLayout();
-            }
-            else
-            {
-                int index = (int)Math.Round(((double)btn.Location.Y - 17) / 23);
-
-                panelChatDetect.SuspendLayout();
-                for (int i = index + 1; i < chatDetectBtnChatRemoveList.Count; ++i)
-                {
-                    chatDetectLblOnList[i].Location = new System.Drawing.Point(chatDetectLblOnList[i].Location.X, chatDetectLblOnList[i].Location.Y - 23);
-                    chatDetectCmbChatTypeList[i].Location = new System.Drawing.Point(chatDetectCmbChatTypeList[i].Location.X, chatDetectCmbChatTypeList[i].Location.Y - 23);
-                    chatDetectLblReceivedList[i].Location = new System.Drawing.Point(chatDetectLblReceivedList[i].Location.X, chatDetectLblReceivedList[i].Location.Y - 23);
-                    chatDetectCmbChatActionList[i].Location = new System.Drawing.Point(chatDetectCmbChatActionList[i].Location.X, chatDetectCmbChatActionList[i].Location.Y - 23);
-                    chatDetectBtnChatRemoveList[i].Location = new System.Drawing.Point(chatDetectBtnChatRemoveList[i].Location.X, chatDetectBtnChatRemoveList[i].Location.Y - 23);
-                }
-                btnChatDetectAdd.Location = new System.Drawing.Point(btnChatDetectAdd.Location.X, btnChatDetectAdd.Location.Y - 23);
-
-                panelChatDetect.Controls.Remove(chatDetectLblOnList[index]);
-                panelChatDetect.Controls.Remove(chatDetectCmbChatTypeList[index]);
-                panelChatDetect.Controls.Remove(chatDetectLblReceivedList[index]);
-                panelChatDetect.Controls.Remove(chatDetectCmbChatActionList[index]);
-                panelChatDetect.Controls.Remove(chatDetectBtnChatRemoveList[index]);
-                panelChatDetect.ResumeLayout();
-
-                chatDetectLblOnList.Remove(chatDetectLblOnList[index]);
-                chatDetectCmbChatTypeList.Remove(chatDetectCmbChatTypeList[index]);
-                chatDetectLblReceivedList.Remove(chatDetectLblReceivedList[index]);
-                chatDetectCmbChatActionList.Remove(chatDetectCmbChatActionList[index]);
-                chatDetectBtnChatRemoveList.Remove(chatDetectBtnChatRemoveList[index]);
-
-                cmbChatDetection_SelectedIndexChanged(null, EventArgs.Empty);
-            }
-        }
-
-        private void panelChatDetect_Scroll(object sender, ScrollEventArgs e)
-        {
-            panelChatDetect.Focus();
-        }
-
-        private void cmbChatDetection_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            tellActions = 0;
-            partyActions = 0;
-            shellActions = 0;
-            sayActions = 0;
-            string type;
-            string action;
-            ChatAction tmpAction = 0;
-            for (int i = 0; i < chatDetectBtnChatRemoveList.Count; ++i)
-            {
-                if (chatDetectCmbChatTypeList[i].SelectedItem == null)
-                {
-                    continue;
-                }
-                type = chatDetectCmbChatTypeList[i].SelectedItem.ToString();
-                if (chatDetectCmbChatActionList[i].SelectedItem == null)
-                {
-                    continue;
-                }
-                action = chatDetectCmbChatActionList[i].SelectedItem.ToString();
-                if (action.StartsWith("Stop"))
-                {
-                    tmpAction = ChatAction.Stop;
-                }
-                else if (action.StartsWith("Note"))
-                {
-                    tmpAction = ChatAction.Note;
-                }
-                else if (action.StartsWith("Flash"))
-                {
-                    tmpAction = ChatAction.Flash;
-                }
-                if (type.Equals("Tell"))
-                {
-                    tellActions |= (int)tmpAction;
-                }
-                else if (type.Equals("Linkshell"))
-                {
-                    shellActions |= (int)tmpAction;
-                }
-                else if (type.Equals("Party"))
-                {
-                    partyActions |= (int)tmpAction;
-                }
-                else if (type.Equals("Say"))
-                {
-                    sayActions |= (int)tmpAction;
-                }
-            }
-        }
 
     } // @ internal partial class FishingForm : Form
 }
