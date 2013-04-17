@@ -152,6 +152,7 @@ namespace Fishing
             toolTip.SetToolTip(cbMaxCatch, "Stops fishing when # of catches reached; value resets when limit is reached.");
             toolTip.SetToolTip(cbSneakFishing, "Will cast the spell Sneak prior to casting.");
             toolTip.SetToolTip(cbSkillCap, "Stop when skill reaches specified level.");
+            toolTip.SetToolTip(cbChatDetect, "Uncheck to disable all chat detectors set below.");
 
             this.tbBaitGear.Items.AddRange(Dictionaries.baitList.ToArray());
             this.tbRodGear.Items.AddRange(Dictionaries.rodList.ToArray());
@@ -2045,7 +2046,7 @@ namespace Fishing
         private void DoCustomChatActions(int actions, int newCount, List<FFACE.ChatTools.ChatLine> chatLines, string testPrefix, string stopText, TabPage tabPage, string tabText)
         {
             // Do any custom say actions
-            if (actions > 0)
+            if (cbChatDetect.Checked && actions > 0)
             {
                 string testLine;
                 for (int i = newCount - 1; i >= 0; --i)
@@ -2728,7 +2729,7 @@ namespace Fishing
             "Stop Fishing",
             "Note On Tab",
             "Flash Window"});
-                cmbChatAction.Location = new System.Drawing.Point(136, 19 + offset + panelChatDetect.AutoScrollPosition.Y);
+                cmbChatAction.Location = new System.Drawing.Point(136, 2 + offset + panelChatDetect.AutoScrollPosition.Y);
                 cmbChatAction.Name = "cmbChatAction";
                 cmbChatAction.Size = new System.Drawing.Size(83, 20);
                 cmbChatAction.TabIndex = 3 + taboffset;
@@ -2747,7 +2748,7 @@ namespace Fishing
             "Party",
             "Linkshell",
             "Say"});
-                cmbChatType.Location = new System.Drawing.Point(23, 19 + offset + panelChatDetect.AutoScrollPosition.Y);
+                cmbChatType.Location = new System.Drawing.Point(23, 2 + offset + panelChatDetect.AutoScrollPosition.Y);
                 cmbChatType.Name = "cmbChatType";
                 cmbChatType.Size = new System.Drawing.Size(61, 20);
                 cmbChatType.TabIndex = 1 + taboffset;
@@ -2758,7 +2759,7 @@ namespace Fishing
                 // 
                 Label lblChatOn = new Label();
                 lblChatOn.AutoSize = true;
-                lblChatOn.Location = new System.Drawing.Point(2, 22 + offset + panelChatDetect.AutoScrollPosition.Y);
+                lblChatOn.Location = new System.Drawing.Point(2, 5 + offset + panelChatDetect.AutoScrollPosition.Y);
                 lblChatOn.Name = "lblChatOn";
                 lblChatOn.Size = new System.Drawing.Size(21, 13);
                 lblChatOn.TabIndex = 0 + taboffset;
@@ -2768,7 +2769,7 @@ namespace Fishing
                 // btnRemoveChatDetect
                 // 
                 Button btnRemoveChatDetect = new Button();
-                btnRemoveChatDetect.Location = new System.Drawing.Point(220, 17 + offset + panelChatDetect.AutoScrollPosition.Y);
+                btnRemoveChatDetect.Location = new System.Drawing.Point(220, 0 + offset + panelChatDetect.AutoScrollPosition.Y);
                 btnRemoveChatDetect.Name = "btnRemoveChatDetect";
                 btnRemoveChatDetect.Size = new System.Drawing.Size(23, 23);
                 btnRemoveChatDetect.TabIndex = 4 + taboffset;
@@ -2781,7 +2782,7 @@ namespace Fishing
                 // 
                 Label lblChatReceived = new Label();
                 lblChatReceived.AutoSize = true;
-                lblChatReceived.Location = new System.Drawing.Point(84, 22 + offset + panelChatDetect.AutoScrollPosition.Y);
+                lblChatReceived.Location = new System.Drawing.Point(84, 5 + offset + panelChatDetect.AutoScrollPosition.Y);
                 lblChatReceived.Name = "lblChatReceived";
                 lblChatReceived.Size = new System.Drawing.Size(54, 13);
                 lblChatReceived.TabIndex = 2 + taboffset;
@@ -3058,7 +3059,7 @@ namespace Fishing
                 Settings.Default.CastMin = numCastIntervalLow.Value = 3.0M;
                 Settings.Default.CatchUnknown = cbCatchUnknown.Checked = false;
                 Settings.Default.Opacity = trackOpacity.Value = 10;
-                this.Opacity = trackOpacity.Value;
+                this.Opacity = (double)trackOpacity.Value / 10;
                 Settings.Default.FakeLarge = cbReleaseLarge.Checked = false;
                 Settings.Default.FakeLargeMax = 100;
                 Settings.Default.FakeLargeMin = 90;
@@ -3110,6 +3111,7 @@ namespace Fishing
                 Settings.Default.SneakFishing = cbSneakFishing.Checked = false;
 
                 // Chat detect settings
+                Settings.Default.ChatDetectEnabled = cbChatDetect.Checked = true;
                 Settings.Default.ChatDetect = new int[] {};
                 for (int i = 0; i < chatDetectBtnChatRemoveList.Count; ++i)
                 {
@@ -3203,6 +3205,7 @@ namespace Fishing
                     chatDetects.Add(chatDetectCmbChatActionList[i].SelectedIndex);
                 }
                 Settings.Default.ChatDetect = chatDetects.ToArray();
+                Settings.Default.ChatDetectEnabled = cbChatDetect.Checked;
 
                 if (FormWindowState.Normal == this.WindowState)
                 {
@@ -3280,6 +3283,7 @@ namespace Fishing
             cbSneakFishing.Checked = Settings.Default.SneakFishing;
 
             // Chat detect settings
+            cbChatDetect.Checked = Settings.Default.ChatDetectEnabled;
             List<int> chatDetects = Settings.Default.ChatDetect.ToList();
             for (int i = 0; i < chatDetects.Count / 2; ++i)
             {
