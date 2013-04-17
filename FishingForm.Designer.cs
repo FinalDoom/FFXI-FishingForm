@@ -108,8 +108,8 @@
             this.btnSettingsReset = new System.Windows.Forms.Button();
             this.cbAlwaysOnTop = new System.Windows.Forms.CheckBox();
             this.tabOptionsPageChat = new System.Windows.Forms.TabPage();
+            this.cbChatDetect = new System.Windows.Forms.CheckBox();
             this.panelChatDetect = new System.Windows.Forms.Panel();
-            this.lblChatDetect = new System.Windows.Forms.Label();
             this.btnChatDetectAdd = new System.Windows.Forms.Button();
             this.gbGMDetect = new System.Windows.Forms.GroupBox();
             this.cbGMdetectAutostop = new System.Windows.Forms.CheckBox();
@@ -1275,41 +1275,42 @@
             // 
             // tabOptionsPageChat
             // 
+            this.tabOptionsPageChat.Controls.Add(this.cbChatDetect);
             this.tabOptionsPageChat.Controls.Add(this.panelChatDetect);
             this.tabOptionsPageChat.Controls.Add(this.gbGMDetect);
-            this.tabOptionsPageChat.Location = new System.Drawing.Point(4, 22);
+            this.tabOptionsPageChat.Location = new System.Drawing.Point(4, 21);
             this.tabOptionsPageChat.Name = "tabOptionsPageChat";
             this.tabOptionsPageChat.Padding = new System.Windows.Forms.Padding(3);
-            this.tabOptionsPageChat.Size = new System.Drawing.Size(364, 168);
+            this.tabOptionsPageChat.Size = new System.Drawing.Size(364, 169);
             this.tabOptionsPageChat.TabIndex = 6;
             this.tabOptionsPageChat.Text = "Chat";
             this.tabOptionsPageChat.UseVisualStyleBackColor = true;
             // 
+            // cbChatDetect
+            // 
+            this.cbChatDetect.AutoSize = true;
+            this.cbChatDetect.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.cbChatDetect.Location = new System.Drawing.Point(99, 7);
+            this.cbChatDetect.Name = "cbChatDetect";
+            this.cbChatDetect.Size = new System.Drawing.Size(119, 17);
+            this.cbChatDetect.TabIndex = 6;
+            this.cbChatDetect.Text = "Chat Detect Actions";
+            // 
             // panelChatDetect
             // 
             this.panelChatDetect.AutoScroll = true;
-            this.panelChatDetect.Controls.Add(this.lblChatDetect);
             this.panelChatDetect.Controls.Add(this.btnChatDetectAdd);
-            this.panelChatDetect.Location = new System.Drawing.Point(102, 7);
+            this.panelChatDetect.Location = new System.Drawing.Point(102, 23);
             this.panelChatDetect.Name = "panelChatDetect";
-            this.panelChatDetect.Size = new System.Drawing.Size(262, 156);
+            this.panelChatDetect.Size = new System.Drawing.Size(262, 140);
             this.panelChatDetect.TabIndex = 1;
             this.panelChatDetect.Tag = "";
             this.panelChatDetect.Text = "Chat Detect";
             this.panelChatDetect.Scroll += new System.Windows.Forms.ScrollEventHandler(this.panelChatDetect_Scroll);
             // 
-            // lblChatDetect
-            // 
-            this.lblChatDetect.AutoSize = true;
-            this.lblChatDetect.Location = new System.Drawing.Point(3, 0);
-            this.lblChatDetect.Name = "lblChatDetect";
-            this.lblChatDetect.Size = new System.Drawing.Size(100, 13);
-            this.lblChatDetect.TabIndex = 6;
-            this.lblChatDetect.Text = "Chat Detect Actions";
-            // 
             // btnChatDetectAdd
             // 
-            this.btnChatDetectAdd.Location = new System.Drawing.Point(220, 17);
+            this.btnChatDetectAdd.Location = new System.Drawing.Point(220, 0);
             this.btnChatDetectAdd.Name = "btnChatDetectAdd";
             this.btnChatDetectAdd.Size = new System.Drawing.Size(23, 23);
             this.btnChatDetectAdd.TabIndex = 5;
@@ -1324,7 +1325,7 @@
             this.gbGMDetect.Controls.Add(this.cbGMdetectAutostop);
             this.gbGMDetect.Location = new System.Drawing.Point(6, 7);
             this.gbGMDetect.Name = "gbGMDetect";
-            this.gbGMDetect.Size = new System.Drawing.Size(93, 154);
+            this.gbGMDetect.Size = new System.Drawing.Size(93, 155);
             this.gbGMDetect.TabIndex = 0;
             this.gbGMDetect.TabStop = false;
             this.gbGMDetect.Text = "GM Detection";
@@ -2252,8 +2253,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.numCastIntervalHigh)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackOpacity)).EndInit();
             this.tabOptionsPageChat.ResumeLayout(false);
+            this.tabOptionsPageChat.PerformLayout();
             this.panelChatDetect.ResumeLayout(false);
-            this.panelChatDetect.PerformLayout();
             this.gbGMDetect.ResumeLayout(false);
             this.gbGMDetect.PerformLayout();
             this.tabOptionsPageFight.ResumeLayout(false);
@@ -2438,7 +2439,7 @@
         private System.Windows.Forms.Panel panelChatDetect;
         private System.Windows.Forms.Button btnChatDetectAdd;
         private System.Windows.Forms.CheckBox cbTellDetect;
-        private System.Windows.Forms.Label lblChatDetect;
+        private System.Windows.Forms.CheckBox cbChatDetect;
         private System.Windows.Forms.NumericUpDown numSkillCap;
         private System.Windows.Forms.CheckBox cbSkillCap;
     }

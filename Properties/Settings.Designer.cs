@@ -742,5 +742,17 @@ namespace Fishing.Properties {
                 this["SkillCapLevel"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool ChatDetectEnabled {
+            get {
+                return ((bool)(this["ChatDetectEnabled"]));
+            }
+            set {
+                this["ChatDetectEnabled"] = value;
+            }
+        }
     }
 }
