@@ -215,11 +215,13 @@ namespace Fishing
             // Waist
             {"Fisher's Rope", 11768},
             {"Fisherman's Belt", 15452},
-            // Rings
+            // Rings (castable)
+            {"Albatross Ring", 15555},
+            {"Pelican Ring", 15554},
+            {"Penguin Ring", 15556},
+            // Rings (static)
             {"Heron Ring", 15846},
             {"Noddy Ring", 11655},
-            {"Norg Earring", 16047},
-            {"Penguin Ring", 15556},
             {"Puffin Ring", 11654},
             {"Seagull Ring", 15845},
             // Earrings
@@ -230,6 +232,7 @@ namespace Fishing
             {"Kingdom Earring", 16039},
             {"Mhaura Earring", 16044},
             {"Nashmau Earring", 16050},
+            {"Norg Earring", 16047},
             {"Rabao Earring", 16045},
             {"Republic Earring", 16040},
             {"Safehold Earring", 16048},
@@ -238,21 +241,21 @@ namespace Fishing
         public static List<string> gearList = new List<string>(gearDictionary.Keys);
         public static int bodyIndex = 0;
         public static int bodyCount = 4;
-        public static int handsIndex = 4;
+        public static int handsIndex = bodyIndex + bodyCount;
         public static int handsCount = 2;
-        public static int legsIndex = 6;
+        public static int legsIndex = handsIndex + handsCount;
         public static int legsCount = 2;
-        public static int feetIndex = 8;
+        public static int feetIndex = legsIndex + legsCount;
         public static int feetCount = 3;
-        public static int headIndex = 11;
+        public static int headIndex = feetIndex + feetCount;
         public static int headCount = 1;
-        public static int neckIndex = 12;
+        public static int neckIndex = headIndex + headCount;
         public static int neckCount = 1;
-        public static int waistIndex = 13;
+        public static int waistIndex = neckIndex + neckCount;
         public static int waistCount = 2;
-        public static int ringsIndex = 15;
-        public static int ringsCount = 6;
-        public static int earringsIndex = 21;
+        public static int ringsIndex = waistIndex + waistCount;
+        public static int ringsCount = 7;
+        public static int earringsIndex = ringsIndex + ringsCount;
         public static int earringsCount = 11;
         #endregion
 
