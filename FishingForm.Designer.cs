@@ -1278,10 +1278,10 @@
             this.tabOptionsPageChat.Controls.Add(this.cbChatDetect);
             this.tabOptionsPageChat.Controls.Add(this.panelChatDetect);
             this.tabOptionsPageChat.Controls.Add(this.gbGMDetect);
-            this.tabOptionsPageChat.Location = new System.Drawing.Point(4, 21);
+            this.tabOptionsPageChat.Location = new System.Drawing.Point(4, 22);
             this.tabOptionsPageChat.Name = "tabOptionsPageChat";
             this.tabOptionsPageChat.Padding = new System.Windows.Forms.Padding(3);
-            this.tabOptionsPageChat.Size = new System.Drawing.Size(364, 169);
+            this.tabOptionsPageChat.Size = new System.Drawing.Size(364, 168);
             this.tabOptionsPageChat.TabIndex = 6;
             this.tabOptionsPageChat.Text = "Chat";
             this.tabOptionsPageChat.UseVisualStyleBackColor = true;
@@ -1325,7 +1325,7 @@
             this.gbGMDetect.Controls.Add(this.cbGMdetectAutostop);
             this.gbGMDetect.Location = new System.Drawing.Point(6, 7);
             this.gbGMDetect.Name = "gbGMDetect";
-            this.gbGMDetect.Size = new System.Drawing.Size(93, 155);
+            this.gbGMDetect.Size = new System.Drawing.Size(93, 154);
             this.gbGMDetect.TabIndex = 0;
             this.gbGMDetect.TabStop = false;
             this.gbGMDetect.Text = "GM Detection";
