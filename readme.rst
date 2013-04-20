@@ -61,6 +61,7 @@ Features
     - General log that includes all chat
     - Timestamped similarly to windower timestamp plugin
     - Clickable URLs
+- Customizable chat detection and result actions for incoming chat
 - Fishing statistics tab
     - Shows total casts, time fishing, and catches per hour
     - Shows counts and percentages for catches, releases, and lost fish types
@@ -70,6 +71,41 @@ Features
 - Option to show fish HP and time left to reel in
 - Dialog turns red/comes into focus when it stops unexpectedly
 - Can be opened before FFXI, persists after logout or character change
+- Automatically equip gear, rod, and bait
+
+------------
+Instructions
+------------
+
+The program is meant to be straightforward to run. Extract the files anywhere you please and
+run it (as an administrator, if necessary), get your character to a fishing spot, and click
+the start button. You will probably want to take a look at the options before doing so, however.
+Standard defaults should work for the most part but customization is sometimes necessary or
+desirable. If run while dual boxing with two characters logged in, a window will appear asking
+you to select a character. Otherwise, it will automatically attach to any logged in character,
+or show a message suggesting you log in.
+
+If bait and rod are specified in the gear options page, no bait or rod need be equipped. Otherwise,
+you must equip appropriate bait and rod before clicking start. The lists under the start button
+will be populated with fish that have been found in your area, with your bait and rod. As new fish
+are encountered, they will be added to the list. However, unless the "unknowns?" checkbox is checked,
+fish not in the "wanted" list will be released.
+
+Fish may be moved between the "wanted" and "unwanted" lists by double clicking the fish name. They
+may also be renamed by right clicking and selecting rename. Monsters are given sequential names, eg.
+*Monster 42*, so you may want to rename them appropriately. 
+
+You may find that your list has no fish, monsters, or items defined in it, yet the program keeps
+releasing fish. In this case, it is detecting the fish on the line as one that has been detected
+in another zone/rod/bait combination and marked as "unwanted," but not adding it to the list.
+This is a known issue. For now, to have the list populate as it should, disable the *ignore
+monsters* and *ignore items* options.
+
+As you fish, the stats and info tabs will be updated to reflect fishing history and ingame
+status. The stats can be cleared by right clicking and selecting *clear stats*. The wait time
+between casts will be updated as fishing fatigue sets in, and fishing will stop after fatigue
+is detected. It can also be set to stop after a number of catches or skillups, and will stop
+when your inventory is full. Several options exist to handle what to do after these stops.
 
 -------
 Options
@@ -87,6 +123,8 @@ General
 Chat
 ----
 - Stop fishing, flash window, note on chat log for incoming tell, PT, LS, say chat
+- Enable or disable custom detection
+- GM Detection
 
 Fight
 -----
@@ -105,11 +143,18 @@ Other
 -----
 - Move items when inventory is full using itemizer or ItemTools
 - Warp then optionally log out or shut down when inventory is full, when fatigued, or when out of bait
-- GM Detection
 
 -------
 Changes
 -------
+
+1.6.7.34
+--------
+- Fixed ring equip menus
+
+1.6.7.33
+--------
+- Checkbox to enable or disable chat filters
 
 1.6.7.32
 --------
