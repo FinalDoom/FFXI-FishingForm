@@ -97,6 +97,8 @@ namespace Fishing
         {
             InitializeComponent();
 
+            RestoreLocation();
+
             List<string> args = arglist.ToList();  //*golfandsurf*  Formats <player> arg to match pol process
             args[0] = args[0].Substring(0, 1).ToUpper() + args[0].Substring(1, args[0].Length - 1).ToLower();
 
@@ -193,6 +195,14 @@ namespace Fishing
         #region Methods
 
 		#region Methods_Initialization
+
+        private void RestoreLocation()
+        {
+            if (null != Settings.Default.WindowLocation)
+            {
+                this.Location = GetNearestConnectedScreenWindowLocation();
+            }
+        }
 
 		private void ChooseProcess(string characterName)
 		{
@@ -2317,6 +2327,81 @@ namespace Fishing
 
         }
 
+        public static bool ThisPointIsOnOneOfTheConnectedScreens(Point thePoint)
+        {
+            bool FoundAScreenThatContainsThePoint = false;
+
+            for (int i = 0; i < Screen.AllScreens.Length; i++)
+            {
+                if (Screen.AllScreens[i].Bounds.Contains(thePoint))
+                    FoundAScreenThatContainsThePoint = true;
+            }
+            return FoundAScreenThatContainsThePoint;
+        }
+
+        public static Point GetClosestOnScreenOffsetPoint(Point target)
+        {
+            double smallestDistance = double.NaN;
+            Point smallestOffset = Point.Empty;
+            for (int i = 0; i < Screen.AllScreens.Length; ++i)
+            {
+                Rectangle screenRect = Screen.AllScreens[i].Bounds;
+                int dx = 0;
+                int dy = 0;
+                if (target.X < screenRect.Left)
+                {
+                    dx = screenRect.Left - target.X;
+                }
+                else if (target.X > screenRect.Right)
+                {
+                    dx = screenRect.Right - target.X;
+                }
+                if (target.Y < screenRect.Top)
+                {
+                    dy = screenRect.Top - target.Y;
+                }
+                else if (target.Y > screenRect.Bottom)
+                {
+                    dy = screenRect.Bottom - target.Y;
+                }
+                Point tmpOffset = new Point(dx, dy);
+                double tmpDistance = Math.Pow(dx, 2) + Math.Pow(dy, 2);
+                // Get smallest offset
+                if (smallestOffset == Point.Empty)
+                {
+                    smallestDistance = tmpDistance;
+                    smallestOffset = tmpOffset;
+                }
+                else if (tmpDistance < smallestDistance)
+                {
+                    smallestDistance = tmpDistance;
+                    smallestOffset = tmpOffset;
+                }
+            }
+            return smallestOffset;
+        }
+
+        public static Point GetNearestConnectedScreenWindowLocation()
+        {
+            Point location = Settings.Default.WindowLocation;
+            Point lowerRight = Settings.Default.WindowLocation;
+            lowerRight.Offset(Settings.Default.WindowSize.Width, Settings.Default.WindowSize.Height);
+            // Adjust lower right to be on screen
+            if (!ThisPointIsOnOneOfTheConnectedScreens(lowerRight))
+            {
+                Point offset1 = GetClosestOnScreenOffsetPoint(lowerRight);
+                location.Offset(offset1);
+            }
+            // Adjust upper left to be on screen
+            if (!ThisPointIsOnOneOfTheConnectedScreens(location))
+            {
+                Point offset2 = GetClosestOnScreenOffsetPoint(location);
+                location.Offset(offset2);
+            }
+
+            return location;
+        }
+
         #endregion //Methods_Advanced
 
         #endregion //Methods
@@ -3210,10 +3295,12 @@ namespace Fishing
                 if (FormWindowState.Normal == this.WindowState)
                 {
                     Settings.Default.WindowSize = this.Size;
+                    Settings.Default.WindowLocation = this.Location;
                 }
                 else
                 {
                     Settings.Default.WindowSize = this.RestoreBounds.Size;
+                    Settings.Default.WindowLocation = this.RestoreBounds.Location;
                 }
 
                 Settings.Default.Save();
@@ -3301,6 +3388,8 @@ namespace Fishing
             {
                 this.Size = Settings.Default.WindowSize;
             }
+
+            RestoreLocation();
 
             SetNoCatch((int)numMaxNoCatch.Value);
 
