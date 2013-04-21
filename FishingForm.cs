@@ -200,12 +200,7 @@ namespace Fishing
         {
             if (null != Settings.Default.WindowLocation)
             {
-                this.Location = Settings.Default.WindowLocation;
-                // Check that window is on screen
-                // If left of screen move right
-                // If right of screen move left
-                // If above screen move down
-                // If below screen move up
+                this.Location = GetNearestConnectedScreenWindowLocation();
             }
         }
 
@@ -2330,6 +2325,81 @@ namespace Fishing
                 btnChatSend.Location = new Point((formWidth - 233), -1);
             }
 
+        }
+
+        public static bool ThisPointIsOnOneOfTheConnectedScreens(Point thePoint)
+        {
+            bool FoundAScreenThatContainsThePoint = false;
+
+            for (int i = 0; i < Screen.AllScreens.Length; i++)
+            {
+                if (Screen.AllScreens[i].Bounds.Contains(thePoint))
+                    FoundAScreenThatContainsThePoint = true;
+            }
+            return FoundAScreenThatContainsThePoint;
+        }
+
+        public static Point GetClosestOnScreenOffsetPoint(Point target)
+        {
+            double smallestDistance = double.NaN;
+            Point smallestOffset = Point.Empty;
+            for (int i = 0; i < Screen.AllScreens.Length; ++i)
+            {
+                Rectangle screenRect = Screen.AllScreens[i].Bounds;
+                int dx = 0;
+                int dy = 0;
+                if (target.X < screenRect.Left)
+                {
+                    dx = screenRect.Left - target.X;
+                }
+                else if (target.X > screenRect.Right)
+                {
+                    dx = screenRect.Right - target.X;
+                }
+                if (target.Y < screenRect.Top)
+                {
+                    dy = screenRect.Top - target.Y;
+                }
+                else if (target.Y > screenRect.Bottom)
+                {
+                    dy = screenRect.Bottom - target.Y;
+                }
+                Point tmpOffset = new Point(dx, dy);
+                double tmpDistance = Math.Pow(dx, 2) + Math.Pow(dy, 2);
+                // Get smallest offset
+                if (smallestOffset == Point.Empty)
+                {
+                    smallestDistance = tmpDistance;
+                    smallestOffset = tmpOffset;
+                }
+                else if (tmpDistance < smallestDistance)
+                {
+                    smallestDistance = tmpDistance;
+                    smallestOffset = tmpOffset;
+                }
+            }
+            return smallestOffset;
+        }
+
+        public static Point GetNearestConnectedScreenWindowLocation()
+        {
+            Point location = Settings.Default.WindowLocation;
+            Point lowerRight = Settings.Default.WindowLocation;
+            lowerRight.Offset(Settings.Default.WindowSize.Width, Settings.Default.WindowSize.Height);
+            // Adjust lower right to be on screen
+            if (!ThisPointIsOnOneOfTheConnectedScreens(lowerRight))
+            {
+                Point offset1 = GetClosestOnScreenOffsetPoint(lowerRight);
+                location.Offset(offset1);
+            }
+            // Adjust upper left to be on screen
+            if (!ThisPointIsOnOneOfTheConnectedScreens(location))
+            {
+                Point offset2 = GetClosestOnScreenOffsetPoint(location);
+                location.Offset(offset2);
+            }
+
+            return location;
         }
 
         #endregion //Methods_Advanced
