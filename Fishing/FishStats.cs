@@ -70,7 +70,7 @@ namespace Fishing
             releasedCount = 0;
 
 			ticksFished = 0;
-			startTicks = 0;
+            startTicks = DateTime.Now.Ticks;
 
             caughtFishes.Clear();
             lostCatchFishes.Clear();
