@@ -100,7 +100,7 @@
       <Bait>Minnow</Bait>
     </Baits>
   </Fish>
-  <Fish name="Nebimonite" wanted="Yes" ID1="120" ID2="33" ID3="11" ID4="33">
+  <Fish name="Nebimonite" wanted="No" ID1="120" ID2="33" ID3="11" ID4="33">
     <Zones>
       <Zone>Aht Urgan Whitegate</Zone>
       <Zone>Ship bound for Mhaura</Zone>
@@ -214,6 +214,7 @@
       <Zone>Bastok Markets</Zone>
       <Zone>West Sarutabaruta</Zone>
       <Zone>Kuftal Tunnel</Zone>
+      <Zone>Buburimu Peninsula</Zone>
     </Zones>
     <Baits>
       <Bait>Shrimp Lure</Bait>
@@ -228,6 +229,8 @@
       <Bait>Lugworm</Bait>
       <Bait>Worm Lure</Bait>
       <Bait>Fly Lure</Bait>
+      <Bait>Rogue Rig</Bait>
+      <Bait>Crayfish Ball</Bait>
     </Baits>
   </Fish>
   <Fish name="Rusty Bucket" wanted="No" ID1="60" ID2="20" ID3="15" ID4="20">
@@ -276,6 +279,7 @@
       <Zone>Manaclipper</Zone>
       <Zone>East Sarutabaruta</Zone>
       <Zone>Jugner Forest</Zone>
+      <Zone>West Sarutabaruta</Zone>
     </Zones>
     <Baits>
       <Bait>Shrimp Lure</Bait>
@@ -290,6 +294,7 @@
       <Bait>Worm Lure</Bait>
       <Bait>Robber Rig</Bait>
       <Bait>Fly Lure</Bait>
+      <Bait>Crayfish Ball</Bait>
     </Baits>
   </Fish>
   <Fish name="Pipira" wanted="Yes" ID1="300" ID2="12" ID3="8" ID4="12">
@@ -379,6 +384,7 @@
       <Zone>Kazham</Zone>
       <Zone>West Sarutabaruta</Zone>
       <Zone>Manaclipper</Zone>
+      <Zone>Buburimu Peninsula</Zone>
     </Zones>
     <Baits>
       <Bait>Sinking Minnow</Bait>
@@ -386,6 +392,8 @@
       <Bait>Worm Lure</Bait>
       <Bait>Sliced Sardine</Bait>
       <Bait>Fly Lure</Bait>
+      <Bait>Crayfish Ball</Bait>
+      <Bait>Shrimp Lure</Bait>
     </Baits>
   </Fish>
   <Fish name="Mob (Rock Crab)" wanted="No" ID1="300" ID2="17" ID3="15" ID4="17">
@@ -651,6 +659,7 @@
       <Bait>Meatball</Bait>
       <Bait>Sinking Minnow</Bait>
       <Bait>Sliced Sardine</Bait>
+      <Bait>Rogue Rig</Bait>
     </Baits>
   </Fish>
   <Fish name="Mob (Ocean Pugil)" wanted="No" ID1="300" ID2="17" ID3="11" ID4="17">
@@ -664,6 +673,7 @@
       <Bait>Slice of Bluetail</Bait>
       <Bait>Meatball</Bait>
       <Bait>Sinking Minnow</Bait>
+      <Bait>Rogue Rig</Bait>
     </Baits>
   </Fish>
   <Fish name="Mob (Ocean Crab)" wanted="No" ID1="300" ID2="16" ID3="12" ID4="16">
@@ -678,6 +688,7 @@
       <Bait>Meatball</Bait>
       <Bait>Sinking Minnow</Bait>
       <Bait>Sliced Sardine</Bait>
+      <Bait>Rogue Rig</Bait>
     </Baits>
   </Fish>
   <Fish name="Mob (Sea Monk)" wanted="No" ID1="300" ID2="20" ID3="9" ID4="20">
@@ -756,7 +767,7 @@
       <Bait>Peeled Crayfish</Bait>
     </Baits>
   </Fish>
-  <Fish name="Gugru Tuna" wanted="Yes" ID1="260" ID2="17" ID3="7" ID4="17">
+  <Fish name="Gugru Tuna" wanted="No" ID1="260" ID2="17" ID3="7" ID4="17">
     <Zones>
       <Zone>Open sea route to Al Zahbi</Zone>
       <Zone>Open sea route to Mhaura</Zone>
@@ -770,6 +781,7 @@
       <Bait>Minnow</Bait>
       <Bait>Sliced Sardine</Bait>
       <Bait>Shrimp Lure</Bait>
+      <Bait>Rogue Rig</Bait>
     </Baits>
   </Fish>
   <Fish name="Mob (Passage Crab)" wanted="No" ID1="300" ID2="17" ID3="15" ID4="17">
@@ -934,12 +946,13 @@
       <Bait>Minnow</Bait>
     </Baits>
   </Fish>
-  <Fish name="Monster 25" wanted="No" ID1="300" ID2="17" ID3="11" ID4="17">
+  <Fish name="Jade Etui (Brigand's Chart)" wanted="Yes" ID1="300" ID2="17" ID3="11" ID4="17">
     <Zones>
       <Zone>Buburimu Peninsula</Zone>
     </Zones>
     <Baits>
       <Bait>Minnow</Bait>
+      <Bait>Shrimp Lure</Bait>
     </Baits>
   </Fish>
   <Fish name="Monster 27" wanted="No" ID1="300" ID2="19" ID3="12" ID4="19">
@@ -1257,9 +1270,11 @@
   <Fish name="Quus" wanted="No" ID1="240" ID2="13" ID3="9" ID4="13">
     <Zones>
       <Zone>Vunkerl Inlet [S]</Zone>
+      <Zone>West Sarutabaruta</Zone>
     </Zones>
     <Baits>
       <Bait>Robber Rig</Bait>
+      <Bait>Crayfish Ball</Bait>
     </Baits>
   </Fish>
   <Fish name="Arrowwood Log" wanted="No" ID1="60" ID2="19" ID3="15" ID4="19">
@@ -1274,9 +1289,11 @@
   <Fish name="Bastore Sardine" wanted="No" ID1="140" ID2="23" ID3="13" ID4="23">
     <Zones>
       <Zone>Vunkerl Inlet [S]</Zone>
+      <Zone>Ship bound for Selbina</Zone>
     </Zones>
     <Baits>
       <Bait>Robber Rig</Bait>
+      <Bait>Rogue Rig</Bait>
     </Baits>
   </Fish>
   <Fish name="Yellow Globe x3" wanted="Yes" ID1="200" ID2="18" ID3="12" ID4="18">
@@ -1511,6 +1528,39 @@
     </Zones>
     <Baits>
       <Bait>Frog Lure</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Crocodilos" wanted="Yes" ID1="260" ID2="27" ID3="3">
+    <Zones>
+      <Zone>Abyssea - La Theine</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Meatball</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Nahn" wanted="No" ID1="300" ID2="28" ID3="8">
+    <Zones>
+      <Zone>Abyssea - La Theine</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Crayfish Ball</Bait>
+      <Bait>Meatball</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Rusty Kunai" wanted="No" ID1="60" ID2="17" ID3="15">
+    <Zones>
+      <Zone>Abyssea - La Theine</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Meatball</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Sentinel Crab" wanted="No" ID1="300" ID2="20" ID3="9">
+    <Zones>
+      <Zone>Abyssea - La Theine</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Meatball</Bait>
     </Baits>
   </Fish>
 </Rod>
