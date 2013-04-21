@@ -97,6 +97,8 @@ namespace Fishing
         {
             InitializeComponent();
 
+            RestoreLocation();
+
             List<string> args = arglist.ToList();  //*golfandsurf*  Formats <player> arg to match pol process
             args[0] = args[0].Substring(0, 1).ToUpper() + args[0].Substring(1, args[0].Length - 1).ToLower();
 
@@ -193,6 +195,19 @@ namespace Fishing
         #region Methods
 
 		#region Methods_Initialization
+
+        private void RestoreLocation()
+        {
+            if (null != Settings.Default.WindowLocation)
+            {
+                this.Location = Settings.Default.WindowLocation;
+                // Check that window is on screen
+                // If left of screen move right
+                // If right of screen move left
+                // If above screen move down
+                // If below screen move up
+            }
+        }
 
 		private void ChooseProcess(string characterName)
 		{
@@ -3210,10 +3225,12 @@ namespace Fishing
                 if (FormWindowState.Normal == this.WindowState)
                 {
                     Settings.Default.WindowSize = this.Size;
+                    Settings.Default.WindowLocation = this.Location;
                 }
                 else
                 {
                     Settings.Default.WindowSize = this.RestoreBounds.Size;
+                    Settings.Default.WindowLocation = this.RestoreBounds.Location;
                 }
 
                 Settings.Default.Save();
@@ -3301,6 +3318,8 @@ namespace Fishing
             {
                 this.Size = Settings.Default.WindowSize;
             }
+
+            RestoreLocation();
 
             SetNoCatch((int)numMaxNoCatch.Value);
 
