@@ -2101,7 +2101,42 @@ namespace Fishing
                             rtb.SelectionColor = Color.SlateBlue;
                             rtb.SelectedText = log[i].Now;
                             rtb.SelectionColor = FishChat.BrightenColor(log[i]);
-                            rtb.SelectedText = log[i].Text + Environment.NewLine;
+                            char[] colorChars = new char[2] { '\x1E', '\x1F' };
+                            int index;
+                            if ((index = log[i].RawString[11].IndexOfAny(colorChars)) >= 0) {
+                                String text = log[i].RawString[11];
+                                while (index >= 0)
+                                {
+                                    if (index + 1 < text.Length && index + 2 < text.Length)
+                                    {
+                                        int colorCode = text[index + 1];
+                                        if (text[index] == '\x1E')
+                                        {
+                                            colorCode += 254;
+                                        }
+                                        int nextIndex = text.IndexOfAny(colorChars, index + 1);
+                                        rtb.SelectionColor = FishChat.BrightenColor(ChatColor.FromCode(colorCode));
+                                        if (nextIndex >= 0)
+                                        {
+                                            rtb.SelectedText = FFACE.ChatTools.CleanLine(text.Substring(index + 2, nextIndex - index - 2), FishChat.fishChatLineSettings);
+                                        }
+                                        else
+                                        {
+                                            rtb.SelectedText = FFACE.ChatTools.CleanLine(text.Substring(index + 2), FishChat.fishChatLineSettings);
+                                        }
+                                        index = nextIndex;
+                                    }
+                                    else
+                                    {
+                                        index = -1;
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                rtb.SelectedText = log[i].Text;
+                            }
+                            rtb.SelectedText = Environment.NewLine;
                             rtb.SelectionStart = rtb.Text.Length - 1;
                             rtb.ScrollToCaret();
                         }

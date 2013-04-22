@@ -103,6 +103,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ChatColor.cs" />
     <Compile Include="FFACETools\Chat.cs" />
     <Compile Include="FFACETools\enums.cs" />
     <Compile Include="FFACETools\FFACETools.cs" />

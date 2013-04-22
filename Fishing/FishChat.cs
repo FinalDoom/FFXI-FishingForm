@@ -24,6 +24,8 @@ namespace Fishing
         internal static List<FFACE.ChatTools.ChatLine> tellLog = new List<FFACE.ChatTools.ChatLine>();
         internal static List<FFACE.ChatTools.ChatLine> sayLog = new List<FFACE.ChatTools.ChatLine>();
 
+        internal static LineSettings fishChatLineSettings = LineSettings.OldSchool;
+
         /// <summary>
         /// Grab all new chat lines and put them in the appropriate List<>s, 
         /// Increase line added counters as chat lines are added to a List<>,
@@ -39,7 +41,7 @@ namespace Fishing
 			{
 				return 0;
 			}
-            currentLine = FishingForm._FFACE.Chat.GetNextLine();
+            currentLine = FishingForm._FFACE.Chat.GetNextLine(fishChatLineSettings);
 
             while(currentLine != null)
             //while (!string.IsNullOrEmpty(currentLine.Text))
@@ -118,25 +120,30 @@ namespace Fishing
 
         internal static Color BrightenColor(FFACE.ChatTools.ChatLine chatLine)
         {
+            return BrightenColor(chatLine.Color);
+        }
+
+        internal static Color BrightenColor(Color color)
+        {
             Color brighterColor = new Color();
             //how many steps away can the colors be away from each other to be close enough to grayscale
             //this variable's value is subjective, and chosen by the programmer
             int steps = 3;
             //tolerance = 256 colors / 64 in-game 'step' choices * steps
             int tolerance = 256 / 64 * steps;
-            int closeEnoughRG = Math.Abs(chatLine.Color.R - chatLine.Color.G);
-            int closeEnoughGB = Math.Abs(chatLine.Color.G - chatLine.Color.B);
-            int closeEnoughRB = Math.Abs(chatLine.Color.R - chatLine.Color.B);
+            int closeEnoughRG = Math.Abs(color.R - color.G);
+            int closeEnoughGB = Math.Abs(color.G - color.B);
+            int closeEnoughRB = Math.Abs(color.R - color.B);
 
             if((closeEnoughRG <= tolerance) && (closeEnoughGB <= tolerance) && (closeEnoughRB <= tolerance))
             {
                 //greatly brighten white and gray text
-                brighterColor = RGBHSL.ModifyBrightness(chatLine.Color, 1.85);
+                brighterColor = RGBHSL.ModifyBrightness(color, 1.85);
             }
             else
             {
                 //only slighty brighten color text
-                brighterColor = RGBHSL.ModifyBrightness(chatLine.Color, 1.25);
+                brighterColor = RGBHSL.ModifyBrightness(color, 1.25);
             }
 
             return brighterColor;
