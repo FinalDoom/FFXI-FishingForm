@@ -148,6 +148,14 @@ Other
 Changes
 -------
 
+1.6.7.36
+--------
+- Fixed runon chat lines activating chat detectors
+
+1.6.7.35
+--------
+- Ctrl+s etc properly insert chat mode in chat box
+
 1.6.7.34
 --------
 - Fixed ring equip menus
