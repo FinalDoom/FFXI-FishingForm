@@ -55,10 +55,10 @@ namespace Fishing
         private static int shellActions = 0;
         private static int sayActions = 0;
 
-        private static string playerChatParty;
-        private static string playerChatLinkshell;
-        private static string playerChatSay;
-
+        private static Regex playerChatLinkshell;
+        private static Regex playerChatTell = new Regex(@"^\w+>> ");
+        private static Regex playerChatParty;
+        private static Regex playerChatSay;
         private static Regex chatMode = new Regex(@"(?:/(?:[slpt]|say|linkshell|party|tell)\b(?: <r>)? )?(.*)");
 
         internal enum FishResult
@@ -238,10 +238,10 @@ namespace Fishing
                 try   //if you can't create an instance, there's probably no FFACE.dll, or an old FFACE version
                 {
                     _FFACE = new FFACE(ChooseProcess.ThisProcess.POLID);
-					_Player = new FFACE.PlayerTools(_FFACE._InstanceID);
-                    playerChatParty = string.Format("({0})", _Player.Name);
-                    playerChatLinkshell = string.Format("<{0}>", _Player.Name);
-                    playerChatSay = string.Format("{0} :", _Player.Name);
+                    _Player = new FFACE.PlayerTools(_FFACE._InstanceID);
+                    playerChatLinkshell = new Regex(string.Format(@"^<(?!{0})\w+> ", _Player.Name));
+                    playerChatParty = new Regex(string.Format(@"^\((?!{0})\w+\) ", _Player.Name));
+                    playerChatSay = new Regex(string.Format(@"^(?!{0})\w+ :", _Player.Name));
                     FileVersionInfo ver = FileVersionInfo.GetVersionInfo("fishing.exe");
                     this.Text = string.Format("FishingForm v{0}-mC-FD  ({1})", ver.FileVersion, ChooseProcess.ThisProcess.POLName);
 
@@ -2042,7 +2042,7 @@ namespace Fishing
                     {
                         tellActions |= (int)ChatAction.Note;
                     }
-                    DoCustomChatActions(tellActions, FishChat.tellLogAdded, FishChat.tellLog, ">>", "Tell received!", tabChatPageTell, " Tell (!!!)");
+                    DoCustomChatActions(tellActions, FishChat.tellLogAdded, FishChat.tellLog, playerChatTell, "Tell received!", tabChatPageTell, " Tell (!!!)");
                     tellActions = oldTellActions;
                 }
                 if (0 < FishChat.sayLogAdded)
@@ -2055,7 +2055,7 @@ namespace Fishing
             }
         }
 
-        private void DoCustomChatActions(int actions, int newCount, List<FFACE.ChatTools.ChatLine> chatLines, string testPrefix, string stopText, TabPage tabPage, string tabText)
+        private void DoCustomChatActions(int actions, int newCount, List<FFACE.ChatTools.ChatLine> chatLines, Regex testPrefix, string stopText, TabPage tabPage, string tabText)
         {
             // Do any custom say actions
             if (cbChatDetect.Checked && actions > 0)
@@ -2064,7 +2064,7 @@ namespace Fishing
                 for (int i = newCount - 1; i >= 0; --i)
                 {
                     testLine = chatLines[i].Text;
-                    if (!testLine.StartsWith(testPrefix))
+                    if (testPrefix.IsMatch(testLine))
                     {
                         if ((actions & (int)ChatAction.Stop) == (int)ChatAction.Stop)
                         {
