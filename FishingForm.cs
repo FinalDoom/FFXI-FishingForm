@@ -59,6 +59,8 @@ namespace Fishing
         private static string playerChatLinkshell;
         private static string playerChatSay;
 
+        private static Regex chatMode = new Regex(@"(?:/(?:[slpt]|say|linkshell|party|tell)\b(?: <r>)? )?(.*)");
+
         internal enum FishResult
         {
             Error,
@@ -2498,6 +2500,35 @@ namespace Fishing
 
                 e.Handled = true;
                 e.SuppressKeyPress = true;
+            }
+
+            if (e.Modifiers == Keys.Control)
+            {
+                int caretPos = tbChat.SelectionStart;
+                int selectionLength = tbChat.SelectionLength;
+                int textLength = tbChat.TextLength;
+                if (Keys.S == e.KeyCode)
+                {
+                    tbChat.Text = "/s " + chatMode.Replace(tbChat.Text, "$1");
+                }
+                else if (Keys.L == e.KeyCode)
+                {
+                    tbChat.Text = "/l " + chatMode.Replace(tbChat.Text, "$1");
+                }
+                else if (Keys.P == e.KeyCode)
+                {
+                    tbChat.Text = "/p " + chatMode.Replace(tbChat.Text, "$1");
+                }
+                else if (Keys.R == e.KeyCode)
+                {
+                    tbChat.Text = "/t <r> " + chatMode.Replace(tbChat.Text, "$1");
+                }
+                else if (Keys.T == e.KeyCode)
+                {
+                    tbChat.Text = "/t " + chatMode.Replace(tbChat.Text, "$1");
+                }
+                tbChat.SelectionStart = caretPos + tbChat.TextLength - textLength;
+                tbChat.SelectionLength = selectionLength;
             }
 
         } // @ private void tbChat_KeyDown
