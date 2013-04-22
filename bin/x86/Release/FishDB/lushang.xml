@@ -1538,7 +1538,7 @@
       <Bait>Meatball</Bait>
     </Baits>
   </Fish>
-  <Fish name="Nahn" wanted="No" ID1="300" ID2="28" ID3="8">
+  <Fish name="Mob (Nahn)" wanted="No" ID1="300" ID2="28" ID3="8">
     <Zones>
       <Zone>Abyssea - La Theine</Zone>
     </Zones>
@@ -1555,7 +1555,7 @@
       <Bait>Meatball</Bait>
     </Baits>
   </Fish>
-  <Fish name="Sentinel Crab" wanted="No" ID1="300" ID2="20" ID3="9">
+  <Fish name="Mob (Sentinel Crab)" wanted="No" ID1="300" ID2="20" ID3="9">
     <Zones>
       <Zone>Abyssea - La Theine</Zone>
     </Zones>
