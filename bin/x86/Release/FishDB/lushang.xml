@@ -1563,4 +1563,20 @@
       <Bait>Meatball</Bait>
     </Baits>
   </Fish>
+  <Fish name="Giant Catfish (MMM)" wanted="Yes" ID1="300" ID2="14" ID3="7">
+    <Zones>
+      <Zone>Everbloom Hollow</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Sinking Minnow</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="MMM Mob (Fresh Catch)" wanted="No" ID1="300" ID2="20" ID3="9">
+    <Zones>
+      <Zone>Everbloom Hollow</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Sinking Minnow</Bait>
+    </Baits>
+  </Fish>
 </Rod>
