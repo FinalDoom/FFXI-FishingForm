@@ -2249,11 +2249,17 @@ namespace Fishing
             else if (_FFACE.Item.InventoryCount != -1)
             {
                 lblInventorySpace.Text = string.Format("{0} / {1}", _FFACE.Item.InventoryCount, _FFACE.Item.InventoryMax);
-                lblGil.Text = string.Format("{0:#,#}", _FFACE.Item.CurrentGil);
             }
             else
             {
                 lblInventorySpace.Text = "N/A";
+            }
+            if (_FFACE != null && _FFACE.Item.CurrentGil != null)
+            {
+                lblGil.Text = string.Format("{0:#,#}", _FFACE.Item.CurrentGil);
+            }
+            else
+            {
                 lblGil.Text = "N/A";
             }
 
@@ -2543,19 +2549,7 @@ namespace Fishing
 
             if ((char)Keys.Enter == e.KeyChar)
             {
-                if ((0 < tbChat.Text.Length) && (!tbChat.Text.Equals(allSpaces)))
-                {
-                    _FFACE.Windower.SendString(tbChat.Text);
-                    chatBuffer.Insert(0, tbChat.Text);
-                    bufferPosition = 0;
-                    tbChat.Clear();
-
-                    if (chatBuffer.Count > bufferSize)
-                    {
-                        chatBuffer.RemoveRange(bufferSize, (chatBuffer.Count - bufferSize));
-                        chatBuffer.TrimExcess();
-                    }
-                }
+                btnChatSend_Click(sender, EventArgs.Empty);
 
                 e.Handled = true;
             }
