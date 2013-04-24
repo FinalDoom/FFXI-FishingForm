@@ -3599,9 +3599,15 @@ namespace Fishing
                 else
                 {
                     Fishie selectedFish = (Fishie)selectedListBox.SelectedItem;
-                    FishDB.ChangeName(selectedFish, tbChangeName.Text);
-                    tbChangeName.Hide();
-                    e.Handled = true;
+                    if (FishDB.ChangeName(selectedFish, tbChangeName.Text))
+                    {
+                        tbChangeName.Hide();
+                        e.Handled = true;
+                    }
+                    else
+                    {
+                        MessageBox.Show(this, string.Format("A fish with the name \"{0}\" already exists with different IDs.\nPlease choose a different name.", tbChangeName.Text), "Error!");
+                    }
                 }
             }
 
