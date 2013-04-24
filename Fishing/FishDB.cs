@@ -6,7 +6,6 @@ namespace Fishing
 {
     internal struct Fishie
     {
-        //old: internal Fishie(string fishName, string rodName, string i1, string i2, string i3, string i4)
         internal Fishie(string fishName, string rodName, string i1, string i2, string i3)
         {
             name = fishName;
@@ -14,10 +13,8 @@ namespace Fishing
             ID1 = i1;
             ID2 = i2;
             ID3 = i3;
-            //old: ID4 = i4;
         }
 
-        //old: internal string name, rod, ID1, ID2, ID3, ID4;
         internal string name, rod, ID1, ID2, ID3;
         public override string ToString() { return name; }
 
@@ -40,18 +37,28 @@ namespace Fishing
             XmlDocument xmlDoc = GetFishDB(rod);
 
             //generate non duplicate name if it is an unknown monster
-            if("Monster" == fish)
+            if ("Monster" == fish)
             {
                 int count = 1;
                 fish = "Mob (_" + (count++).ToString() + "_)";
 
-                while(xmlDoc.SelectSingleNode(string.Format("/Rod/Fish[@name=\"{1}\"]", rod, fish)) != null)
+                while (xmlDoc.SelectSingleNode(string.Format("/Rod/Fish[@name=\"{1}\"]", rod, fish)) != null)
                 {
                     fish = "Mob (_" + (count++).ToString() + "_)";
                 }
             }
+            else
+            {
+                // Generate non-duplicate name for other fish, if IDs don't match another with the same name
+                string basefish = fish;
+                int count = 1;
+                while (xmlDoc.SelectSingleNode(string.Format("/Rod/Fish[@name=\"{1}\"]", rod, fish)) != null &&
+                    xmlDoc.SelectSingleNode(string.Format("/Rod/Fish[@name=\"{0}\"][@ID1=\"{1}\"][@ID2=\"{2}\"][@ID3=\"{3}\"]", fish, ID1, ID2, ID3)) == null)
+                {
+                    fish = basefish + " (_" + (count++).ToString() + "_)";
+                }
+            }
 
-            //old: XmlNode fishNode = xmlDoc.SelectSingleNode(string.Format("/Rod/Fish[@name=\"{0}\"][@ID1=\"{1}\"][@ID2=\"{2}\"][@ID3=\"{3}\"][@ID4=\"{4}\"]", fish, ID1, ID2, ID3, ID4));
             XmlNode fishNode = xmlDoc.SelectSingleNode(string.Format("/Rod/Fish[@name=\"{0}\"][@ID1=\"{1}\"][@ID2=\"{2}\"][@ID3=\"{3}\"]", fish, ID1, ID2, ID3));
 
             if(null == fishNode)
@@ -62,13 +69,11 @@ namespace Fishing
                 XmlAttribute ID1Node = fishNode.Attributes.Append(xmlDoc.CreateAttribute("ID1"));
                 XmlAttribute ID2Node = fishNode.Attributes.Append(xmlDoc.CreateAttribute("ID2"));
                 XmlAttribute ID3Node = fishNode.Attributes.Append(xmlDoc.CreateAttribute("ID3"));
-                //XmlAttribute ID4Node = fishNode.Attributes.Append(xmlDoc.CreateAttribute("ID4"));
                 fishName.Value = fish;
                 fishWanted.Value = wanted ? "Yes" : "No";
                 ID1Node.Value = ID1;
                 ID2Node.Value = ID2;
                 ID3Node.Value = ID3;
-                //ID4Node.Value = ID4;
 
                 fishNode.AppendChild(xmlDoc.CreateNode(XmlNodeType.Element, "Zones", xmlDoc.NamespaceURI));
                 fishNode.AppendChild(xmlDoc.CreateNode(XmlNodeType.Element, "Baits", xmlDoc.NamespaceURI));
@@ -96,17 +101,19 @@ namespace Fishing
 
         } // @ internal static void AddNewFish(ref string fish, string zone, string bait, string rod, string ID1, string ID2, string ID3, string ID4, bool wanted)
 
-        internal static void ChangeName(Fishie fish, string newName)
+        internal static bool ChangeName(Fishie fish, string newName)
         {
             XmlDocument xmlDoc = GetFishDB(fish.rod);
-            //old: string xpathQuery = string.Format("/Rod/Fish[@name=\"{0}\"][@ID1=\"{1}\"][@ID2=\"{2}\"][@ID3=\"{3}\"][@ID4=\"{4}\"]", fish.name, fish.ID1, fish.ID2, fish.ID3, fish.ID4);
-            //old: string xpathOldQuery = string.Format("/Rod/Fish[@name=\"{0}\"][@ID1=\"{1}\"][@ID2=\"{2}\"][@ID3=\"{3}\"][@ID4=\"{4}\"]", newName, fish.ID1, fish.ID2, fish.ID3, fish.ID4);
-            string xpathQuery = string.Format("/Rod/Fish[@name=\"{0}\"][@ID1=\"{1}\"][@ID2=\"{2}\"][@ID3=\"{3}\"]", fish.name, fish.ID1, fish.ID2, fish.ID3);
-            string xpathOldQuery = string.Format("/Rod/Fish[@name=\"{0}\"][@ID1=\"{1}\"][@ID2=\"{2}\"][@ID3=\"{3}\"]", newName, fish.ID1, fish.ID2, fish.ID3);
-            //check if there is already an entry with same ID and name = newName, if there is, merge the 2 entries
-            XmlNode oldFishNode = xmlDoc.SelectSingleNode(xpathOldQuery);
-            XmlNode fishNode = xmlDoc.SelectSingleNode(xpathQuery);
+            XmlNode sameNameNode = xmlDoc.SelectSingleNode(string.Format("/Rod/Fish[@name=\"{0}\"]", newName));
+            XmlNode oldFishNode = xmlDoc.SelectSingleNode(string.Format("/Rod/Fish[@name=\"{0}\"][@ID1=\"{1}\"][@ID2=\"{2}\"][@ID3=\"{3}\"]", newName, fish.ID1, fish.ID2, fish.ID3));
+            XmlNode fishNode = xmlDoc.SelectSingleNode(string.Format("/Rod/Fish[@name=\"{0}\"][@ID1=\"{1}\"][@ID2=\"{2}\"][@ID3=\"{3}\"]", fish.name, fish.ID1, fish.ID2, fish.ID3));
 
+            //check if there is already a fish with the same name but different IDs, if there is, the rename fails
+            if (null != sameNameNode && null == oldFishNode)
+            {
+                return false;
+            }
+            //check if there is already an entry with same ID and name = newName, if there is, merge the 2 entries
             if(null == oldFishNode)
             {
                 fishNode.Attributes["name"].Value = newName;
@@ -139,14 +146,13 @@ namespace Fishing
                 xmlDoc["Rod"].RemoveChild(fishNode);
                 FishDBChanged(fish.rod);
             }
+            return true;
 
         } // @ internal static void ChangeName(Fishie fish, string newName)
 
-        //old: internal static bool FishAccepted(out string name, out bool isNew, bool fishUnknown, string rod, string zone, string bait, string ID1, string ID2, string ID3, string ID4)
         internal static bool FishAccepted(out string name, out bool isNew, bool fishUnknown, string rod, string zone, string bait, string ID1, string ID2, string ID3)
         {
             XmlDocument xmlDoc = GetFishDB(rod);
-            //old: string xpathQuery = string.Format("/Rod/Fish[@ID1=\"{0}\"][@ID2=\"{1}\"][@ID3=\"{2}\"][@ID4=\"{3}\"][Zones/Zone=\"{4}\"]", ID1, ID2, ID3, ID4, zone);
             string xpathQuery = string.Format("/Rod/Fish[@ID1=\"{0}\"][@ID2=\"{1}\"][@ID3=\"{2}\"][Zones/Zone=\"{3}\"]", ID1, ID2, ID3, zone);
             XmlNode fishNode = xmlDoc.SelectSingleNode(xpathQuery);
 
@@ -264,7 +270,6 @@ namespace Fishing
 
             foreach(XmlNode node in nodes)
             {
-                //old: fishes[i++] = new Fishie(node.Attributes["name"].Value, rod, node.Attributes["ID1"].Value, node.Attributes["ID2"].Value, node.Attributes["ID3"].Value, node.Attributes["ID4"].Value);
                 fishes[i++] = new Fishie(node.Attributes["name"].Value, rod, node.Attributes["ID1"].Value, node.Attributes["ID2"].Value, node.Attributes["ID3"].Value);
             }
 
