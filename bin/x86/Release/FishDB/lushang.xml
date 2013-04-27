@@ -242,7 +242,6 @@
       <Zone>Open sea route to Mhaura</Zone>
       <Zone>Port Jeuno</Zone>
       <Zone>Kazham</Zone>
-      <Zone>Open sea route to Mhaura</Zone>
       <Zone>East Sarutabaruta</Zone>
       <Zone>Jugner Forest</Zone>
       <Zone>West Sarutabaruta</Zone>
@@ -924,6 +923,7 @@
   <Fish name="Monster 23" wanted="No" ID1="300" ID2="20" ID3="11" ID4="20">
     <Zones>
       <Zone>Open sea route to Al Zahbi</Zone>
+      <Zone>Open sea route to Mhaura</Zone>
     </Zones>
     <Baits>
       <Bait>Minnow</Bait>
@@ -933,6 +933,7 @@
   <Fish name="Gugru Tuna" wanted="No" ID1="300" ID2="17" ID3="9" ID4="17">
     <Zones>
       <Zone>Open sea route to Al Zahbi</Zone>
+      <Zone>Open sea route to Mhaura</Zone>
     </Zones>
     <Baits>
       <Bait>Minnow</Bait>
@@ -941,6 +942,7 @@
   <Fish name="Noble Lady" wanted="No" ID1="260" ID2="33" ID3="11" ID4="33">
     <Zones>
       <Zone>Open sea route to Al Zahbi</Zone>
+      <Zone>Open sea route to Mhaura</Zone>
     </Zones>
     <Baits>
       <Bait>Minnow</Bait>
@@ -1122,9 +1124,11 @@
   <Fish name="Monster 37" wanted="No" ID1="300" ID2="17" ID3="11" ID4="17">
     <Zones>
       <Zone>Open sea route to Mhaura</Zone>
+      <Zone>Open sea route to Al Zahbi</Zone>
     </Zones>
     <Baits>
       <Bait>Sinking Minnow</Bait>
+      <Bait>Meatball</Bait>
     </Baits>
   </Fish>
   <Fish name="Crayfish" wanted="No" ID1="140" ID2="26" ID3="15" ID4="26">
@@ -1153,6 +1157,7 @@
     </Zones>
     <Baits>
       <Bait>Minnow</Bait>
+      <Bait>Meatball</Bait>
     </Baits>
   </Fish>
   <Fish name="Mob (Blanchet Kraken)(PRing)" wanted="No" ID1="300" ID2="20" ID3="11" ID4="20">
@@ -1577,6 +1582,57 @@
     </Zones>
     <Baits>
       <Bait>Sinking Minnow</Bait>
+      <Bait>Worm Lure</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Black Eel (MMM Pond 2)" wanted="Yes" ID1="300" ID2="26" ID3="7">
+    <Zones>
+      <Zone>Everbloom Hollow</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Worm Lure</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Monke-Onke (MMM Pond 2)" wanted="Yes" ID1="300" ID2="18" ID3="12">
+    <Zones>
+      <Zone>Everbloom Hollow</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Worm Lure</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Giant Donko (MMM Pond 3)" wanted="Yes" ID1="280" ID2="18" ID3="15">
+    <Zones>
+      <Zone>Everbloom Hollow</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Worm Lure</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Mob (Sentinel Crab 2)" wanted="No" ID1="300" ID2="17" ID3="15">
+    <Zones>
+      <Zone>Abyssea - La Theine</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Meatball</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Mob (Gugru Jagil)(HRing)" wanted="No" ID1="300" ID2="18" ID3="10">
+    <Zones>
+      <Zone>Open sea route to Mhaura</Zone>
+      <Zone>Open sea route to Al Zahbi</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Meatball</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Gugrusaurus(HRing)" wanted="Yes" ID1="100" ID2="37" ID3="7">
+    <Zones>
+      <Zone>Open sea route to Mhaura</Zone>
+      <Zone>Open sea route to Al Zahbi</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Meatball</Bait>
     </Baits>
   </Fish>
 </Rod>
