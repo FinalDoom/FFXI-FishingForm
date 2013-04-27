@@ -142,11 +142,18 @@ Gear
 Other
 -----
 - Move items when inventory is full using itemizer or ItemTools
+- Grab bait from sack or satchel when out
 - Warp then optionally log out or shut down when inventory is full, when fatigued, or when out of bait
 
 -------
 Changes
 -------
+
+1.6.7.39
+--------
+- Fish names are now required to be unique. Haven't checked XML, but it'll sort itself out
+- Should grab bait from sack/satchel if configured to do so
+- Bug fixes
 
 1.6.7.36
 --------
