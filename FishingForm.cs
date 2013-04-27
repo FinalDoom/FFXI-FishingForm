@@ -420,12 +420,13 @@ namespace Fishing
                         }
                         // Give it time to finish casting animation
                         Thread.Sleep(2000);
+                        GearUp();
                     }
                     else
+                    {
                         Stop(false, "Not enough MP to cast Sneak.");
+                    }
                 }
-                    
-
             }
 
             CheckRodAndBait();
