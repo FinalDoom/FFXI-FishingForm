@@ -766,5 +766,41 @@ namespace Fishing.Properties {
                 this["ChatDetectEnabled"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool BaitItemizer {
+            get {
+                return ((bool)(this["BaitItemizer"]));
+            }
+            set {
+                this["BaitItemizer"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool BaitOther {
+            get {
+                return ((bool)(this["BaitOther"]));
+            }
+            set {
+                this["BaitOther"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string BaitOtherText {
+            get {
+                return ((string)(this["BaitOtherText"]));
+            }
+            set {
+                this["BaitOtherText"] = value;
+            }
+        }
     }
 }
