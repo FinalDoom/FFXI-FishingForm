@@ -2271,18 +2271,18 @@ namespace Fishing
             else if (_FFACE.Item.InventoryCount != -1)
             {
                 lblInventorySpace.Text = string.Format("{0} / {1}", _FFACE.Item.InventoryCount, _FFACE.Item.InventoryMax);
+                try
+                {
+                    lblGil.Text = string.Format("{0:#,#}", _FFACE.Item.CurrentGil);
+                }
+                catch
+                {
+                    lblGil.Text = "N/A";
+                }
             }
             else
-            {   //at Fishing.FishingForm.UpdateInfo() in d:\Users\Nathaniel Moseley\Documents\FishingFormsource\FishingForm.cs:line 2255
-                //at Fishing.FishingForm.timer_Tick(Object sender, EventArgs e) in d:\Users\Nathaniel Moseley\Documents\FishingFormsource\FishingForm.cs:line 3515
+            {
                 lblInventorySpace.Text = "N/A";
-            }
-            if (_FFACE != null && _FFACE.Item.CurrentGil != null)
-            {
-                lblGil.Text = string.Format("{0:#,#}", _FFACE.Item.CurrentGil);
-            }
-            else
-            {
                 lblGil.Text = "N/A";
             }
 
