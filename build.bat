@@ -72,45 +72,45 @@ ECHO.
 
 FOR /F "tokens=1-3" %%i IN ('%SIGCHECK%\sigcheck.exe bin\x86\Release\Fishing.exe') DO (IF "%%i %%j"=="File version:" SET filever=%%k)
 
-mkdir deploy\source\Properties
-mkdir deploy\source\images
-mkdir deploy\source\Fishing
-mkdir deploy\source\FFACETools
-mkdir deploy\FishDB
+MKDIR deploy\source\Properties
+MKDIR deploy\source\images
+MKDIR deploy\source\Fishing
+MKDIR deploy\source\FFACETools
+MKDIR deploy\FishDB
 
-copy Properties\* deploy\source\Properties\
-copy images\* deploy\source\images\
-copy Fishing\* deploy\source\Fishing\
-copy FFACETools\* deploy\source\FFACETools\
-copy *.cs deploy\source
-copy *.resx deploy\source
-copy *.suo deploy\source
-copy *.user deploy\source
-copy *.sln deploy\source
-copy *.csproj deploy\source
-copy *.dll 
-copy *.cd deploy\source
-copy *.bat deploy\source
-copy *.log deploy\source
-copy *.config deploy\source
-copy bin\x86\Release\*.exe deploy
-copy bin\x86\Release\*.dll deploy
-copy bin\x86\Release\FishDB\* deploy\FishDB
-copy bin\x86\Release\*.wav deploy
+COPY Properties\* deploy\source\Properties\
+COPY images\* deploy\source\images\
+COPY Fishing\* deploy\source\Fishing\
+COPY FFACETools\* deploy\source\FFACETools\
+COPY *.cs deploy\source
+COPY *.resx deploy\source
+COPY *.suo deploy\source
+COPY *.user deploy\source
+COPY *.sln deploy\source
+COPY *.csproj deploy\source
+COPY *.dll 
+COPY *.cd deploy\source
+COPY *.bat deploy\source
+COPY *.log deploy\source
+COPY *.config deploy\source
+COPY bin\x86\Release\*.exe deploy
+COPY bin\x86\Release\*.dll deploy
+COPY bin\x86\Release\FishDB\* deploy\FishDB
+COPY bin\x86\Release\*.wav deploy
 
-del FishingForm_v%filever%_mC-FD_(with_source).zip
-del FishingForm_mC-FD_(with_source).zip
-del FishingForm_v%filever%_mC-FD.zip
-del FishingForm_mC-FD.zip
+DEL FishingForm_v%filever%_mC-FD_(with_source).zip
+DEL FishingForm_mC-FD_(with_source).zip
+DEL FishingForm_v%filever%_mC-FD.zip
+DEL FishingForm_mC-FD.zip
 
-cd deploy
+CD deploy
 
 "%ZIP7%\7z" a ..\FishingForm_v%filever%_mC-FD_(with_source).zip -mx9 -tzip *
 "%ZIP7%\7z" a ..\FishingForm_mC-FD_(with_source).zip -mx9 -tzip *
 "%ZIP7%\7z" a ..\FishingForm_v%filever%_mC-FD.zip -mx9 -tzip -x!source\ *
 "%ZIP7%\7z" a ..\FishingForm_mC-FD.zip -mx9 -tzip -x!source\ *
 
-cd ..\
+CD ..\
 
 ECHO %filever% > version
 
@@ -122,6 +122,6 @@ ECHO FishingForm_v%filever%_mC-FD.zip
 ECHO FishingForm_mC-FD.zip
 ECHO.
 
-pause
+PAUSE
 
-rd /Q /S deploy
+RD /Q /S deploy
