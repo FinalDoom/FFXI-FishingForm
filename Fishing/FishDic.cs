@@ -5,6 +5,7 @@ namespace Fishing
     internal class Dictionaries
     {
         #region FishDictionary
+        // TODO This list is outdated. It's also not really useful, so it's been removed from use
         public static Dictionary<string, int> fishDictionary = new Dictionary<string, int>()
         {
             // ITEMS & QUEST & 0 SKILL

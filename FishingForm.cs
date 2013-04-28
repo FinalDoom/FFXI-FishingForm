@@ -770,9 +770,20 @@ namespace Fishing
 			WaitUntil(Status.Standing);
 		}
 
+        private void DoFishFighting(string currentFish, bool isNewFish, string ID1, string ID2, string ID3)
+        {
+            FishResult fishFightResult = FightFish();
+
+            if ((isNewFish) && ("Unknown" != currentFish))
+            {
+                FishDB.AddNewFish(ref currentFish, lblZone.Text, LastBaitName, LastRodName, ID1, ID2, ID3, false);
+            }
+
+            LogResult(fishFightResult);
+        }
+
         private void Fish()
         {
-            FishResult fishFightResult;
 
             SetProgress(0);
 
@@ -907,15 +918,7 @@ namespace Fishing
                                 {
                                     if (FishDB.FishAccepted(out currentFish, out isNewFish, cbCatchUnknown.Checked, LastRodName, lblZone.Text, LastBaitName, ID1, ID2, ID3))
                                     {
-                                        fishFightResult = FightFish();
-                                        currentFish = GetFishName(currentFish);
-
-                                        if ((isNewFish) && ("Unknown" != currentFish))
-                                        {
-                                            FishDB.AddNewFish(ref currentFish, lblZone.Text, LastBaitName, LastRodName, ID1, ID2, ID3, false);
-                                        }
-
-                                        LogResult(fishFightResult);
+                                        DoFishFighting(currentFish, isNewFish, ID1, ID2, ID3);
                                     }
                                     else
                                     {
@@ -943,15 +946,7 @@ namespace Fishing
                                 {
                                     if (FishDB.FishAccepted(out currentFish, out isNewFish, cbCatchUnknown.Checked, LastRodName, lblZone.Text, LastBaitName, ID1, ID2, ID3))
                                     {
-                                        fishFightResult = FightFish();
-                                        currentFish = GetFishName(currentFish);
-
-                                        if ((isNewFish) && ("Unknown" != currentFish))
-                                        {
-                                            FishDB.AddNewFish(ref currentFish, lblZone.Text, LastBaitName, LastRodName, ID1, ID2, ID3, false);
-                                        }
-
-                                        LogResult(fishFightResult);
+                                        DoFishFighting(currentFish, isNewFish, ID1, ID2, ID3);
                                     }
                                     else
                                     {
@@ -979,15 +974,7 @@ namespace Fishing
                                 {
                                     if (FishDB.FishAccepted(out currentFish, out isNewFish, cbCatchUnknown.Checked, LastRodName, lblZone.Text, LastBaitName, ID1, ID2, ID3))
                                     {
-                                        fishFightResult = FightFish();
-                                        currentFish = GetFishName(currentFish);
-
-                                        if ((isNewFish) && ("Unknown" != currentFish))
-                                        {
-                                            FishDB.AddNewFish(ref currentFish, lblZone.Text, LastBaitName, LastRodName, ID1, ID2, ID3, false);
-                                        }
-
-                                        LogResult(fishFightResult);
+                                        DoFishFighting(currentFish, isNewFish, ID1, ID2, ID3);
                                     }
                                     else
                                     {
@@ -1008,15 +995,7 @@ namespace Fishing
                                 {
                                     if (FishDB.FishAccepted(out currentFish, out isNewFish, cbCatchUnknown.Checked, LastRodName, lblZone.Text, LastBaitName, ID1, ID2, ID3))
                                     {
-                                        fishFightResult = FightFish();
-                                        currentFish = GetFishName(currentFish);
-
-                                        if ((isNewFish) && ("Unknown" != currentFish))
-                                        {
-                                            FishDB.AddNewFish(ref currentFish, lblZone.Text, LastBaitName, LastRodName, ID1, ID2, ID3, false);
-                                        }
-
-                                        LogResult(fishFightResult);
+                                        DoFishFighting(currentFish, isNewFish, ID1, ID2, ID3);
                                     }
                                     else
                                     {
@@ -1227,21 +1206,6 @@ namespace Fishing
             return name;
 
         } // @ private string GetBaitName(ushort id)
-
-        private string GetFishName(string fish)
-        {
-            string name = fish;
-            foreach (KeyValuePair<string, int> f in Dictionaries.fishDictionary)
-            {
-                if (-1 < fish.IndexOf(f.Key, StringComparison.OrdinalIgnoreCase))
-                {
-                    name = f.Key;
-                    break;
-                }
-            }
-            return name;
-
-        } // @ private string GetFishName(string fish)
 
         private string GetRodName(int id)
         {
