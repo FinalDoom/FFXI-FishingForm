@@ -379,8 +379,6 @@
       <Zone>Bibiki Bay</Zone>
       <Zone>Cape Teriggan</Zone>
       <Zone>Den of Rancor</Zone>
-      <Zone>Open Sea Route to Al Zahbi</Zone>
-      <Zone>Open Sea Route to Mhaura</Zone>
       <Zone>Kazham</Zone>
       <Zone>Lower Jeuno</Zone>
       <Zone>Manaclipper</Zone>
@@ -390,6 +388,8 @@
       <Zone>Selbina</Zone>
       <Zone>South Gustaberg</Zone>
       <Zone>Valkurm Dunes</Zone>
+      <Zone>Open sea route to Al Zahbi</Zone>
+      <Zone>Open sea route to Mhaura</Zone>
     </Zones>
     <Baits>
       <Bait>Shrimp Lure</Bait>

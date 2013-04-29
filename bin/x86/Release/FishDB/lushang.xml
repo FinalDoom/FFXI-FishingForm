@@ -75,8 +75,8 @@
   </Fish>
   <Fish name="Denizanasi" wanted="No" ID1="20" ID2="30" ID3="15" ID4="30">
     <Zones>
-      <Zone>Ship from Selbina to Mhaura</Zone>
-      <Zone>Ship from Mhaura to Selbina</Zone>
+      <Zone>Ship bound for Mhaura</Zone>
+      <Zone>Ship bound for Selbina</Zone>
       <Zone>Aht Urhgan Whitegate</Zone>
     </Zones>
     <Baits>
@@ -90,8 +90,8 @@
       <Zone>Bibiki Bay</Zone>
       <Zone>Ship bound for Mhaura</Zone>
       <Zone>Ship bound for Selbina</Zone>
-      <Zone>Ship bound for Selbina(Pirates)</Zone>
-      <Zone>Ship bound for Mhaura(Pirates)</Zone>
+      <Zone>Ship bound for Selbina (Pirates)</Zone>
+      <Zone>Ship bound for Mhaura (Pirates)</Zone>
       <Zone>Qufim Island</Zone>
     </Zones>
     <Baits>
@@ -102,7 +102,7 @@
   </Fish>
   <Fish name="Nebimonite" wanted="No" ID1="120" ID2="33" ID3="11" ID4="33">
     <Zones>
-      <Zone>Aht Urgan Whitegate</Zone>
+      <Zone>Aht Urhgan Whitegate</Zone>
       <Zone>Ship bound for Mhaura</Zone>
       <Zone>Ship bound for Selbina</Zone>
     </Zones>
@@ -208,8 +208,8 @@
       <Zone>Talacca Cove</Zone>
       <Zone>Ship bound for Mhaura</Zone>
       <Zone>Ship bound for Selbina</Zone>
-      <Zone>Ship bound for Selbina(Pirates)</Zone>
-      <Zone>Ship bound for Mhaura(Pirates)</Zone>
+      <Zone>Ship bound for Selbina (Pirates)</Zone>
+      <Zone>Ship bound for Mhaura (Pirates)</Zone>
       <Zone>Bearclaw Pinnacle</Zone>
       <Zone>Bastok Markets</Zone>
       <Zone>West Sarutabaruta</Zone>
@@ -347,9 +347,11 @@
   <Fish name="Mob (Bloodsucker)" wanted="No" ID1="300" ID2="20" ID3="9" ID4="20">
     <Zones>
       <Zone>Yuhtunga Jungle</Zone>
+      <Zone>Vunkerl Inlet [S]</Zone>
     </Zones>
     <Baits>
       <Bait>Frog Lure</Bait>
+      <Bait>Robber Rig</Bait>
     </Baits>
   </Fish>
   <Fish name="Arrowwood log" wanted="No" ID1="60" ID2="19" ID3="15" ID4="19">
@@ -357,11 +359,14 @@
       <Zone>Yuhtunga Jungle</Zone>
       <Zone>Beaucedine Glacier</Zone>
       <Zone>Lufaise Meadows</Zone>
+      <Zone>Vunkerl Inlet [S]</Zone>
     </Zones>
     <Baits>
       <Bait>Frog Lure</Bait>
       <Bait>Sabiki Rig</Bait>
       <Bait>Minnow</Bait>
+      <Bait>Robber Rig</Bait>
+      <Bait>Fly Lure</Bait>
     </Baits>
   </Fish>
   <Fish name="Copper Ring" wanted="No" ID1="60" ID2="44" ID3="15" ID4="44">
@@ -623,8 +628,8 @@
     <Zones>
       <Zone>Ship bound for Mhaura</Zone>
       <Zone>Ship bound for Selbina</Zone>
-      <Zone>Ship bound for Selbina(Pirates)</Zone>
-      <Zone>Ship bound for Mhaura(Pirates)</Zone>
+      <Zone>Ship bound for Selbina (Pirates)</Zone>
+      <Zone>Ship bound for Mhaura (Pirates)</Zone>
     </Zones>
     <Baits>
       <Bait>Slice of Bluetail</Bait>
@@ -635,8 +640,8 @@
     <Zones>
       <Zone>Ship bound for Mhaura</Zone>
       <Zone>Ship bound for Selbina</Zone>
-      <Zone>Ship bound for Selbina(Pirates)</Zone>
-      <Zone>Ship bound for Mhaura(Pirates)</Zone>
+      <Zone>Ship bound for Selbina (Pirates)</Zone>
+      <Zone>Ship bound for Mhaura (Pirates)</Zone>
     </Zones>
     <Baits>
       <Bait>Slice of Bluetail</Bait>
@@ -650,8 +655,8 @@
     <Zones>
       <Zone>Ship bound for Mhaura</Zone>
       <Zone>Ship bound for Selbina</Zone>
-      <Zone>Ship bound for Selbina(Pirates)</Zone>
-      <Zone>Ship bound for Mhaura(Pirates)</Zone>
+      <Zone>Ship bound for Selbina (Pirates)</Zone>
+      <Zone>Ship bound for Mhaura (Pirates)</Zone>
     </Zones>
     <Baits>
       <Bait>Slice of Bluetail</Bait>
@@ -665,8 +670,8 @@
     <Zones>
       <Zone>Ship bound for Selbina</Zone>
       <Zone>Ship bound for Mhaura</Zone>
-      <Zone>Ship bound for Selbina(Pirates)</Zone>
-      <Zone>Ship bound for Mhaura(Pirates)</Zone>
+      <Zone>Ship bound for Selbina (Pirates)</Zone>
+      <Zone>Ship bound for Mhaura (Pirates)</Zone>
     </Zones>
     <Baits>
       <Bait>Slice of Bluetail</Bait>
@@ -679,8 +684,8 @@
     <Zones>
       <Zone>Ship bound for Mhaura</Zone>
       <Zone>Ship bound for Selbina</Zone>
-      <Zone>Ship bound for Selbina(Pirates)</Zone>
-      <Zone>Ship bound for Mhaura(Pirates)</Zone>
+      <Zone>Ship bound for Selbina (Pirates)</Zone>
+      <Zone>Ship bound for Mhaura (Pirates)</Zone>
     </Zones>
     <Baits>
       <Bait>Slice of Bluetail</Bait>
@@ -694,8 +699,8 @@
     <Zones>
       <Zone>Ship bound for Selbina</Zone>
       <Zone>Ship bound for Mhaura</Zone>
-      <Zone>Ship bound for Selbina(Pirates)</Zone>
-      <Zone>Ship bound for Mhaura(Pirates)</Zone>
+      <Zone>Ship bound for Selbina (Pirates)</Zone>
+      <Zone>Ship bound for Mhaura (Pirates)</Zone>
     </Zones>
     <Baits>
       <Bait>Slice of Bluetail</Bait>
@@ -708,8 +713,8 @@
     <Zones>
       <Zone>Ship bound for Mhaura</Zone>
       <Zone>Ship bound for Selbina</Zone>
-      <Zone>Ship bound for Selbina(Pirates)</Zone>
-      <Zone>Ship bound for Mhaura(Pirates)</Zone>
+      <Zone>Ship bound for Selbina (Pirates)</Zone>
+      <Zone>Ship bound for Mhaura (Pirates)</Zone>
     </Zones>
     <Baits>
       <Bait>Slice of Bluetail</Bait>
@@ -770,10 +775,10 @@
     <Zones>
       <Zone>Open sea route to Al Zahbi</Zone>
       <Zone>Open sea route to Mhaura</Zone>
-      <Zone>Ship bound for Selbina(Pirates)</Zone>
+      <Zone>Ship bound for Selbina (Pirates)</Zone>
       <Zone>Ship bound for Mhaura</Zone>
       <Zone>Ship bound for Selbina</Zone>
-      <Zone>Ship bound for Mhaura(Pirates)</Zone>
+      <Zone>Ship bound for Mhaura (Pirates)</Zone>
     </Zones>
     <Baits>
       <Bait>Sinking Minnow</Bait>
@@ -797,10 +802,10 @@
     <Zones>
       <Zone>Open sea route to Al Zahbi</Zone>
       <Zone>Open sea route to Mhaura</Zone>
-      <Zone>Ship bound for Selbina(Pirates)</Zone>
+      <Zone>Ship bound for Selbina (Pirates)</Zone>
       <Zone>Ship bound for Selbina</Zone>
       <Zone>Ship bound for Mhaura</Zone>
-      <Zone>Ship bound for Mhaura(Pirates)</Zone>
+      <Zone>Ship bound for Mhaura (Pirates)</Zone>
     </Zones>
     <Baits>
       <Bait>Sinking Minnow</Bait>
@@ -820,8 +825,8 @@
   </Fish>
   <Fish name="Sea Zombie" wanted="Yes" ID1="300" ID2="50" ID3="4" ID4="40">
     <Zones>
-      <Zone>Ship bound for Selbina(Pirates)</Zone>
-      <Zone>Ship bound for Mhaura(Pirates)</Zone>
+      <Zone>Ship bound for Selbina (Pirates)</Zone>
+      <Zone>Ship bound for Mhaura (Pirates)</Zone>
     </Zones>
     <Baits>
       <Bait>Meatball</Bait>
@@ -997,7 +1002,7 @@
   </Fish>
   <Fish name="Rusty Subligar" wanted="No" ID1="100" ID2="24" ID3="15" ID4="24">
     <Zones>
-      <Zone>Ship bound for Selbina(Pirates)</Zone>
+      <Zone>Ship bound for Selbina (Pirates)</Zone>
     </Zones>
     <Baits>
       <Bait>Meatball</Bait>
@@ -1005,7 +1010,7 @@
   </Fish>
   <Fish name="Sea Zombie" wanted="No" ID1="300" ID2="50" ID3="6" ID4="40">
     <Zones>
-      <Zone>Ship bound for Selbina(Pirates)</Zone>
+      <Zone>Ship bound for Selbina (Pirates)</Zone>
     </Zones>
     <Baits>
       <Bait>Meatball</Bait>
