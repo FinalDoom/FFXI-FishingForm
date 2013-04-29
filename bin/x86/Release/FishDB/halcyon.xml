@@ -146,6 +146,7 @@
       <Zone>Manaclipper</Zone>
       <Zone>Bibiki Bay</Zone>
       <Zone>Jugner Forest</Zone>
+      <Zone>Port San d'Oria</Zone>
     </Zones>
     <Baits>
       <Bait>Meatball</Bait>
@@ -176,6 +177,7 @@
       <Zone>Port Bastok</Zone>
       <Zone>Manaclipper</Zone>
       <Zone>Jugner Forest</Zone>
+      <Zone>Port San d'Oria</Zone>
     </Zones>
     <Baits>
       <Bait>Meatball</Bait>
@@ -203,7 +205,7 @@
   </Fish>
   <Fish name="Blindfish" wanted="Yes" ID1="180" ID2="18" ID3="8" ID4="12">
     <Zones>
-      <Zone>Oldton Movalpolis</Zone>
+      <Zone>Oldton Movalpolos</Zone>
     </Zones>
     <Baits>
       <Bait>Insect Ball</Bait>
