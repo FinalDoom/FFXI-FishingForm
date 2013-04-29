@@ -101,6 +101,10 @@ namespace Fishing
 
             RestoreLocation();
 
+            Thread databaseInitThread = new Thread(new ThreadStart(CheckDatabase));
+            databaseInitThread.IsBackground = true;
+            databaseInitThread.Start();
+
             List<string> args = arglist.ToList();  //*golfandsurf*  Formats <player> arg to match pol process
             args[0] = args[0].Substring(0, 1).ToUpper() + args[0].Substring(1, args[0].Length - 1).ToLower();
 
@@ -205,6 +209,18 @@ namespace Fishing
             {
                 this.Location = GetNearestConnectedScreenWindowLocation();
             }
+        }
+
+        private void CheckDatabase()
+        {
+            if (!FishSQL.IsProgramUpdated())
+            {
+                MessageBox.Show("A new version of FishingForm is available.\r\nCheck https://bitbucket.org/FinalDoom/ffxi-fishingform/downloads \r\nor http://www.ffevo.net/files/file/214-fishingform-fd-edition/ for the new version.");
+            }
+            FishDB.MarkAllFishNew();
+            FishDB.GetUpdates();
+            FishSQL.DoUploadFish();
+            FishSQL.DoDownloadFish();
         }
 
 		private void ChooseProcess(string characterName)
@@ -776,7 +792,7 @@ namespace Fishing
 
             if ((isNewFish) && ("Unknown" != currentFish))
             {
-                FishDB.AddNewFish(ref currentFish, lblZone.Text, LastBaitName, LastRodName, ID1, ID2, ID3, false);
+                FishDB.AddNewFish(ref currentFish, lblZone.Text, LastBaitName, LastRodName, ID1, ID2, ID3, false, false);
             }
 
             LogResult(fishFightResult);
@@ -1825,11 +1841,18 @@ namespace Fishing
         private void PopulateLists()
         {
             if (InvokeRequired)
+            {
                 Invoke(new VoidNoParamDelegate(PopulateLists));
+            }
             else
             {
                 lbWanted.Items.Clear();
                 lbUnwanted.Items.Clear();
+
+                if (_FFACE == null)
+                {
+                    return;
+                }
 
                 foreach (Fishie f in FishDB.GetFishes(LastRodName, lblZone.Text, LastBaitName, true))
                 {

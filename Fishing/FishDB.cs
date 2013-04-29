@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Windows.Forms;
 using System.Xml;
 
 namespace Fishing
@@ -20,19 +22,139 @@ namespace Fishing
 
     } // @ internal struct Fishie
 
+    internal struct DBUpdate
+    {
+        internal DBUpdate(string dbTime, string xmlTime)
+        {
+            dbDate = DateTime.Parse(dbTime);
+            xmlDate = DateTime.Parse(xmlTime);
+        }
+
+        internal DateTime dbDate, xmlDate;
+        public void XmlUpdated() { xmlDate = DateTime.UtcNow; }
+        public void DBUpdated(DateTime time) { dbDate = time; }
+    }
+
     internal static class FishDB
     {
         #region Members
 
         private const string dbFolder = "FishDB";
         private static Dictionary<string, XmlDocument> DBByRod = new Dictionary<string, XmlDocument>();
+        private static XmlDocument ChangeDB;
+        internal static Dictionary<string, DBUpdate> UpdatesByRod = new Dictionary<string, DBUpdate>();
+        internal static List<XmlNode> DBNewFish = new List<XmlNode>();
 
         #endregion //Members
 
         #region Methods
 
-        //old: internal static void AddNewFish(ref string fish, string zone, string bait, string rod, string ID1, string ID2, string ID3, string ID4, bool wanted)
-        internal static void AddNewFish(ref string fish, string zone, string bait, string rod, string ID1, string ID2, string ID3, bool wanted)
+        #region Methods_DBRelated
+
+        private static XmlDocument GetUpdatesDB()
+        {
+            if (null != ChangeDB)
+            {
+                return ChangeDB;
+            }
+            string updateFile = dbFolder + @"\DBSync.xml";
+
+            if (!File.Exists(updateFile))
+            {
+                //file does not exist, create and add the root node
+                if (!Directory.Exists(dbFolder))
+                {
+                    Directory.CreateDirectory(dbFolder);
+                }
+
+                TextWriter writer = new StreamWriter(System.IO.File.Create(updateFile));
+
+                try
+                {
+                    writer.Write("<Updates>\n</Updates>");
+                    writer.Flush();
+                }
+                finally
+                {
+                    writer.Close();
+                }
+            }
+
+            //xml file is ready, load it into the dictionary
+            ChangeDB = new XmlDocument();
+            ChangeDB.Load(updateFile);
+            return ChangeDB;
+        }
+
+        internal static Dictionary<string, DBUpdate> GetUpdates()
+        {
+            XmlDocument upDoc = GetUpdatesDB();
+            foreach (string rod in Dictionaries.rodDictionary.Keys)
+            {
+                if (!UpdatesByRod.ContainsKey(rod))
+                {
+                    XmlNode rodNode = upDoc.SelectSingleNode(string.Format("/Updates/Rod[@name=\"{0}\"]", rod));
+                    if (rodNode == null)
+                    {
+                        rodNode = upDoc.DocumentElement.AppendChild(upDoc.CreateNode(XmlNodeType.Element, "Rod", upDoc.NamespaceURI));
+                        XmlAttribute rodName = rodNode.Attributes.Append(upDoc.CreateAttribute("name"));
+                        XmlAttribute dbTime = rodNode.Attributes.Append(upDoc.CreateAttribute("db"));
+                        XmlAttribute xmlTime = rodNode.Attributes.Append(upDoc.CreateAttribute("xml"));
+                        rodName.Value = rod;
+                        dbTime.Value = (new DateTime(1970, 1, 1, 0, 0, 1)).ToString();
+                        xmlTime.Value = DateTime.UtcNow.ToString();
+                    }
+                    UpdatesByRod[rod] = new DBUpdate(rodNode.Attributes["db"].Value, rodNode.Attributes["xml"].Value);
+                }
+            }
+            return UpdatesByRod;
+        }
+
+        internal static void XmlUpdated(string rod)
+        {
+            XmlDocument upDoc = GetUpdatesDB();
+            if (!UpdatesByRod.ContainsKey(rod))
+            {
+                GetUpdates();
+            }
+            UpdatesByRod[rod].XmlUpdated();
+            XmlNode upNode = upDoc.SelectSingleNode(string.Format("/Updates/Rod[@name=\"{0}\"]", rod));
+            upNode.Attributes["xml"].Value = UpdatesByRod[rod].xmlDate.ToString();
+        }
+
+        internal static void DBUpdated(string rod, DateTime time)
+        {
+            XmlDocument upDoc = GetUpdatesDB();
+            if (!UpdatesByRod.ContainsKey(rod))
+            {
+                GetUpdates();
+            }
+            UpdatesByRod[rod].DBUpdated(time);
+            XmlNode upNode = upDoc.SelectSingleNode(string.Format("/Updates/Rod[@name=\"{0}\"]", rod));
+            upNode.Attributes["db"].Value = time.ToString();
+            FishDBChanged(rod);
+        }
+
+        internal static void UpdatesDBChanged()
+        {
+            GetUpdatesDB().Save(dbFolder + @"\DBSync.xml");
+        }
+
+        internal static void MarkAllFishNew()
+        {
+            foreach (string rod in Dictionaries.rodDictionary.Keys)
+            {
+                XmlDocument xmlDoc = GetFishDB(rod);
+                foreach (XmlNode fishNode in xmlDoc.SelectNodes("/Rod/Fish"))
+                {
+                    SetNew(rod, fishNode, fishNode);
+                }
+            }
+        }
+
+        #endregion //DBRelated
+
+        internal static void AddNewFish(ref string fish, string zone, string bait, string rod, string ID1, string ID2, string ID3, bool wanted, bool fromDB)
         {
             XmlDocument xmlDoc = GetFishDB(rod);
 
@@ -74,6 +196,12 @@ namespace Fishing
                 ID1Node.Value = ID1;
                 ID2Node.Value = ID2;
                 ID3Node.Value = ID3;
+                // Mark it as new, but don't add it to DB until restart or rename
+                if (!fromDB)
+                { // If it's not being added from the DB anyway
+                    fishNode.Attributes.Append(fishNode.OwnerDocument.CreateAttribute("new"));
+                    XmlUpdated(rod);
+                }
 
                 fishNode.AppendChild(xmlDoc.CreateNode(XmlNodeType.Element, "Zones", xmlDoc.NamespaceURI));
                 fishNode.AppendChild(xmlDoc.CreateNode(XmlNodeType.Element, "Baits", xmlDoc.NamespaceURI));
@@ -85,6 +213,10 @@ namespace Fishing
                 {
                     XmlNode zoneNode = fishNode["Zones"].AppendChild(xmlDoc.CreateNode(XmlNodeType.Element, "Zone", xmlDoc.NamespaceURI));
                     zoneNode.InnerText = zone;
+                    if (!fromDB)
+                    {
+                        SetNew(rod, fishNode, zoneNode);
+                    }
                 }
             }
 
@@ -94,10 +226,17 @@ namespace Fishing
                 {
                     XmlNode baitNode = fishNode["Baits"].AppendChild(xmlDoc.CreateNode(XmlNodeType.Element, "Bait", xmlDoc.NamespaceURI));
                     baitNode.InnerText = bait;
+                    if (!fromDB)
+                    {
+                        SetNew(rod, fishNode, baitNode);
+                    }
                 }
             }
 
-            FishDBChanged(rod);
+            if (!fromDB)
+            {
+                FishDBChanged(rod);
+            }
 
         } // @ internal static void AddNewFish(ref string fish, string zone, string bait, string rod, string ID1, string ID2, string ID3, string ID4, bool wanted)
 
@@ -117,6 +256,11 @@ namespace Fishing
             if(null == oldFishNode)
             {
                 fishNode.Attributes["name"].Value = newName;
+                // Mark for adding to DB if it's a new fish being renamed
+                if (null != fishNode.Attributes["new"])
+                {
+                    SetNew(fish.rod, fishNode, fishNode);
+                }
                 FishDBChanged(fish.rod);
             }
             else
@@ -143,12 +287,32 @@ namespace Fishing
                     }
                 }
 
+                // This shouldn't really happen, and the duplicates aren't allowed in the DB, so no worries there
                 xmlDoc["Rod"].RemoveChild(fishNode);
                 FishDBChanged(fish.rod);
             }
             return true;
 
         } // @ internal static void ChangeName(Fishie fish, string newName)
+
+        internal static void SetNew(string rod, XmlNode fishNode, XmlNode newNode)
+        {
+            if (newNode.Attributes["new"] == null)
+            {
+                newNode.Attributes.Append(fishNode.OwnerDocument.CreateAttribute("new"));
+                DBNewFish.Add(fishNode);
+                XmlUpdated(rod);
+            }
+        }
+
+        internal static void UnsetNew(XmlNode fishNode, XmlNode newNode)
+        {
+            if (newNode.Attributes["new"] != null)
+            {
+                newNode.Attributes.Remove(newNode.Attributes["new"]);
+                DBNewFish.Remove(fishNode);
+            }
+        }
 
         internal static bool FishAccepted(out string name, out bool isNew, bool fishUnknown, string rod, string zone, string bait, string ID1, string ID2, string ID3)
         {
@@ -172,6 +336,7 @@ namespace Fishing
                 {
                     XmlNode newBaitNode = fishNode["Baits"].AppendChild(xmlDoc.CreateElement("Bait"));
                     newBaitNode.InnerText = bait;
+                    SetNew(rod, fishNode, newBaitNode);
                     FishDBChanged(rod);
                 }
 
@@ -254,6 +419,16 @@ namespace Fishing
                 XmlDocument xmlDoc = new XmlDocument();
                 xmlDoc.Load(fishDBFile);
                 DBByRod.Add(rod, xmlDoc);
+                //Check any fish previously marked new
+                foreach (XmlNode fishNode in xmlDoc.SelectNodes("/Rod/Fish[@new]"))
+                {
+                    DBNewFish.Add(fishNode);
+                }
+                //Check any bait or zones previously marked new
+                foreach (XmlNode baitorZoneNode in xmlDoc.SelectNodes("/Rod/Fish/Baits/Bait[@new] | /Rod/Fish/Zones/Zone[@new]"))
+                {
+                    DBNewFish.Add(baitorZoneNode.ParentNode.ParentNode);
+                }
             }
 
             return DBByRod[rod];
@@ -297,6 +472,11 @@ namespace Fishing
         private static void FishDBChanged(string rod)
         {
             DBByRod[rod].Save(GetFileName(rod));
+            // Cache a few before doing a DB upload
+            if (DBNewFish.Count > 4)
+            {
+                FishSQL.UploadNewFish();
+            }
 
             if(null != OnChanged)
             {

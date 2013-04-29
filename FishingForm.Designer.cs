@@ -236,6 +236,7 @@
             // 
             this.tbChangeName.Location = new System.Drawing.Point(105, 44);
             this.tbChangeName.Margin = new System.Windows.Forms.Padding(0);
+            this.tbChangeName.MaxLength = 45;
             this.tbChangeName.Name = "tbChangeName";
             this.tbChangeName.ShortcutsEnabled = false;
             this.tbChangeName.Size = new System.Drawing.Size(10, 20);
@@ -1960,10 +1961,10 @@
             this.tabOptionsPageAdvanced.Controls.Add(this.gbExhaustedBait);
             this.tabOptionsPageAdvanced.Controls.Add(this.gbOnFatigue);
             this.tabOptionsPageAdvanced.Controls.Add(this.groupBox1);
-            this.tabOptionsPageAdvanced.Location = new System.Drawing.Point(4, 21);
+            this.tabOptionsPageAdvanced.Location = new System.Drawing.Point(4, 22);
             this.tabOptionsPageAdvanced.Name = "tabOptionsPageAdvanced";
             this.tabOptionsPageAdvanced.Padding = new System.Windows.Forms.Padding(3);
-            this.tabOptionsPageAdvanced.Size = new System.Drawing.Size(364, 169);
+            this.tabOptionsPageAdvanced.Size = new System.Drawing.Size(364, 168);
             this.tabOptionsPageAdvanced.TabIndex = 5;
             this.tabOptionsPageAdvanced.Text = "Other";
             // 
@@ -2053,7 +2054,7 @@
             this.gbOnFatigue.Controls.Add(this.cbFatiguedActionShutdown);
             this.gbOnFatigue.Location = new System.Drawing.Point(256, 6);
             this.gbOnFatigue.Name = "gbOnFatigue";
-            this.gbOnFatigue.Size = new System.Drawing.Size(102, 155);
+            this.gbOnFatigue.Size = new System.Drawing.Size(102, 154);
             this.gbOnFatigue.TabIndex = 2;
             this.gbOnFatigue.TabStop = false;
             this.gbOnFatigue.Text = "On Fatigue Stop";
@@ -2102,7 +2103,7 @@
             this.groupBox1.Controls.Add(this.cbInventoryItemizerItemTools);
             this.groupBox1.Location = new System.Drawing.Point(6, 6);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(119, 155);
+            this.groupBox1.Size = new System.Drawing.Size(119, 154);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "On Full Inventory";

@@ -112,8 +112,6 @@ CD deploy
 
 CD ..\
 
-ECHO %filever% > version
-
 ECHO.
 ECHO Deployable Archives Created:
 ECHO FishingForm_v%filever%_mC-FD_(with_source).zip
