@@ -526,7 +526,7 @@
             this.btnStartM.Size = new System.Drawing.Size(22, 22);
             this.btnStartM.TabIndex = 2;
             this.btnStartM.UseVisualStyleBackColor = true;
-            this.btnStartM.Click += new System.EventHandler(this.btnStartM_Click);
+            this.btnStartM.Click += new System.EventHandler(this.btnStart_Click);
             // 
             // btnResize
             // 
@@ -1287,10 +1287,10 @@
             this.tabOptionsPageChat.Controls.Add(this.cbChatDetect);
             this.tabOptionsPageChat.Controls.Add(this.panelChatDetect);
             this.tabOptionsPageChat.Controls.Add(this.gbGMDetect);
-            this.tabOptionsPageChat.Location = new System.Drawing.Point(4, 21);
+            this.tabOptionsPageChat.Location = new System.Drawing.Point(4, 22);
             this.tabOptionsPageChat.Name = "tabOptionsPageChat";
             this.tabOptionsPageChat.Padding = new System.Windows.Forms.Padding(3);
-            this.tabOptionsPageChat.Size = new System.Drawing.Size(364, 169);
+            this.tabOptionsPageChat.Size = new System.Drawing.Size(364, 168);
             this.tabOptionsPageChat.TabIndex = 6;
             this.tabOptionsPageChat.Text = "Chat";
             this.tabOptionsPageChat.UseVisualStyleBackColor = true;
@@ -1334,7 +1334,7 @@
             this.gbGMDetect.Controls.Add(this.cbGMdetectAutostop);
             this.gbGMDetect.Location = new System.Drawing.Point(6, 7);
             this.gbGMDetect.Name = "gbGMDetect";
-            this.gbGMDetect.Size = new System.Drawing.Size(93, 154);
+            this.gbGMDetect.Size = new System.Drawing.Size(93, 153);
             this.gbGMDetect.TabIndex = 0;
             this.gbGMDetect.TabStop = false;
             this.gbGMDetect.Text = "GM Detection";
@@ -1373,10 +1373,10 @@
             this.tabOptionsPageFight.Controls.Add(this.cbQuickKill);
             this.tabOptionsPageFight.Controls.Add(this.cbAutoKill);
             this.tabOptionsPageFight.Controls.Add(this.cbExtend);
-            this.tabOptionsPageFight.Location = new System.Drawing.Point(4, 21);
+            this.tabOptionsPageFight.Location = new System.Drawing.Point(4, 22);
             this.tabOptionsPageFight.Name = "tabOptionsPageFight";
             this.tabOptionsPageFight.Padding = new System.Windows.Forms.Padding(3);
-            this.tabOptionsPageFight.Size = new System.Drawing.Size(364, 169);
+            this.tabOptionsPageFight.Size = new System.Drawing.Size(364, 168);
             this.tabOptionsPageFight.TabIndex = 2;
             this.tabOptionsPageFight.Text = "Fight";
             // 
@@ -1684,10 +1684,10 @@
             this.tabOptionsPageGear.Controls.Add(this.lblWaistGear);
             this.tabOptionsPageGear.Controls.Add(this.tbWaistGear);
             this.tabOptionsPageGear.Controls.Add(this.cbWaistGear);
-            this.tabOptionsPageGear.Location = new System.Drawing.Point(4, 21);
+            this.tabOptionsPageGear.Location = new System.Drawing.Point(4, 22);
             this.tabOptionsPageGear.Name = "tabOptionsPageGear";
             this.tabOptionsPageGear.Padding = new System.Windows.Forms.Padding(3);
-            this.tabOptionsPageGear.Size = new System.Drawing.Size(364, 169);
+            this.tabOptionsPageGear.Size = new System.Drawing.Size(364, 168);
             this.tabOptionsPageGear.TabIndex = 4;
             this.tabOptionsPageGear.Text = "Gear";
             // 
@@ -1966,10 +1966,10 @@
             this.tabOptionsPageAdvanced.Controls.Add(this.gbExhaustedBait);
             this.tabOptionsPageAdvanced.Controls.Add(this.gbOnFatigue);
             this.tabOptionsPageAdvanced.Controls.Add(this.groupBox1);
-            this.tabOptionsPageAdvanced.Location = new System.Drawing.Point(4, 21);
+            this.tabOptionsPageAdvanced.Location = new System.Drawing.Point(4, 22);
             this.tabOptionsPageAdvanced.Name = "tabOptionsPageAdvanced";
             this.tabOptionsPageAdvanced.Padding = new System.Windows.Forms.Padding(3);
-            this.tabOptionsPageAdvanced.Size = new System.Drawing.Size(364, 169);
+            this.tabOptionsPageAdvanced.Size = new System.Drawing.Size(364, 168);
             this.tabOptionsPageAdvanced.TabIndex = 5;
             this.tabOptionsPageAdvanced.Text = "Other";
             // 
@@ -2059,7 +2059,7 @@
             this.gbOnFatigue.Controls.Add(this.cbFatiguedActionShutdown);
             this.gbOnFatigue.Location = new System.Drawing.Point(256, 6);
             this.gbOnFatigue.Name = "gbOnFatigue";
-            this.gbOnFatigue.Size = new System.Drawing.Size(102, 154);
+            this.gbOnFatigue.Size = new System.Drawing.Size(102, 153);
             this.gbOnFatigue.TabIndex = 2;
             this.gbOnFatigue.TabStop = false;
             this.gbOnFatigue.Text = "On Fatigue Stop";
@@ -2109,7 +2109,7 @@
             this.groupBox1.Controls.Add(this.cbInventoryItemizerItemTools);
             this.groupBox1.Location = new System.Drawing.Point(6, 6);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(119, 154);
+            this.groupBox1.Size = new System.Drawing.Size(119, 153);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "On Full Inventory";
