@@ -51,7 +51,7 @@ namespace Fishing
 
     internal static class FishSQL
     {
-
+        internal static FishingDBSyncForm SyncForm { private get; set; }
         internal static MySqlConnection Connection { get; private set; }
         private static string server = "instance44985.db.xeround.com";
         private static string port = "6382";
@@ -210,6 +210,10 @@ namespace Fishing
                 // Add baits
                 foreach (string b in bait)
                 {
+                    if (null != SyncForm)
+                    {
+                        SyncForm.SetFishBaitOrZone(fish, b);
+                    }
                     using (MySqlCommand cmd = Connection.CreateCommand())
                     {
                         cmd.CommandText = "CALL add_fish_bait (@fishID, @baitID)";
@@ -229,6 +233,10 @@ namespace Fishing
                 // Add zones
                 foreach (string z in zones)
                 {
+                    if (null != SyncForm)
+                    {
+                        SyncForm.SetFishBaitOrZone(fish, z);
+                    }
                     using (MySqlCommand cmd = Connection.CreateCommand())
                     {
                         cmd.CommandText = "CALL add_fish_zone (@fishID, @zoneID)";
@@ -342,6 +350,10 @@ namespace Fishing
 
         public static void DoUploadFish()
         {
+            if (null != SyncForm)
+            {
+                SyncForm.SetUploadFishNumber(FishDB.DBNewFish.Count);
+            }
             if (FishDB.DBNewFish.Count > 0)
             {
                 List<XmlNode> uploadFish = new List<XmlNode>(FishDB.DBNewFish);
@@ -352,6 +364,11 @@ namespace Fishing
                     List<string> baits = new List<string>();
                     List<string> zones = new List<string>();
                     string rod = fishNode.OwnerDocument.SelectSingleNode("/Rod").Attributes["name"].Value;
+                    string fish = fishNode.Attributes["name"].Value;
+                    if (null != SyncForm)
+                    {
+                        SyncForm.SetUploadRodAndFish(rod, fish);
+                    }
                     if (null != fishNode.Attributes["new"])
                     {
                         foreach (XmlNode node in fishNode["Baits"].ChildNodes)
@@ -362,8 +379,7 @@ namespace Fishing
                         {
                             zones.Add(node.InnerText);
                         }
-                        UploadFish(fishNode.Attributes["name"].Value, rod,
-                               fishNode.Attributes["ID1"].Value, fishNode.Attributes["ID2"].Value, fishNode.Attributes["ID3"].Value);
+                        UploadFish(fish, rod, fishNode.Attributes["ID1"].Value, fishNode.Attributes["ID2"].Value, fishNode.Attributes["ID3"].Value);
                     }
                     else
                     {
@@ -378,8 +394,7 @@ namespace Fishing
                     }
                     if (baits.Count > 0 || zones.Count > 0)
                     {
-                        UploadBaitAndZone(fishNode.Attributes["name"].Value, rod,
-                               fishNode.Attributes["ID1"].Value, fishNode.Attributes["ID2"].Value, fishNode.Attributes["ID3"].Value, baits, zones);
+                        UploadBaitAndZone(fish, rod, fishNode.Attributes["ID1"].Value, fishNode.Attributes["ID2"].Value, fishNode.Attributes["ID3"].Value, baits, zones);
                     }
                     updateTimes[rod] = null;
                     if (null != fishNode.Attributes["new"])
@@ -410,14 +425,39 @@ namespace Fishing
         public static void DoDownloadFish()
         {
             Dictionary<string, DateTime> updateTimes = new Dictionary<string, DateTime>();
+            if (null != SyncForm)
+            {
+                SyncForm.SetDownloadRodNumber(Dictionaries.rodDictionary.Count);
+            }
             foreach (string rod in Dictionaries.rodDictionary.Keys)
             {
+                if (null != SyncForm)
+                {
+                    SyncForm.SetDownloadRod(rod);
+                }
                 DateTime newest = NewestDBModificationTime(rod);
                 if (FishDB.UpdatesByRod[rod].dbDate < newest)
                 {
-                    foreach (SQLFishie fish in DownloadNewFish(rod, FishDB.UpdatesByRod[rod].dbDate))
+                    List<SQLFishie> newFishies = DownloadNewFish(rod, FishDB.UpdatesByRod[rod].dbDate);
+                    if (null != SyncForm)
+                    {
+                        SyncForm.SetDownloadRodFish(newFishies.Count);
+                    }
+                    foreach (SQLFishie fish in newFishies)
                     {
                         string name = fish.name;
+                        if (null != SyncForm)
+                        {
+                            SyncForm.SetDownloadFish(name);
+                            if (null == fish.zone)
+                            {
+                                SyncForm.SetFishBaitOrZone(name, fish.bait);
+                            }
+                            else
+                            {
+                                SyncForm.SetFishBaitOrZone(name, fish.zone);
+                            }
+                        }
                         FishDB.AddNewFish(ref name, fish.zone, fish.bait, fish.rod, fish.ID1, fish.ID2, fish.ID3, false, true);
                     }
                     updateTimes[rod] = newest;

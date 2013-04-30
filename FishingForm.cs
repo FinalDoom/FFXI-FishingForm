@@ -101,12 +101,12 @@ namespace Fishing
 
             RestoreLocation();
 
+            List<string> args = arglist.ToList();  //*golfandsurf*  Formats <player> arg to match pol process
+            args[0] = args[0].Substring(0, 1).ToUpper() + args[0].Substring(1, args[0].Length - 1).ToLower();
+
             Thread databaseInitThread = new Thread(new ThreadStart(CheckDatabase));
             databaseInitThread.IsBackground = true;
             databaseInitThread.Start();
-
-            List<string> args = arglist.ToList();  //*golfandsurf*  Formats <player> arg to match pol process
-            args[0] = args[0].Substring(0, 1).ToUpper() + args[0].Substring(1, args[0].Length - 1).ToLower();
 
 			ChooseProcess(args[0]);
 
