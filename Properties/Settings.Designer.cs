@@ -802,5 +802,17 @@ namespace Fishing.Properties {
                 this["BaitOtherText"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool FullActionStop {
+            get {
+                return ((bool)(this["FullActionStop"]));
+            }
+            set {
+                this["FullActionStop"] = value;
+            }
+        }
     }
 }
