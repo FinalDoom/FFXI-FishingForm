@@ -851,7 +851,7 @@ namespace Fishing
 			WaitUntil(Status.Standing);
 		}
 
-        private void DoFishFighting(string currentFish, bool isNewFish, string ID1, string ID2, string ID3)
+        private void DoFishFighting(bool isNewFish, string ID1, string ID2, string ID3)
         {
             FishResult fishFightResult = FightFish();
 
@@ -1017,7 +1017,7 @@ namespace Fishing
                                 {
                                     if (FishDB.FishAccepted(out currentFish, out isNewFish, cbCatchUnknown.Checked, LastRodName, lblZone.Text, LastBaitName, ID1, ID2, ID3))
                                     {
-                                        DoFishFighting(currentFish, isNewFish, ID1, ID2, ID3);
+                                        DoFishFighting(isNewFish, ID1, ID2, ID3);
                                     }
                                     else
                                     {
@@ -1045,7 +1045,7 @@ namespace Fishing
                                 {
                                     if (FishDB.FishAccepted(out currentFish, out isNewFish, cbCatchUnknown.Checked, LastRodName, lblZone.Text, LastBaitName, ID1, ID2, ID3))
                                     {
-                                        DoFishFighting(currentFish, isNewFish, ID1, ID2, ID3);
+                                        DoFishFighting(isNewFish, ID1, ID2, ID3);
                                     }
                                     else
                                     {
@@ -1073,7 +1073,7 @@ namespace Fishing
                                 {
                                     if (FishDB.FishAccepted(out currentFish, out isNewFish, cbCatchUnknown.Checked, LastRodName, lblZone.Text, LastBaitName, ID1, ID2, ID3))
                                     {
-                                        DoFishFighting(currentFish, isNewFish, ID1, ID2, ID3);
+                                        DoFishFighting(isNewFish, ID1, ID2, ID3);
                                     }
                                     else
                                     {
@@ -1094,7 +1094,7 @@ namespace Fishing
                                 {
                                     if (FishDB.FishAccepted(out currentFish, out isNewFish, cbCatchUnknown.Checked, LastRodName, lblZone.Text, LastBaitName, ID1, ID2, ID3))
                                     {
-                                        DoFishFighting(currentFish, isNewFish, ID1, ID2, ID3);
+                                        DoFishFighting(isNewFish, ID1, ID2, ID3);
                                     }
                                     else
                                     {
