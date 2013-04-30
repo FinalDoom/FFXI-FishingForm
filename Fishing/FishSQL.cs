@@ -410,6 +410,7 @@ namespace Fishing
                         FishDB.UnsetNew(fishNode, node);
                     }
                 }
+                CloseConnection();
                 foreach (string rod in updateTimes.Keys)
                 {
                     FishDB.XmlUpdated(rod);
@@ -419,7 +420,6 @@ namespace Fishing
                     FishDB.UpdatesDBChanged();
                 }
             }
-            CloseConnection();
         }
 
         public static void DoDownloadFish()
@@ -463,6 +463,7 @@ namespace Fishing
                     updateTimes[rod] = newest;
                 }
             }
+            CloseConnection();
             foreach (string rod in updateTimes.Keys)
             {
                 FishDB.DBUpdated(rod, updateTimes[rod]);
@@ -471,7 +472,6 @@ namespace Fishing
             {
                 FishDB.UpdatesDBChanged();
             }
-            CloseConnection();
         }
 
         public static void UploadNewFish()
