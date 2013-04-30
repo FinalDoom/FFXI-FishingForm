@@ -172,6 +172,7 @@
             this.cbFatiguedActionLogout = new System.Windows.Forms.CheckBox();
             this.cbFatiguedActionShutdown = new System.Windows.Forms.CheckBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.cbFullActionStop = new System.Windows.Forms.CheckBox();
             this.tbFullactionOther = new System.Windows.Forms.TextBox();
             this.rbFullactionOther = new System.Windows.Forms.CheckBox();
             this.rbFullactionShutdown = new System.Windows.Forms.CheckBox();
@@ -1985,7 +1986,7 @@
             // tbBaitactionOther
             // 
             this.tbBaitactionOther.Enabled = false;
-            this.tbBaitactionOther.Location = new System.Drawing.Point(6, 52);
+            this.tbBaitactionOther.Location = new System.Drawing.Point(6, 53);
             this.tbBaitactionOther.Name = "tbBaitactionOther";
             this.tbBaitactionOther.Size = new System.Drawing.Size(107, 18);
             this.tbBaitactionOther.TabIndex = 5;
@@ -1993,7 +1994,7 @@
             // cbBaitactionOther
             // 
             this.cbBaitactionOther.AutoSize = true;
-            this.cbBaitactionOther.Location = new System.Drawing.Point(6, 34);
+            this.cbBaitactionOther.Location = new System.Drawing.Point(6, 35);
             this.cbBaitactionOther.Name = "cbBaitactionOther";
             this.cbBaitactionOther.Size = new System.Drawing.Size(102, 17);
             this.cbBaitactionOther.TabIndex = 4;
@@ -2004,7 +2005,7 @@
             // cbBaitItemizerItemTools
             // 
             this.cbBaitItemizerItemTools.AutoSize = true;
-            this.cbBaitItemizerItemTools.Location = new System.Drawing.Point(6, 16);
+            this.cbBaitItemizerItemTools.Location = new System.Drawing.Point(6, 17);
             this.cbBaitItemizerItemTools.Name = "cbBaitItemizerItemTools";
             this.cbBaitItemizerItemTools.Size = new System.Drawing.Size(109, 17);
             this.cbBaitItemizerItemTools.TabIndex = 3;
@@ -2015,7 +2016,7 @@
             // cbBaitActionWarp
             // 
             this.cbBaitActionWarp.AutoSize = true;
-            this.cbBaitActionWarp.Location = new System.Drawing.Point(6, 73);
+            this.cbBaitActionWarp.Location = new System.Drawing.Point(6, 74);
             this.cbBaitActionWarp.Name = "cbBaitActionWarp";
             this.cbBaitActionWarp.Size = new System.Drawing.Size(50, 17);
             this.cbBaitActionWarp.TabIndex = 0;
@@ -2094,6 +2095,7 @@
             // 
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
+            this.groupBox1.Controls.Add(this.cbFullActionStop);
             this.groupBox1.Controls.Add(this.tbFullactionOther);
             this.groupBox1.Controls.Add(this.rbFullactionOther);
             this.groupBox1.Controls.Add(this.rbFullactionShutdown);
@@ -2106,6 +2108,17 @@
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "On Full Inventory";
+            // 
+            // cbFullActionStop
+            // 
+            this.cbFullActionStop.AutoSize = true;
+            this.cbFullActionStop.Location = new System.Drawing.Point(6, 74);
+            this.cbFullActionStop.Name = "cbFullActionStop";
+            this.cbFullActionStop.Size = new System.Drawing.Size(84, 17);
+            this.cbFullActionStop.TabIndex = 6;
+            this.cbFullActionStop.Text = "Stop Fishing";
+            this.cbFullActionStop.UseVisualStyleBackColor = true;
+            this.cbFullActionStop.CheckedChanged += new System.EventHandler(this.cbFullActionStop_CheckedChanged);
             // 
             // tbFullactionOther
             // 
@@ -2129,7 +2142,7 @@
             // rbFullactionShutdown
             // 
             this.rbFullactionShutdown.AutoSize = true;
-            this.rbFullactionShutdown.Location = new System.Drawing.Point(6, 110);
+            this.rbFullactionShutdown.Location = new System.Drawing.Point(6, 127);
             this.rbFullactionShutdown.Name = "rbFullactionShutdown";
             this.rbFullactionShutdown.Size = new System.Drawing.Size(74, 17);
             this.rbFullactionShutdown.TabIndex = 5;
@@ -2140,7 +2153,7 @@
             // rbFullactionLogout
             // 
             this.rbFullactionLogout.AutoSize = true;
-            this.rbFullactionLogout.Location = new System.Drawing.Point(6, 92);
+            this.rbFullactionLogout.Location = new System.Drawing.Point(6, 109);
             this.rbFullactionLogout.Name = "rbFullactionLogout";
             this.rbFullactionLogout.Size = new System.Drawing.Size(59, 17);
             this.rbFullactionLogout.TabIndex = 4;
@@ -2151,7 +2164,7 @@
             // rbFullactionWarp
             // 
             this.rbFullactionWarp.AutoSize = true;
-            this.rbFullactionWarp.Location = new System.Drawing.Point(6, 74);
+            this.rbFullactionWarp.Location = new System.Drawing.Point(6, 91);
             this.rbFullactionWarp.Name = "rbFullactionWarp";
             this.rbFullactionWarp.Size = new System.Drawing.Size(50, 17);
             this.rbFullactionWarp.TabIndex = 3;
@@ -2481,6 +2494,7 @@
         private System.Windows.Forms.TextBox tbBaitactionOther;
         private System.Windows.Forms.CheckBox cbBaitactionOther;
         private System.Windows.Forms.CheckBox cbBaitItemizerItemTools;
+        private System.Windows.Forms.CheckBox cbFullActionStop;
     }
 }
 
