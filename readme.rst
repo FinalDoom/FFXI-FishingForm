@@ -50,6 +50,11 @@ the most recent version is `the bitbucket`_ or at `the FFEvo download page`_.
 Features
 --------
 
+- **NEW**
+	- Automatically sync FishDB with cloud database
+	- Syncs silently at application start
+	- Syncs silently after a few new fish are caught
+
 - Includes fface (current as of this post)
 - Includes ffacetools (current as of this post)
 - Select fish or items to selectively catch or release
@@ -143,11 +148,27 @@ Other
 -----
 - Move items when inventory is full using itemizer or ItemTools
 - Grab bait from sack or satchel when out
+- Stop fishing when inventory is full
 - Warp then optionally log out or shut down when inventory is full, when fatigued, or when out of bait
 
 -------
 Changes
 -------
+
+1.7.0.0
+-------
+- **MAJOR UPDATE**
+- FishDB now syncs with a MySQL database
+- Automatic sync at start
+- Automatic sync after a few new fish
+
+1.6.7.41
+--------
+- Option to not stop fishing when inventory is full
+
+1.6.7.40
+--------
+- Bug fixes
 
 1.6.7.39
 --------
