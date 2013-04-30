@@ -1084,7 +1084,7 @@ namespace Fishing
                     Stop(false, "Inventory is full!");
                 }
             }
-            if (_FFACE.Item.InventoryCount == _FFACE.Item.InventoryMax)
+            if (_FFACE.Item.InventoryCount == _FFACE.Item.InventoryMax && cbFullActionStop.Checked)
             {
                 if (rbFullactionWarp.Checked)
                 {
@@ -1292,7 +1292,10 @@ namespace Fishing
                 case FishResult.InventoryProblem:
                     FishStats.releasedCount++;
                     FishStats.AddFish(FishStats.releasedFishes, currentFish);
-                    Stop(false, "Inventory might be full.");
+                    if (cbFullActionStop.Checked)
+                    {
+                        Stop(false, "Inventory might be full.");
+                    }
                     break;
                 case FishResult.LackSkill:
                     FishStats.lackSkillCount++;
@@ -2829,6 +2832,13 @@ namespace Fishing
             }
         }
 
+        private void cbFullActionStop_CheckedChanged(object sender, EventArgs e)
+        {
+            rbFullactionWarp.Enabled = cbFullActionStop.Checked;
+            rbFullactionLogout.Enabled = cbFullActionStop.Checked;
+            rbFullactionShutdown.Enabled = cbFullActionStop.Checked;
+        }
+
         #endregion //Other
 
         #region Chat
@@ -3200,6 +3210,7 @@ namespace Fishing
                 Settings.Default.FullActionOtherText = tbFullactionOther.Text = "";
                 Settings.Default.FullActionOther = rbFullactionOther.Checked = false;
                 Settings.Default.FullActionWarp = rbFullactionWarp.Checked = false;
+                Settings.Default.FullActionStop = cbFullActionStop.Checked = true;
                 Settings.Default.FullActionLogout = rbFullactionLogout.Checked = false;
                 Settings.Default.FullActionShutdown = rbFullactionShutdown.Checked = false;
                 Settings.Default.IgnoreItems = cbIgnoreItem.Checked = true;
@@ -3285,6 +3296,7 @@ namespace Fishing
                 Settings.Default.ReactionMin = numReactionLow.Value;
                 Settings.Default.FullActionOtherText = tbFullactionOther.Text;
 				Settings.Default.FullActionOther = rbFullactionOther.Checked;
+                Settings.Default.FullActionStop = cbFullActionStop.Checked;
 				Settings.Default.FullActionWarp = rbFullactionWarp.Checked;
 				Settings.Default.FullActionLogout = rbFullactionLogout.Checked;
                 Settings.Default.FullActionShutdown = rbFullactionShutdown.Checked;
@@ -3376,6 +3388,7 @@ namespace Fishing
             numReactionLow.Value = Settings.Default.ReactionMin;
             tbFullactionOther.Text = Settings.Default.FullActionOtherText;
 			rbFullactionOther.Checked = Settings.Default.FullActionOther;
+            cbFullActionStop.Checked = Settings.Default.FullActionStop;
 			rbFullactionWarp.Checked = Settings.Default.FullActionWarp;
 			rbFullactionLogout.Checked = Settings.Default.FullActionLogout;
             rbFullactionShutdown.Checked = Settings.Default.FullActionShutdown;
