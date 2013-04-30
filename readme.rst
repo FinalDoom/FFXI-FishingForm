@@ -155,6 +155,11 @@ Other
 Changes
 -------
 
+1.7.0.1
+-------
+- Bug fixes
+- Trying to fix Windows 8 display bug
+
 1.7.0.0
 -------
 - **MAJOR UPDATE**

@@ -2835,7 +2835,7 @@ namespace Fishing
 
         private void cbBaitItemizerItemTools_CheckedChanged(object sender, EventArgs e)
         {
-            cbBaitItemizerItemTools.Enabled = cbBaitactionOther.Checked || cbBaitItemizerItemTools.Checked;
+            tbBaitactionOther.Enabled = cbBaitactionOther.Checked || cbBaitItemizerItemTools.Checked;
             if (cbBaitItemizerItemTools.Checked)
             {
                 cbBaitactionOther.Checked = false;
