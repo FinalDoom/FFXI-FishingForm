@@ -52,12 +52,14 @@ namespace Fishing
     internal static class FishSQL
     {
 
-        private static MySqlConnection con;
-        private static string server = "localhost";
+        internal static MySqlConnection Connection { get; private set; }
+        private static string server = "instance44985.db.xeround.com";
+        private static string port = "6382";
         private static string database = "FishDB";
         // These are procedure-only credentials. Contact FinalDoom for an admin account, eg. if taking over this project.
         private static string uid = "FishClient";
         private static string password = "ThePasswordForTheFishClient";
+        private static bool errorred = false;
 
         static FishSQL()
         {
@@ -67,44 +69,48 @@ namespace Fishing
         //Initialize connection
         private static void Initialize()
         {
-            con = new MySqlConnection(string.Format("SERVER={0};DATABASE={1};UID={2};PASSWORD={3};", server, database, uid, password));
+            Connection = new MySqlConnection(string.Format("SERVER={0};PORT={1};DATABASE={2};UID={3};PASSWORD={4};", server, port, database, uid, password));
         }
 
         //open connection to database
-        private static bool OpenConnection()
+        internal static bool OpenConnection()
         {
-            if (con.State == ConnectionState.Open)
+            if (Connection.State == ConnectionState.Open)
             {
                 return true;
             }
             try
             {
-                con.Open();
+                Connection.Open();
                 return true;
             }
             catch (MySqlException e)
             {
-                switch (e.Number)
+                if (!errorred)
                 {
-                    case 0:
-                        MessageBox.Show("Could not connect to FishDB MySQL server. Please contact program maintainer.");
-                        break;
-                    default:
-                        MessageBox.Show("Could not connect to FishDB MySQL server. Error number " + e.Number.ToString());
-                        break;
+                    switch (e.Number)
+                    {
+                        case 0:
+                            MessageBox.Show("Could not connect to FishDB MySQL server. Please contact program maintainer.");
+                            break;
+                        default:
+                            MessageBox.Show("Could not connect to FishDB MySQL server. Error number " + e.Number.ToString());
+                            break;
+                    }
+                    errorred = true;
                 }
                 return false;
             }
         }
 
         //Close connection
-        public static bool CloseConnection()
+        internal static bool CloseConnection()
         {
             try
             {
-                if (con.State != ConnectionState.Closed)
+                if (Connection.State != ConnectionState.Closed)
                 {
-                    con.Close();
+                    Connection.Close();
                 }
                 return true;
             }
@@ -123,7 +129,7 @@ namespace Fishing
         {
             if (OpenConnection())
             {
-                using (MySqlCommand cmd = new MySqlCommand("CALL get_newest_update (@rodID)", con))
+                using (MySqlCommand cmd = new MySqlCommand("CALL get_newest_update (@rodID)", Connection))
                 {
                     cmd.Parameters.AddWithValue("rodID", rodId);
 
@@ -151,7 +157,7 @@ namespace Fishing
                 int.TryParse(ID3, out id3);
 
                 // Try adding the fish
-                using (MySqlCommand cmd = con.CreateCommand())
+                using (MySqlCommand cmd = Connection.CreateCommand())
                 {
                     cmd.CommandText = "CALL add_new_fish (@rodID, @name, @Id1, @Id2, @Id3)";
                     cmd.Parameters.AddWithValue("rodID", rodId);
@@ -173,7 +179,7 @@ namespace Fishing
 
         private static int GetFishDBId(int rodId, string name, int id1, int id2, int id3)
         {
-            using (MySqlCommand cmd = con.CreateCommand())
+            using (MySqlCommand cmd = Connection.CreateCommand())
             {
                 cmd.CommandText = "CALL check_fish (@rodID, @Name, @Id1, @Id2, @Id3)";
                 cmd.Parameters.AddWithValue("rodID", rodId);
@@ -204,7 +210,7 @@ namespace Fishing
                 // Add baits
                 foreach (string b in bait)
                 {
-                    using (MySqlCommand cmd = con.CreateCommand())
+                    using (MySqlCommand cmd = Connection.CreateCommand())
                     {
                         cmd.CommandText = "CALL add_fish_bait (@fishID, @baitID)";
                         cmd.Parameters.AddWithValue("fishID", fishId);
@@ -223,7 +229,7 @@ namespace Fishing
                 // Add zones
                 foreach (string z in zones)
                 {
-                    using (MySqlCommand cmd = con.CreateCommand())
+                    using (MySqlCommand cmd = Connection.CreateCommand())
                     {
                         cmd.CommandText = "CALL add_fish_zone (@fishID, @zoneID)";
                         cmd.Parameters.AddWithValue("fishID", fishId);
@@ -269,7 +275,7 @@ namespace Fishing
             List<SQLFishie> fishies = new List<SQLFishie>();
             if (OpenConnection())
             {
-                using (MySqlCommand cmd = con.CreateCommand())
+                using (MySqlCommand cmd = Connection.CreateCommand())
                 {
                     cmd.CommandText = "CALL get_new_fish (@rodID, @time)";
                     cmd.Parameters.AddWithValue("rodID", rodId);
@@ -313,7 +319,7 @@ namespace Fishing
             {
                 String[] versionInfo = FileVersionInfo.GetVersionInfo("fishing.exe").FileVersion.Split(new char[1] { '.' });
 
-                using (MySqlCommand cmd = con.CreateCommand())
+                using (MySqlCommand cmd = Connection.CreateCommand())
                 {
                     cmd.CommandText = "Call is_current_version (@major, @minor, @build, @revision)";
                     cmd.Parameters.AddWithValue("major", versionInfo[0]);

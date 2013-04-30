@@ -167,12 +167,15 @@ namespace Fishing
 
         internal static void MarkAllFishNew()
         {
-            foreach (string rod in Dictionaries.rodDictionary.Keys)
+            if (DialogResult.Yes == MessageBox.Show("About to mark all fish in all XML as new.\r\nPlease only use this if you are a developer.\r\n\r\nIf running against the xeround server, please think twice.\r\n\r\nAre you sure you want to proceed?", "WARNING", MessageBoxButtons.YesNo))
             {
-                XmlDocument xmlDoc = GetFishDB(rod);
-                foreach (XmlNode fishNode in xmlDoc.SelectNodes("/Rod/Fish"))
+                foreach (string rod in Dictionaries.rodDictionary.Keys)
                 {
-                    SetNew(rod, fishNode, fishNode);
+                    XmlDocument xmlDoc = GetFishDB(rod);
+                    foreach (XmlNode fishNode in xmlDoc.SelectNodes("/Rod/Fish"))
+                    {
+                        SetNew(rod, fishNode, fishNode);
+                    }
                 }
             }
         }

@@ -213,11 +213,15 @@ namespace Fishing
 
         private void CheckDatabase()
         {
+            if (!FishSQL.OpenConnection())
+            {
+                return;
+            }
             if (!FishSQL.IsProgramUpdated())
             {
                 MessageBox.Show("A new version of FishingForm is available.\r\nCheck https://bitbucket.org/FinalDoom/ffxi-fishingform/downloads \r\nor http://www.ffevo.net/files/file/214-fishingform-fd-edition/ for the new version.");
             }
-            FishDB.MarkAllFishNew();
+
             FishDB.GetUpdates();
             FishSQL.DoUploadFish();
             FishSQL.DoDownloadFish();
