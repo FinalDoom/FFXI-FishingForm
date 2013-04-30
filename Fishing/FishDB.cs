@@ -42,6 +42,7 @@ namespace Fishing
         private const string dbFolder = "FishDB";
         private static Dictionary<string, XmlDocument> DBByRod = new Dictionary<string, XmlDocument>();
         private static XmlDocument ChangeDB;
+        private static XmlNode UpdateNode;
         internal static Dictionary<string, DBUpdate> UpdatesByRod = new Dictionary<string, DBUpdate>();
         internal static List<XmlNode> DBNewFish = new List<XmlNode>();
 
@@ -86,52 +87,76 @@ namespace Fishing
             return ChangeDB;
         }
 
+        internal static XmlNode GetUpdatesNode()
+        {
+            if (null != UpdateNode)
+            {
+                return UpdateNode;
+            }
+            XmlDocument upDoc = GetUpdatesDB();
+            XmlNode updateNode = upDoc.SelectSingleNode(string.Format("/Updates/Update[@host=\"{0}\"]", FishSQL.Connection.ConnectionString));
+            if (null == updateNode)
+            {
+                updateNode = upDoc.DocumentElement.AppendChild(upDoc.CreateNode(XmlNodeType.Element, "Update", upDoc.NamespaceURI));
+                XmlAttribute hostAttr = updateNode.Attributes.Append(upDoc.CreateAttribute("host"));
+                hostAttr.Value = FishSQL.Connection.ConnectionString;
+                UpdatesDBChanged();
+            }
+            UpdateNode = updateNode;
+            return updateNode;
+        }
+
         internal static Dictionary<string, DBUpdate> GetUpdates()
         {
             XmlDocument upDoc = GetUpdatesDB();
+            XmlNode updateNode = GetUpdatesNode();
+            bool changed = false;
             foreach (string rod in Dictionaries.rodDictionary.Keys)
             {
                 if (!UpdatesByRod.ContainsKey(rod))
                 {
-                    XmlNode rodNode = upDoc.SelectSingleNode(string.Format("/Updates/Rod[@name=\"{0}\"]", rod));
+                    XmlNode rodNode = updateNode.SelectSingleNode(string.Format("Rod[@name=\"{0}\"]", rod));
                     if (rodNode == null)
                     {
-                        rodNode = upDoc.DocumentElement.AppendChild(upDoc.CreateNode(XmlNodeType.Element, "Rod", upDoc.NamespaceURI));
+                        rodNode = updateNode.AppendChild(upDoc.CreateNode(XmlNodeType.Element, "Rod", upDoc.NamespaceURI));
                         XmlAttribute rodName = rodNode.Attributes.Append(upDoc.CreateAttribute("name"));
                         XmlAttribute dbTime = rodNode.Attributes.Append(upDoc.CreateAttribute("db"));
                         XmlAttribute xmlTime = rodNode.Attributes.Append(upDoc.CreateAttribute("xml"));
                         rodName.Value = rod;
                         dbTime.Value = (new DateTime(1970, 1, 1, 0, 0, 1)).ToString();
                         xmlTime.Value = DateTime.UtcNow.ToString();
+                        changed = true;
                     }
                     UpdatesByRod[rod] = new DBUpdate(rodNode.Attributes["db"].Value, rodNode.Attributes["xml"].Value);
                 }
+            }
+            if (changed)
+            {
+                UpdatesDBChanged();
             }
             return UpdatesByRod;
         }
 
         internal static void XmlUpdated(string rod)
         {
-            XmlDocument upDoc = GetUpdatesDB();
             if (!UpdatesByRod.ContainsKey(rod))
             {
                 GetUpdates();
             }
             UpdatesByRod[rod].XmlUpdated();
-            XmlNode upNode = upDoc.SelectSingleNode(string.Format("/Updates/Rod[@name=\"{0}\"]", rod));
-            upNode.Attributes["xml"].Value = UpdatesByRod[rod].xmlDate.ToString();
+            XmlNode rodNode = GetUpdatesNode().SelectSingleNode(string.Format("Rod[@name=\"{0}\"]", rod));
+            rodNode.Attributes["xml"].Value = UpdatesByRod[rod].xmlDate.ToString();
         }
 
         internal static void DBUpdated(string rod, DateTime time)
         {
-            XmlDocument upDoc = GetUpdatesDB();
             if (!UpdatesByRod.ContainsKey(rod))
             {
                 GetUpdates();
             }
-            UpdatesByRod[rod].DBUpdated(time);
-            XmlNode upNode = upDoc.SelectSingleNode(string.Format("/Updates/Rod[@name=\"{0}\"]", rod));
-            upNode.Attributes["db"].Value = time.ToString();
+            UpdatesByRod[rod].XmlUpdated();
+            XmlNode rodNode = GetUpdatesNode().SelectSingleNode(string.Format("Rod[@name=\"{0}\"]", rod));
+            rodNode.Attributes["db"].Value = time.ToString();
             FishDBChanged(rod);
         }
 
