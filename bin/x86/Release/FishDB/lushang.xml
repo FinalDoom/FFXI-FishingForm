@@ -576,7 +576,7 @@
       <Bait>Sinking Minnow</Bait>
     </Baits>
   </Fish>
-  <Fish name="Tavnazian Goby" wanted="Yes" ID1="180" ID2="33" ID3="9" ID4="33">
+  <Fish name="Tavnazian Goby" wanted="No" ID1="180" ID2="33" ID3="9" ID4="33">
     <Zones>
       <Zone>Lufaise Meadows</Zone>
     </Zones>
@@ -1638,6 +1638,22 @@
     </Zones>
     <Baits>
       <Bait>Meatball</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Mob (Clipper)(Jungle)" wanted="No" ID1="300" ID2="16" ID3="12">
+    <Zones>
+      <Zone>Yhoator Jungle</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Sinking Minnow</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Mob (Greater Pugil)(Jungle)" wanted="No" ID1="300" ID2="17" ID3="15">
+    <Zones>
+      <Zone>Yhoator Jungle</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Sinking Minnow</Bait>
     </Baits>
   </Fish>
 </Rod>
