@@ -28,8 +28,6 @@ FOR %%A IN (%*) DO (
 	)
 )
 
-EXIT /B
-
 ECHO Checking Required Programs
 
 SET MISSING=
