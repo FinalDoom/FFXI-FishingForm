@@ -45,6 +45,7 @@ namespace Fishing
         private static XmlNode UpdateNode;
         internal static Dictionary<string, DBUpdate> UpdatesByRod = new Dictionary<string, DBUpdate>();
         internal static List<XmlNode> DBNewFish = new List<XmlNode>();
+        internal static List<XmlNode> DBRenamedFish = new List<XmlNode>();
 
         #endregion //Members
 
@@ -268,7 +269,7 @@ namespace Fishing
 
         } // @ internal static void AddNewFish(ref string fish, string zone, string bait, string rod, string ID1, string ID2, string ID3, string ID4, bool wanted)
 
-        internal static bool ChangeName(Fishie fish, string newName)
+        internal static bool ChangeName(Fishie fish, string newName, bool fromDB)
         {
             XmlDocument xmlDoc = GetFishDB(fish.rod);
             XmlNode sameNameNode = xmlDoc.SelectSingleNode(string.Format("/Rod/Fish[@name=\"{0}\"]", newName));
@@ -289,7 +290,14 @@ namespace Fishing
                 {
                     SetNew(fish.rod, fishNode, fishNode);
                 }
-                FishDBChanged(fish.rod);
+                else
+                {
+                    SetRenamed(fish.rod, fish.name, fishNode);
+                }
+                if (!fromDB)
+                {
+                    FishDBChanged(fish.rod);
+                }
             }
             else
             {
@@ -317,11 +325,25 @@ namespace Fishing
 
                 // This shouldn't really happen, and the duplicates aren't allowed in the DB, so no worries there
                 xmlDoc["Rod"].RemoveChild(fishNode);
-                FishDBChanged(fish.rod);
+                SetRenamed(fish.rod, fish.name, fishNode);
+                if (!fromDB)
+                {
+                    FishDBChanged(fish.rod);
+                }
             }
             return true;
 
         } // @ internal static void ChangeName(Fishie fish, string newName)
+
+        internal static void SetRenamed(string rod, string oldName, XmlNode fishNode)
+        {
+            if (fishNode.Attributes["rename"] == null)
+            {
+                fishNode.Attributes.Append(fishNode.OwnerDocument.CreateAttribute("rename"));
+            }
+            fishNode.Attributes["rename"].Value = oldName;
+            DBRenamedFish.Add(fishNode);
+        }
 
         internal static void SetNew(string rod, XmlNode fishNode, XmlNode newNode)
         {
@@ -330,6 +352,15 @@ namespace Fishing
                 newNode.Attributes.Append(fishNode.OwnerDocument.CreateAttribute("new"));
                 DBNewFish.Add(fishNode);
                 XmlUpdated(rod);
+            }
+        }
+
+        internal static void UnsetRename(XmlNode fishNode)
+        {
+            if (fishNode.Attributes["rename"] != null)
+            {
+                fishNode.Attributes.Remove(fishNode.Attributes["rename"]);
+                DBRenamedFish.Remove(fishNode);
             }
         }
 

@@ -190,6 +190,43 @@ namespace Fishing
             return false;
         }
 
+        public static bool RenameFish(string fish, string oldName, string rod, string ID1, string ID2, string ID3)
+        {
+            if (OpenConnection())
+            {
+                int rodId = Dictionaries.rodDictionary[rod];
+                int id1;
+                int id2;
+                int id3;
+
+                int.TryParse(ID1, out id1);
+                int.TryParse(ID2, out id2);
+                int.TryParse(ID3, out id3);
+
+                // Try renaming the fish
+                using (MySqlCommand cmd = Connection.CreateCommand())
+                {
+                    cmd.CommandText = "CALL rename_fish (@fromName, @toName, @rodID, @Id1, @Id2, @Id3)";
+                    cmd.Parameters.AddWithValue("fromName", oldName);
+                    cmd.Parameters.AddWithValue("toName", fish);
+                    cmd.Parameters.AddWithValue("rodID", rodId);
+                    cmd.Parameters.AddWithValue("Id1", id1);
+                    cmd.Parameters.AddWithValue("Id2", id2);
+                    cmd.Parameters.AddWithValue("Id3", id3);
+
+                    try
+                    {
+                        cmd.ExecuteNonQuery();
+                        return true;
+                    }
+                    catch (MySqlException)
+                    {// Don't care
+                    }
+                }
+            }
+            return false;
+        }
+
         private static int GetFishDBId(int rodId, string name, int id1, int id2, int id3)
         {
             using (MySqlCommand cmd = Connection.CreateCommand())
@@ -350,6 +387,42 @@ namespace Fishing
             return fishies;
         }
 
+        public static Dictionary<SQLFishie, string> DownloadRenamedFish(string rod, DateTime since)
+        {
+            return DownloadRenamedFish(Dictionaries.rodDictionary[rod], since);
+        }
+
+        public static Dictionary<SQLFishie, string> DownloadRenamedFish(int rodId, DateTime since)
+        {
+            Dictionary<SQLFishie, string> fishies = new Dictionary<SQLFishie, string>();
+
+            if (OpenConnection())
+            {
+                using (MySqlCommand cmd = Connection.CreateCommand())
+                {
+                    cmd.CommandText = "CALL get_renamed_fish (@rodID, @time)";
+                    cmd.Parameters.AddWithValue("rodID", rodId);
+                    cmd.Parameters.AddWithValue("time", since);
+                    try
+                    {
+                        using (MySqlDataReader rdr = cmd.ExecuteReader())
+                        {
+                            while (rdr.Read())
+                            {
+                                fishies.Add(new SQLFishie(rdr.GetString("Name"), rodId, rdr.GetString("Id1"), rdr.GetString("Id2"), rdr.GetString("Id3"), null, null), rdr.GetString("ToName"));
+                            }
+
+                        }
+                    }
+                    catch (MySqlException)
+                    {
+                    }
+                }
+            }
+            CloseConnection();
+            return fishies;
+        }
+
         public static bool IsProgramUpdated()
         {
             bool updated = false;
@@ -393,8 +466,8 @@ namespace Fishing
             if (FishDB.DBNewFish.Count > 0)
             {
                 List<XmlNode> uploadFish = new List<XmlNode>(FishDB.DBNewFish);
-                Dictionary<XmlNode, XmlNode> updatedNodes = new Dictionary<XmlNode, XmlNode>();
                 FishDB.DBNewFish.Clear();
+                Dictionary<XmlNode, XmlNode> updatedNodes = new Dictionary<XmlNode, XmlNode>();
                 HashSet<string> updateTimes = new HashSet<string>();
                 foreach (XmlNode fishNode in uploadFish)
                 {
@@ -438,10 +511,26 @@ namespace Fishing
                     }
                     updateTimes.Add(rod);
                 }
+                List<XmlNode> renameFish = new List<XmlNode>(FishDB.DBRenamedFish);
+                FishDB.DBRenamedFish.Clear();
+                List<XmlNode> renamedNodes = new List<XmlNode>();
+                foreach (XmlNode fishNode in renameFish)
+                {
+                    string rod = fishNode.OwnerDocument.SelectSingleNode("/Rod").Attributes["name"].Value;
+                    string fish = fishNode.Attributes["name"].Value;
+                    if (RenameFish(fish, fishNode.Attributes["rename"].Value, rod, fishNode.Attributes["ID1"].Value, fishNode.Attributes["ID2"].Value, fishNode.Attributes["ID3"].Value))
+                    {
+                        renamedNodes.Add(fishNode);
+                    }
+                }
                 CloseConnection();
                 foreach (XmlNode node in updatedNodes.Keys)
                 {
                     FishDB.UnsetNew(updatedNodes[node], node);
+                }
+                foreach (XmlNode node in renamedNodes)
+                {
+                    FishDB.UnsetRename(node);
                 }
                 if (updateTimes.Count > 0)
                 {
@@ -487,6 +576,11 @@ namespace Fishing
                             }
                         }
                         FishDB.AddNewFish(ref name, fish.zone, fish.bait, fish.rod, fish.ID1, fish.ID2, fish.ID3, false, true);
+                    }
+                    Dictionary<SQLFishie, string> renamedFish = DownloadRenamedFish(rod, FishDB.UpdatesByRod[rod].dbDate);
+                    foreach (SQLFishie fish in renamedFish.Keys)
+                    {
+                        FishDB.ChangeName(fish.ToFishDBFishie(), renamedFish[fish], true);
                     }
                     updateTimes[rod] = newest;
                 }

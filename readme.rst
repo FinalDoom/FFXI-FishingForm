@@ -155,7 +155,15 @@ Other
 Changes
 -------
 
-1.7.0.3
+1.7.0.6
+-------
+- Renames should be pushed to the DB
+
+1.7.0.5
+-------
+- Bug fixes
+
+1.7.0.1
 -------
 - Bug fixes
 - Trying to fix Windows 8 display bug
