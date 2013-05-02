@@ -847,10 +847,43 @@ namespace Fishing
 			UpdateStats();
 			WaitUntil(Status.Standing);
 		}
+        
+        private string GetFishName(string fish)
+        {
+            string name = fish;
+            // Get a better name for the fish
+            foreach (KeyValuePair<string, int> f in Dictionaries.fishDictionary)
+            {
+                if (-1 < fish.IndexOf(f.Key, StringComparison.OrdinalIgnoreCase))
+                {
+                    // Remove punctuation and articles, but don't change fish name if it's only a partial match of one of the words
+                    List<string> fishNameParts = new List<string>((fish.Split(new char[3] { ' ', '.', '!'})).AsEnumerable());
+                    List<string> fishKeyParts = new List<string>((f.Key.Split(new char[1] { ' ' })).AsEnumerable());
+                    bool found = true;
+                    foreach (string p in fishKeyParts)
+                    {
+                        if (!fishNameParts.Contains(p))
+                        {
+                            found = false;
+                            break;
+                        }
+                    }
+                    if (found)
+                    {
+                        name = f.Key;
+                        break;
+                    }
+                }
+            }
+
+            return name;
+
+        } // @ private string GetFishName(string fish)
 
         private void DoFishFighting(bool isNewFish, string ID1, string ID2, string ID3)
         {
             FishResult fishFightResult = FightFish();
+            currentFish = GetFishName(currentFish);
 
             if ((isNewFish) && ("Unknown" != currentFish))
             {
