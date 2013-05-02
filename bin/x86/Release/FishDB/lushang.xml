@@ -125,9 +125,11 @@
   <Fish name="Rusty Subligar(wPRing)" wanted="No" ID1="100" ID2="24" ID3="15" ID4="24">
     <Zones>
       <Zone>Nashmau</Zone>
+      <Zone>Ship bound for Selbina (Pirates)</Zone>
     </Zones>
     <Baits>
       <Bait>Lugworm</Bait>
+      <Bait>Meatball</Bait>
     </Baits>
   </Fish>
   <Fish name="Dark Bass" wanted="No" ID1="180" ID2="25" ID3="9" ID4="25">
@@ -1172,6 +1174,7 @@
     </Zones>
     <Baits>
       <Bait>Meatball</Bait>
+      <Bait>Minnow</Bait>
     </Baits>
   </Fish>
   <Fish name="Mob (Arrapago Leech)" wanted="No" ID1="300" ID2="16" ID3="12" ID4="16">

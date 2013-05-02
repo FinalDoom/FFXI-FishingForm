@@ -55,4 +55,20 @@
       <Bait>Shrimp Lure</Bait>
     </Baits>
   </Fish>
+  <Fish name="Crayfish" wanted="No" ID1="140" ID2="30" ID3="15">
+    <Zones>
+      <Zone>West Ronfaure</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Little Worm</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Moat Carp" wanted="No" ID1="200" ID2="20" ID3="12">
+    <Zones>
+      <Zone>West Ronfaure</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Little Worm</Bait>
+    </Baits>
+  </Fish>
 </Rod>
