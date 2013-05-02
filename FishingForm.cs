@@ -194,6 +194,7 @@ namespace Fishing
 
             _FFACE = null;
             _Player = null;
+            FishSQL.CloseConnection();
 
 
         }
@@ -213,18 +214,28 @@ namespace Fishing
 
         private void CheckDatabase()
         {
-            if (!FishSQL.OpenConnection())
+            try
             {
-                return;
-            }
-            if (!FishSQL.IsProgramUpdated())
-            {
-                MessageBox.Show("A new version of FishingForm is available.\r\nCheck https://bitbucket.org/FinalDoom/ffxi-fishingform/downloads \r\nor http://www.ffevo.net/files/file/214-fishingform-fd-edition/ for the new version.");
-            }
+                if (!FishSQL.OpenConnection())
+                {
+                    return;
+                }
+                if (!FishSQL.IsProgramUpdated())
+                {
+                    MessageBox.Show("A new version of FishingForm is available.\r\nCheck https://bitbucket.org/FinalDoom/ffxi-fishingform/downloads \r\nor http://www.ffevo.net/files/file/214-fishingform-fd-edition/ for the new version.");
+                }
 
-            FishDB.GetUpdates();
-            FishSQL.DoUploadFish();
-            FishSQL.DoDownloadFish();
+                FishDB.GetUpdates();
+                FishSQL.DoUploadFish();
+                FishSQL.DoDownloadFish();
+            }
+            catch (Exception)
+            {
+            }
+            finally
+            {
+                FishSQL.CloseConnection();
+            }
         }
 
 		private void ChooseProcess(string characterName)

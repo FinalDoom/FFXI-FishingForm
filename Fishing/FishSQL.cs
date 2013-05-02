@@ -75,6 +75,10 @@ namespace Fishing
         //open connection to database
         internal static bool OpenConnection()
         {
+            if (Connection == null)
+            {
+                Initialize();
+            }
             if (Connection.State == ConnectionState.Open)
             {
                 return true;
@@ -82,7 +86,7 @@ namespace Fishing
             try
             {
                 Connection.Open();
-                return true;
+                return Connection.State == ConnectionState.Open;
             }
             catch (MySqlException e)
             {
@@ -127,23 +131,30 @@ namespace Fishing
 
         public static DateTime NewestDBModificationTime(int rodId)
         {
-            if (OpenConnection())
-            {
-                using (MySqlCommand cmd = new MySqlCommand("CALL get_newest_update (@rodID)", Connection))
+                if (OpenConnection())
                 {
-                    cmd.Parameters.AddWithValue("rodID", rodId);
-
-                    object date = cmd.ExecuteScalar();
-                    if (!string.IsNullOrEmpty(date.ToString()))
+                    using (MySqlCommand cmd = new MySqlCommand("CALL get_newest_update (@rodID)", Connection))
                     {
-                        return DateTime.Parse(date.ToString());
+                        cmd.Parameters.AddWithValue("rodID", rodId);
+
+                        object date = string.Empty;
+                        try
+                        {
+                            date = cmd.ExecuteScalar();
+                        }
+                        catch (MySqlException)
+                        {
+                        }
+                        if (!string.IsNullOrEmpty(date.ToString()))
+                        {
+                            return DateTime.Parse(date.ToString());
+                        }
                     }
                 }
-            }
-            return new DateTime(1970, 1, 1);
+                return new DateTime(1970, 1, 1);
         }
 
-        public static void UploadFish(string fish, string rod, string ID1, string ID2, string ID3)
+        public static bool UploadFish(string fish, string rod, string ID1, string ID2, string ID3)
         {
             if (OpenConnection())
             {
@@ -169,12 +180,14 @@ namespace Fishing
                     try
                     {
                         cmd.ExecuteNonQuery();
+                        return true;
                     }
                     catch (MySqlException)
                     {// Don't care
                     }
                 }
             }
+            return false;
         }
 
         private static int GetFishDBId(int rodId, string name, int id1, int id2, int id3)
@@ -187,11 +200,18 @@ namespace Fishing
                 cmd.Parameters.AddWithValue("Id1", id1);
                 cmd.Parameters.AddWithValue("Id2", id2);
                 cmd.Parameters.AddWithValue("Id3", id3);
-                return int.Parse(cmd.ExecuteScalar().ToString());
+                try
+                {
+                    return int.Parse(cmd.ExecuteScalar().ToString());
+                }
+                catch (MySqlException)
+                {
+                    return -1;
+                }
             }
         }
 
-        public static void UploadBaitAndZone(string fish, string rod, string ID1, string ID2, string ID3, List<string> bait, List<string> zones)
+        public static void UploadBaitAndZone(string fish, string rod, string ID1, string ID2, string ID3, List<XmlNode> bait, List<XmlNode> zones, XmlNode fishNode, ref Dictionary<XmlNode, XmlNode> updatedNodes)
         {
             if (OpenConnection())
             {
@@ -208,8 +228,9 @@ namespace Fishing
                 int fishId = GetFishDBId(rodId, fish, id1, id2, id3);
 
                 // Add baits
-                foreach (string b in bait)
+                foreach (XmlNode node in bait)
                 {
+                    String b = node.InnerText;
                     if (null != SyncForm)
                     {
                         SyncForm.SetFishBaitOrZone(fish, b);
@@ -223,6 +244,7 @@ namespace Fishing
                         try
                         {
                             cmd.ExecuteNonQuery();
+                            updatedNodes.Add(fishNode, node);
                         }
                         catch (MySqlException)
                         {
@@ -231,8 +253,9 @@ namespace Fishing
                 }
 
                 // Add zones
-                foreach (string z in zones)
+                foreach (XmlNode node in zones)
                 {
+                    String z = node.InnerText;
                     if (null != SyncForm)
                     {
                         SyncForm.SetFishBaitOrZone(fish, z);
@@ -264,6 +287,7 @@ namespace Fishing
                         try
                         {
                             cmd.ExecuteNonQuery();
+                            updatedNodes.Add(fishNode, node);
                         }
                         catch (MySqlException)
                         {
@@ -288,31 +312,37 @@ namespace Fishing
                     cmd.CommandText = "CALL get_new_fish (@rodID, @time)";
                     cmd.Parameters.AddWithValue("rodID", rodId);
                     cmd.Parameters.AddWithValue("time", since);
-                    using (MySqlDataReader rdr = cmd.ExecuteReader())
+                    try
                     {
-                        while (rdr.Read())
+                        using (MySqlDataReader rdr = cmd.ExecuteReader())
                         {
-                            int? zone;
-                            try
+                            while (rdr.Read())
                             {
-                                zone = int.Parse(rdr["Zone"].ToString());
+                                int? zone;
+                                try
+                                {
+                                    zone = int.Parse(rdr["Zone"].ToString());
+                                }
+                                catch (Exception)
+                                {
+                                    zone = null;
+                                }
+                                int? bait;
+                                try
+                                {
+                                    bait = int.Parse(rdr["Bait"].ToString());
+                                }
+                                catch (Exception)
+                                {
+                                    bait = null;
+                                }
+                                fishies.Add(new SQLFishie(rdr.GetString("Name"), rodId, rdr.GetString("Id1"), rdr.GetString("Id2"), rdr.GetString("Id3"), zone, bait));
                             }
-                            catch (Exception)
-                            {
-                                zone = null;
-                            }
-                            int? bait;
-                            try
-                            {
-                                bait = int.Parse(rdr["Bait"].ToString());
-                            }
-                            catch (Exception)
-                            {
-                                bait = null;
-                            }
-                            fishies.Add(new SQLFishie(rdr.GetString("Name"), rodId, rdr.GetString("Id1"), rdr.GetString("Id2"), rdr.GetString("Id3"), zone, bait));
-                        }
 
+                        }
+                    }
+                    catch (MySqlException)
+                    {
                     }
                 }
             }
@@ -335,13 +365,19 @@ namespace Fishing
                     cmd.Parameters.AddWithValue("build", versionInfo[2]);
                     cmd.Parameters.AddWithValue("revision", versionInfo[3]);
 
-                    using (MySqlDataReader rdr = cmd.ExecuteReader())
+                    try
                     {
-                        while (rdr.Read())
+                        using (MySqlDataReader rdr = cmd.ExecuteReader())
                         {
-                            updated = true;
-                            break;
+                            while (rdr.Read())
+                            {
+                                updated = true;
+                                break;
+                            }
                         }
+                    }
+                    catch (MySqlException)
+                    {
                     }
                 }
             }
@@ -357,12 +393,13 @@ namespace Fishing
             if (FishDB.DBNewFish.Count > 0)
             {
                 List<XmlNode> uploadFish = new List<XmlNode>(FishDB.DBNewFish);
+                Dictionary<XmlNode, XmlNode> updatedNodes = new Dictionary<XmlNode, XmlNode>();
                 FishDB.DBNewFish.Clear();
-                Dictionary<string, string> updateTimes = new Dictionary<string, string>();
+                HashSet<string> updateTimes = new HashSet<string>();
                 foreach (XmlNode fishNode in uploadFish)
                 {
-                    List<string> baits = new List<string>();
-                    List<string> zones = new List<string>();
+                    List<XmlNode> baits = new List<XmlNode>();
+                    List<XmlNode> zones = new List<XmlNode>();
                     string rod = fishNode.OwnerDocument.SelectSingleNode("/Rod").Attributes["name"].Value;
                     string fish = fishNode.Attributes["name"].Value;
                     if (null != SyncForm)
@@ -373,47 +410,38 @@ namespace Fishing
                     {
                         foreach (XmlNode node in fishNode["Baits"].ChildNodes)
                         {
-                            baits.Add(node.InnerText);
+                            baits.Add(node);
                         }
                         foreach (XmlNode node in fishNode["Zones"].ChildNodes)
                         {
-                            zones.Add(node.InnerText);
+                            zones.Add(node);
                         }
-                        UploadFish(fish, rod, fishNode.Attributes["ID1"].Value, fishNode.Attributes["ID2"].Value, fishNode.Attributes["ID3"].Value);
+                        if (UploadFish(fish, rod, fishNode.Attributes["ID1"].Value, fishNode.Attributes["ID2"].Value, fishNode.Attributes["ID3"].Value))
+                        {
+                            updatedNodes.Add(fishNode, fishNode);
+                        }
                     }
                     else
                     {
                         foreach (XmlNode node in fishNode.SelectNodes("/Baits/Bait[@new]"))
                         {
-                            baits.Add(node.InnerText);
+                            baits.Add(node);
                         }
                         foreach (XmlNode node in fishNode.SelectNodes("/Zones/Zone[@new]"))
                         {
-                            zones.Add(node.InnerText);
+                            zones.Add(node);
                         }
                     }
                     if (baits.Count > 0 || zones.Count > 0)
                     {
-                        UploadBaitAndZone(fish, rod, fishNode.Attributes["ID1"].Value, fishNode.Attributes["ID2"].Value, fishNode.Attributes["ID3"].Value, baits, zones);
+                        UploadBaitAndZone(fish, rod, fishNode.Attributes["ID1"].Value, fishNode.Attributes["ID2"].Value, fishNode.Attributes["ID3"].Value, baits, zones, fishNode, ref updatedNodes);
                     }
-                    updateTimes[rod] = null;
-                    if (null != fishNode.Attributes["new"])
-                    {
-                        FishDB.UnsetNew(fishNode, fishNode);
-                    }
-                    foreach (XmlNode node in fishNode.SelectNodes("/Baits/Bait[@new]"))
-                    {
-                        FishDB.UnsetNew(fishNode, node);
-                    }
-                    foreach (XmlNode node in fishNode.SelectNodes("/Zones/Zone[@new]"))
-                    {
-                        FishDB.UnsetNew(fishNode, node);
-                    }
+                    updateTimes.Add(rod);
                 }
                 CloseConnection();
-                foreach (string rod in updateTimes.Keys)
+                foreach (XmlNode node in updatedNodes.Keys)
                 {
-                    FishDB.XmlUpdated(rod);
+                    FishDB.UnsetNew(updatedNodes[node], node);
                 }
                 if (updateTimes.Count > 0)
                 {
