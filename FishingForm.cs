@@ -3696,7 +3696,7 @@ namespace Fishing
                 else
                 {
                     Fishie selectedFish = (Fishie)selectedListBox.SelectedItem;
-                    if (FishDB.ChangeName(selectedFish, tbChangeName.Text))
+                    if (FishDB.ChangeName(selectedFish, tbChangeName.Text, false))
                     {
                         tbChangeName.Hide();
                         e.Handled = true;
