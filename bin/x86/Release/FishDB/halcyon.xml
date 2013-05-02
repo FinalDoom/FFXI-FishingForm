@@ -174,6 +174,7 @@
       <Zone>Bastok Markets</Zone>
       <Zone>Port San D'Oria</Zone>
       <Zone>Windurst Woods</Zone>
+      <Zone>Port Windurst</Zone>
       <Zone>Port Bastok</Zone>
       <Zone>Manaclipper</Zone>
       <Zone>Jugner Forest</Zone>
@@ -185,6 +186,7 @@
       <Bait>Worm Lure</Bait>
       <Bait>Fly Lure</Bait>
       <Bait>Shrimp Lure</Bait>
+      <Bait>Little Worm</Bait>
     </Baits>
   </Fish>
   <Fish name="Rusty Subligar" wanted="No" ID1="60" ID2="22" ID3="15" ID4="15">
@@ -328,11 +330,13 @@
     <Zones>
       <Zone>Manaclipper</Zone>
       <Zone>Bibiki Bay</Zone>
+      <Zone>Port Windurst</Zone>
     </Zones>
     <Baits>
       <Bait>Crayfish Ball</Bait>
       <Bait>Fly Lure</Bait>
       <Bait>Worm Lure</Bait>
+      <Bait>Little Worm</Bait>
     </Baits>
   </Fish>
   <Fish name="Pipira" wanted="No" ID1="300" ID2="11" ID3="8" ID4="7">
@@ -404,9 +408,11 @@
   <Fish name="1 Gil" wanted="No" ID1="60" ID2="22" ID3="15" ID4="15">
     <Zones>
       <Zone>Windurst Woods</Zone>
+      <Zone>Port Windurst</Zone>
     </Zones>
     <Baits>
       <Bait>Insect Ball</Bait>
+      <Bait>Little Worm</Bait>
     </Baits>
   </Fish>
   <Fish name="Greedie" wanted="No" ID1="300" ID2="10" ID3="9">
