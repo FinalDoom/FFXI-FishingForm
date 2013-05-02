@@ -155,6 +155,10 @@ Other
 Changes
 -------
 
+1.6.7.48
+--------
+- Fixes from 1.7 (non DB stuff) applied to 1.6
+
 1.7.0.6
 -------
 - Renames should be pushed to the DB
