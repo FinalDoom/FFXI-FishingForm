@@ -521,7 +521,7 @@
             this.btnStartM.Size = new System.Drawing.Size(22, 22);
             this.btnStartM.TabIndex = 2;
             this.btnStartM.UseVisualStyleBackColor = true;
-            this.btnStartM.Click += new System.EventHandler(this.btnStartM_Click);
+            this.btnStartM.Click += new System.EventHandler(this.btnStart_Click);
             // 
             // btnResize
             // 
