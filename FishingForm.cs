@@ -1445,9 +1445,10 @@ namespace Fishing
         /// <param name="quit">amount of time (in milliseconds)</param>
         private void WaitUntil(Status status, int quit)
         {
-            long endTicks = DateTime.Now.Ticks + quit;
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
 
-            while ((status != currentStatus) && (endTicks < DateTime.Now.Ticks))
+            while ((status != currentStatus) && (sw.ElapsedMilliseconds < quit))
             {
                 if (_FFACE.Player.Zone == currentZone)
                 {
@@ -1459,6 +1460,7 @@ namespace Fishing
                     break;
                 }
             }
+            sw.Stop();
 
         } // @ private void WaitUntil(Status status, int quit)
 
@@ -1553,16 +1555,15 @@ namespace Fishing
 
             if (IsRodBaitSet())
             {
-                PopulateLists();
-
                 while (_FFACE.Menu.IsOpen)
                 {
                     _FFACE.Windower.SendKeyPress(KeyCode.EscapeKey);
                     Thread.Sleep(200);
                 }
 
-				GearUp();
-				CheckEnchantment();
+                GearUp();
+                PopulateLists();
+                CheckEnchantment();
 
                 ts = new ThreadStart(BackgroundFishing);
                 workerThread = new Thread(ts);
@@ -1890,14 +1891,14 @@ namespace Fishing
         {
             if (InvokeRequired)
             {
-                Invoke(new VoidNoParamDelegate(PopulateLists));
+                 Invoke(new VoidNoParamDelegate(PopulateLists));
             }
             else
             {
                 lbWanted.Items.Clear();
                 lbUnwanted.Items.Clear();
 
-                if (_FFACE == null)
+                if (_FFACE == null || string.IsNullOrEmpty(LastRodName) || string.IsNullOrEmpty(LastBaitName))
                 {
                     return;
                 }
