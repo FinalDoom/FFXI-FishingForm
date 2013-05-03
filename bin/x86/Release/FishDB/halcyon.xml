@@ -179,6 +179,7 @@
       <Zone>Manaclipper</Zone>
       <Zone>Jugner Forest</Zone>
       <Zone>Port San d'Oria</Zone>
+      <Zone>Selbina</Zone>
     </Zones>
     <Baits>
       <Bait>Meatball</Bait>
@@ -187,6 +188,7 @@
       <Bait>Fly Lure</Bait>
       <Bait>Shrimp Lure</Bait>
       <Bait>Little Worm</Bait>
+      <Bait>Sabiki Rig</Bait>
     </Baits>
   </Fish>
   <Fish name="Rusty Subligar" wanted="No" ID1="60" ID2="22" ID3="15" ID4="15">
@@ -580,6 +582,67 @@
     </Zones>
     <Baits>
       <Bait>Worm Lure</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Istiridye" wanted="No" ID1="60" ID2="27" ID3="15">
+    <Zones />
+    <Baits>
+      <Bait>Robber Rig</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Bastore Sardine" wanted="No" ID1="140" ID2="21" ID3="13">
+    <Zones>
+      <Zone>Selbina</Zone>
+      <Zone>Port Windurst</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Sabiki Rig</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Bastore Sardine x2" wanted="No" ID1="140" ID2="21" ID3="14">
+    <Zones>
+      <Zone>Port Windurst</Zone>
+      <Zone>Selbina</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Sabiki Rig</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Bastore Sardine x3" wanted="No" ID1="160" ID2="21" ID3="15">
+    <Zones>
+      <Zone>Selbina</Zone>
+      <Zone>Port Windurst</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Sabiki Rig</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Quus" wanted="No" ID1="240" ID2="12" ID3="9">
+    <Zones />
+    <Baits>
+      <Bait>Sabiki Rig</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Quus" wanted="No" ID1="260" ID2="12" ID3="9">
+    <Zones>
+      <Zone>Port Windurst</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Sabiki Rig</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Quus x2" wanted="No" ID1="260" ID2="12" ID3="9">
+    <Zones />
+    <Baits>
+      <Bait>Sabiki Rig</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Quus x3" wanted="No" ID1="280" ID2="12" ID3="10">
+    <Zones>
+      <Zone>Selbina</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Sabiki Rig</Bait>
     </Baits>
   </Fish>
 </Rod>

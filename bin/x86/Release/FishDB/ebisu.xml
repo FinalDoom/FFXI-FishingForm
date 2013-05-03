@@ -1039,4 +1039,20 @@
       <Bait>Sardine Ball</Bait>
     </Baits>
   </Fish>
+  <Fish name="Mob (_1_)" wanted="No" ID1="300" ID2="17" ID3="10">
+    <Zones>
+      <Zone>Vunkerl Inlet [S]</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Little Worm</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Break line fish" wanted="No" ID1="300" ID2="46" ID3="7">
+    <Zones>
+      <Zone>Vunkerl Inlet [S]</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Dwarf Pugil</Bait>
+    </Baits>
+  </Fish>
 </Rod>
