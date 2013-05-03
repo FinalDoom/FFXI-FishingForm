@@ -869,6 +869,16 @@ namespace Fishing
                             break;
                         }
                     }
+                    int test;
+                    if (int.TryParse(fishNameParts[0], out test))
+                    {
+                        string multiple = string.Format("{0} x{1}", f.Key, test);
+                        if (Dictionaries.fishDictionary.Keys.Contains(multiple))
+                        {
+                            name = multiple;
+                            break;
+                        }
+                    }
                     if (found)
                     {
                         name = f.Key;
