@@ -71,7 +71,7 @@ Features
     - Shows total casts, time fishing, and catches per hour
     - Shows counts and percentages for catches, releases, and lost fish types
 - Improved information on the Info tab (inventory/satchel/sack, skill, gil, bait count)
-    - Skillups show next to skill level as they occur, including uncertainty
+    - Skillups show next to skill level as they occur, including uncertainty and total skillups
 - Kill fish manually by clicking progress bar during fight
 - Option to show fish HP and time left to reel in
 - Dialog turns red/comes into focus when it stops unexpectedly
@@ -154,6 +154,26 @@ Other
 -------
 Changes
 -------
+
+1.7.0.11
+--------
+- Fixed display issues for users with windows set to display larger fonts
+
+1.7.0.10
+--------
+- Skill level now displays total skillups as well as points into level
+
+1.7.0.9
+-------
+- Actually fixed fish renaming from the DB
+
+1.7.0.8
+-------
+- Fixed fish renaming from the DB
+
+1.7.0.7
+-------
+- Fixed fish naming
 
 1.6.7.48
 --------
