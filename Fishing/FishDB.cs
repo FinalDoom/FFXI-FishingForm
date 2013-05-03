@@ -40,6 +40,7 @@ namespace Fishing
         #region Members
 
         private const string dbFolder = "FishDB";
+        private const string dbMinVersion = "1.7.0.7";
         private static Dictionary<string, XmlDocument> DBByRod = new Dictionary<string, XmlDocument>();
         private static XmlDocument ChangeDB;
         private static XmlNode UpdateNode;
@@ -88,6 +89,24 @@ namespace Fishing
             return ChangeDB;
         }
 
+        internal static bool IsDBVersionAcceptable(string ver)
+        {
+            string[] verSplit = ver.Split(new char[1] { '.' });
+            string[] dbMin = dbMinVersion.Split(new char[1] { '.' });
+            for (int i = 0; i < verSplit.Length; ++i)
+            {
+                if (int.Parse(verSplit[i]) > int.Parse(dbMin[i]))
+                {
+                    return true;
+                }
+                else if (i == verSplit.Length - 1 && verSplit[i] == dbMin[i])
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         internal static XmlNode GetUpdatesNode()
         {
             if (null != UpdateNode)
@@ -101,6 +120,15 @@ namespace Fishing
                 updateNode = upDoc.DocumentElement.AppendChild(upDoc.CreateNode(XmlNodeType.Element, "Update", upDoc.NamespaceURI));
                 XmlAttribute hostAttr = updateNode.Attributes.Append(upDoc.CreateAttribute("host"));
                 hostAttr.Value = FishSQL.Connection.ConnectionString;
+                UpdatesDBChanged();
+            }
+            else if (updateNode.Attributes["dbver"] == null || !IsDBVersionAcceptable(updateNode.Attributes["dbver"].Value))
+            {
+                updateNode.RemoveAll();
+                XmlAttribute hostAttr = updateNode.Attributes.Append(upDoc.CreateAttribute("host"));
+                hostAttr.Value = FishSQL.Connection.ConnectionString;
+                XmlAttribute dbverAttr = updateNode.Attributes.Append(upDoc.CreateAttribute("dbver"));
+                dbverAttr.Value = dbMinVersion;
                 UpdatesDBChanged();
             }
             UpdateNode = updateNode;
