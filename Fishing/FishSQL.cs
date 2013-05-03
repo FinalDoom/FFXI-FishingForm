@@ -580,7 +580,13 @@ namespace Fishing
                     Dictionary<SQLFishie, string> renamedFish = DownloadRenamedFish(rod, FishDB.UpdatesByRod[rod].dbDate);
                     foreach (SQLFishie fish in renamedFish.Keys)
                     {
-                        FishDB.ChangeName(fish.ToFishDBFishie(), renamedFish[fish], true);
+                        try
+                        {
+                            FishDB.ChangeName(fish.ToFishDBFishie(), renamedFish[fish], true);
+                        }
+                        catch (Exception)
+                        {
+                        }
                     }
                     updateTimes[rod] = newest;
                 }
