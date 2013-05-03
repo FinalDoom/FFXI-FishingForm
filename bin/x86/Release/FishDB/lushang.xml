@@ -1659,4 +1659,26 @@
       <Bait>Sinking Minnow</Bait>
     </Baits>
   </Fish>
+  <Fish name="Mob (Pirate Pugil 3)" wanted="No" ID1="300" ID2="18" ID3="10">
+    <Zones>
+      <Zone>Ship bound for Selbina</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Slice of Bluetail</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Gurnard" wanted="No" ID1="280" ID2="14" ID3="7">
+    <Zones>
+      <Zone>Open sea route to Al Zahbi</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Crayfish Ball</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Black Eel (MMM Pond 2)" wanted="No" ID1="180" ID2="26" ID3="7">
+    <Zones />
+    <Baits>
+      <Bait>Worm Lure</Bait>
+    </Baits>
+  </Fish>
 </Rod>
