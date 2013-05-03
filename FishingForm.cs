@@ -26,6 +26,7 @@ namespace Fishing
         private static Random rnd = new Random();
         private static ThreadStart ts;
         private static Thread workerThread;
+        private static SizeF currentScaleFactor = new SizeF(1f, 1f);
 
 		private static int skillLast = 0;
 		private static int skillDecimalMin = 0;
@@ -202,7 +203,21 @@ namespace Fishing
 
         #region Methods
 
-		#region Methods_Initialization
+        #region Methods_Form_Overrides
+
+        protected override void ScaleControl(SizeF factor, BoundsSpecified specified)
+        {
+            base.ScaleControl(factor, specified);
+
+            //Record the running scale factor used
+            currentScaleFactor = new SizeF(
+               currentScaleFactor.Width * factor.Width,
+               currentScaleFactor.Height * factor.Height);
+        }
+
+        #endregion //Methods_Form_Overrides
+
+        #region Methods_Initialization
 
         private void RestoreLocation()
         {
@@ -2235,6 +2250,16 @@ namespace Fishing
 
         #region Methods_Advanced
 
+        private int ScaleWidth(int width)
+        {
+            return (int)(width * currentScaleFactor.Width);
+        }
+
+        private int ScaleHeight(int height)
+        {
+            return (int)(height * currentScaleFactor.Height);
+        }
+
         private void doFlashWindow()
         {
             FlashWindow.Flash(this);
@@ -2412,12 +2437,12 @@ namespace Fishing
                 btnRefreshLists.Visible = false;
                 cbCatchUnknown.Visible = false;
                 tabDisplay.Location = new Point(0, 0);
-                tabDisplay.Width = formWidth - 15;
+                tabDisplay.Width = formWidth - ScaleWidth(15);
 
-                tbChat.Width = formWidth - 109;
+                tbChat.Width = formWidth - ScaleWidth(109);
                 btnStartM.Visible = true;
-                btnStartM.Location = new Point((formWidth - 66), -1);
-                btnChatSend.Location = new Point((formWidth - 109), -1);
+                btnStartM.Location = new Point((formWidth - ScaleWidth(66)), -1);
+                btnChatSend.Location = new Point((formWidth - ScaleWidth(109)), -1);
             }
             else
             {
@@ -2427,13 +2452,12 @@ namespace Fishing
                 btnStart.Visible = true;
                 btnRefreshLists.Visible = true;
                 cbCatchUnknown.Visible = true;
-                tabDisplay.Location = new Point(145, 0);
-                tabDisplay.Width = formWidth - 160;
-
-                tbChat.Width = formWidth - 233;
+                // These have to be adjusted based on font scaling
+                tabDisplay.Location = new Point(ScaleWidth(145), 0);
+                tabDisplay.Width = formWidth - ScaleWidth(160);
+                tbChat.Width = formWidth - ScaleWidth(233);
                 btnStartM.Visible = false;
-                //btnStartM.Location = new Point(289, -1);
-                btnChatSend.Location = new Point((formWidth - 233), -1);
+                btnChatSend.Location = new Point((formWidth - ScaleWidth(233)), -1);
             }
 
         }
@@ -2975,9 +2999,9 @@ namespace Fishing
             "Stop Fishing",
             "Note On Tab",
             "Flash Window"});
-                cmbChatAction.Location = new System.Drawing.Point(136, 2 + offset + panelChatDetect.AutoScrollPosition.Y);
+                cmbChatAction.Location = new System.Drawing.Point(ScaleWidth(136), ScaleHeight(2 + offset + panelChatDetect.AutoScrollPosition.Y));
                 cmbChatAction.Name = "cmbChatAction";
-                cmbChatAction.Size = new System.Drawing.Size(83, 20);
+                cmbChatAction.Size = new System.Drawing.Size(ScaleWidth(83), ScaleHeight(20));
                 cmbChatAction.TabIndex = 3 + taboffset;
                 cmbChatAction.SelectedIndexChanged += new System.EventHandler(this.cmbChatDetection_SelectedIndexChanged);
                 chatDetectCmbChatActionList.Add(cmbChatAction);
@@ -2994,9 +3018,9 @@ namespace Fishing
             "Party",
             "Linkshell",
             "Say"});
-                cmbChatType.Location = new System.Drawing.Point(23, 2 + offset + panelChatDetect.AutoScrollPosition.Y);
+                cmbChatType.Location = new System.Drawing.Point(ScaleWidth(23), ScaleHeight(2 + offset + panelChatDetect.AutoScrollPosition.Y));
                 cmbChatType.Name = "cmbChatType";
-                cmbChatType.Size = new System.Drawing.Size(61, 20);
+                cmbChatType.Size = new System.Drawing.Size(ScaleWidth(61), ScaleHeight(20));
                 cmbChatType.TabIndex = 1 + taboffset;
                 cmbChatType.SelectedIndexChanged += new System.EventHandler(this.cmbChatDetection_SelectedIndexChanged);
                 chatDetectCmbChatTypeList.Add(cmbChatType);
@@ -3005,9 +3029,9 @@ namespace Fishing
                 // 
                 Label lblChatOn = new Label();
                 lblChatOn.AutoSize = true;
-                lblChatOn.Location = new System.Drawing.Point(2, 5 + offset + panelChatDetect.AutoScrollPosition.Y);
+                lblChatOn.Location = new System.Drawing.Point(ScaleWidth(2), ScaleHeight(5 + offset + panelChatDetect.AutoScrollPosition.Y));
                 lblChatOn.Name = "lblChatOn";
-                lblChatOn.Size = new System.Drawing.Size(21, 13);
+                lblChatOn.Size = new System.Drawing.Size(ScaleWidth(21), ScaleHeight(13));
                 lblChatOn.TabIndex = 0 + taboffset;
                 lblChatOn.Text = "On";
                 chatDetectLblOnList.Add(lblChatOn);
@@ -3015,9 +3039,9 @@ namespace Fishing
                 // btnRemoveChatDetect
                 // 
                 Button btnRemoveChatDetect = new Button();
-                btnRemoveChatDetect.Location = new System.Drawing.Point(220, 0 + offset + panelChatDetect.AutoScrollPosition.Y);
+                btnRemoveChatDetect.Location = new System.Drawing.Point(ScaleWidth(220), ScaleHeight(offset + panelChatDetect.AutoScrollPosition.Y));
                 btnRemoveChatDetect.Name = "btnRemoveChatDetect";
-                btnRemoveChatDetect.Size = new System.Drawing.Size(23, 23);
+                btnRemoveChatDetect.Size = new System.Drawing.Size(ScaleWidth(23), ScaleHeight(23));
                 btnRemoveChatDetect.TabIndex = 4 + taboffset;
                 btnRemoveChatDetect.Text = "-";
                 btnRemoveChatDetect.UseVisualStyleBackColor = true;
@@ -3028,16 +3052,16 @@ namespace Fishing
                 // 
                 Label lblChatReceived = new Label();
                 lblChatReceived.AutoSize = true;
-                lblChatReceived.Location = new System.Drawing.Point(84, 5 + offset + panelChatDetect.AutoScrollPosition.Y);
+                lblChatReceived.Location = new System.Drawing.Point(ScaleWidth(84), ScaleHeight(5 + offset + panelChatDetect.AutoScrollPosition.Y));
                 lblChatReceived.Name = "lblChatReceived";
-                lblChatReceived.Size = new System.Drawing.Size(54, 13);
+                lblChatReceived.Size = new System.Drawing.Size(ScaleWidth(54), ScaleHeight(13));
                 lblChatReceived.TabIndex = 2 + taboffset;
                 lblChatReceived.Text = "Received,";
                 chatDetectLblReceivedList.Add(lblChatReceived);
 
                 panelChatDetect.SuspendLayout();
                 // Move Add button down
-                btnChatDetectAdd.Location = new System.Drawing.Point(btnChatDetectAdd.Location.X, btnChatDetectAdd.Location.Y + 23);
+                btnChatDetectAdd.Location = new System.Drawing.Point(btnChatDetectAdd.Location.X, ScaleHeight(23 + offset + panelChatDetect.AutoScrollPosition.Y));
                 btnChatDetectAdd.TabIndex = 5 + taboffset;
 
                 panelChatDetect.Controls.Add(cmbChatAction);
@@ -3055,13 +3079,13 @@ namespace Fishing
                 panelChatDetect.SuspendLayout();
                 for (int i = index + 1; i < chatDetectBtnChatRemoveList.Count; ++i)
                 {
-                    chatDetectLblOnList[i].Location = new System.Drawing.Point(chatDetectLblOnList[i].Location.X, chatDetectLblOnList[i].Location.Y - 23);
-                    chatDetectCmbChatTypeList[i].Location = new System.Drawing.Point(chatDetectCmbChatTypeList[i].Location.X, chatDetectCmbChatTypeList[i].Location.Y - 23);
-                    chatDetectLblReceivedList[i].Location = new System.Drawing.Point(chatDetectLblReceivedList[i].Location.X, chatDetectLblReceivedList[i].Location.Y - 23);
-                    chatDetectCmbChatActionList[i].Location = new System.Drawing.Point(chatDetectCmbChatActionList[i].Location.X, chatDetectCmbChatActionList[i].Location.Y - 23);
-                    chatDetectBtnChatRemoveList[i].Location = new System.Drawing.Point(chatDetectBtnChatRemoveList[i].Location.X, chatDetectBtnChatRemoveList[i].Location.Y - 23);
+                    chatDetectLblOnList[i].Location = new System.Drawing.Point(chatDetectLblOnList[i].Location.X, chatDetectLblOnList[i].Location.Y - ScaleHeight(23));
+                    chatDetectCmbChatTypeList[i].Location = new System.Drawing.Point(chatDetectCmbChatTypeList[i].Location.X, chatDetectCmbChatTypeList[i].Location.Y - ScaleHeight(23));
+                    chatDetectLblReceivedList[i].Location = new System.Drawing.Point(chatDetectLblReceivedList[i].Location.X, chatDetectLblReceivedList[i].Location.Y - ScaleHeight(23));
+                    chatDetectCmbChatActionList[i].Location = new System.Drawing.Point(chatDetectCmbChatActionList[i].Location.X, chatDetectCmbChatActionList[i].Location.Y - ScaleHeight(23));
+                    chatDetectBtnChatRemoveList[i].Location = new System.Drawing.Point(chatDetectBtnChatRemoveList[i].Location.X, chatDetectBtnChatRemoveList[i].Location.Y - ScaleHeight(23));
                 }
-                btnChatDetectAdd.Location = new System.Drawing.Point(btnChatDetectAdd.Location.X, btnChatDetectAdd.Location.Y - 23);
+                btnChatDetectAdd.Location = new System.Drawing.Point(btnChatDetectAdd.Location.X, btnChatDetectAdd.Location.Y - ScaleHeight(23));
 
                 panelChatDetect.Controls.Remove(chatDetectLblOnList[index]);
                 panelChatDetect.Controls.Remove(chatDetectCmbChatTypeList[index]);
