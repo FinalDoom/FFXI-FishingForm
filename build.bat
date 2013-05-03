@@ -91,6 +91,7 @@ COPY *.cd deploy\source
 COPY *.bat deploy\source
 COPY *.log deploy\source
 COPY *.config deploy\source
+COPY *.mwb deploy\source
 COPY bin\x86\Release\*.exe deploy
 COPY bin\x86\Release\*.dll deploy
 COPY bin\x86\Release\FishDB\* deploy\FishDB
