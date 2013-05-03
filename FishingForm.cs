@@ -31,6 +31,7 @@ namespace Fishing
 		private static int skillLast = 0;
 		private static int skillDecimalMin = 0;
 		private static int skillDecimalMax = 0;
+        private static int skillDecimalTotal = 0;
 		private static int skillLevel = 0;
         private static int consecutiveNoCatchCount = 0;
         private static int consecutiveCatchCount = 0;
@@ -2093,6 +2094,7 @@ namespace Fishing
 							{
 								skillDecimalMin += skillLast;
 								skillDecimalMax += skillLast;
+                                skillDecimalTotal += skillLast;
 							}
 							else
 							{
@@ -2366,6 +2368,19 @@ namespace Fishing
 				}
 				skillS += ")";
 			}
+            if (_FFACE != null && skillDecimalTotal > 0)
+            {
+                skillS += " [";
+                if (skillDecimalTotal > 9)
+                {
+                    skillS += (skillDecimalTotal / 10).ToString();
+                }
+                else
+                {
+                    skillS += "0";
+                }
+                skillS += string.Format(".{0} total skillups]", skillDecimalTotal % 10);
+            }
             lblSkill.Text = skillS;
 
             if (_FFACE == null)
