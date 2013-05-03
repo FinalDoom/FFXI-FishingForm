@@ -5,7 +5,6 @@ namespace Fishing
     internal class Dictionaries
     {
         #region FishDictionary
-        // TODO This list is outdated. It's also not really useful, so it's been removed from use
         public static Dictionary<string, int> fishDictionary = new Dictionary<string, int>()
         {
             // ITEMS & QUEST & 0 SKILL
@@ -32,10 +31,14 @@ namespace Fishing
             {"Rusty Subligar", 14242},
             {"Silver Ring", 13456},
             // FISH
+            // A
             {"Abaia", 5476},
             {"Ahtapot", 5455},
             {"Alabaligi", 5461},
             {"Armored Picses", 4316},
+            {"Aurora Bass", 5818},
+            // B
+            {"Barnacle", 5954},
             {"Bastore Bream", 4461},
             {"Bastore Sardine", 4360},
             {"Bastore Sardine x2", 4360},
@@ -43,17 +46,22 @@ namespace Fishing
             {"Bastore Sweeper", 5473},
             {"Betta", 5139},
             {"Bhefhel Marlin", 4479},
+            {"Bibiki Slug", 5122},
             {"Bibiki Urchin", 4318},
             {"Bibikibo", 4314},
+            {"Black Bubble-Eye", 4311},
             {"Black Eel", 4429},
             {"Black Ghost", 5138},
             {"Black Sole", 4384},
             {"Bladefish", 4471},
             {"Blindfish", 4313},
+            {"Blowfish", 5812},
             {"Bluetail", 4399},
             {"Brass Loach", 5469},
+            // C
             {"Ca Cuong", 5474},
             {"Caedarva Frog", 5465},
+            {"Calico Comet", 5715},
             {"Cave Cherax", 4309},
             {"Cheval Salmon", 4379},
             {"Cobalt Jellyfish", 4443},
@@ -64,15 +72,21 @@ namespace Fishing
             {"Coral Butterfly", 4580},
             {"Crayfish", 4472},
             {"Crescent Fish", 4473},
+            {"Crocodilos", 5814},
             {"Crystal Bass", 4528},
+            // D
             {"Dark Bass", 4428},
             {"Denizanasi", 5447},
             {"Dil", 5457},
+            {"Dorado Gar", 5813},
+            // E
             {"Elshimo Frog", 4290},
             {"Elshimo Newt", 4579},
             {"Emperor Fish", 4454},
+            // F
             {"Fat Greedie", 4501},
             {"Forest Carp", 4289},
+            // G
             {"Garpike", 5472},
             {"Gavial Fish", 4477},
             {"Gerrothorax", 5471},
@@ -88,17 +102,22 @@ namespace Fishing
             {"Gugru Tuna", 4480},
             {"Gugrusaurus", 5127},
             {"Gurnard", 5132},
+            // H
             {"Hakuryu", 5539},
             {"Hamsi", 5449},
             {"Hamsi x2", 5449},
             {"Hamsi x3", 5449},
+            // I
             {"Icefish", 4470},
             {"Icefish x2", 4470},
             {"Icefish x3", 4470},
             {"Istakoz", 5453},
             {"Istavrit", 5136},
             {"Istiridye", 5456},
+            // J
+            {"Jacknife", 5123},
             {"Jungle Catfish", 4307},
+            // K
             {"Kalamar", 5448},
             {"Kalamar x2", 5448},
             {"Kalamar x3", 5448},
@@ -106,9 +125,16 @@ namespace Fishing
             {"Kaplumbaga", 5464},
             {"Kayabaligi", 5460},
             {"Kilicbaligi", 5451},
+            {"King Perch", 5816},
+            {"Kokuryu", 5540},
+            // L
             {"Lakerda", 5450},
+            // Lamp Merimo in items
+            // Land Crab Meat can't be fished up
             {"Lik", 5129},
+            {"Lionhead", 4312},
             {"Lungfish", 4315},
+            // M
             {"Matsya", 5468},
             {"Megalodon", 5467},
             {"Mercanbaligi", 5454},
@@ -118,33 +144,47 @@ namespace Fishing
             {"Moorish Idol", 5121},
             {"Morinabaligi", 5462},
             {"Muddy Siredon", 5126},
+            {"Mussel", 5949},
+            // N
             {"Nebimonite", 4361},
             {"Noble Lady", 4485},
             {"Nosteau Herring", 4482},
+            // O
             {"Ogre Eel", 4481},
+            // P
+            // Pamtam Kelp in items
+            {"Pearlscale", 5714},
+            {"Pelazoea", 5815},
             {"Phanauet Newt", 5125},
             {"Pipira", 4464},
             {"Pirarucu", 5470},
             {"Pterygotus", 5133},
+            // Q
             {"Quus", 4514},
             {"Quus x2", 4514},
             {"Quus x3", 4514},
+            // R
             {"Red Bubble-Eye", 5446},
             {"Red Terrapin", 4402},
             {"Rhinochimera", 5135},
             {"Ryugu Titan", 4305},
+            // S
             {"Sandfish", 4291},
             {"Sandfish x2", 4291},
             {"Sandfish x3", 4291},
             {"Sazanbaligi", 5459},
             {"Sea Zombie", 4475},
             {"Shall Shell", 4484},
+            {"Shen", 5997},
             {"Shining Trout", 4354},
             {"Silver Shark", 4451},
+            {"Soryu", 5537},
+            // T
             {"Takitaro", 4463},
             {"Tavnazian Goby", 5130},
             {"Three-Eyed Fish", 4478},
             {"Tiger Cod", 4483},
+            {"Tiger Shark", 5817},
             {"Tiny Goldfish", 4310},
             {"Tiny Goldfish x2", 4310},
             {"Tiny Goldfish x3", 4310},
@@ -155,14 +195,19 @@ namespace Fishing
             {"Trilobite", 4317},
             {"Trumpet Shell", 5466},
             {"Turnabaligi", 5137},
+            // Tropical Clam can't be fished up
+            // U
             {"Uskumru", 5452},
+            // V
             {"Veydal Wrasse", 5141},
             {"Vongola Clam", 5131},
+            // Y
             {"Yayinbaligi", 5463},
             {"Yellow Globe", 4403},
             {"Yellow Globe x2", 4403},
             {"Yellow Globe x3", 4403},
             {"Yilanbaligi", 5458},
+            // Z
             {"Zafmlug Bass", 4385},
             {"Zebra Eel", 4288}
         };

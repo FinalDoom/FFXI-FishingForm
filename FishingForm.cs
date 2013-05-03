@@ -848,7 +848,7 @@ namespace Fishing
 			WaitUntil(Status.Standing);
 		}
         
-        private string GetFishName(string fish)
+        public string GetFishName(string fish)
         {
             string name = fish;
             // Get a better name for the fish
@@ -857,14 +857,15 @@ namespace Fishing
                 if (-1 < fish.IndexOf(f.Key, StringComparison.OrdinalIgnoreCase))
                 {
                     // Remove punctuation and articles, but don't change fish name if it's only a partial match of one of the words
+                    // At least one of the words must match
                     List<string> fishNameParts = new List<string>((fish.Split(new char[3] { ' ', '.', '!'})).AsEnumerable());
                     List<string> fishKeyParts = new List<string>((f.Key.Split(new char[1] { ' ' })).AsEnumerable());
-                    bool found = true;
+                    bool found = false;
                     foreach (string p in fishKeyParts)
                     {
-                        if (!fishNameParts.Contains(p))
+                        if (fishNameParts.Contains(p, StringComparer.OrdinalIgnoreCase))
                         {
-                            found = false;
+                            found = true;
                             break;
                         }
                     }
