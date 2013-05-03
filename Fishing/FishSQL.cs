@@ -124,6 +124,11 @@ namespace Fishing
             }
         }
 
+        public static void CloseAllConnections()
+        {
+            MySqlConnection.ClearAllPools();
+        }
+
         public static DateTime NewestDBModificationTime(string rod)
         {
             return NewestDBModificationTime(Dictionaries.rodDictionary[rod]);

@@ -197,8 +197,7 @@ namespace Fishing
             _FFACE = null;
             _Player = null;
             FishSQL.CloseConnection();
-
-
+            FishSQL.CloseAllConnections();
         }
         #endregion //Constructor/Destructor
 
