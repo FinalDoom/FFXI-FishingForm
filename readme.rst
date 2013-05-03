@@ -155,6 +155,10 @@ Other
 Changes
 -------
 
+1.7.0.12
+--------
+- Hopefully fixes inactive connections being left open
+
 1.7.0.11
 --------
 - Skill level now displays total skillups as well as points into level

@@ -35,6 +35,7 @@ namespace Fishing
         ~FishingDBSyncForm()
         {
             FishSQL.CloseConnection();
+            FishSQL.CloseAllConnections();
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
