@@ -157,11 +157,11 @@ Changes
 
 1.7.0.11
 --------
-- Fixed display issues for users with windows set to display larger fonts
+- Skill level now displays total skillups as well as points into level
 
 1.7.0.10
 --------
-- Skill level now displays total skillups as well as points into level
+- Fixed display issues for users with windows set to display larger fonts
 
 1.7.0.9
 -------
