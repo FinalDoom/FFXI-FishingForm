@@ -909,14 +909,19 @@ namespace Fishing
         private void DoFishFighting(bool isNewFish, string ID1, string ID2, string ID3)
         {
             FishResult fishFightResult = FightFish();
-            currentFish = GetFishName(currentFish);
 
-            if ((isNewFish) && ("Unknown" != currentFish))
+            RegisterFish(isNewFish, ID1, ID2, ID3);
+
+            LogResult(fishFightResult);
+        } // @ private void DoFishFighting(bool isNewFish, string ID1, string ID2, string ID3)
+
+        private void RegisterFish(bool isNewFish, string ID1, string ID2, string ID3)
+        {
+            currentFish = GetFishName(currentFish);
+            if (isNewFish && "Unknown" != currentFish)
             {
                 FishDB.AddNewFish(ref currentFish, lblZone.Text, LastBaitName, LastRodName, ID1, ID2, ID3, false, false);
             }
-
-            LogResult(fishFightResult);
         }
 
         private void Fish()
@@ -1053,6 +1058,7 @@ namespace Fishing
                     string ID1 = currentID.ID1.ToString();
                     string ID2 = currentID.ID2.ToString();
                     string ID3 = currentID.ID3.ToString();
+                    bool fishAccepted = FishDB.FishAccepted(out currentFish, out isNewFish, cbCatchUnknown.Checked, LastRodName, lblZone.Text, LastBaitName, ID1, ID2, ID3);
 
                     SetNoCatch(consecutiveNoCatchCount = 0);
 
@@ -1066,12 +1072,13 @@ namespace Fishing
                             {
                                 if (cbIgnoreSmallFish.Checked)
                                 {
+                                    RegisterFish(fishAccepted, ID1, ID2, ID3);
                                     currentFish = "Ignored Small Fish";
                                     LogResult(Release());
                                 }
                                 else
                                 {
-                                    if (FishDB.FishAccepted(out currentFish, out isNewFish, cbCatchUnknown.Checked, LastRodName, lblZone.Text, LastBaitName, ID1, ID2, ID3))
+                                    if (fishAccepted)
                                     {
                                         DoFishFighting(isNewFish, ID1, ID2, ID3);
                                     }
@@ -1094,12 +1101,13 @@ namespace Fishing
                             {
                                 if (cbIgnoreLargeFish.Checked)
                                 {
+                                    RegisterFish(fishAccepted, ID1, ID2, ID3);
                                     currentFish = "Ignored Large Fish";
                                     LogResult(Release());
                                 }
                                 else
                                 {
-                                    if (FishDB.FishAccepted(out currentFish, out isNewFish, cbCatchUnknown.Checked, LastRodName, lblZone.Text, LastBaitName, ID1, ID2, ID3))
+                                    if (fishAccepted)
                                     {
                                         DoFishFighting(isNewFish, ID1, ID2, ID3);
                                     }
@@ -1122,12 +1130,13 @@ namespace Fishing
                             {
                                 if (cbIgnoreMonster.Checked)
                                 {
+                                    RegisterFish(fishAccepted, ID1, ID2, ID3);
                                     currentFish = "Ignored Monster";
                                     LogResult(Release());
                                 }
                                 else
                                 {
-                                    if (FishDB.FishAccepted(out currentFish, out isNewFish, cbCatchUnknown.Checked, LastRodName, lblZone.Text, LastBaitName, ID1, ID2, ID3))
+                                    if (fishAccepted)
                                     {
                                         DoFishFighting(isNewFish, ID1, ID2, ID3);
                                     }
@@ -1143,12 +1152,13 @@ namespace Fishing
                             {
                                 if (cbIgnoreItem.Checked)
                                 {
+                                    RegisterFish(fishAccepted, ID1, ID2, ID3);
                                     currentFish = "Ignored Item";
                                     LogResult(Release());
                                 }
                                 else
                                 {
-                                    if (FishDB.FishAccepted(out currentFish, out isNewFish, cbCatchUnknown.Checked, LastRodName, lblZone.Text, LastBaitName, ID1, ID2, ID3))
+                                    if (fishAccepted)
                                     {
                                         DoFishFighting(isNewFish, ID1, ID2, ID3);
                                     }

@@ -94,23 +94,18 @@ If bait and rod are specified in the gear options page, no bait or rod need be e
 you must equip appropriate bait and rod before clicking start. The lists under the start button
 will be populated with fish that have been found in your area, with your bait and rod. As new fish
 are encountered, they will be added to the list. However, unless the "unknowns?" checkbox is checked,
-fish not in the "wanted" list will be released.
+fish not in the "wanted" list will be released. Items and monsters will also be released according to
+options set in Options>Fight.
 
 Fish may be moved between the "wanted" and "unwanted" lists by double clicking the fish name. They
 may also be renamed by right clicking and selecting rename. Monsters are given sequential names, eg.
-*Monster 42*, so you may want to rename them appropriately. 
-
-You may find that your list has no fish, monsters, or items defined in it, yet the program keeps
-releasing fish. In this case, it is detecting the fish on the line as one that has been detected
-in another zone/rod/bait combination and marked as "unwanted," but not adding it to the list.
-This is a known issue. For now, to have the list populate as it should, disable the *ignore
-monsters* and *ignore items* options.
+*Monster (_42_)*, so please rename them appropriately.
 
 As you fish, the stats and info tabs will be updated to reflect fishing history and ingame
 status. The stats can be cleared by right clicking and selecting *clear stats*. The wait time
 between casts will be updated as fishing fatigue sets in, and fishing will stop after fatigue
-is detected. It can also be set to stop after a number of catches or skillups, and will stop
-when your inventory is full. Several options exist to handle what to do after these stops.
+is detected. It can also be set to stop after a number of catches or skillups, and will stop when
+your inventory is full by default. Several options exist to handle what to do after these stops.
 
 -------
 Options
@@ -154,6 +149,10 @@ Other
 -------
 Changes
 -------
+
+1.7.0.14
+--------
+- Lists should still populate even with all ignores on, if the IDs are known
 
 1.7.0.13
 --------
