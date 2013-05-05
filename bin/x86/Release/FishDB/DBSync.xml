@@ -1,18 +1,18 @@
 <Updates>
   <Update host="server=instance44985.db.xeround.com;port=6382;database=FishDB;User Id=FishClient" dbver="1.7.0.7">
     <Rod name="Ebisu Fishing Rod" db="5/3/2013 3:59:57 AM" xml="5/3/2013 5:59:14 AM" />
-    <Rod name="Lu Shang's F. Rod" db="5/3/2013 6:03:56 AM" xml="5/3/2013 5:59:14 AM" />
+    <Rod name="Lu Shang's F. Rod" db="5/5/2013 12:24:18 AM" xml="5/3/2013 5:59:14 AM" />
     <Rod name="Bamboo Fish. Rod" db="1/1/1970 12:00:01 AM" xml="5/3/2013 5:59:14 AM" />
     <Rod name="Carbon Fish. Rod" db="5/2/2013 9:07:04 AM" xml="5/3/2013 5:59:14 AM" />
     <Rod name="Clothespole" db="5/2/2013 9:07:05 AM" xml="5/3/2013 5:59:14 AM" />
-    <Rod name="Comp. Fishing Rod" db="5/2/2013 9:07:35 AM" xml="5/3/2013 5:59:14 AM" />
-    <Rod name="Fastwater F. Rod" db="1/1/1970 12:00:01 AM" xml="5/3/2013 5:59:14 AM" />
+    <Rod name="Comp. Fishing Rod" db="5/3/2013 11:33:09 PM" xml="5/3/2013 5:59:14 AM" />
+    <Rod name="Fastwater F. Rod" db="5/3/2013 7:02:48 PM" xml="5/3/2013 5:59:14 AM" />
     <Rod name="Glass Fiber F. Rod" db="1/1/1970 12:00:01 AM" xml="5/3/2013 5:59:14 AM" />
-    <Rod name="Halcyon Rod" db="5/3/2013 5:56:33 AM" xml="5/3/2013 5:59:14 AM" />
-    <Rod name="Hume Fishing Rod" db="5/3/2013 6:33:45 AM" xml="5/3/2013 5:59:14 AM" />
-    <Rod name="Mithran Fish. Rod" db="5/2/2013 9:08:06 AM" xml="5/3/2013 5:59:14 AM" />
+    <Rod name="Halcyon Rod" db="5/4/2013 9:46:16 PM" xml="5/3/2013 5:59:14 AM" />
+    <Rod name="Hume Fishing Rod" db="5/4/2013 9:52:46 PM" xml="5/3/2013 5:59:14 AM" />
+    <Rod name="Mithran Fish. Rod" db="5/3/2013 10:03:08 AM" xml="5/3/2013 5:59:14 AM" />
     <Rod name="S.H. Fishing Rod" db="1/1/1970 12:00:01 AM" xml="5/3/2013 5:59:14 AM" />
-    <Rod name="Tarutaru F. Rod" db="5/3/2013 5:52:27 AM" xml="5/3/2013 5:59:14 AM" />
+    <Rod name="Tarutaru F. Rod" db="5/3/2013 10:21:06 AM" xml="5/3/2013 5:59:14 AM" />
     <Rod name="Willow Fish. Rod" db="1/1/1970 12:00:01 AM" xml="5/3/2013 5:59:14 AM" />
     <Rod name="Yew Fishing Rod" db="1/1/1970 12:00:01 AM" xml="5/3/2013 5:59:14 AM" />
     <Rod name="MMM Fishing Rod" db="5/2/2013 9:08:07 AM" xml="5/3/2013 5:59:14 AM" />

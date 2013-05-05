@@ -155,6 +155,11 @@ Other
 Changes
 -------
 
+1.7.0.13
+--------
+- Fixed the bell when using ctrl+r etc. in chat bar
+- Fixed equipping correct gear from settings (overrides currently equipped gear)
+
 1.7.0.12
 --------
 - Hopefully fixes inactive connections being left open

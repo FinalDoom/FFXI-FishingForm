@@ -71,4 +71,20 @@
       <Bait>Little Worm</Bait>
     </Baits>
   </Fish>
+  <Fish name="Tricolored Carp" wanted="No" ID1="260" ID2="23" ID3="14">
+    <Zones>
+      <Zone>Port San d'Oria</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Insect Ball</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Gold Carp" wanted="No" ID1="300" ID2="22" ID3="12">
+    <Zones>
+      <Zone>Port San d'Oria</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Insect Ball</Bait>
+    </Baits>
+  </Fish>
 </Rod>
