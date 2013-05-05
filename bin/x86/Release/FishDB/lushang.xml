@@ -1756,9 +1756,41 @@
     </Baits>
   </Fish>
   <Fish name="Mob (_1_)" wanted="No" ID1="300" ID2="17" ID3="11">
+    <Zones>
+      <Zone>Jugner Forest</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Fly Lure</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Mob (Cyclopean Conch)" wanted="No" ID1="240" ID2="41" ID3="15">
+    <Zones>
+      <Zone>Manaclipper</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Shrimp Lure</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Mob (Ghost Crab)" wanted="No" ID1="300" ID2="17" ID3="15">
+    <Zones>
+      <Zone>Bibiki Bay</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Shrimp Lure</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Mob (_2_)" wanted="No" ID1="300" ID2="18" ID3="10">
     <Zones />
     <Baits>
       <Bait>Fly Lure</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Mob (Apsaras)" wanted="No" ID1="300" ID2="18" ID3="10">
+    <Zones>
+      <Zone>Bibiki Bay</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Shrimp Lure</Bait>
     </Baits>
   </Fish>
 </Rod>
