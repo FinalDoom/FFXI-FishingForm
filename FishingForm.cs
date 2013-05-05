@@ -1871,6 +1871,7 @@ namespace Fishing
 
         delegate decimal DecimalNoParamDelegate();
         delegate int IntNoParamDelegate();
+        delegate string StringNoParamDelegate();
         delegate bool BoolNoParamDelegate();
         delegate void VoidNoParamDelegate();
         delegate void VoidBoolDelegate(bool param);
@@ -1881,7 +1882,9 @@ namespace Fishing
         private void ClearLists()
         {
             if (InvokeRequired)
+            {
                 Invoke(new VoidNoParamDelegate(ClearLists));
+            }
             else
             {
                 lbWanted.Items.Clear();
@@ -1893,7 +1896,9 @@ namespace Fishing
         private decimal GetFakeLargeHigh()
         {
             if (InvokeRequired)
+            {
                 return (decimal)Invoke(new DecimalNoParamDelegate(GetFakeLargeHigh), null);
+            }
             else
             {
                 return this.numFakeLargeIntervalHigh.Value;
@@ -1904,10 +1909,12 @@ namespace Fishing
         private decimal GetFakeLargeLow()
         {
             if (InvokeRequired)
+            {
                 return (decimal)Invoke(new DecimalNoParamDelegate(GetFakeLargeLow), null);
+            }
             else
             {
-                return this.numFakeLargeIntervalLow.Value;
+                return numFakeLargeIntervalLow.Value;
             }
 
         } // @ private decimal GetFakeLargeLow()
@@ -1915,10 +1922,12 @@ namespace Fishing
         private decimal GetFakeSmallHigh()
         {
             if (InvokeRequired)
+            {
                 return (decimal)Invoke(new DecimalNoParamDelegate(GetFakeSmallHigh), null);
+            }
             else
             {
-                return this.numFakeSmallIntervalHigh.Value;
+                return numFakeSmallIntervalHigh.Value;
             }
 
         } // @ private decimal GetFakeSmallHigh()
@@ -1926,10 +1935,12 @@ namespace Fishing
         private decimal GetFakeSmallLow()
         {
             if (InvokeRequired)
+            {
                 return (decimal)Invoke(new DecimalNoParamDelegate(GetFakeSmallLow), null);
+            }
             else
             {
-                return this.numFakeSmallIntervalLow.Value;
+                return numFakeSmallIntervalLow.Value;
             }
 
         } // @ private decimal GetFakeSmallLow()
@@ -1937,7 +1948,9 @@ namespace Fishing
         private void IncreaseCastTime()
         {
             if (InvokeRequired)
+            {
                 Invoke(new VoidNoParamDelegate(IncreaseCastTime));
+            }
             else
             {
                 numCastIntervalHigh.Value += 1;
@@ -1978,7 +1991,9 @@ namespace Fishing
         private void SetBait(string bait)
         {
             if (InvokeRequired)
+            {
                 Invoke(new VoidStrDelegate(SetBait), bait);
+            }
             else
             {
                 LastBaitName = bait;
@@ -1986,10 +2001,36 @@ namespace Fishing
 
         } // @ private void SetBait(string bait)
 
+        private string GetBait()
+        {
+            if (InvokeRequired)
+            {
+                return (string)Invoke(new StringNoParamDelegate(GetBait));
+            }
+            else
+            {
+                return LastBaitName;
+            }
+        } // @ private void GetBait()
+
+        private string GetOptionsBate()
+        {
+            if (InvokeRequired)
+            {
+                return (string)Invoke(new StringNoParamDelegate(GetOptionsBate));
+            }
+            else
+            {
+                return tbBaitGear.Text;
+            }
+        } // @ private void GetOptionsBait()
+
         private void SetRod(string rod)
         {
             if (InvokeRequired)
+            {
                 Invoke(new VoidStrDelegate(SetRod), rod);
+            }
             else
             {
                 LastRodName = rod;
@@ -1997,10 +2038,36 @@ namespace Fishing
 
         } // @ private void SetRod(string rod)
 
+        private string GetRod()
+        {
+            if (InvokeRequired)
+            {
+                return (string)Invoke(new StringNoParamDelegate(GetRod));
+            }
+            else
+            {
+                return LastRodName;
+            }
+        } // @ private void GetRod()
+
+        private string GetOptionsRod()
+        {
+            if (InvokeRequired)
+            {
+                return (string)Invoke(new StringNoParamDelegate(GetOptionsRod));
+            }
+            else
+            {
+                return tbRodGear.Text;
+            }
+        } // @ private void GetOptionsRod()
+
         private void SetLblZone(string zone)
         {
             if (InvokeRequired)
+            {
                 Invoke(new VoidStrDelegate(SetLblZone), zone);
+            }
             else
             {
                 lblZone.Text = zone;
@@ -2011,7 +2078,9 @@ namespace Fishing
         private void SetNoCatch(int releases)
         {
             if (InvokeRequired)
+            {
                 Invoke(new VoidIntDelegate(SetNoCatch), releases);
+            }
             else
             {
                 lblNoCatchAt.Text = string.Format("{0} / {1}", consecutiveNoCatchCount, numMaxNoCatch.Value);
@@ -2022,7 +2091,9 @@ namespace Fishing
         private void SetProgress(int pos)
         {
             if (InvokeRequired)
+            {
                 Invoke(new VoidIntDelegate(SetProgress), pos);
+            }
             else
             {
                 //in case SetProgressMaxValue wasn't called, for w/e reason
@@ -2039,7 +2110,9 @@ namespace Fishing
         private void SetProgressMaxValue(int pos)
         {
             if (InvokeRequired)
+            {
                 Invoke(new VoidIntDelegate(SetProgressMaxValue), pos);
+            }
             else
             {
                 progressBarST.Maximum = pos;
@@ -2051,7 +2124,9 @@ namespace Fishing
         private void SetStatus(string str)
         {
             if (InvokeRequired)
+            {
                 Invoke(new VoidStrDelegate(SetStatus), str);
+            }
             else
             {
                 lblStatus.Text = str;
@@ -2062,7 +2137,9 @@ namespace Fishing
         private void UpdateChat()
         {
             if (InvokeRequired)
+            {
                 Invoke(new VoidNoParamDelegate(UpdateChat));
+            }
             else
             {
                 UpdateChatLogs(rtbChat, FishChat.chatLog, FishChat.chatLogAdded);
@@ -2206,7 +2283,9 @@ namespace Fishing
         private void UpdateChatLogs(RichTextBox rtb, List<FFACE.ChatTools.ChatLine> log, int linesToParse)
         {
             if (InvokeRequired)
+            {
                 Invoke(new ChatLogsDelegate(UpdateChatLogs), rtb, log, linesToParse);
+            }
             else
             {
                 if (0 < linesToParse)
@@ -2236,7 +2315,9 @@ namespace Fishing
         private void UpdateStats()
         {
             if (InvokeRequired)
+            {
                 Invoke(new VoidNoParamDelegate(UpdateStats));
+            }
             else
             {
                 string statsRtfResult = FishStats.PrintStats();
