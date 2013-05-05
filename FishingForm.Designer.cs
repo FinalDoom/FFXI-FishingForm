@@ -620,9 +620,9 @@
             // tabChatPageFishing
             // 
             this.tabChatPageFishing.Controls.Add(this.rtbFish);
-            this.tabChatPageFishing.Location = new System.Drawing.Point(4, 22);
+            this.tabChatPageFishing.Location = new System.Drawing.Point(4, 21);
             this.tabChatPageFishing.Name = "tabChatPageFishing";
-            this.tabChatPageFishing.Size = new System.Drawing.Size(367, 146);
+            this.tabChatPageFishing.Size = new System.Drawing.Size(367, 147);
             this.tabChatPageFishing.TabIndex = 1;
             this.tabChatPageFishing.Text = "Fishing";
             this.tabChatPageFishing.UseVisualStyleBackColor = true;
@@ -638,7 +638,7 @@
             this.rtbFish.Margin = new System.Windows.Forms.Padding(0);
             this.rtbFish.Name = "rtbFish";
             this.rtbFish.ReadOnly = true;
-            this.rtbFish.Size = new System.Drawing.Size(367, 146);
+            this.rtbFish.Size = new System.Drawing.Size(367, 147);
             this.rtbFish.TabIndex = 1;
             this.rtbFish.TabStop = false;
             this.rtbFish.Text = "";
@@ -646,9 +646,9 @@
             // tabChatPageTell
             // 
             this.tabChatPageTell.Controls.Add(this.rtbTell);
-            this.tabChatPageTell.Location = new System.Drawing.Point(4, 22);
+            this.tabChatPageTell.Location = new System.Drawing.Point(4, 21);
             this.tabChatPageTell.Name = "tabChatPageTell";
-            this.tabChatPageTell.Size = new System.Drawing.Size(367, 146);
+            this.tabChatPageTell.Size = new System.Drawing.Size(367, 147);
             this.tabChatPageTell.TabIndex = 2;
             this.tabChatPageTell.Text = "Tell";
             this.tabChatPageTell.UseVisualStyleBackColor = true;
@@ -664,7 +664,7 @@
             this.rtbTell.Margin = new System.Windows.Forms.Padding(0);
             this.rtbTell.Name = "rtbTell";
             this.rtbTell.ReadOnly = true;
-            this.rtbTell.Size = new System.Drawing.Size(367, 146);
+            this.rtbTell.Size = new System.Drawing.Size(367, 147);
             this.rtbTell.TabIndex = 1;
             this.rtbTell.TabStop = false;
             this.rtbTell.Text = "";
@@ -673,9 +673,9 @@
             // tabChatPageParty
             // 
             this.tabChatPageParty.Controls.Add(this.rtbParty);
-            this.tabChatPageParty.Location = new System.Drawing.Point(4, 22);
+            this.tabChatPageParty.Location = new System.Drawing.Point(4, 21);
             this.tabChatPageParty.Name = "tabChatPageParty";
-            this.tabChatPageParty.Size = new System.Drawing.Size(367, 146);
+            this.tabChatPageParty.Size = new System.Drawing.Size(367, 147);
             this.tabChatPageParty.TabIndex = 3;
             this.tabChatPageParty.Text = "PT";
             this.tabChatPageParty.UseVisualStyleBackColor = true;
@@ -691,7 +691,7 @@
             this.rtbParty.Margin = new System.Windows.Forms.Padding(0);
             this.rtbParty.Name = "rtbParty";
             this.rtbParty.ReadOnly = true;
-            this.rtbParty.Size = new System.Drawing.Size(367, 146);
+            this.rtbParty.Size = new System.Drawing.Size(367, 147);
             this.rtbParty.TabIndex = 1;
             this.rtbParty.Text = "";
             this.rtbParty.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.rtbParty_LinkClicked);
@@ -699,9 +699,9 @@
             // tabChatPageLS
             // 
             this.tabChatPageLS.Controls.Add(this.rtbShell);
-            this.tabChatPageLS.Location = new System.Drawing.Point(4, 22);
+            this.tabChatPageLS.Location = new System.Drawing.Point(4, 21);
             this.tabChatPageLS.Name = "tabChatPageLS";
-            this.tabChatPageLS.Size = new System.Drawing.Size(367, 146);
+            this.tabChatPageLS.Size = new System.Drawing.Size(367, 147);
             this.tabChatPageLS.TabIndex = 4;
             this.tabChatPageLS.Text = "LS";
             this.tabChatPageLS.UseVisualStyleBackColor = true;
@@ -717,7 +717,7 @@
             this.rtbShell.Margin = new System.Windows.Forms.Padding(0);
             this.rtbShell.Name = "rtbShell";
             this.rtbShell.ReadOnly = true;
-            this.rtbShell.Size = new System.Drawing.Size(367, 146);
+            this.rtbShell.Size = new System.Drawing.Size(367, 147);
             this.rtbShell.TabIndex = 1;
             this.rtbShell.TabStop = false;
             this.rtbShell.Text = "";
@@ -726,9 +726,9 @@
             // tabChatPageSay
             // 
             this.tabChatPageSay.Controls.Add(this.rtbSay);
-            this.tabChatPageSay.Location = new System.Drawing.Point(4, 22);
+            this.tabChatPageSay.Location = new System.Drawing.Point(4, 21);
             this.tabChatPageSay.Name = "tabChatPageSay";
-            this.tabChatPageSay.Size = new System.Drawing.Size(367, 146);
+            this.tabChatPageSay.Size = new System.Drawing.Size(367, 147);
             this.tabChatPageSay.TabIndex = 5;
             this.tabChatPageSay.Text = "Say";
             this.tabChatPageSay.UseVisualStyleBackColor = true;
@@ -744,7 +744,7 @@
             this.rtbSay.Margin = new System.Windows.Forms.Padding(0);
             this.rtbSay.Name = "rtbSay";
             this.rtbSay.ReadOnly = true;
-            this.rtbSay.Size = new System.Drawing.Size(367, 146);
+            this.rtbSay.Size = new System.Drawing.Size(367, 147);
             this.rtbSay.TabIndex = 1;
             this.rtbSay.TabStop = false;
             this.rtbSay.Text = "";
@@ -1287,10 +1287,10 @@
             this.tabOptionsPageChat.Controls.Add(this.cbChatDetect);
             this.tabOptionsPageChat.Controls.Add(this.panelChatDetect);
             this.tabOptionsPageChat.Controls.Add(this.gbGMDetect);
-            this.tabOptionsPageChat.Location = new System.Drawing.Point(4, 22);
+            this.tabOptionsPageChat.Location = new System.Drawing.Point(4, 21);
             this.tabOptionsPageChat.Name = "tabOptionsPageChat";
             this.tabOptionsPageChat.Padding = new System.Windows.Forms.Padding(3);
-            this.tabOptionsPageChat.Size = new System.Drawing.Size(364, 168);
+            this.tabOptionsPageChat.Size = new System.Drawing.Size(364, 169);
             this.tabOptionsPageChat.TabIndex = 6;
             this.tabOptionsPageChat.Text = "Chat";
             this.tabOptionsPageChat.UseVisualStyleBackColor = true;
@@ -1373,10 +1373,10 @@
             this.tabOptionsPageFight.Controls.Add(this.cbQuickKill);
             this.tabOptionsPageFight.Controls.Add(this.cbAutoKill);
             this.tabOptionsPageFight.Controls.Add(this.cbExtend);
-            this.tabOptionsPageFight.Location = new System.Drawing.Point(4, 22);
+            this.tabOptionsPageFight.Location = new System.Drawing.Point(4, 21);
             this.tabOptionsPageFight.Name = "tabOptionsPageFight";
             this.tabOptionsPageFight.Padding = new System.Windows.Forms.Padding(3);
-            this.tabOptionsPageFight.Size = new System.Drawing.Size(364, 168);
+            this.tabOptionsPageFight.Size = new System.Drawing.Size(364, 169);
             this.tabOptionsPageFight.TabIndex = 2;
             this.tabOptionsPageFight.Text = "Fight";
             // 
@@ -1684,10 +1684,10 @@
             this.tabOptionsPageGear.Controls.Add(this.lblWaistGear);
             this.tabOptionsPageGear.Controls.Add(this.tbWaistGear);
             this.tabOptionsPageGear.Controls.Add(this.cbWaistGear);
-            this.tabOptionsPageGear.Location = new System.Drawing.Point(4, 22);
+            this.tabOptionsPageGear.Location = new System.Drawing.Point(4, 21);
             this.tabOptionsPageGear.Name = "tabOptionsPageGear";
             this.tabOptionsPageGear.Padding = new System.Windows.Forms.Padding(3);
-            this.tabOptionsPageGear.Size = new System.Drawing.Size(364, 168);
+            this.tabOptionsPageGear.Size = new System.Drawing.Size(364, 169);
             this.tabOptionsPageGear.TabIndex = 4;
             this.tabOptionsPageGear.Text = "Gear";
             // 
@@ -1966,10 +1966,10 @@
             this.tabOptionsPageAdvanced.Controls.Add(this.gbExhaustedBait);
             this.tabOptionsPageAdvanced.Controls.Add(this.gbOnFatigue);
             this.tabOptionsPageAdvanced.Controls.Add(this.groupBox1);
-            this.tabOptionsPageAdvanced.Location = new System.Drawing.Point(4, 22);
+            this.tabOptionsPageAdvanced.Location = new System.Drawing.Point(4, 21);
             this.tabOptionsPageAdvanced.Name = "tabOptionsPageAdvanced";
             this.tabOptionsPageAdvanced.Padding = new System.Windows.Forms.Padding(3);
-            this.tabOptionsPageAdvanced.Size = new System.Drawing.Size(364, 168);
+            this.tabOptionsPageAdvanced.Size = new System.Drawing.Size(364, 169);
             this.tabOptionsPageAdvanced.TabIndex = 5;
             this.tabOptionsPageAdvanced.Text = "Other";
             // 
@@ -2059,7 +2059,7 @@
             this.gbOnFatigue.Controls.Add(this.cbFatiguedActionShutdown);
             this.gbOnFatigue.Location = new System.Drawing.Point(256, 6);
             this.gbOnFatigue.Name = "gbOnFatigue";
-            this.gbOnFatigue.Size = new System.Drawing.Size(102, 153);
+            this.gbOnFatigue.Size = new System.Drawing.Size(102, 152);
             this.gbOnFatigue.TabIndex = 2;
             this.gbOnFatigue.TabStop = false;
             this.gbOnFatigue.Text = "On Fatigue Stop";
@@ -2109,7 +2109,7 @@
             this.groupBox1.Controls.Add(this.cbInventoryItemizerItemTools);
             this.groupBox1.Location = new System.Drawing.Point(6, 6);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(119, 153);
+            this.groupBox1.Size = new System.Drawing.Size(119, 152);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "On Full Inventory";
@@ -2256,7 +2256,8 @@
             // 
             // FishingForm
             // 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.ClientSize = new System.Drawing.Size(526, 244);
             this.Controls.Add(this.statusStripMain);
             this.Controls.Add(this.pnlLog);
