@@ -406,8 +406,8 @@ namespace Fishing
 
             if ((!string.IsNullOrEmpty(rod)) && (!string.IsNullOrEmpty(bait)))
             {
-                LastBaitName = bait;
-                LastRodName = rod;
+                SetBait(bait);
+                SetRod(rod);
 
                 return true;
             }
@@ -435,7 +435,7 @@ namespace Fishing
             }
 
             // No rod or bait equipped. Try equipping
-            if (string.IsNullOrEmpty(rod) || string.IsNullOrEmpty(bait))
+            if (string.IsNullOrEmpty(rod) || string.IsNullOrEmpty(bait) || LastBaitName != bait || LastRodName != rod)
             {
                 _FFACE.Windower.SendString(strRodEquipMessage);
                 _FFACE.Windower.SendString(strBaitEquipMessage);
@@ -2033,69 +2033,69 @@ namespace Fishing
             else
             {
                 UpdateChatLogs(rtbChat, FishChat.chatLog, FishChat.chatLogAdded);
-				string testLine;
+                string testLine;
 
                 //added by golfandsurf 6/21/2010:  GMdetect
                 //notes: corrects for word wrapping that may occur to always check the
                 //      beginning of each message.
-				for (int i = FishChat.tellLogAdded - 1; i >= 0; --i)
-				{
-					testLine = FishChat.tellLog[i].Text;
-					if (testLine.Length >= 3 && testLine.Substring(0, 3) == "[GM")
-					{
-						gmDetect();
-					}
-				}
+                for (int i = FishChat.tellLogAdded - 1; i >= 0; --i)
+                {
+                    testLine = FishChat.tellLog[i].Text;
+                    if (testLine.Length >= 3 && testLine.Substring(0, 3) == "[GM")
+                    {
+                        gmDetect();
+                    }
+                }
                 //end added by golfandsurf 6/21/2010: GMdetect
 
-				//Detect skillups
-				for (int i = FishChat.chatLogAdded - 1; i >= 0; --i)
-				{
-					testLine = FishChat.chatLog[i].Text;
-					if (testLine.StartsWith(_Player.Name + "'s fishing skill"))
-					{
-						if (testLine.EndsWith("points."))
-						{
-							if (int.TryParse(testLine.Substring(testLine.LastIndexOf(' ') - 1, 1), out skillLast))
-							{
-								skillDecimalMin += skillLast;
-								skillDecimalMax += skillLast;
-							}
-							else
-							{
-								skillLast = 0;
-							}
-						}
-						else // Level up
-						{
-							int lastSpace = testLine.LastIndexOf(' ');
-							int.TryParse(testLine.Substring(lastSpace + 1, testLine.LastIndexOf('.') - lastSpace - 1), out skillLevel);
-							skillDecimalMin = 0;
-							if (skillDecimalMax < 10) // Partial levelup previously recorded
-							{
-								skillDecimalMax = skillLast - 1;
-							}
-							else
-							{
-								skillDecimalMax %= 10;
-							}
-							skillLast = 0;
-						}
-					}
-					else if (skillLast > 0)
-					{
-						// Adjust for overestimated skill fraction when there's not a level up
-						if (skillDecimalMax >= 10)
-						{
-							skillDecimalMax = 9;
-						}
-						if (skillDecimalMin >= 10)
-						{
-							skillDecimalMin = 9;
-						}
-						skillLast = 0;
-					}
-				}
+                //Detect skillups
+                for (int i = FishChat.chatLogAdded - 1; i >= 0; --i)
+                {
+                    testLine = FishChat.chatLog[i].Text;
+                    if (testLine.StartsWith(_Player.Name + "'s fishing skill"))
+                    {
+                        if (testLine.EndsWith("points."))
+                        {
+                            if (int.TryParse(testLine.Substring(testLine.LastIndexOf(' ') - 1, 1), out skillLast))
+                            {
+                                skillDecimalMin += skillLast;
+                                skillDecimalMax += skillLast;
+                            }
+                            else
+                            {
+                                skillLast = 0;
+                            }
+                        }
+                        else // Level up
+                        {
+                            int lastSpace = testLine.LastIndexOf(' ');
+                            int.TryParse(testLine.Substring(lastSpace + 1, testLine.LastIndexOf('.') - lastSpace - 1), out skillLevel);
+                            skillDecimalMin = 0;
+                            if (skillDecimalMax < 10) // Partial levelup previously recorded
+                            {
+                                skillDecimalMax = skillLast - 1;
+                            }
+                            else
+                            {
+                                skillDecimalMax %= 10;
+                            }
+                            skillLast = 0;
+                        }
+                    }
+                    else if (skillLast > 0)
+                    {
+                        // Adjust for overestimated skill fraction when there's not a level up
+                        if (skillDecimalMax >= 10)
+                        {
+                            skillDecimalMax = 9;
+                        }
+                        if (skillDecimalMin >= 10)
+                        {
+                            skillDecimalMin = 9;
+                        }
+                        skillLast = 0;
+                    }
+                }
 
 
                 if (0 < FishChat.fishLogAdded)
@@ -2607,25 +2607,33 @@ namespace Fishing
                 int caretPos = tbChat.SelectionStart;
                 int selectionLength = tbChat.SelectionLength;
                 int textLength = tbChat.TextLength;
-                if (Keys.S == e.KeyCode)
+                switch (e.KeyCode)
                 {
-                    tbChat.Text = "/s " + chatMode.Replace(tbChat.Text, "$1");
-                }
-                else if (Keys.L == e.KeyCode)
-                {
-                    tbChat.Text = "/l " + chatMode.Replace(tbChat.Text, "$1");
-                }
-                else if (Keys.P == e.KeyCode)
-                {
-                    tbChat.Text = "/p " + chatMode.Replace(tbChat.Text, "$1");
-                }
-                else if (Keys.R == e.KeyCode)
-                {
-                    tbChat.Text = "/t <r> " + chatMode.Replace(tbChat.Text, "$1");
-                }
-                else if (Keys.T == e.KeyCode)
-                {
-                    tbChat.Text = "/t " + chatMode.Replace(tbChat.Text, "$1");
+                    case Keys.S:
+                        tbChat.Text = "/s " + chatMode.Replace(tbChat.Text, "$1");
+                        e.Handled = true;
+                        e.SuppressKeyPress = true;
+                        break;
+                    case Keys.L:
+                        tbChat.Text = "/l " + chatMode.Replace(tbChat.Text, "$1");
+                        e.Handled = true;
+                        e.SuppressKeyPress = true;
+                        break;
+                    case Keys.P:
+                        tbChat.Text = "/p " + chatMode.Replace(tbChat.Text, "$1");
+                        e.Handled = true;
+                        e.SuppressKeyPress = true;
+                        break;
+                    case Keys.R:
+                        tbChat.Text = "/t <r> " + chatMode.Replace(tbChat.Text, "$1");
+                        e.Handled = true;
+                        e.SuppressKeyPress = true;
+                        break;
+                    case Keys.T:
+                        tbChat.Text = "/t " + chatMode.Replace(tbChat.Text, "$1");
+                        e.Handled = true;
+                        e.SuppressKeyPress = true;
+                        break;
                 }
                 tbChat.SelectionStart = caretPos + tbChat.TextLength - textLength;
                 tbChat.SelectionLength = selectionLength;
