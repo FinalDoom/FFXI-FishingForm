@@ -103,6 +103,7 @@
   <Fish name="Vongola Clam" wanted="No" ID1="80" ID2="26" ID3="8" ID4="16">
     <Zones>
       <Zone>Manaclipper</Zone>
+      <Zone>Bibiki Bay</Zone>
     </Zones>
     <Baits>
       <Bait>Crayfish Ball</Bait>

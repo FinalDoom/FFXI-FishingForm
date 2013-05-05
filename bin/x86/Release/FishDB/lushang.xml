@@ -1086,6 +1086,7 @@
       <Zone>Western Altepa Desert</Zone>
       <Zone>Port San d'Oria</Zone>
       <Zone>La Theine Plateau</Zone>
+      <Zone>West Ronfaure</Zone>
     </Zones>
     <Baits>
       <Bait>Trout Ball</Bait>
@@ -1538,6 +1539,7 @@
   <Fish name="Red Terrapin" wanted="Yes" ID1="120" ID2="30" ID3="10">
     <Zones>
       <Zone>La Theine Plateau</Zone>
+      <Zone>West Ronfaure</Zone>
     </Zones>
     <Baits>
       <Bait>Frog Lure</Bait>
@@ -1679,6 +1681,84 @@
     <Zones />
     <Baits>
       <Bait>Worm Lure</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Shen" wanted="No" ID1="40" ID2="19" ID3="15">
+    <Zones>
+      <Zone>Yahse Hunting Grounds</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Meatball</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Shall Shell" wanted="No" ID1="60" ID2="29" ID3="15">
+    <Zones>
+      <Zone>Buburimu Peninsula</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Robber Rig</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Break line fish" wanted="No" ID1="140" ID2="37" ID3="9">
+    <Zones>
+      <Zone>Ship bound for Selbina</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Meatball</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Cheval Salmon" wanted="No" ID1="160" ID2="23" ID3="9">
+    <Zones>
+      <Zone>East Ronfaure</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Fly Lure</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Moorish Idol" wanted="No" ID1="240" ID2="19" ID3="8">
+    <Zones>
+      <Zone>Bibiki Bay</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Shrimp Lure</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Silver Shark" wanted="No" ID1="240" ID2="38" ID3="7">
+    <Zones>
+      <Zone>Ship bound for Selbina</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Meatball</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Mob (Sentinel Crab 4)" wanted="No" ID1="300" ID2="16" ID3="12">
+    <Zones>
+      <Zone>Abyssea - La Theine</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Crayfish Ball</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Mob (Sentinel Crab 3)" wanted="No" ID1="300" ID2="17" ID3="11">
+    <Zones>
+      <Zone>Abyssea - La Theine</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Crayfish Ball</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Mob (Sentinel Crab 5)" wanted="No" ID1="300" ID2="18" ID3="10">
+    <Zones>
+      <Zone>Abyssea - La Theine</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Crayfish Ball</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Mob (_1_)" wanted="No" ID1="300" ID2="17" ID3="11">
+    <Zones />
+    <Baits>
+      <Bait>Fly Lure</Bait>
     </Baits>
   </Fish>
 </Rod>

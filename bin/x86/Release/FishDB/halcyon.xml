@@ -222,6 +222,7 @@
       <Zone>Ship bound for Mhaura</Zone>
       <Zone>Ship bound for Mhaura (Pirates)</Zone>
       <Zone>Qufim Island</Zone>
+      <Zone>East Sarutabaruta</Zone>
     </Zones>
     <Baits>
       <Bait>Minnow</Bait>
@@ -497,6 +498,7 @@
   <Fish name="Nosteau Herring" wanted="Yes" ID1="180" ID2="21" ID3="9">
     <Zones>
       <Zone>Port Jeuno</Zone>
+      <Zone>Qufim Island</Zone>
     </Zones>
     <Baits>
       <Bait>Shrimp Lure</Bait>
@@ -643,6 +645,37 @@
     </Zones>
     <Baits>
       <Bait>Sabiki Rig</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Crayfish" wanted="No" ID1="140" ID2="24" ID3="15">
+    <Zones>
+      <Zone>Windurst Woods</Zone>
+      <Zone>Rabao</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Little Worm</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Bastore Sardine" wanted="No" ID1="160" ID2="21" ID3="15">
+    <Zones />
+    <Baits>
+      <Bait>Sabiki Rig</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Tiger Cod" wanted="No" ID1="200" ID2="23" ID3="11">
+    <Zones>
+      <Zone>Qufim Island</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Shrimp Lure</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Sandfish" wanted="No" ID1="220" ID2="36" ID3="5">
+    <Zones>
+      <Zone>Rabao</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Little Worm</Bait>
     </Baits>
   </Fish>
 </Rod>

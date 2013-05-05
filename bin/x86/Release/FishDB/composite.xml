@@ -701,4 +701,28 @@
       <Bait>Peeled Crayfish</Bait>
     </Baits>
   </Fish>
+  <Fish name="Cheval Salmon" wanted="No" ID1="140" ID2="21" ID3="7">
+    <Zones>
+      <Zone>East Ronfaure</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Fly Lure</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Break line fish" wanted="No" ID1="140" ID2="31" ID3="9">
+    <Zones>
+      <Zone>Sea Serpent Grotto</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Shrimp Lure</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Black Sole" wanted="No" ID1="220" ID2="33" ID3="5">
+    <Zones>
+      <Zone>Qufim Island</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Sinking Minnow</Bait>
+    </Baits>
+  </Fish>
 </Rod>
