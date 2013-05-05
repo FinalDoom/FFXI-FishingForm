@@ -163,6 +163,13 @@ namespace Fishing
             {
                 UpdatesDBChanged();
             }
+            foreach (string rod in UpdatesByRod.Keys)
+            {
+                if (UpdatesByRod[rod].xmlDate > UpdatesByRod[rod].dbDate)
+                {
+                    GetFishDB(rod);
+                }
+            }
             return UpdatesByRod;
         }
 
@@ -245,8 +252,7 @@ namespace Fishing
                 // Mark it as new, but don't add it to DB until restart or rename
                 if (!fromDB)
                 { // If it's not being added from the DB anyway
-                    fishNode.Attributes.Append(fishNode.OwnerDocument.CreateAttribute("new"));
-                    XmlUpdated(rod);
+                    SetNew(rod, fishNode, fishNode);
                 }
 
                 fishNode.AppendChild(xmlDoc.CreateNode(XmlNodeType.Element, "Zones", xmlDoc.NamespaceURI));
@@ -499,6 +505,11 @@ namespace Fishing
                 foreach (XmlNode baitorZoneNode in xmlDoc.SelectNodes("/Rod/Fish/Baits/Bait[@new] | /Rod/Fish/Zones/Zone[@new]"))
                 {
                     DBNewFish.Add(baitorZoneNode.ParentNode.ParentNode);
+                }
+                //Check any fish marked renamed
+                foreach (XmlNode fishNode in xmlDoc.SelectNodes("/Rod/Fish[@rename]"))
+                {
+                    DBRenamedFish.Add(fishNode);
                 }
             }
 

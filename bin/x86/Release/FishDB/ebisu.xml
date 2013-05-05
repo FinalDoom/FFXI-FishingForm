@@ -1055,4 +1055,10 @@
       <Bait>Dwarf Pugil</Bait>
     </Baits>
   </Fish>
+  <Fish name="Pterygotus" wanted="No" ID1="140" ID2="39" ID3="9">
+    <Zones />
+    <Baits>
+      <Bait>Lugworm</Bait>
+    </Baits>
+  </Fish>
 </Rod>
