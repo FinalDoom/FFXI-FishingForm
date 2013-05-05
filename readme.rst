@@ -66,6 +66,7 @@ Features
     - General log that includes all chat
     - Timestamped similarly to windower timestamp plugin
     - Clickable URLs
+	- Ctrl+ s, p, t, l, and r work like in game
 - Customizable chat detection and result actions for incoming chat
 - Fishing statistics tab
     - Shows total casts, time fishing, and catches per hour
@@ -94,8 +95,8 @@ If bait and rod are specified in the gear options page, no bait or rod need be e
 you must equip appropriate bait and rod before clicking start. The lists under the start button
 will be populated with fish that have been found in your area, with your bait and rod. As new fish
 are encountered, they will be added to the list. However, unless the "unknowns?" checkbox is checked,
-fish not in the "wanted" list will be released. Items and monsters will also be released according to
-options set in Options>Fight.
+all fish fish not in the "wanted" list will be released. Items and monsters will also be released
+according to options set in Options>Fight.
 
 Fish may be moved between the "wanted" and "unwanted" lists by double clicking the fish name. They
 may also be renamed by right clicking and selecting rename. Monsters are given sequential names, eg.
@@ -106,6 +107,10 @@ status. The stats can be cleared by right clicking and selecting *clear stats*. 
 between casts will be updated as fishing fatigue sets in, and fishing will stop after fatigue
 is detected. It can also be set to stop after a number of catches or skillups, and will stop when
 your inventory is full by default. Several options exist to handle what to do after these stops.
+
+As of version 1.7, FishDB additions are added to a remote database, and the program will automatically
+update your local FishDB with others' additions. No identifiable information is sent or accessible
+to any developer or other persons. See FishDB Information below for more details.
 
 -------
 Options
@@ -119,6 +124,7 @@ General
 - Auto-cast sneak for sneak fishing
 - Stop fishing at target skill level
 - Cast wait resets at JP midnight
+- Maximum no catches before fatigue stop is triggered
 
 Chat
 ----
@@ -146,9 +152,92 @@ Other
 - Stop fishing when inventory is full
 - Warp then optionally log out or shut down when inventory is full, when fatigued, or when out of bait
 
+------------------
+FishDB Information
+------------------
+
+All fish are identified by 3 IDs ingame (a fourth is ignored). These IDs, fish names, bait,
+zones and their position in the Wanted or Unwanted list are stored in XML files according to
+the rod used to catch them. These XML files are stored in the FishDB folder next to the
+FishingForm executable. In general, it should not be necessary to modify these files. If you
+do so, please be careful, as they are integral to the functioning of the program.
+
+Rod XML
+-------
+
+All but one XML file (DBSync.xml, described later) are of the following format:
+.. code:: xml
+	<Rod name="Rod Item Name">
+		<Fish name="Fish Name" wanted="Yes|No" ID1="INT" ID2="INT" ID3="INT"[ ID4="28"][ new=""][ rename="Old Name"]>
+			<Baits>
+				<Bait[ new=""]>Bait Name</Bait>
+			</Baits>
+			<Zones>
+				<Zone[ new=""]>Windower Resources.xml Zone Name</Zone>
+			</Zones>
+		</Fish>
+	</Rod>
+
+All fish must have at a minimum a name, wanted status (Yes or No), and 3 integer IDs. The fourth
+is sometimes present on older fish, but it is now ignored.
+
+In the event that you are manually modifying an XML file, you will want to take note of the *new*
+and *rename* attributes for fish, and the *new* attribute for baits and zones. At present, the DBs
+are only additive. Any removals will only be reflected on your local system. If you add a new fish,
+bait, or zone, be sure to attach the *new* attribute with any value. If you rename a fish, add the
+*rename* attribute with its value set to the old fish name, exactly as it was. These attributes
+are how the program knows what parts of the XML to upload to the remote database. Without the
+rename attribute, duplicate fish will appear. When modifying rod xml files, you will likely also
+want to examine the DBSync.xml file, described below.
+
+DBSync XML
+----------
+
+DBSync.xml is a file used to reduce load on the remote database. Its format is as follows:
+.. code:: xml
+	<Updates>
+		<Update host="MySQL Connection String" dbver="1.7.0.7">
+			<Rod name="Rod Item Name" db="UTC Timestamp" xml="UTC Timestamp" />
+		</Update>
+	</Updates>
+
+All are required elements, and there is only one you should be concerned with changing, the *xml* attribute
+of a <Rod /> node. This attribute is a UTC timestamp of the format M[M]/D[D]/YYYY H[H]:mm:ss [PM|AM]. It
+is used to track the last time the XML file the rod node describes, which can be referenced by comparing the
+name attribute to that in another xml file. Should you edit any rod XML file and append *new* or *rename*
+attributes to any fish, bait, or zone nodes, update the *xml* attribute so that its date is at least one
+second larger than that in the *db* attribute. This will tell the program you have XML changes to upload.
+
+If a rod XML is messed up, dirty, deleted, or otherwise unsatisfactory, an easy fix is to delete the file and delete
+the corresponding line in DBSync.xml. The program will then download the file as it exists in the remote database.
+
+Other attributes in the DBSync file are described below. **None of the following attributes should be modified
+by hand for any reason.**
+
+There can be multiple updates, depending on what database is in use. They are keyed by the *host* attribute,
+which is set to the connection string used to connect to the remote database. If you alter this, your
+whole FishDB will be resynced, which takes 20 or more seconds, depending on connection speed. Please do
+not do this. FishingForm currently utilizes a free database, and the only real limitation is number of
+concurrent connections (5). More, longer connections means some people can't connect. Additionally, the
+access string is associated with a limited user account which can only execute routines (which you will have
+to find in the code). Please don't use it to connect and screw around with things.
+
+The *dbver* attribute denotes the version of the program the database is associated with. If this value is
+below a required threshold, defined in the exe, all <Rod /> child nodes will be reset to default and all
+FishDB data will be synced, so please don't alter this.
+
+The *name* attribute corresponds to the name attribute on a similar node found in each rod XML file.
+
+The *db* attribute of the <Rod /> nodes denotes the last time (UTC) a database sync was performed for the
+noted rod. Some rods do not have any data, so the default value remains.
+
 -------
 Changes
 -------
+
+1.7.0.15
+--------
+- Fix startup DB sync to actually check for updated XML (without loading into memory unnecessarily)
 
 1.7.0.14
 --------
