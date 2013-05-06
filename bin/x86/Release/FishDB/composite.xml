@@ -725,4 +725,12 @@
       <Bait>Sinking Minnow</Bait>
     </Baits>
   </Fish>
+  <Fish name="Gugru Tuna" wanted="No" ID1="260" ID2="16" ID3="7">
+    <Zones>
+      <Zone>Ship bound for Mhaura</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Sinking Minnow</Bait>
+    </Baits>
+  </Fish>
 </Rod>

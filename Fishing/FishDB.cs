@@ -32,6 +32,7 @@ namespace Fishing
 
         internal DateTime dbDate, xmlDate;
         public void XmlUpdated() { xmlDate = DateTime.UtcNow; }
+        public void XmlUpdated(DateTime time) { xmlDate = time; }
         public void DBUpdated(DateTime time) { dbDate = time; }
     }
 
@@ -153,7 +154,7 @@ namespace Fishing
                         XmlAttribute xmlTime = rodNode.Attributes.Append(upDoc.CreateAttribute("xml"));
                         rodName.Value = rod;
                         dbTime.Value = (new DateTime(1970, 1, 1, 0, 0, 1)).ToString();
-                        xmlTime.Value = DateTime.UtcNow.ToString();
+                        xmlTime.Value = (new DateTime(1970, 1, 1, 0, 0, 1)).ToString();
                         changed = true;
                     }
                     UpdatesByRod[rod] = new DBUpdate(rodNode.Attributes["db"].Value, rodNode.Attributes["xml"].Value);
@@ -190,7 +191,7 @@ namespace Fishing
             {
                 GetUpdates();
             }
-            UpdatesByRod[rod].XmlUpdated();
+            UpdatesByRod[rod].XmlUpdated(time);
             XmlNode rodNode = GetUpdatesNode().SelectSingleNode(string.Format("Rod[@name=\"{0}\"]", rod));
             rodNode.Attributes["db"].Value = time.ToString();
             FishDBChanged(rod);
@@ -502,7 +503,7 @@ namespace Fishing
                     DBNewFish.Add(fishNode);
                 }
                 //Check any bait or zones previously marked new
-                foreach (XmlNode baitorZoneNode in xmlDoc.SelectNodes("/Rod/Fish/Baits/Bait[@new] | /Rod/Fish/Zones/Zone[@new]"))
+                foreach (XmlNode baitorZoneNode in xmlDoc.SelectNodes("/Rod/Fish/Baits/Bait[@new]|/Rod/Fish/Zones/Zone[@new]"))
                 {
                     DBNewFish.Add(baitorZoneNode.ParentNode.ParentNode);
                 }

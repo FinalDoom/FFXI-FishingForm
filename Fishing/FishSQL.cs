@@ -187,8 +187,13 @@ namespace Fishing
                         cmd.ExecuteNonQuery();
                         return true;
                     }
-                    catch (MySqlException)
-                    {// Don't care
+                    catch (MySqlException e)
+                    {
+                        if (e.Number == 1062)
+                        {
+                            // Duplicate primary key. We were successful anyway
+                            return true;
+                        }
                     }
                 }
             }
@@ -288,8 +293,13 @@ namespace Fishing
                             cmd.ExecuteNonQuery();
                             updatedNodes.Add(fishNode, node);
                         }
-                        catch (MySqlException)
+                        catch (MySqlException e)
                         {
+                            if (e.Number == 1062)
+                            {
+                                // Duplicate primary key. We were successful anyway
+                                updatedNodes.Add(fishNode, node);
+                            }
                         }
                     }
                 }
@@ -322,7 +332,7 @@ namespace Fishing
                             }
                             else
                             {
-                                cmd.Parameters.AddWithValue("zoneID", FFACE.ParseResources.GetAreaId(z));
+                                cmd.Parameters.AddWithValue("zoneID", (int)FFACE.ParseResources.GetAreaId(z));
                             }
                         }
 
@@ -331,8 +341,13 @@ namespace Fishing
                             cmd.ExecuteNonQuery();
                             updatedNodes.Add(fishNode, node);
                         }
-                        catch (MySqlException)
+                        catch (MySqlException e)
                         {
+                            if (e.Number == 1062)
+                            {
+                                // Duplicate primary key. We were successful anyway
+                                updatedNodes.Add(fishNode, node);
+                            }
                         }
                     }
                 }
@@ -468,12 +483,13 @@ namespace Fishing
             {
                 SyncForm.SetUploadFishNumber(FishDB.DBNewFish.Count);
             }
-            if (FishDB.DBNewFish.Count > 0)
+            if (FishDB.DBNewFish.Count > 0 || FishDB.DBRenamedFish.Count > 0)
             {
+                Dictionary<string, DateTime> updateTimes = new Dictionary<string, DateTime>();
+                HashSet<string> updatedRods = new HashSet<string>();
                 List<XmlNode> uploadFish = new List<XmlNode>(FishDB.DBNewFish);
                 FishDB.DBNewFish.Clear();
                 Dictionary<XmlNode, XmlNode> updatedNodes = new Dictionary<XmlNode, XmlNode>();
-                HashSet<string> updateTimes = new HashSet<string>();
                 foreach (XmlNode fishNode in uploadFish)
                 {
                     List<XmlNode> baits = new List<XmlNode>();
@@ -501,11 +517,11 @@ namespace Fishing
                     }
                     else
                     {
-                        foreach (XmlNode node in fishNode.SelectNodes("/Baits/Bait[@new]"))
+                        foreach (XmlNode node in fishNode.SelectNodes("Baits/Bait[@new]"))
                         {
                             baits.Add(node);
                         }
-                        foreach (XmlNode node in fishNode.SelectNodes("/Zones/Zone[@new]"))
+                        foreach (XmlNode node in fishNode.SelectNodes("Zones/Zone[@new]"))
                         {
                             zones.Add(node);
                         }
@@ -514,7 +530,7 @@ namespace Fishing
                     {
                         UploadBaitAndZone(fish, rod, fishNode.Attributes["ID1"].Value, fishNode.Attributes["ID2"].Value, fishNode.Attributes["ID3"].Value, baits, zones, fishNode, ref updatedNodes);
                     }
-                    updateTimes.Add(rod);
+                    updatedRods.Add(rod);
                 }
                 List<XmlNode> renameFish = new List<XmlNode>(FishDB.DBRenamedFish);
                 FishDB.DBRenamedFish.Clear();
@@ -527,15 +543,24 @@ namespace Fishing
                     {
                         renamedNodes.Add(fishNode);
                     }
+                    updatedRods.Add(rod);
+                }
+                foreach (string rod in updatedRods)
+                {
+                    updateTimes[rod] = NewestDBModificationTime(rod);
                 }
                 CloseConnection();
                 foreach (XmlNode node in updatedNodes.Keys)
                 {
-                    FishDB.UnsetNew(updatedNodes[node], node);
+                    FishDB.UnsetNew(node, updatedNodes[node]);
                 }
                 foreach (XmlNode node in renamedNodes)
                 {
                     FishDB.UnsetRename(node);
+                }
+                foreach (string rod in updateTimes.Keys)
+                {
+                    FishDB.DBUpdated(rod, updateTimes[rod]);
                 }
                 if (updateTimes.Count > 0)
                 {
