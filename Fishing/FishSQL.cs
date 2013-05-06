@@ -51,7 +51,7 @@ namespace Fishing
 
     internal static class FishSQL
     {
-        internal static FishingDBSyncForm SyncForm { private get; set; }
+        internal static IFishDBStatusDisplay StatusDisplay { private get; set; }
         internal static MySqlConnection Connection { get; private set; }
         private static string server = "instance44985.db.xeround.com";
         private static string port = "6382";
@@ -278,9 +278,9 @@ namespace Fishing
                 foreach (XmlNode node in bait)
                 {
                     String b = node.InnerText;
-                    if (null != SyncForm)
+                    if (null != StatusDisplay)
                     {
-                        SyncForm.SetFishBaitOrZone(fish, b);
+                        StatusDisplay.SetFishBaitOrZone(fish, b);
                     }
                     using (MySqlCommand cmd = Connection.CreateCommand())
                     {
@@ -308,9 +308,9 @@ namespace Fishing
                 foreach (XmlNode node in zones)
                 {
                     String z = node.InnerText;
-                    if (null != SyncForm)
+                    if (null != StatusDisplay)
                     {
-                        SyncForm.SetFishBaitOrZone(fish, z);
+                        StatusDisplay.SetFishBaitOrZone(fish, z);
                     }
                     using (MySqlCommand cmd = Connection.CreateCommand())
                     {
@@ -479,9 +479,9 @@ namespace Fishing
 
         public static void DoUploadFish()
         {
-            if (null != SyncForm)
+            if (null != StatusDisplay)
             {
-                SyncForm.SetUploadFishNumber(FishDB.DBNewFish.Count);
+                StatusDisplay.SetUploadFishNumber(FishDB.DBNewFish.Count + FishDB.DBRenamedFish.Count);
             }
             if (FishDB.DBNewFish.Count > 0 || FishDB.DBRenamedFish.Count > 0)
             {
@@ -496,9 +496,9 @@ namespace Fishing
                     List<XmlNode> zones = new List<XmlNode>();
                     string rod = fishNode.OwnerDocument.SelectSingleNode("/Rod").Attributes["name"].Value;
                     string fish = fishNode.Attributes["name"].Value;
-                    if (null != SyncForm)
+                    if (null != StatusDisplay)
                     {
-                        SyncForm.SetUploadRodAndFish(rod, fish);
+                        StatusDisplay.SetUploadRodAndFish(rod, fish);
                     }
                     if (null != fishNode.Attributes["new"])
                     {
@@ -539,6 +539,10 @@ namespace Fishing
                 {
                     string rod = fishNode.OwnerDocument.SelectSingleNode("/Rod").Attributes["name"].Value;
                     string fish = fishNode.Attributes["name"].Value;
+                    if (null != StatusDisplay)
+                    {
+                        StatusDisplay.SetUploadRenameRodAndFish(rod, fish, fishNode.Attributes["rename"].Value);
+                    }
                     if (RenameFish(fish, fishNode.Attributes["rename"].Value, rod, fishNode.Attributes["ID1"].Value, fishNode.Attributes["ID2"].Value, fishNode.Attributes["ID3"].Value))
                     {
                         renamedNodes.Add(fishNode);
@@ -572,44 +576,52 @@ namespace Fishing
         public static void DoDownloadFish()
         {
             Dictionary<string, DateTime> updateTimes = new Dictionary<string, DateTime>();
-            if (null != SyncForm)
+            if (null != StatusDisplay)
             {
-                SyncForm.SetDownloadRodNumber(Dictionaries.rodDictionary.Count);
+                StatusDisplay.SetDownloadRodNumber(Dictionaries.rodDictionary.Count);
             }
             foreach (string rod in Dictionaries.rodDictionary.Keys)
             {
-                if (null != SyncForm)
+                if (null != StatusDisplay)
                 {
-                    SyncForm.SetDownloadRod(rod);
+                    StatusDisplay.SetDownloadRod(rod);
                 }
                 DateTime newest = NewestDBModificationTime(rod);
                 if (FishDB.UpdatesByRod[rod].dbDate < newest)
                 {
                     List<SQLFishie> newFishies = DownloadNewFish(rod, FishDB.UpdatesByRod[rod].dbDate);
-                    if (null != SyncForm)
+                    if (null != StatusDisplay)
                     {
-                        SyncForm.SetDownloadRodFish(newFishies.Count);
+                        StatusDisplay.SetDownloadRodFish(newFishies.Count);
                     }
                     foreach (SQLFishie fish in newFishies)
                     {
                         string name = fish.name;
-                        if (null != SyncForm)
+                        if (null != StatusDisplay)
                         {
-                            SyncForm.SetDownloadFish(name);
+                            StatusDisplay.SetDownloadFish(name);
                             if (null == fish.zone)
                             {
-                                SyncForm.SetFishBaitOrZone(name, fish.bait);
+                                StatusDisplay.SetFishBaitOrZone(name, fish.bait);
                             }
                             else
                             {
-                                SyncForm.SetFishBaitOrZone(name, fish.zone);
+                                StatusDisplay.SetFishBaitOrZone(name, fish.zone);
                             }
                         }
                         FishDB.AddNewFish(ref name, fish.zone, fish.bait, fish.rod, fish.ID1, fish.ID2, fish.ID3, false, true);
                     }
                     Dictionary<SQLFishie, string> renamedFish = DownloadRenamedFish(rod, FishDB.UpdatesByRod[rod].dbDate);
+                    if (null != StatusDisplay)
+                    {
+                        StatusDisplay.SetDownloadRenameRodFish(renamedFish.Count);
+                    }
                     foreach (SQLFishie fish in renamedFish.Keys)
                     {
+                        if (null != StatusDisplay)
+                        {
+                            StatusDisplay.SetDownloadRenameFish(fish.name, renamedFish[fish]);
+                        }
                         try
                         {
                             FishDB.ChangeName(fish.ToFishDBFishie(), renamedFish[fish], true);

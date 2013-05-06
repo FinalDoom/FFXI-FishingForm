@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace Fishing
 {
-    internal partial class FishingDBSyncForm : Form
+    internal partial class FishingDBSyncForm : Form, IFishDBStatusDisplay
     {
         // 50% upload 50% download
         // Rods or fish divide that half evenly
@@ -21,6 +21,8 @@ namespace Fishing
         private int downloadingRod = 0;
         private int downloadFish;
         private int downloadingFish = 0;
+        private int renameFish;
+        private int renamingFish = 0;
 
         public FishingDBSyncForm()
         {
@@ -28,7 +30,7 @@ namespace Fishing
 
             Thread syncThread = new Thread(new ThreadStart(DoSync));
             syncThread.IsBackground = true;
-            FishSQL.SyncForm = this;
+            FishSQL.StatusDisplay = this;
             syncThread.Start();
         }
 
@@ -51,25 +53,35 @@ namespace Fishing
                 return;
             }
 
+            StartDBTransaction();
             FishDB.MarkAllFishNew();
             FishDB.GetUpdates();
             FishSQL.DoUploadFish();
             FishSQL.DoDownloadFish();
-            Done();
+            EndDBTransaction();
         }
 
-        public void Done()
+        public bool StartDBTransaction()
         {
-            if (InvokeRequired)
+            bool ret = false;
+            this.UIThreadInvoke(delegate
             {
-                Invoke(new VoidDelegate(Done));
-            }
-            else
+                lblRod.Text = "Starting Sync...";
+                lblFish.Text = String.Empty;
+                progress.Value = progress.Minimum;
+                ret = true;
+            });
+            return ret;
+        }
+
+        public void EndDBTransaction()
+        {
+            this.UIThread(delegate
             {
                 lblRod.Text = "Done!";
                 lblFish.Text = String.Empty;
                 progress.Value = progress.Maximum;
-            }
+            });
         }
 
         public void SetUploadFishNumber(int fish)
@@ -92,6 +104,18 @@ namespace Fishing
             }
         }
 
+        public void SetUploadRenameRodAndFish(string rod, string fromName, string toName)
+        {
+            this.UIThread(delegate
+            {
+                lblRod.Text = string.Format("Uploading {0}:", rod);
+                lblFish.Text = string.Format("Renaming {0} to {1}", fromName, toName);
+                uploadingFish++;
+                ProgressUpdate();
+            });
+        }
+
+
         public void SetDownloadRodNumber(int rods)
         {
             downloadRods = rods;
@@ -101,6 +125,12 @@ namespace Fishing
         {
             downloadingFish = 0;
             downloadFish = fish;
+        }
+
+        public void SetDownloadRenameRodFish(int fish)
+        {
+            renamingFish = 0;
+            renameFish = fish;
         }
 
         public void SetDownloadRod(string rod)
@@ -131,16 +161,22 @@ namespace Fishing
             }
         }
 
+        public void SetDownloadRenameFish(string fromName, string toName)
+        {
+            this.UIThread(delegate
+            {
+                lblFish.Text = string.Format("Renaming {0} to {1}", fromName, toName);
+                renamingFish++;
+                ProgressUpdate();
+            });
+        }
+
         public void SetFishBaitOrZone(string fish, string baitOrZone)
         {
-            if (InvokeRequired)
-            {
-                Invoke(new VoidDoubleStringDelegate(SetFishBaitOrZone), fish, baitOrZone);
-            }
-            else
+            this.UIThread(delegate
             {
                 lblFish.Text = string.Format("{0} - {1}", fish, baitOrZone);
-            }
+            });
         }
 
         delegate void VoidStringDelegate(string s);
@@ -150,7 +186,11 @@ namespace Fishing
         private void ProgressUpdate()
         {
             int prog = 0;
-            int half = progress.Maximum / 2;
+            int half = 0;
+            this.UIThreadInvoke(delegate
+            {
+                half = progress.Maximum / 2;
+            });
             if (uploadingFish > 0)
             {
                 prog = (int)Math.Ceiling(Math.Min((double)(uploadingFish - 1) / uploadFish, 1.0D) * half);
@@ -158,13 +198,20 @@ namespace Fishing
             if (downloadingRod > 0)
             {
                 prog = half / 2;
-                prog += (int)Math.Ceiling(Math.Min((double)(downloadingRod - 1) / downloadRods, 1.0D) * half / downloadRods);
+                prog += (int)Math.Ceiling(Math.Min((double)(downloadingRod - 1) / downloadRods, 1.0D) * half / downloadRods / 2);
                 if (downloadingFish > 0)
                 {
-                    prog += (int)Math.Ceiling(Math.Min((double)(downloadingFish - 1) / downloadFish, 1.0D) * half / downloadRods);
+                    prog += (int)Math.Ceiling(Math.Min((double)(downloadingFish - 1) / downloadFish, 1.0D) * half / downloadRods / 2);
+                }
+                if (renamingFish > 0)
+                {
+                    prog += (int)Math.Ceiling(Math.Min((double)(renamingFish - 1) / renameFish, 1.0D) * half / downloadRods / 2);
                 }
             }
-            progress.Value = prog;
+            this.UIThread(delegate
+            {
+                progress.Value = prog;
+            });
         }
     }
 }

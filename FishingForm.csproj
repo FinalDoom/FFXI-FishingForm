@@ -106,6 +106,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ControlExtensions.cs" />
     <Compile Include="FFACETools\Chat.cs" />
     <Compile Include="FFACETools\enums.cs" />
     <Compile Include="FFACETools\FFACETools.cs" />
@@ -142,6 +143,7 @@
     <Compile Include="Fishing\FishSQL.cs" />
     <Compile Include="Fishing\FishStats.cs" />
     <Compile Include="FlashWindow.cs" />
+    <Compile Include="IFishDBStatusDisplay.cs" />
     <Compile Include="ProcessSelector.cs">
       <SubType>Form</SubType>
     </Compile>
