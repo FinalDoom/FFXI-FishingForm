@@ -235,6 +235,10 @@ noted rod. Some rods do not have any data, so the default value remains.
 Changes
 -------
 
+1.7.0.16
+--------
+Manually changed XML updates correctly
+
 1.7.0.15
 --------
 - Fix startup DB sync to actually check for updated XML (without loading into memory unnecessarily)

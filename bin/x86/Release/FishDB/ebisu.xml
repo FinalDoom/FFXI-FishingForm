@@ -91,9 +91,11 @@
   <Fish name="Bastore Sardine" wanted="No" ID1="140" ID2="21" ID3="13" ID4="10">
     <Zones>
       <Zone>Vunkerl Inlet [S]</Zone>
+      <Zone>Port Windurst</Zone>
     </Zones>
     <Baits>
       <Bait>Robber Rig</Bait>
+      <Bait>Sabiki Rig</Bait>
     </Baits>
   </Fish>
   <Fish name="Trumpet Shell" wanted="Yes" ID1="100" ID2="18" ID3="14" ID4="9">
@@ -260,10 +262,12 @@
       <Zone>Vunkerl Inlet [S]</Zone>
       <Zone>Kazham</Zone>
       <Zone>Ship bound for Mhaura</Zone>
+      <Zone>Port Windurst</Zone>
     </Zones>
     <Baits>
       <Bait>Robber Rig</Bait>
       <Bait>Lugworm</Bait>
+      <Bait>Sabiki Rig</Bait>
     </Baits>
   </Fish>
   <Fish name="Bastore Bream" wanted="No" ID1="200" ID2="31" ID3="9" ID4="15">
@@ -866,6 +870,7 @@
       <Zone>Ship bound for Mhaura</Zone>
       <Zone>Ship bound for Selbina</Zone>
       <Zone>Beaucedine Glacier</Zone>
+      <Zone>Qufim Island</Zone>
     </Zones>
     <Baits>
       <Bait>Minnow</Bait>
@@ -1056,9 +1061,131 @@
     </Baits>
   </Fish>
   <Fish name="Pterygotus" wanted="No" ID1="140" ID2="39" ID3="9">
-    <Zones />
+    <Zones>
+      <Zone>Nashmau</Zone>
+    </Zones>
     <Baits>
       <Bait>Lugworm</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Cobalt Jellyfish" wanted="No" ID1="60" ID2="28" ID3="15">
+    <Zones>
+      <Zone>Vunkerl Inlet [S]</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Dwarf Pugil</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Arrowwood Log" wanted="No" ID1="100" ID2="18" ID3="15">
+    <Zones>
+      <Zone>Vunkerl Inlet [S]</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Dwarf Pugil</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Rusty Bucket" wanted="No" ID1="100" ID2="19" ID3="15">
+    <Zones>
+      <Zone>Vunkerl Inlet [S]</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Dwarf Pugil</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Rusty Subligar" wanted="No" ID1="100" ID2="22" ID3="15">
+    <Zones>
+      <Zone>Vunkerl Inlet [S]</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Dwarf Pugil</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Rusty Leggings" wanted="No" ID1="100" ID2="26" ID3="15">
+    <Zones>
+      <Zone>Vunkerl Inlet [S]</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Dwarf Pugil</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Bastore Sardine x2" wanted="No" ID1="140" ID2="21" ID3="14">
+    <Zones>
+      <Zone>Port Windurst</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Sabiki Rig</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Bastore Sardine x3" wanted="No" ID1="160" ID2="21" ID3="15">
+    <Zones>
+      <Zone>Port Windurst</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Sabiki Rig</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Three-Eyed Fish" wanted="No" ID1="180" ID2="22" ID3="11">
+    <Zones>
+      <Zone>Qufim Island</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Minnow</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Gigant Octopus" wanted="No" ID1="220" ID2="27" ID3="4">
+    <Zones>
+      <Zone>Vunkerl Inlet [S]</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Shrimp Lure</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Bastore Bream" wanted="No" ID1="240" ID2="31" ID3="11">
+    <Zones>
+      <Zone>Vunkerl Inlet [S]</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Shrimp Lure</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Quus x2" wanted="No" ID1="260" ID2="12" ID3="9">
+    <Zones>
+      <Zone>Port Windurst</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Sabiki Rig</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Armored Pisces" wanted="No" ID1="260" ID2="33" ID3="6">
+    <Zones>
+      <Zone>Oldton Movalpolos</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Sinking Minnow</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Quus x3" wanted="No" ID1="280" ID2="12" ID3="10">
+    <Zones>
+      <Zone>Port Windurst</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Sabiki Rig</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Ogre Eel" wanted="No" ID1="280" ID2="29" ID3="15">
+    <Zones>
+      <Zone>Vunkerl Inlet [S]</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Shrimp Lure</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Matsya" wanted="No" ID1="300" ID2="46" ID3="9">
+    <Zones>
+      <Zone>Vunkerl Inlet [S]</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Dwarf Pugil</Bait>
     </Baits>
   </Fish>
 </Rod>
