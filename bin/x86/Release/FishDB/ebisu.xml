@@ -205,6 +205,7 @@
       <Zone>Talacca Cove</Zone>
       <Zone>Port San d'Oria</Zone>
       <Zone>Qufim Island</Zone>
+      <Zone>Mhaura</Zone>
     </Zones>
     <Baits>
       <Bait>Robber Rig</Bait>
@@ -582,10 +583,12 @@
     <Zones>
       <Zone>Kazham</Zone>
       <Zone>Den of Rancor</Zone>
+      <Zone>Mhaura</Zone>
     </Zones>
     <Baits>
       <Bait>Worm Lure</Bait>
       <Bait>Shrimp Lure</Bait>
+      <Bait>Meatball</Bait>
     </Baits>
   </Fish>
   <Fish name="Crescent Fish" wanted="Yes" ID1="180" ID2="28" ID3="9" ID4="14">
@@ -1186,6 +1189,12 @@
     </Zones>
     <Baits>
       <Bait>Dwarf Pugil</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Tiger Shark" wanted="No" ID1="200" ID2="49" ID3="4">
+    <Zones />
+    <Baits>
+      <Bait>Sinking Minnow</Bait>
     </Baits>
   </Fish>
 </Rod>

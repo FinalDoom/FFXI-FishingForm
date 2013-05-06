@@ -91,17 +91,13 @@ namespace Fishing
 
         public void SetUploadRodAndFish(string rod, string fish)
         {
-            if (InvokeRequired)
-            {
-                Invoke(new VoidDoubleStringDelegate(SetUploadRodAndFish), rod, fish);
-            }
-            else
+            this.UIThread(delegate
             {
                 lblRod.Text = string.Format("Uploading {0}:", rod);
                 lblFish.Text = fish;
                 uploadingFish++;
                 ProgressUpdate();
-            }
+            });
         }
 
         public void SetUploadRenameRodAndFish(string rod, string fromName, string toName)
@@ -135,30 +131,22 @@ namespace Fishing
 
         public void SetDownloadRod(string rod)
         {
-            if (InvokeRequired)
-            {
-                Invoke(new VoidStringDelegate(SetDownloadRod), rod);
-            }
-            else
+            this.UIThread(delegate
             {
                 lblRod.Text = string.Format("Downloading {0}:", rod);
                 downloadingRod++;
                 ProgressUpdate();
-            }
+            });
         }
 
         public void SetDownloadFish(string fish)
         {
-            if (InvokeRequired)
-            {
-                Invoke(new VoidStringDelegate(SetDownloadFish), fish);
-            }
-            else
+            this.UIThread(delegate
             {
                 lblFish.Text = fish;
                 downloadingFish++;
                 ProgressUpdate();
-            }
+            });
         }
 
         public void SetDownloadRenameFish(string fromName, string toName)
@@ -178,10 +166,6 @@ namespace Fishing
                 lblFish.Text = string.Format("{0} - {1}", fish, baitOrZone);
             });
         }
-
-        delegate void VoidStringDelegate(string s);
-        delegate void VoidDoubleStringDelegate(string s1, string s2);
-        delegate void VoidDelegate();
 
         private void ProgressUpdate()
         {
