@@ -93,6 +93,7 @@
       <Zone>Ship bound for Selbina (Pirates)</Zone>
       <Zone>Ship bound for Mhaura (Pirates)</Zone>
       <Zone>Qufim Island</Zone>
+      <Zone>Sauromugue Champaign</Zone>
     </Zones>
     <Baits>
       <Bait>Sinking Minnow</Bait>
@@ -105,9 +106,11 @@
       <Zone>Aht Urhgan Whitegate</Zone>
       <Zone>Ship bound for Mhaura</Zone>
       <Zone>Ship bound for Selbina</Zone>
+      <Zone>Sea Serpent Grotto</Zone>
     </Zones>
     <Baits>
       <Bait>Shrimp Lure</Bait>
+      <Bait>Peeled Lobster</Bait>
     </Baits>
   </Fish>
   <Fish name="Kalkanbaligi" wanted="Yes" ID1="240" ID2="24" ID3="7" ID4="19">
@@ -1976,6 +1979,36 @@
     </Zones>
     <Baits>
       <Bait>Sinking Minnow</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="a Nosteau herring!" wanted="No" ID1="180" ID2="23" ID3="9">
+    <Zones>
+      <Zone>Batallia Downs</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Robber Rig</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Black Eel" wanted="No" ID1="180" ID2="26" ID3="7">
+    <Zones />
+    <Baits>
+      <Bait>Worm Lure</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="a silver shark!" wanted="No" ID1="200" ID2="38" ID3="5">
+    <Zones>
+      <Zone>Batallia Downs</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Meatball</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Mob (_1_)" wanted="No" ID1="300" ID2="17" ID3="11">
+    <Zones>
+      <Zone>Jugner Forest</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Fly Lure</Bait>
     </Baits>
   </Fish>
 </Rod>

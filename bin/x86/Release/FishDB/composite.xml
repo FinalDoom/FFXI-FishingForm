@@ -733,4 +733,10 @@
       <Bait>Sinking Minnow</Bait>
     </Baits>
   </Fish>
+  <Fish name="Too small fish" wanted="No" ID1="40" ID2="27" ID3="13">
+    <Zones />
+    <Baits>
+      <Bait>Robber Rig</Bait>
+    </Baits>
+  </Fish>
 </Rod>

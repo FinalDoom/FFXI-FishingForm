@@ -360,7 +360,7 @@ namespace Fishing
 					decimal castWait = numCastIntervalLow.Value + randomCast;
 					SetStatus(string.Format("Casting in {0} seconds.", castWait));
 					lblHP.Text = "";
-					Thread.Sleep((int)castWait * 1000);
+					Thread.Sleep((int)(castWait * 1000));
 				}
 
                 Fish();
@@ -385,44 +385,38 @@ namespace Fishing
 
         private bool IsRodBaitSet()
         {
-            if (InvokeRequired)
+            if (_FFACE == null)
             {
-                return (bool)Invoke(new BoolNoParamDelegate(IsRodBaitSet));
+                return false;
+            }
+            string bait = tbBaitGear.Text;
+            if (string.IsNullOrEmpty(bait))
+            {
+                bait = GetBaitName(_FFACE.Item.GetEquippedItemID(EquipSlot.Ammo));
+            }
+            string rod = tbRodGear.Text;
+            if (string.IsNullOrEmpty(rod))
+            {
+                rod = GetRodName(_FFACE.Item.GetEquippedItemID(EquipSlot.Range));
+            }
+            currentZone = _FFACE.Player.Zone;
+
+            if ((!string.IsNullOrEmpty(rod)) && (!string.IsNullOrEmpty(bait)))
+            {
+                SetBait(bait);
+                SetRod(rod);
+                SetLblZone(GetZoneName(currentZone));
+
+                return true;
             }
             else
             {
-                if (_FFACE == null)
-                {
-                    return false;
-                }
-                string bait = tbBaitGear.Text;
-                if (string.IsNullOrEmpty(bait))
-                {
-                    bait = GetBaitName(_FFACE.Item.GetEquippedItemID(EquipSlot.Ammo));
-                }
-                string rod = tbRodGear.Text;
-                if (string.IsNullOrEmpty(rod))
-                {
-                    rod = GetRodName(_FFACE.Item.GetEquippedItemID(EquipSlot.Range));
-                }
-                currentZone = _FFACE.Player.Zone;
+                LastBaitName = LastRodName = string.Empty;
+                SetLblZone(string.Empty);
+                Stop(false, "No rod or bait equipped or set in options.");
+                ClearLists();
 
-                if ((!string.IsNullOrEmpty(rod)) && (!string.IsNullOrEmpty(bait)))
-                {
-                    SetBait(bait);
-                    SetRod(rod);
-                    SetLblZone(GetZoneName(currentZone));
-
-                    return true;
-                }
-                else
-                {
-                    LastBaitName = LastRodName = lblZone.Text = string.Empty;
-                    Stop(false, "No rod or bait equipped or set in options.");
-                    ClearLists();
-
-                    return false;
-                }
+                return false;
             }
         } // @ private bool RodBaitEquipped()
 
@@ -586,7 +580,7 @@ namespace Fishing
             }
 
             SetStatus(string.Format("Reeling in {0}.", currentFish));
-            lblHP.Text = "";
+            SetLblHP(string.Empty);
 
             string strNewFish = "Unknown";
             string strPlayerName = _FFACE.Player.Name;
@@ -781,7 +775,7 @@ namespace Fishing
 
             if (cbFishHP.Checked)
             {
-                lblHP.Text = string.Format("{0}/{1} [{2}s]", _FFACE.Fish.HPCurrent, _FFACE.Fish.HPMax, _FFACE.Fish.Timeout);
+                SetLblHP(string.Format("{0}/{1} [{2}s]", _FFACE.Fish.HPCurrent, _FFACE.Fish.HPMax, _FFACE.Fish.Timeout));
             }
 
             if (cbReaction.Checked)
@@ -826,7 +820,7 @@ namespace Fishing
 
                 if (cbFishHP.Checked)
                 {
-                    lblHP.Text = string.Format("{0}/{1} [{2}s]", currentFishHP, _FFACE.Fish.HPMax, _FFACE.Fish.Timeout);
+                    SetLblHP(string.Format("{0}/{1} [{2}s]", currentFishHP, _FFACE.Fish.HPMax, _FFACE.Fish.Timeout));
                 }
                 Thread.Sleep(1);
             }
@@ -1538,10 +1532,6 @@ namespace Fishing
         /// </summary>
         private void WinClear()
         {
-            _FFACE.Windower.SendKey(KeyCode.NP_Number2, false);
-            _FFACE.Windower.SendKey(KeyCode.NP_Number4, false);
-            _FFACE.Windower.SendKey(KeyCode.NP_Number6, false);
-            _FFACE.Windower.SendKey(KeyCode.NP_Number8, false);
             _FFACE.Windower.SendKey(KeyCode.EscapeKey, false);
             _FFACE.Windower.SendKey(KeyCode.EnterKey, false);
 
@@ -1750,8 +1740,6 @@ namespace Fishing
 			}
 		}
 
-        delegate void VoidBoolStrDelegate(bool param1, string param2);
-
         private void OutOfBait(string message)
         {
             if (cbBaitActionWarp.Checked)
@@ -1799,13 +1787,12 @@ namespace Fishing
 
         private void Stop(bool zoned, string status)
         {
-            if (InvokeRequired)
-                Invoke(new VoidBoolStrDelegate(Stop), zoned, status);
-            else
+            this.UIThread(delegate
             {
-				if (FishStats.startTicks != 0) {
-					FishStats.ticksFished += DateTime.Now.Ticks - FishStats.startTicks;
-					FishStats.startTicks = 0;
+                if (FishStats.startTicks != 0)
+                {
+                    FishStats.ticksFished += DateTime.Now.Ticks - FishStats.startTicks;
+                    FishStats.startTicks = 0;
                 }
                 SetStatus(status);
 
@@ -1871,111 +1858,75 @@ namespace Fishing
                     btnStart.Text = "START";
                     btnStartM.Image = Fishing.Properties.Resources.icon_play;
                 }
-            }
-
+            });
         } // @ private void Stop(bool zoned, string status)
 
         #endregion //Methods_Reattach/Start/Stop
 
         #region Methods_ThreadSafe
 
-        delegate decimal DecimalNoParamDelegate();
-        delegate int IntNoParamDelegate();
-        delegate string StringNoParamDelegate();
-        delegate bool BoolNoParamDelegate();
-        delegate void VoidNoParamDelegate();
-        delegate void VoidBoolDelegate(bool param);
-        delegate void VoidIntDelegate(int param);
-        delegate void VoidStrDelegate(string param);
-        delegate void ChatLogsDelegate(RichTextBox param1, List<FFACE.ChatTools.ChatLine> param2, int param3);
-
         private void ClearLists()
         {
-            if (InvokeRequired)
-            {
-                Invoke(new VoidNoParamDelegate(ClearLists));
-            }
-            else
+            this.UIThread(delegate
             {
                 lbWanted.Items.Clear();
                 lbUnwanted.Items.Clear();
-            }
+            });
 
         } // @ private void ClearLists()
 
         private decimal GetFakeLargeHigh()
         {
-            if (InvokeRequired)
+            decimal ret = decimal.Zero;
+            this.UIThreadInvoke(delegate
             {
-                return (decimal)Invoke(new DecimalNoParamDelegate(GetFakeLargeHigh), null);
-            }
-            else
-            {
-                return this.numFakeLargeIntervalHigh.Value;
-            }
-
+                ret = this.numFakeLargeIntervalHigh.Value;
+            });
+            return ret;
         } // @ private decimal GetFakeLargeHigh()
 
         private decimal GetFakeLargeLow()
         {
-            if (InvokeRequired)
+            decimal ret = decimal.Zero;
+            this.UIThreadInvoke(delegate
             {
-                return (decimal)Invoke(new DecimalNoParamDelegate(GetFakeLargeLow), null);
-            }
-            else
-            {
-                return numFakeLargeIntervalLow.Value;
-            }
-
+                ret = numFakeLargeIntervalLow.Value;
+            });
+            return ret;
         } // @ private decimal GetFakeLargeLow()
 
         private decimal GetFakeSmallHigh()
         {
-            if (InvokeRequired)
+            decimal ret = decimal.Zero;
+            this.UIThreadInvoke(delegate
             {
-                return (decimal)Invoke(new DecimalNoParamDelegate(GetFakeSmallHigh), null);
-            }
-            else
-            {
-                return numFakeSmallIntervalHigh.Value;
-            }
-
+                ret = numFakeSmallIntervalHigh.Value;
+            });
+            return ret;
         } // @ private decimal GetFakeSmallHigh()
 
         private decimal GetFakeSmallLow()
         {
-            if (InvokeRequired)
+            decimal ret = decimal.Zero;
+            this.UIThreadInvoke(delegate
             {
-                return (decimal)Invoke(new DecimalNoParamDelegate(GetFakeSmallLow), null);
-            }
-            else
-            {
-                return numFakeSmallIntervalLow.Value;
-            }
-
+                ret = numFakeSmallIntervalLow.Value;
+            });
+            return ret;
         } // @ private decimal GetFakeSmallLow()
 
         private void IncreaseCastTime()
         {
-            if (InvokeRequired)
-            {
-                Invoke(new VoidNoParamDelegate(IncreaseCastTime));
-            }
-            else
+            this.UIThread(delegate
             {
                 numCastIntervalHigh.Value += 1;
                 numCastIntervalLow.Value += 1;
-            }
-
+            });
         } // @ private void IncreaseCastTime()
 
         private void PopulateLists()
         {
-            if (InvokeRequired)
-            {
-                 Invoke(new VoidNoParamDelegate(PopulateLists));
-            }
-            else
+            this.UIThread(delegate
             {
                 lbWanted.Items.Clear();
                 lbUnwanted.Items.Clear();
@@ -1994,117 +1945,72 @@ namespace Fishing
                 {
                     lbUnwanted.Items.Add(f);
                 }
-            }
-
+            });
         } // @ private void PopulateLists()
 
         private void SetBait(string bait)
         {
-            if (InvokeRequired)
-            {
-                Invoke(new VoidStrDelegate(SetBait), bait);
-            }
-            else
+            this.UIThread(delegate
             {
                 LastBaitName = bait;
-            }
-
+            });
         } // @ private void SetBait(string bait)
 
         private string GetBait()
         {
-            if (InvokeRequired)
+            string ret = string.Empty;
+            this.UIThreadInvoke(delegate
             {
-                return (string)Invoke(new StringNoParamDelegate(GetBait));
-            }
-            else
-            {
-                return LastBaitName;
-            }
+                ret = LastBaitName;
+            });
+            return ret;
         } // @ private void GetBait()
-
-        private string GetOptionsBate()
-        {
-            if (InvokeRequired)
-            {
-                return (string)Invoke(new StringNoParamDelegate(GetOptionsBate));
-            }
-            else
-            {
-                return tbBaitGear.Text;
-            }
-        } // @ private void GetOptionsBait()
 
         private void SetRod(string rod)
         {
-            if (InvokeRequired)
-            {
-                Invoke(new VoidStrDelegate(SetRod), rod);
-            }
-            else
+            this.UIThread(delegate
             {
                 LastRodName = rod;
-            }
-
+            });
         } // @ private void SetRod(string rod)
 
         private string GetRod()
         {
-            if (InvokeRequired)
+            string ret = string.Empty;
+            this.UIThreadInvoke(delegate
             {
-                return (string)Invoke(new StringNoParamDelegate(GetRod));
-            }
-            else
-            {
-                return LastRodName;
-            }
+                ret = LastRodName;
+            });
+            return ret;
         } // @ private void GetRod()
-
-        private string GetOptionsRod()
-        {
-            if (InvokeRequired)
-            {
-                return (string)Invoke(new StringNoParamDelegate(GetOptionsRod));
-            }
-            else
-            {
-                return tbRodGear.Text;
-            }
-        } // @ private void GetOptionsRod()
 
         private void SetLblZone(string zone)
         {
-            if (InvokeRequired)
-            {
-                Invoke(new VoidStrDelegate(SetLblZone), zone);
-            }
-            else
+            this.UIThread(delegate
             {
                 lblZone.Text = zone;
-            }
-
+            });
         } // @ private void SetLblZone(string zone)
 
         private void SetNoCatch(int releases)
         {
-            if (InvokeRequired)
-            {
-                Invoke(new VoidIntDelegate(SetNoCatch), releases);
-            }
-            else
+            this.UIThread(delegate
             {
                 lblNoCatchAt.Text = string.Format("{0} / {1}", consecutiveNoCatchCount, numMaxNoCatch.Value);
-            }
-
+            });
         } // @ private void SetNoCatch(int releases)
+
+        private void SetLblHP(string text)
+        {
+            this.UIThread(delegate
+            {
+                lblHP.Text = text;
+            });
+        } // @ private void SetLblHP(string text)
 
         private void SetProgress(int pos)
         {
-            if (InvokeRequired)
-            {
-                Invoke(new VoidIntDelegate(SetProgress), pos);
-            }
-            else
+            this.UIThread(delegate
             {
                 //in case SetProgressMaxValue wasn't called, for w/e reason
                 if (progressBarST.Maximum < pos)
@@ -2113,44 +2019,29 @@ namespace Fishing
                 }
 
                 progressBarST.Value = pos;
-            }
-
+            });
         } // @ private void SetProgress(int pos)
 
         private void SetProgressMaxValue(int pos)
         {
-            if (InvokeRequired)
-            {
-                Invoke(new VoidIntDelegate(SetProgressMaxValue), pos);
-            }
-            else
+            this.UIThread(delegate
             {
                 progressBarST.Maximum = pos;
                 progressBarST.Value = pos;
-            }
-
+            });
         } // @ private void SetProgressMaxValue(int pos)
 
         private void SetStatus(string str)
         {
-            if (InvokeRequired)
-            {
-                Invoke(new VoidStrDelegate(SetStatus), str);
-            }
-            else
+            this.UIThread(delegate
             {
                 lblStatus.Text = str;
-            }
-
+            });
         } // @ private void SetStatus(string str)
 
         private void UpdateChat()
         {
-            if (InvokeRequired)
-            {
-                Invoke(new VoidNoParamDelegate(UpdateChat));
-            }
-            else
+            this.UIThread(delegate
             {
                 UpdateChatLogs(rtbChat, FishChat.chatLog, FishChat.chatLogAdded);
                 string testLine;
@@ -2257,7 +2148,7 @@ namespace Fishing
                     DoCustomChatActions(sayActions, FishChat.sayLogAdded, FishChat.sayLog, playerChatSay, "Say chat received!", tabChatPageSay, " Say (!!!)");
                 }
                 FishChat.Clear();  //clear ___LogAdded variables for next update
-            }
+            });
         }
 
         private void DoCustomChatActions(int actions, int newCount, List<FFACE.ChatTools.ChatLine> chatLines, Regex testPrefix, string stopText, TabPage tabPage, string tabText)
@@ -2292,11 +2183,7 @@ namespace Fishing
 
         private void UpdateChatLogs(RichTextBox rtb, List<FFACE.ChatTools.ChatLine> log, int linesToParse)
         {
-            if (InvokeRequired)
-            {
-                Invoke(new ChatLogsDelegate(UpdateChatLogs), rtb, log, linesToParse);
-            }
-            else
+            this.UIThread(delegate
             {
                 if (0 < linesToParse)
                 {
@@ -2318,24 +2205,18 @@ namespace Fishing
                         }
                     }
                 }
-            }
-
+            });
         } // @ private void UpdateChatLogs(RichTextBox rtb, int linesToParse)
 
         private void UpdateStats()
         {
-            if (InvokeRequired)
-            {
-                Invoke(new VoidNoParamDelegate(UpdateStats));
-            }
-            else
+            this.UIThread(delegate
             {
                 string statsRtfResult = FishStats.PrintStats();
 
                 rtbStats.Clear();
                 rtbStats.SelectedRtf = statsRtfResult;
-            }
-
+            });
         } // @ private void UpdateStats()
 
         #endregion //Methods_ThreadSafe
