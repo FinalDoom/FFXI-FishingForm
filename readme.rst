@@ -166,6 +166,7 @@ Rod XML
 -------
 
 All but one XML file (DBSync.xml, described later) are of the following format:
+
 .. code:: xml
 	<Rod name="Rod Item Name">
 		<Fish name="Fish Name" wanted="Yes|No" ID1="INT" ID2="INT" ID3="INT"[ ID4="28"][ new=""][ rename="Old Name"]>
@@ -194,6 +195,7 @@ DBSync XML
 ----------
 
 DBSync.xml is a file used to reduce load on the remote database. Its format is as follows:
+
 .. code:: xml
 	<Updates>
 		<Update host="MySQL Connection String" dbver="1.7.0.7">
@@ -235,9 +237,13 @@ noted rod. Some rods do not have any data, so the default value remains.
 Changes
 -------
 
+1.6.7.49
+--------
+- Import useful fixes from 1.7
+
 1.7.0.16
 --------
-Manually changed XML updates correctly
+- Manually changed XML updates correctly
 
 1.7.0.15
 --------
