@@ -644,9 +644,25 @@ namespace Fishing
             }
         }
 
+        public static void BackgroundUpload()
+        {
+            if (StatusDisplay != null)
+            {
+                while (!StatusDisplay.StartDBTransaction("Starting upload to DB."))
+                {
+                    Thread.Sleep(250);
+                }
+            }
+            DoUploadFish();
+            if (StatusDisplay != null)
+            {
+                StatusDisplay.EndDBTransaction("Upload to DB finished.");
+            }
+        }
+
         public static void UploadNewFish()
         {
-            Thread uploadThread = new Thread(new ThreadStart(DoUploadFish));
+            Thread uploadThread = new Thread(new ThreadStart(BackgroundUpload));
             uploadThread.IsBackground = true;
             uploadThread.Start();
         }

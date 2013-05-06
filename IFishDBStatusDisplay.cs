@@ -10,14 +10,16 @@ namespace Fishing
         /**
          * <summary>Start interaction with remote database. Returns false if transaction already in progress.
          * This should be handled by the sync handler, not FishSQL.</summary>
+         * <param name="message">Message that may be displayed</param>
          * <returns>true if no transaction in progress</returns>
          */
-        bool StartDBTransaction();
+        bool StartDBTransaction(string message);
         /**
          * <summary>Signal an end to interaction with remote database.
          * This should be handled by the sync handler, not FishSQL.</summary>
+         * <param name="message">Message that may be displayed</param>
          */
-        void EndDBTransaction();
+        void EndDBTransaction(string message);
         /**
          * <summary>Set the total number of fish to upload. For tracking progress</summary>
          * <param name="fish">Total number of fish to be uploaded or renamed</param>

@@ -67,6 +67,8 @@
             this.rtbShell = new System.Windows.Forms.RichTextBox();
             this.tabChatPageSay = new System.Windows.Forms.TabPage();
             this.rtbSay = new System.Windows.Forms.RichTextBox();
+            this.tabChatPageDB = new System.Windows.Forms.TabPage();
+            this.rtbDB = new System.Windows.Forms.RichTextBox();
             this.tabDisplayPageStats = new System.Windows.Forms.TabPage();
             this.tabDisplayPageInfo = new System.Windows.Forms.TabPage();
             this.lblEarthTimeHeader = new System.Windows.Forms.Label();
@@ -201,6 +203,7 @@
             this.tabChatPageParty.SuspendLayout();
             this.tabChatPageLS.SuspendLayout();
             this.tabChatPageSay.SuspendLayout();
+            this.tabChatPageDB.SuspendLayout();
             this.tabDisplayPageStats.SuspendLayout();
             this.tabDisplayPageInfo.SuspendLayout();
             this.gbInfo.SuspendLayout();
@@ -579,6 +582,7 @@
             this.tabChat.Controls.Add(this.tabChatPageParty);
             this.tabChat.Controls.Add(this.tabChatPageLS);
             this.tabChat.Controls.Add(this.tabChatPageSay);
+            this.tabChat.Controls.Add(this.tabChatPageDB);
             this.tabChat.Location = new System.Drawing.Point(0, 22);
             this.tabChat.Margin = new System.Windows.Forms.Padding(0);
             this.tabChat.Multiline = true;
@@ -749,6 +753,33 @@
             this.rtbSay.TabStop = false;
             this.rtbSay.Text = "";
             this.rtbSay.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.rtbSay_LinkClicked);
+            // 
+            // tabChatPageDB
+            // 
+            this.tabChatPageDB.Controls.Add(this.rtbDB);
+            this.tabChatPageDB.Location = new System.Drawing.Point(4, 21);
+            this.tabChatPageDB.Name = "tabChatPageDB";
+            this.tabChatPageDB.Size = new System.Drawing.Size(367, 147);
+            this.tabChatPageDB.TabIndex = 5;
+            this.tabChatPageDB.Text = "DB";
+            this.tabChatPageDB.UseVisualStyleBackColor = true;
+            // 
+            // rtbDB
+            // 
+            this.rtbDB.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(23)))), ((int)(((byte)(23)))), ((int)(((byte)(23)))));
+            this.rtbDB.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.rtbDB.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.rtbDB.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rtbDB.ForeColor = System.Drawing.Color.White;
+            this.rtbDB.Location = new System.Drawing.Point(0, 0);
+            this.rtbDB.Margin = new System.Windows.Forms.Padding(0);
+            this.rtbDB.Name = "rtbDB";
+            this.rtbDB.ReadOnly = true;
+            this.rtbDB.Size = new System.Drawing.Size(367, 147);
+            this.rtbDB.TabIndex = 1;
+            this.rtbDB.TabStop = false;
+            this.rtbDB.Text = "";
+            this.rtbDB.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.rtbDB_LinkClicked);
             // 
             // tabDisplayPageStats
             // 
@@ -1334,7 +1365,7 @@
             this.gbGMDetect.Controls.Add(this.cbGMdetectAutostop);
             this.gbGMDetect.Location = new System.Drawing.Point(6, 7);
             this.gbGMDetect.Name = "gbGMDetect";
-            this.gbGMDetect.Size = new System.Drawing.Size(93, 153);
+            this.gbGMDetect.Size = new System.Drawing.Size(93, 151);
             this.gbGMDetect.TabIndex = 0;
             this.gbGMDetect.TabStop = false;
             this.gbGMDetect.Text = "GM Detection";
@@ -2059,7 +2090,7 @@
             this.gbOnFatigue.Controls.Add(this.cbFatiguedActionShutdown);
             this.gbOnFatigue.Location = new System.Drawing.Point(256, 6);
             this.gbOnFatigue.Name = "gbOnFatigue";
-            this.gbOnFatigue.Size = new System.Drawing.Size(102, 152);
+            this.gbOnFatigue.Size = new System.Drawing.Size(102, 150);
             this.gbOnFatigue.TabIndex = 2;
             this.gbOnFatigue.TabStop = false;
             this.gbOnFatigue.Text = "On Fatigue Stop";
@@ -2109,7 +2140,7 @@
             this.groupBox1.Controls.Add(this.cbInventoryItemizerItemTools);
             this.groupBox1.Location = new System.Drawing.Point(6, 6);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(119, 152);
+            this.groupBox1.Size = new System.Drawing.Size(119, 150);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "On Full Inventory";
@@ -2291,6 +2322,7 @@
             this.tabChatPageParty.ResumeLayout(false);
             this.tabChatPageLS.ResumeLayout(false);
             this.tabChatPageSay.ResumeLayout(false);
+            this.tabChatPageDB.ResumeLayout(false);
             this.tabDisplayPageStats.ResumeLayout(false);
             this.tabDisplayPageInfo.ResumeLayout(false);
             this.tabDisplayPageInfo.PerformLayout();
@@ -2502,6 +2534,8 @@
         private System.Windows.Forms.CheckBox cbBaitactionOther;
         private System.Windows.Forms.CheckBox cbBaitItemizerItemTools;
         private System.Windows.Forms.CheckBox cbFullActionStop;
+        private System.Windows.Forms.TabPage tabChatPageDB;
+        private System.Windows.Forms.RichTextBox rtbDB;
     }
 }
 

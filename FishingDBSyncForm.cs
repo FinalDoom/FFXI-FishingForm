@@ -53,20 +53,20 @@ namespace Fishing
                 return;
             }
 
-            StartDBTransaction();
+            StartDBTransaction("Starting Sync...");
             FishDB.MarkAllFishNew();
             FishDB.GetUpdates();
             FishSQL.DoUploadFish();
             FishSQL.DoDownloadFish();
-            EndDBTransaction();
+            EndDBTransaction("Done!");
         }
 
-        public bool StartDBTransaction()
+        public bool StartDBTransaction(string message)
         {
             bool ret = false;
             this.UIThreadInvoke(delegate
             {
-                lblRod.Text = "Starting Sync...";
+                lblRod.Text = message;
                 lblFish.Text = String.Empty;
                 progress.Value = progress.Minimum;
                 ret = true;
@@ -74,11 +74,11 @@ namespace Fishing
             return ret;
         }
 
-        public void EndDBTransaction()
+        public void EndDBTransaction(string message)
         {
             this.UIThread(delegate
             {
-                lblRod.Text = "Done!";
+                lblRod.Text = message;
                 lblFish.Text = String.Empty;
                 progress.Value = progress.Maximum;
             });
