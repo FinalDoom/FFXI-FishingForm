@@ -27,6 +27,7 @@ namespace Fishing
         private static ThreadStart ts;
         private static Thread workerThread;
         private static SizeF currentScaleFactor = new SizeF(1f, 1f);
+        private static FishingFormDBLogger DBLogger;
 
 		private static int skillLast = 0;
 		private static int skillDecimalMin = 0;
@@ -106,10 +107,6 @@ namespace Fishing
             List<string> args = arglist.ToList();  //*golfandsurf*  Formats <player> arg to match pol process
             args[0] = args[0].Substring(0, 1).ToUpper() + args[0].Substring(1, args[0].Length - 1).ToLower();
 
-            Thread databaseInitThread = new Thread(new ThreadStart(CheckDatabase));
-            databaseInitThread.IsBackground = true;
-            databaseInitThread.Start();
-
 			ChooseProcess(args[0]);
 
             if (args.Count > 1)
@@ -180,6 +177,12 @@ namespace Fishing
             FishDB.OnChanged += new FishDB.DBChanged(PopulateLists);
             FishStats.OnChanged += new FishStats.FishStatsChanged(UpdateStats);
 
+            DBLogger = new FishingFormDBLogger(this);
+            FishSQL.StatusDisplay = DBLogger;
+            Thread databaseInitThread = new Thread(new ThreadStart(CheckDatabase));
+            databaseInitThread.IsBackground = true;
+            databaseInitThread.Start();
+
             #endregion //FormElements
         }
         ~FishingForm()
@@ -235,14 +238,27 @@ namespace Fishing
                 {
                     return;
                 }
+                while (!DBLogger.StartDBTransaction("Beginning database sync."))
+                {
+                    Thread.Sleep(250);
+                }
                 if (!FishSQL.IsProgramUpdated())
                 {
-                    MessageBox.Show("A new version of FishingForm is available.\r\nCheck https://bitbucket.org/FinalDoom/ffxi-fishingform/downloads \r\nor http://www.ffevo.net/files/file/214-fishingform-fd-edition/ for the new version.");
+                    string[] message = {"A new version of FishingForm is available.",
+                                          "Check https://bitbucket.org/FinalDoom/ffxi-fishingform/downloads ",
+                                          "or http://www.ffevo.net/files/file/214-fishingform-fd-edition/ for the new version."
+                                      };
+                    MessageBox.Show(string.Join(Environment.NewLine, message));
+                    foreach (string s in message)
+                    {
+                        UpdateDBLog(s);
+                    }
                 }
 
                 FishDB.GetUpdates();
                 FishSQL.DoUploadFish();
                 FishSQL.DoDownloadFish();
+                DBLogger.EndDBTransaction("Database sync finished.");
             }
             catch (Exception)
             {
@@ -309,7 +325,7 @@ namespace Fishing
                 }
                 catch (DllNotFoundException)   //occurs when FFACE.dll cannot be found
                 {
-                    if (File.Exists(Application.StartupPath + "\\FFACE.dll"))
+                    if (File.Exists(Application.StartupPath + @"\FFACE.dll"))
                     {
                         MessageBox.Show("Please run FishingForm.exe as an Administrator.", "Error");
                     }
@@ -321,7 +337,11 @@ namespace Fishing
                 }
                 catch (EntryPointNotFoundException)   //occurs when 'CreateInstance' entry point in FFACE.dll cannot be found
                 {
-                    MessageBox.Show("This program uses FFACE v4.0.0.9 or higher!\r\n\r\nPlease download the latest version of FFACE and put it in this program's directory.", "Error");
+                    string[] message = {"This program uses FFACE v4.0.0.9 or higher!",
+                                           "",
+                                           "Please download the latest version of FFACE and put it in this program's directory."
+                                       };
+                    MessageBox.Show(string.Join(Environment.NewLine, message), "Error");
                     Environment.Exit(0);
                 }
 
@@ -2208,6 +2228,23 @@ namespace Fishing
             });
         } // @ private void UpdateChatLogs(RichTextBox rtb, int linesToParse)
 
+        public void UpdateDBLog(string line)
+        {
+            rtbDB.UIThread(delegate
+            {
+                if (!string.IsNullOrEmpty(line))
+                {
+                    rtbDB.SelectionStart = rtbDB.Text.Length;
+                    rtbDB.SelectionColor = Color.SlateBlue;
+                    rtbDB.SelectedText = DateTime.Now.ToString("[hh:mm:ss] ");
+                    rtbDB.SelectionColor = Color.White;
+                    rtbDB.SelectedText = line + Environment.NewLine;
+                    rtbDB.SelectionStart = rtbDB.Text.Length - 1;
+                    rtbDB.ScrollToCaret();
+                }
+            });
+        } // private void UpdateDBLog(string line)
+
         private void UpdateStats()
         {
             this.UIThread(delegate
@@ -2533,7 +2570,7 @@ namespace Fishing
 
         private const int bufferSize = 20;
         private static int bufferPosition = 0;
-        private static Regex allSpaces = new Regex("^[\\s]+$");
+        private static Regex allSpaces = new Regex(@"^[\s]+$");
         private static List<string> chatBuffer = new List<string>(bufferSize);
 
         private void btnChatSend_Click(object sender, EventArgs e)
@@ -2932,7 +2969,19 @@ namespace Fishing
                 rbFullactionOther.Checked = false;
                 if (OptionsConfigured)
                 {
-                    MessageBox.Show("NOTE: Option requires you to have the FFXI Windower Itemizer.dll plugin or Ashita ItemTools.dll extension loaded.\r\n\r\nYou must enter the command below, e.g.:\r\n\r\n    /put \"Hakuryu\" sack\r\n    /puts \"Black Sole\" satchel\r\n\r\n    /moveitem \"Hakuryu\" inventory sack 1\r\n    /moveitem \"Black Sole\" inventory satchel 12\r\n\r\nYou may also enter several commands, separated by semicolons.");
+                    string[] message = {"NOTE: Option requires you to have the FFXI Windower Itemizer.dll plugin or Ashita ItemTools.dll extension loaded.",
+                                           "",
+                                           "You must enter the command below, e.g.:",
+                                           "",
+                                           "/put \"Hakuryu\" sack",
+                                           "    /puts \"Black Sole\" satchel",
+                                           "",
+                                           "    /moveitem \"Hakuryu\" inventory sack 1",
+                                           "    /moveitem \"Black Sole\" inventory satchel 12",
+                                           "",
+                                           "You may also enter several commands, separated by semicolons."
+                                       };
+                    MessageBox.Show(string.Join(Environment.NewLine, message));
                 }
             }
         }
@@ -2945,7 +2994,19 @@ namespace Fishing
                 cbBaitactionOther.Checked = false;
                 if (OptionsConfigured)
                 {
-                    MessageBox.Show("NOTE: Option requires you to have the FFXI Windower Itemizer.dll plugin or Ashita ItemTools.dll extension loaded.\r\n\r\nYou must enter the command below. {0} will be replaced with the bait name in quotes, e.g.:\r\n\r\n    /get {0} sack\r\n    /gets {0} satchel\r\n\r\n    /moveitem \"Hakuryu\" inventory sack 1\r\n    /moveitem {0} satchel inventory 99\r\n\r\nYou may also enter several commands, separated by semicolons.");
+                    string[] message = {"NOTE: Option requires you to have the FFXI Windower Itemizer.dll plugin or Ashita ItemTools.dll extension loaded.",
+                                           "",
+                                           "You must enter the command below. {0} will be replaced with the bait name in quotes, e.g.:",
+                                           "",
+                                           "    /get {0} sack",
+                                           "    /gets {0} satchel",
+                                           "",
+                                           "    /moveitem \"Hakuryu\" inventory sack 1",
+                                           "    /moveitem {0} satchel inventory 99",
+                                           "",
+                                           "You may also enter several commands, separated by semicolons."
+                                       };
+                    MessageBox.Show(string.Join(Environment.NewLine, message));
                 }
             }
         }
@@ -2958,7 +3019,13 @@ namespace Fishing
                 cbBaitItemizerItemTools.Checked = false;
                 if (OptionsConfigured)
                 {
-                    MessageBox.Show("NOTE: You must enter the command below. {0} will be replaced with the bait name in quotes, e.g.:\r\n\r\n    /echo Out of {0}!\r\n\r\nYou may also enter several commands, separated by semicolons.");
+                    string[] message = {"NOTE: You must enter the command below. {0} will be replaced with the bait name in quotes, e.g.:",
+                                           "",
+                                           "    /echo Out of {0}!",
+                                           "",
+                                           "You may also enter several commands, separated by semicolons."
+                                       };
+                    MessageBox.Show(string.Join(Environment.NewLine, message));
                 }
             }
         }
@@ -3234,6 +3301,11 @@ namespace Fishing
         }
 
         private void rtbSay_LinkClicked(object sender, LinkClickedEventArgs e)
+        {
+            Process.Start(e.LinkText);
+        }
+
+        private void rtbDB_LinkClicked(object sender, LinkClickedEventArgs e)
         {
             Process.Start(e.LinkText);
         }
