@@ -826,14 +826,25 @@ namespace Fishing
                 if (-1 < fish.IndexOf(f.Key, StringComparison.OrdinalIgnoreCase))
                 {
                     // Remove punctuation and articles, but don't change fish name if it's only a partial match of one of the words
+                    // At least one of the words must match
                     List<string> fishNameParts = new List<string>((fish.Split(new char[3] { ' ', '.', '!'})).AsEnumerable());
                     List<string> fishKeyParts = new List<string>((f.Key.Split(new char[1] { ' ' })).AsEnumerable());
-                    bool found = true;
+                    bool found = false;
                     foreach (string p in fishKeyParts)
                     {
-                        if (!fishNameParts.Contains(p))
+                        if (fishNameParts.Contains(p, StringComparer.OrdinalIgnoreCase))
                         {
-                            found = false;
+                            found = true;
+                            break;
+                        }
+                    }
+                    int test;
+                    if (int.TryParse(fishNameParts[0], out test))
+                    {
+                        string multiple = string.Format("{0} x{1}", f.Key, test);
+                        if (Dictionaries.fishDictionary.Keys.Contains(multiple))
+                        {
+                            name = multiple;
                             break;
                         }
                     }
