@@ -4,6 +4,12 @@ namespace Fishing
 {
     internal class Dictionaries
     {
+        #region Constructor
+        private Dictionaries()
+        {
+        }
+        #endregion //Constructor
+
         #region FishDictionary
         public static Dictionary<string, int> fishDictionary = new Dictionary<string, int>()
         {

@@ -116,7 +116,7 @@ namespace Fishing
         private const string GUIButtonResizeBig = ">";
         private const string GUIButtonResizeSmall = "<";
         private const string ProcessPOLName = "pol";
-        private const string ProgramExeName = "Fishing.exe";
+        internal const string ProgramExeName = "Fishing.exe";
         private const string RegexAllSpaces = @"^[\s]+$";
         private const string RegexChatIncomingTell = @"^\w+>> ";
         private const string RegexChatMode = @"(?:/(?:[slpt]|say|linkshell|party|tell)\b(?: <r>)? )?(.*)";
