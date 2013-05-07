@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 using System.Xml;
+using Fishing.Properties;
 
 namespace Fishing
 {
@@ -33,7 +34,7 @@ namespace Fishing
         internal DateTime dbDate, xmlDate;
         public void XmlUpdated() { xmlDate = DateTime.UtcNow; }
         public void XmlUpdated(DateTime time) { xmlDate = time; }
-        public void DBUpdated(DateTime time) { dbDate = time; }
+        private void DBUpdated(DateTime time) { dbDate = time; }
     }
 
     internal static class FishDB
@@ -42,6 +43,84 @@ namespace Fishing
 
         private const string dbFolder = "FishDB";
         private const string dbMinVersion = "1.7.0.7";
+        private static readonly string[] MessageMarkAllNew = {
+            "About to mark all fish in all XML as new.",
+            "Please only use this if you are a developer.",
+            "",
+            "If running against the xeround server, please think twice.",
+            "",
+            "Are you sure you want to proceed?"
+        };
+
+        // XML constants for DBSync.xml
+        private const string DBSyncFile = dbFolder + @"\DBSync.xml";
+        private const string XMLUpdates = "<Updates>\n</Updates>";
+        private const string XPathFormatUpdateByHost = "/Updates/Update[@host=\"{0}\"]";
+        private const string XMLNodeUpdate = "Update";
+        private const string XMLAttrDBVer = "dbver";
+        private const string XMLAttrHost = "host";
+        private const string XMLAttrDbTime = "db";
+        private const string XMLAttrXMLTime = "xml";
+        private const string XPathFormatRodByName = "Rod[@name=\"{0}\"]";
+
+        // XML constants for rod.xml files
+        private const string RodItemGlassFiber = "Glass Fiber F. Rod";
+        private const string RodItemComposite = "Comp. Fishing Rod";
+        private const string RodItemBamboo = "Bamboo Fish. Rod";
+        private const string RodItemCarbon = "Carbon Fish. Rod";
+        private const string EbisuFishingRod = "Ebisu Fishing Rod";
+        private const string RodItemClothespole = "Clothespole";
+        private const string RodItemFastwater = "Fastwater F. Rod";
+        private const string RodItemHalcyon = "Halcyon Rod";
+        private const string RodItemHume = "Hume Fishing Rod";
+        private const string RodItemLuShangs = "Lu Shang's F. Rod";
+        private const string RodItemMMM = "MMM Fishing Rod";
+        private const string RodItemMithran = "Mithran Fish. Rod";
+        private const string RodItemSH = "S.H. Fishing Rod";
+        private const string RodItemTarutaru = "Tarutaru F. Rod";
+        private const string RodItemWillow = "Willow Fish. Rod";
+        private const string RodItemYew = "Yew Fishing Rod";
+        private const string FileXMLBamboo = dbFolder + @"\bamboo.xml";
+        private const string FileXMLCarbon = dbFolder + @"\carbon.xml";
+        private const string FileXMLClothespole = dbFolder + @"\clothespole.xml";
+        private const string FileXMLComposite = dbFolder + @"\composite.xml";
+        private const string FileXMLEbisu = dbFolder + @"\ebisu.xml";
+        private const string FileXMLFastwater = dbFolder + @"\fastwater.xml";
+        private const string FileXMLGlass = dbFolder + @"\glassfiber.xml";
+        private const string FileXMLHalcyon = dbFolder + @"\halcyon.xml";
+        private const string FileXMLHume = dbFolder + @"\hume.xml";
+        private const string FileXMLLuShangs = dbFolder + @"\lushang.xml";
+        private const string FileXMLMMM = dbFolder + @"\mmm.xml";
+        private const string FileXMLMithran = dbFolder + @"\mithran.xml";
+        private const string FileXMLSH = dbFolder + @"\singlehook.xml";
+        private const string FileXMLTarutaru = dbFolder + @"\tarutaru.xml";
+        private const string FileXMLWillow = dbFolder + @"\willow.xml";
+        private const string FileXMLYew = dbFolder + @"\yew.xml";
+        private const string XMLFormatRod = "<Rod name=\"{0}\">\n</Rod>";
+        private const string XMLNodeRod = "Rod";
+        private const string XMLNodeFish = "Fish";
+        private const string XMLNodeZones = "Zones";
+        private const string XMLNodeZone = "Zone";
+        private const string XMLNodeBaits = "Baits";
+        private const string XMLNodeBait = "Bait";
+        private const string XMLAttrName = "name";
+        private const string XMLAttrWanted = "wanted";
+        private const string XMLAttrNew = "new";
+        private const string XMLAttrRename = "rename";
+        private const string XMLAttrID1 = "ID1";
+        private const string XMLAttrID2 = "ID2";
+        private const string XMLAttrID3 = "ID3";
+        private const string XPathFormatFishByName = "/Rod/Fish[@name=\"{0}\"]";
+        private const string XPathFormatFishByIDsAndZone = "/Rod/Fish[@ID1=\"{0}\"][@ID2=\"{1}\"][@ID3=\"{2}\"][Zones/Zone=\"{3}\"]";
+        private const string XPathFormatFishByZoneBaitAndWanted = "/Rod/Fish[Zones/Zone=\"{0}\"][Baits/Bait=\"{1}\"][@wanted=\"{2}\"]";
+        private const string XPathFormatFishByNameAndIDs = "/Rod/Fish[@name=\"{0}\"][@ID1=\"{1}\"][@ID2=\"{2}\"][@ID3=\"{3}\"]";
+        private const string XPathFormatBaitByName = "Baits/Bait[text() = \"{0}\"]";
+        private const string XPathFormatZoneByName = "Zones/Zone[text()=\"{0}\"]";
+        private const string XPathNewFish = "/Rod/Fish[@new]";
+        private const string XPathNewBaitsAndZones = "/Rod/Fish/Baits/Bait[@new]|/Rod/Fish/Zones/Zone[@new]";
+        private const string XPathRenamedFish = "/Rod/Fish[@rename]";
+        private const string XPathAllFish = "/Rod/Fish";
+
         private static Dictionary<string, XmlDocument> DBByRod = new Dictionary<string, XmlDocument>();
         private static XmlDocument ChangeDB;
         private static XmlNode UpdateNode;
@@ -61,9 +140,8 @@ namespace Fishing
             {
                 return ChangeDB;
             }
-            string updateFile = dbFolder + @"\DBSync.xml";
 
-            if (!File.Exists(updateFile))
+            if (!File.Exists(DBSyncFile))
             {
                 //file does not exist, create and add the root node
                 if (!Directory.Exists(dbFolder))
@@ -71,29 +149,31 @@ namespace Fishing
                     Directory.CreateDirectory(dbFolder);
                 }
 
-                TextWriter writer = new StreamWriter(System.IO.File.Create(updateFile));
+                using (TextWriter writer = new StreamWriter(System.IO.File.Create(DBSyncFile)))
+                {
 
-                try
-                {
-                    writer.Write("<Updates>\n</Updates>");
-                    writer.Flush();
-                }
-                finally
-                {
-                    writer.Close();
+                    try
+                    {
+                        writer.Write(XMLUpdates);
+                        writer.Flush();
+                    }
+                    finally
+                    {
+                        writer.Close();
+                    }
                 }
             }
 
             //xml file is ready, load it into the dictionary
             ChangeDB = new XmlDocument();
-            ChangeDB.Load(updateFile);
+            ChangeDB.Load(DBSyncFile);
             return ChangeDB;
         }
 
         internal static bool IsDBVersionAcceptable(string ver)
         {
-            string[] verSplit = ver.Split(new char[1] { '.' });
-            string[] dbMin = dbMinVersion.Split(new char[1] { '.' });
+            string[] verSplit = ver.Split(new char[1] { Resources.Period });
+            string[] dbMin = dbMinVersion.Split(new char[1] { Resources.Period });
             for (int i = 0; i < verSplit.Length; ++i)
             {
                 if (int.Parse(verSplit[i]) > int.Parse(dbMin[i]))
@@ -115,20 +195,20 @@ namespace Fishing
                 return UpdateNode;
             }
             XmlDocument upDoc = GetUpdatesDB();
-            XmlNode updateNode = upDoc.SelectSingleNode(string.Format("/Updates/Update[@host=\"{0}\"]", FishSQL.Connection.ConnectionString));
+            XmlNode updateNode = upDoc.SelectSingleNode(string.Format(XPathFormatUpdateByHost, FishSQL.Connection.ConnectionString));
             if (null == updateNode)
             {
-                updateNode = upDoc.DocumentElement.AppendChild(upDoc.CreateNode(XmlNodeType.Element, "Update", upDoc.NamespaceURI));
-                XmlAttribute hostAttr = updateNode.Attributes.Append(upDoc.CreateAttribute("host"));
+                updateNode = upDoc.DocumentElement.AppendChild(upDoc.CreateNode(XmlNodeType.Element, XMLNodeUpdate, upDoc.NamespaceURI));
+                XmlAttribute hostAttr = updateNode.Attributes.Append(upDoc.CreateAttribute(XMLAttrHost));
                 hostAttr.Value = FishSQL.Connection.ConnectionString;
                 UpdatesDBChanged();
             }
-            else if (updateNode.Attributes["dbver"] == null || !IsDBVersionAcceptable(updateNode.Attributes["dbver"].Value))
+            else if (updateNode.Attributes[XMLAttrDBVer] == null || !IsDBVersionAcceptable(updateNode.Attributes[XMLAttrDBVer].Value))
             {
                 updateNode.RemoveAll();
-                XmlAttribute hostAttr = updateNode.Attributes.Append(upDoc.CreateAttribute("host"));
+                XmlAttribute hostAttr = updateNode.Attributes.Append(upDoc.CreateAttribute(XMLAttrHost));
                 hostAttr.Value = FishSQL.Connection.ConnectionString;
-                XmlAttribute dbverAttr = updateNode.Attributes.Append(upDoc.CreateAttribute("dbver"));
+                XmlAttribute dbverAttr = updateNode.Attributes.Append(upDoc.CreateAttribute(XMLAttrDBVer));
                 dbverAttr.Value = dbMinVersion;
                 UpdatesDBChanged();
             }
@@ -145,19 +225,19 @@ namespace Fishing
             {
                 if (!UpdatesByRod.ContainsKey(rod))
                 {
-                    XmlNode rodNode = updateNode.SelectSingleNode(string.Format("Rod[@name=\"{0}\"]", rod));
+                    XmlNode rodNode = updateNode.SelectSingleNode(string.Format(XPathFormatRodByName, rod));
                     if (rodNode == null)
                     {
-                        rodNode = updateNode.AppendChild(upDoc.CreateNode(XmlNodeType.Element, "Rod", upDoc.NamespaceURI));
-                        XmlAttribute rodName = rodNode.Attributes.Append(upDoc.CreateAttribute("name"));
-                        XmlAttribute dbTime = rodNode.Attributes.Append(upDoc.CreateAttribute("db"));
-                        XmlAttribute xmlTime = rodNode.Attributes.Append(upDoc.CreateAttribute("xml"));
+                        rodNode = updateNode.AppendChild(upDoc.CreateNode(XmlNodeType.Element, XMLNodeRod, upDoc.NamespaceURI));
+                        XmlAttribute rodName = rodNode.Attributes.Append(upDoc.CreateAttribute(XMLAttrName));
+                        XmlAttribute dbTime = rodNode.Attributes.Append(upDoc.CreateAttribute(XMLAttrDbTime));
+                        XmlAttribute xmlTime = rodNode.Attributes.Append(upDoc.CreateAttribute(XMLAttrXMLTime));
                         rodName.Value = rod;
                         dbTime.Value = (new DateTime(1970, 1, 1, 0, 0, 1)).ToString();
                         xmlTime.Value = (new DateTime(1970, 1, 1, 0, 0, 1)).ToString();
                         changed = true;
                     }
-                    UpdatesByRod[rod] = new DBUpdate(rodNode.Attributes["db"].Value, rodNode.Attributes["xml"].Value);
+                    UpdatesByRod[rod] = new DBUpdate(rodNode.Attributes[XMLAttrDbTime].Value, rodNode.Attributes[XMLAttrXMLTime].Value);
                 }
             }
             if (changed)
@@ -181,8 +261,8 @@ namespace Fishing
                 GetUpdates();
             }
             UpdatesByRod[rod].XmlUpdated();
-            XmlNode rodNode = GetUpdatesNode().SelectSingleNode(string.Format("Rod[@name=\"{0}\"]", rod));
-            rodNode.Attributes["xml"].Value = UpdatesByRod[rod].xmlDate.ToString();
+            XmlNode rodNode = GetUpdatesNode().SelectSingleNode(string.Format(XPathFormatRodByName, rod));
+            rodNode.Attributes[XMLAttrXMLTime].Value = UpdatesByRod[rod].xmlDate.ToString();
         }
 
         internal static void DBUpdated(string rod, DateTime time)
@@ -192,24 +272,24 @@ namespace Fishing
                 GetUpdates();
             }
             UpdatesByRod[rod].XmlUpdated(time);
-            XmlNode rodNode = GetUpdatesNode().SelectSingleNode(string.Format("Rod[@name=\"{0}\"]", rod));
-            rodNode.Attributes["db"].Value = time.ToString();
+            XmlNode rodNode = GetUpdatesNode().SelectSingleNode(string.Format(XPathFormatRodByName, rod));
+            rodNode.Attributes[XMLAttrDbTime].Value = time.ToString();
             FishDBChanged(rod);
         }
 
         internal static void UpdatesDBChanged()
         {
-            GetUpdatesDB().Save(dbFolder + @"\DBSync.xml");
+            GetUpdatesDB().Save(DBSyncFile);
         }
 
         internal static void MarkAllFishNew()
         {
-            if (DialogResult.Yes == MessageBox.Show("About to mark all fish in all XML as new.\r\nPlease only use this if you are a developer.\r\n\r\nIf running against the xeround server, please think twice.\r\n\r\nAre you sure you want to proceed?", "WARNING", MessageBoxButtons.YesNo))
+            if (DialogResult.Yes == MessageBox.Show(string.Join(Environment.NewLine, MessageMarkAllNew), Resources.MessageTitleWarning, MessageBoxButtons.YesNo))
             {
                 foreach (string rod in Dictionaries.rodDictionary.Keys)
                 {
                     XmlDocument xmlDoc = GetFishDB(rod);
-                    foreach (XmlNode fishNode in xmlDoc.SelectNodes("/Rod/Fish"))
+                    foreach (XmlNode fishNode in xmlDoc.SelectNodes(XPathAllFish))
                     {
                         SetNew(rod, fishNode, fishNode);
                     }
@@ -224,29 +304,29 @@ namespace Fishing
             XmlDocument xmlDoc = GetFishDB(rod);
 
             //generate non duplicate name if it is an unknown monster
-            if ("Monster" == fish)
+            if (Resources.FishNameMonster == fish)
             {
                 int count = 1;
-                fish = "Mob (_" + (count++).ToString() + "_)";
+                fish = string.Format(Resources.FishNameFormatMob, (count++));
 
-                while (xmlDoc.SelectSingleNode(string.Format("/Rod/Fish[@name=\"{1}\"]", rod, fish)) != null)
+                while (xmlDoc.SelectSingleNode(string.Format(XPathFormatFishByName, fish)) != null)
                 {
-                    fish = "Mob (_" + (count++).ToString() + "_)";
+                    fish = string.Format(Resources.FishNameFormatMob, (count++));
                 }
             }
 
-            XmlNode fishNode = xmlDoc.SelectSingleNode(string.Format("/Rod/Fish[@name=\"{0}\"][@ID1=\"{1}\"][@ID2=\"{2}\"][@ID3=\"{3}\"]", fish, ID1, ID2, ID3));
+            XmlNode fishNode = xmlDoc.SelectSingleNode(string.Format(XPathFormatFishByNameAndIDs, fish, ID1, ID2, ID3));
 
             if(null == fishNode)
             {
-                fishNode = xmlDoc["Rod"].AppendChild(xmlDoc.CreateNode(XmlNodeType.Element, "Fish", xmlDoc.NamespaceURI));
-                XmlAttribute fishName = fishNode.Attributes.Append(xmlDoc.CreateAttribute("name"));
-                XmlAttribute fishWanted = fishNode.Attributes.Append(xmlDoc.CreateAttribute("wanted"));
-                XmlAttribute ID1Node = fishNode.Attributes.Append(xmlDoc.CreateAttribute("ID1"));
-                XmlAttribute ID2Node = fishNode.Attributes.Append(xmlDoc.CreateAttribute("ID2"));
-                XmlAttribute ID3Node = fishNode.Attributes.Append(xmlDoc.CreateAttribute("ID3"));
+                fishNode = xmlDoc[XMLNodeRod].AppendChild(xmlDoc.CreateNode(XmlNodeType.Element, XMLNodeFish, xmlDoc.NamespaceURI));
+                XmlAttribute fishName = fishNode.Attributes.Append(xmlDoc.CreateAttribute(XMLAttrName));
+                XmlAttribute fishWanted = fishNode.Attributes.Append(xmlDoc.CreateAttribute(XMLAttrWanted));
+                XmlAttribute ID1Node = fishNode.Attributes.Append(xmlDoc.CreateAttribute(XMLAttrID1));
+                XmlAttribute ID2Node = fishNode.Attributes.Append(xmlDoc.CreateAttribute(XMLAttrID2));
+                XmlAttribute ID3Node = fishNode.Attributes.Append(xmlDoc.CreateAttribute(XMLAttrID3));
                 fishName.Value = fish;
-                fishWanted.Value = wanted ? "Yes" : "No";
+                fishWanted.Value = wanted ? Resources.Yes : Resources.No;
                 ID1Node.Value = ID1;
                 ID2Node.Value = ID2;
                 ID3Node.Value = ID3;
@@ -256,15 +336,15 @@ namespace Fishing
                     SetNew(rod, fishNode, fishNode);
                 }
 
-                fishNode.AppendChild(xmlDoc.CreateNode(XmlNodeType.Element, "Zones", xmlDoc.NamespaceURI));
-                fishNode.AppendChild(xmlDoc.CreateNode(XmlNodeType.Element, "Baits", xmlDoc.NamespaceURI));
+                fishNode.AppendChild(xmlDoc.CreateNode(XmlNodeType.Element, XMLNodeZones, xmlDoc.NamespaceURI));
+                fishNode.AppendChild(xmlDoc.CreateNode(XmlNodeType.Element, XMLNodeZone, xmlDoc.NamespaceURI));
             }
 
             if(null != zone)
             {
-                if(null == fishNode.SelectSingleNode("Zones/Zone[text()=\"" + zone + "\"]"))
+                if(null == fishNode.SelectSingleNode(string.Format(XPathFormatZoneByName, zone)))
                 {
-                    XmlNode zoneNode = fishNode["Zones"].AppendChild(xmlDoc.CreateNode(XmlNodeType.Element, "Zone", xmlDoc.NamespaceURI));
+                    XmlNode zoneNode = fishNode[XMLNodeZones].AppendChild(xmlDoc.CreateNode(XmlNodeType.Element, XMLNodeZone, xmlDoc.NamespaceURI));
                     zoneNode.InnerText = zone;
                     if (!fromDB)
                     {
@@ -275,9 +355,9 @@ namespace Fishing
 
             if(null != bait)
             {
-                if(null == fishNode.SelectSingleNode("Baits/Bait[text()=\"" + bait + "\"]"))
+                if(null == fishNode.SelectSingleNode(string.Format(XPathFormatBaitByName, bait)))
                 {
-                    XmlNode baitNode = fishNode["Baits"].AppendChild(xmlDoc.CreateNode(XmlNodeType.Element, "Bait", xmlDoc.NamespaceURI));
+                    XmlNode baitNode = fishNode[XMLNodeBaits].AppendChild(xmlDoc.CreateNode(XmlNodeType.Element, XMLNodeBait, xmlDoc.NamespaceURI));
                     baitNode.InnerText = bait;
                     if (!fromDB)
                     {
@@ -293,26 +373,25 @@ namespace Fishing
 
         } // @ internal static void AddNewFish(ref string fish, string zone, string bait, string rod, string ID1, string ID2, string ID3, string ID4, bool wanted)
 
-        internal static bool ChangeName(Fishie fish, string newName, bool fromDB)
+        internal static void ChangeName(Fishie fish, string newName, bool fromDB)
         {
             XmlDocument xmlDoc = GetFishDB(fish.rod);
-            XmlNode sameNameNode = xmlDoc.SelectSingleNode(string.Format("/Rod/Fish[@name=\"{0}\"]", newName));
-            XmlNode oldFishNode = xmlDoc.SelectSingleNode(string.Format("/Rod/Fish[@name=\"{0}\"][@ID1=\"{1}\"][@ID2=\"{2}\"][@ID3=\"{3}\"]", newName, fish.ID1, fish.ID2, fish.ID3));
-            XmlNode fishNode = xmlDoc.SelectSingleNode(string.Format("/Rod/Fish[@name=\"{0}\"][@ID1=\"{1}\"][@ID2=\"{2}\"][@ID3=\"{3}\"]", fish.name, fish.ID1, fish.ID2, fish.ID3));
+            XmlNode oldFishNode = xmlDoc.SelectSingleNode(string.Format(XPathFormatFishByNameAndIDs, newName, fish.ID1, fish.ID2, fish.ID3));
+            XmlNode fishNode = xmlDoc.SelectSingleNode(string.Format(XPathFormatFishByNameAndIDs, fish.name, fish.ID1, fish.ID2, fish.ID3));
 
             //check if there is already an entry with same ID and name = newName, if there is, merge the 2 entries
             if(null == oldFishNode)
             {
                 // Not an entry with the same ID and name
-                fishNode.Attributes["name"].Value = newName;
+                fishNode.Attributes[XMLAttrName].Value = newName;
                 // Mark for adding to DB if it's a new fish being renamed
-                if (null != fishNode.Attributes["new"])
+                if (null != fishNode.Attributes[XMLAttrNew])
                 {
                     SetNew(fish.rod, fishNode, fishNode);
                 }
                 else
                 {
-                    SetRenamed(fish.rod, fish.name, fishNode);
+                    SetRenamed(fish.name, fishNode);
                 }
                 if (!fromDB)
                 {
@@ -322,53 +401,52 @@ namespace Fishing
             else
             {
                 //merging (union of Zones and Baits)
-                XmlNodeList zones = fishNode["Zones"].ChildNodes;
-                XmlNodeList baits = fishNode["Baits"].ChildNodes;
+                XmlNodeList zones = fishNode[XMLNodeZones].ChildNodes;
+                XmlNodeList baits = fishNode[XMLNodeBaits].ChildNodes;
 
                 foreach(XmlNode zone in zones)
                 {
-                    if(null == oldFishNode.SelectSingleNode("Zones/Zone[text()=\"" + zone.InnerText + "\"]"))
+                    if(null == oldFishNode.SelectSingleNode(string.Format(XPathFormatZoneByName, zone.InnerText)))
                     {
-                        XmlNode zoneNode = oldFishNode["Zones"].AppendChild(xmlDoc.CreateNode(XmlNodeType.Element, "Zone", xmlDoc.NamespaceURI));
+                        XmlNode zoneNode = oldFishNode[XMLNodeZones].AppendChild(xmlDoc.CreateNode(XmlNodeType.Element, XMLNodeZone, xmlDoc.NamespaceURI));
                         zoneNode.InnerText = zone.InnerText;
                     }
                 }
 
                 foreach(XmlNode bait in baits)
                 {
-                    if(null == oldFishNode.SelectSingleNode("Baits/Bait[text()=\"" + bait.InnerText + "\"]"))
+                    if(null == oldFishNode.SelectSingleNode(string.Format(XPathFormatBaitByName, bait.InnerText)))
                     {
-                        XmlNode baitNode = oldFishNode["Baits"].AppendChild(xmlDoc.CreateNode(XmlNodeType.Element, "Bait", xmlDoc.NamespaceURI));
+                        XmlNode baitNode = oldFishNode[XMLNodeBaits].AppendChild(xmlDoc.CreateNode(XmlNodeType.Element, XMLNodeBait, xmlDoc.NamespaceURI));
                         baitNode.InnerText = bait.InnerText;
                     }
                 }
 
-                xmlDoc["Rod"].RemoveChild(fishNode);
+                xmlDoc[XMLNodeRod].RemoveChild(fishNode);
                 if (!fromDB)
                 {
-                    SetRenamed(fish.rod, fish.name, fishNode);
+                    SetRenamed(fish.name, fishNode);
                     FishDBChanged(fish.rod);
                 }
             }
-            return true;
 
         } // @ internal static void ChangeName(Fishie fish, string newName)
 
-        internal static void SetRenamed(string rod, string oldName, XmlNode fishNode)
+        internal static void SetRenamed(string oldName, XmlNode fishNode)
         {
-            if (fishNode.Attributes["rename"] == null)
+            if (fishNode.Attributes[XMLAttrRename] == null)
             {
-                fishNode.Attributes.Append(fishNode.OwnerDocument.CreateAttribute("rename"));
+                fishNode.Attributes.Append(fishNode.OwnerDocument.CreateAttribute(XMLAttrRename));
             }
-            fishNode.Attributes["rename"].Value = oldName;
+            fishNode.Attributes[XMLAttrRename].Value = oldName;
             DBRenamedFish.Add(fishNode);
         }
 
         internal static void SetNew(string rod, XmlNode fishNode, XmlNode newNode)
         {
-            if (newNode.Attributes["new"] == null)
+            if (newNode.Attributes[XMLAttrNew] == null)
             {
-                newNode.Attributes.Append(fishNode.OwnerDocument.CreateAttribute("new"));
+                newNode.Attributes.Append(fishNode.OwnerDocument.CreateAttribute(XMLAttrNew));
                 DBNewFish.Add(fishNode);
                 XmlUpdated(rod);
             }
@@ -376,18 +454,18 @@ namespace Fishing
 
         internal static void UnsetRename(XmlNode fishNode)
         {
-            if (fishNode.Attributes["rename"] != null)
+            if (fishNode.Attributes[XMLAttrRename] != null)
             {
-                fishNode.Attributes.Remove(fishNode.Attributes["rename"]);
+                fishNode.Attributes.Remove(fishNode.Attributes[XMLAttrRename]);
                 DBRenamedFish.Remove(fishNode);
             }
         }
 
         internal static void UnsetNew(XmlNode fishNode, XmlNode newNode)
         {
-            if (newNode.Attributes["new"] != null)
+            if (newNode.Attributes[XMLAttrNew] != null)
             {
-                newNode.Attributes.Remove(newNode.Attributes["new"]);
+                newNode.Attributes.Remove(newNode.Attributes[XMLAttrNew]);
                 DBNewFish.Remove(fishNode);
             }
         }
@@ -395,12 +473,12 @@ namespace Fishing
         internal static bool FishAccepted(out string name, out bool isNew, bool fishUnknown, string rod, string zone, string bait, string ID1, string ID2, string ID3)
         {
             XmlDocument xmlDoc = GetFishDB(rod);
-            string xpathQuery = string.Format("/Rod/Fish[@ID1=\"{0}\"][@ID2=\"{1}\"][@ID3=\"{2}\"][Zones/Zone=\"{3}\"]", ID1, ID2, ID3, zone);
+            string xpathQuery = string.Format(XPathFormatFishByIDsAndZone, ID1, ID2, ID3, zone);
             XmlNode fishNode = xmlDoc.SelectSingleNode(xpathQuery);
 
             if(null == fishNode)
             {
-                name = "Unknown";
+                name = Resources.FishNameUnknown;
                 isNew = true;
 
                 return fishUnknown;
@@ -408,17 +486,17 @@ namespace Fishing
             else
             {
                 isNew = false;
-                name = fishNode.Attributes["name"].Value;
+                name = fishNode.Attributes[XMLAttrName].Value;
 
-                if(null == fishNode.SelectSingleNode("Baits/Bait[text()=\"" + bait + "\"]"))
+                if(null == fishNode.SelectSingleNode(string.Format(XPathFormatBaitByName, bait)))
                 {
-                    XmlNode newBaitNode = fishNode["Baits"].AppendChild(xmlDoc.CreateElement("Bait"));
+                    XmlNode newBaitNode = fishNode[XMLNodeBaits].AppendChild(xmlDoc.CreateElement(XMLNodeBait));
                     newBaitNode.InnerText = bait;
                     SetNew(rod, fishNode, newBaitNode);
                     FishDBChanged(rod);
                 }
 
-                return ("Yes" == fishNode.Attributes["wanted"].Value) ? true : false;
+                return Resources.Yes == fishNode.Attributes[XMLAttrWanted].Value;
             }
 
         } // @ internal static bool FishAccepted(out string name, out bool isNew, bool fishUnknown, string rod, string zone, string bait, string ID1, string ID2, string ID3, string ID4)
@@ -427,38 +505,38 @@ namespace Fishing
         {
             switch(rod)
             {
-                case "Comp. Fishing Rod":
-                    return dbFolder + @"\composite.xml";
-                case "Bamboo Fish. Rod":
-                    return dbFolder + @"\bamboo.xml";
-                case "Carbon Fish. Rod":
-                    return dbFolder + @"\carbon.xml";
-                case "Ebisu Fishing Rod":
-                    return dbFolder + @"\ebisu.xml";
-                case "Clothespole":
-                    return dbFolder + @"\clothespole.xml";
-                case "Fastwater F. Rod":
-                    return dbFolder + @"\fastwater.xml";
-                case "Glass Fiber F. Rod":
-                    return dbFolder + @"\glassfiber.xml";
-                case "Halcyon Rod":
-                    return dbFolder + @"\halcyon.xml";
-                case "Hume Fishing Rod":
-                    return dbFolder + @"\hume.xml";
-                case "Lu Shang's F. Rod":
-                    return dbFolder + @"\lushang.xml";
-                case "MMM Fishing Rod":
-                    return dbFolder + @"\mmm.xml";
-                case "Mithran Fish. Rod":
-                    return dbFolder + @"\mithran.xml";
-                case "S.H. Fishing Rod":
-                    return dbFolder + @"\singlehook.xml";
-                case "Tarutaru F. Rod":
-                    return dbFolder + @"\tarutaru.xml";
-                case "Willow Fish. Rod":
-                    return dbFolder + @"\willow.xml";
-                case "Yew Fishing Rod":
-                    return dbFolder + @"\yew.xml";
+                case RodItemBamboo:
+                    return FileXMLBamboo;
+                case RodItemCarbon:
+                    return FileXMLCarbon;
+                case RodItemClothespole:
+                    return FileXMLClothespole;
+                case RodItemComposite:
+                    return FileXMLComposite;
+                case EbisuFishingRod:
+                    return FileXMLEbisu;
+                case RodItemFastwater:
+                    return FileXMLFastwater;
+                case RodItemGlassFiber:
+                    return FileXMLGlass;
+                case RodItemHalcyon:
+                    return FileXMLHalcyon;
+                case RodItemHume:
+                    return FileXMLHume;
+                case RodItemLuShangs:
+                    return FileXMLLuShangs;
+                case RodItemMMM:
+                    return FileXMLMMM;
+                case RodItemMithran:
+                    return FileXMLMithran;
+                case RodItemSH:
+                    return FileXMLSH;
+                case RodItemTarutaru:
+                    return FileXMLTarutaru;
+                case RodItemWillow:
+                    return FileXMLWillow;
+                case RodItemYew:
+                    return FileXMLYew;
                 default:
                     return null;
             }
@@ -480,16 +558,18 @@ namespace Fishing
                         Directory.CreateDirectory(dbFolder);
                     }
 
-                    TextWriter writer = new StreamWriter(System.IO.File.Create(fishDBFile));
+                    using (TextWriter writer = new StreamWriter(System.IO.File.Create(fishDBFile)))
+                    {
 
-                    try
-                    {
-                        writer.WriteLine(string.Format("<Rod name=\"{0}\">\n</Rod>", rod));
-                        writer.Flush();
-                    }
-                    finally
-                    {
-                        writer.Close();
+                        try
+                        {
+                            writer.WriteLine(string.Format(XMLFormatRod, rod));
+                            writer.Flush();
+                        }
+                        finally
+                        {
+                            writer.Close();
+                        }
                     }
                 }
 
@@ -498,17 +578,17 @@ namespace Fishing
                 xmlDoc.Load(fishDBFile);
                 DBByRod.Add(rod, xmlDoc);
                 //Check any fish previously marked new
-                foreach (XmlNode fishNode in xmlDoc.SelectNodes("/Rod/Fish[@new]"))
+                foreach (XmlNode fishNode in xmlDoc.SelectNodes(XPathNewFish))
                 {
                     DBNewFish.Add(fishNode);
                 }
                 //Check any bait or zones previously marked new
-                foreach (XmlNode baitorZoneNode in xmlDoc.SelectNodes("/Rod/Fish/Baits/Bait[@new]|/Rod/Fish/Zones/Zone[@new]"))
+                foreach (XmlNode baitorZoneNode in xmlDoc.SelectNodes(XPathNewBaitsAndZones))
                 {
                     DBNewFish.Add(baitorZoneNode.ParentNode.ParentNode);
                 }
                 //Check any fish marked renamed
-                foreach (XmlNode fishNode in xmlDoc.SelectNodes("/Rod/Fish[@rename]"))
+                foreach (XmlNode fishNode in xmlDoc.SelectNodes(XPathRenamedFish))
                 {
                     DBRenamedFish.Add(fishNode);
                 }
@@ -521,14 +601,14 @@ namespace Fishing
         internal static Fishie[] GetFishes(string rod, string zone, string bait, bool wanted)
         {
             XmlDocument xmlDoc = GetFishDB(rod);
-            string xpathQuery = string.Format("/Rod/Fish[Zones/Zone=\"{0}\"][Baits/Bait=\"{1}\"][@wanted=\"{2}\"]", zone, bait, wanted ? "Yes" : "No");
+            string xpathQuery = string.Format(XPathFormatFishByZoneBaitAndWanted, zone, bait, wanted ? Resources.Yes : Resources.No);
             XmlNodeList nodes = xmlDoc.SelectNodes(xpathQuery);
             Fishie[] fishes = new Fishie[nodes.Count];
             int i = 0;
 
             foreach(XmlNode node in nodes)
             {
-                fishes[i++] = new Fishie(node.Attributes["name"].Value, rod, node.Attributes["ID1"].Value, node.Attributes["ID2"].Value, node.Attributes["ID3"].Value);
+                fishes[i++] = new Fishie(node.Attributes[XMLAttrName].Value, rod, node.Attributes[XMLAttrID1].Value, node.Attributes[XMLAttrID2].Value, node.Attributes[XMLAttrID3].Value);
             }
 
             return fishes;
@@ -538,9 +618,9 @@ namespace Fishing
         internal static void ToggleWanted(Fishie fish)
         {
             XmlDocument xmlDoc = GetFishDB(fish.rod);
-            string xpathQuery = string.Format("/Rod/Fish[@name=\"{0}\"][@ID1=\"{1}\"][@ID2=\"{2}\"][@ID3=\"{3}\"]", fish.name, fish.ID1, fish.ID2, fish.ID3);
+            string xpathQuery = string.Format(XPathFormatFishByNameAndIDs, fish.name, fish.ID1, fish.ID2, fish.ID3);
             XmlNode fishNode = xmlDoc.SelectSingleNode(xpathQuery);
-            fishNode.Attributes["wanted"].Value = ("Yes" == fishNode.Attributes["wanted"].Value) ? "No" : "Yes";
+            fishNode.Attributes[XMLAttrWanted].Value = (Resources.Yes == fishNode.Attributes[XMLAttrWanted].Value) ? Resources.No : Resources.Yes;
             FishDBChanged(fish.rod);
 
         } // @ internal static void ToggleWanted(Fishie fish)

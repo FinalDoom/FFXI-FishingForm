@@ -163,10 +163,6 @@
     <value>start</value>
     <comment>Directs program to start when run</comment>
   </data>
-  <data name="ProcessPOLName" xml:space="preserve">
-    <value>pol</value>
-    <comment>Name of FFXI exe</comment>
-  </data>
   <data name="StatusFormatMoveToSack" xml:space="preserve">
     <value>Moving {0} to Sack: {1} remaining.</value>
     <comment>Status when moving items to sack</comment>
@@ -199,22 +195,6 @@
     <value>Error doing database sync.</value>
     <comment>DB sync error</comment>
   </data>
-  <data name="ProgramExeName" xml:space="preserve">
-    <value>FishingForm.exe</value>
-    <comment>Name of this exe</comment>
-  </data>
-  <data name="FormatProgramTitleNoChar" xml:space="preserve">
-    <value>FishingForm v{0}-mC-FD</value>
-    <comment>Title when not logged in</comment>
-  </data>
-  <data name="FormatProgramTitleLoggedIn" xml:space="preserve">
-    <value>FishingForm v{0}-mC-FD  ({1})</value>
-    <comment>Title when logged in</comment>
-  </data>
-  <data name="DllNameHook" xml:space="preserve">
-    <value>hook.dll</value>
-    <comment>windower hook dll name</comment>
-  </data>
   <data name="PathWindowerResourcesFolder" xml:space="preserve">
     <value>plugins</value>
     <comment>Folder name containing resources.xml</comment>
@@ -222,10 +202,6 @@
   <data name="PathWindowerResourcesError" xml:space="preserve">
     <value>Windower path could not be found</value>
     <comment>Unresolvable path for when windower not found</comment>
-  </data>
-  <data name="DllNameFFACE" xml:space="preserve">
-    <value>FFACE.dll</value>
-    <comment>FFACE dll name</comment>
   </data>
   <data name="MessageTitleError" xml:space="preserve">
     <value>FishingForm Error</value>
@@ -263,29 +239,9 @@
     <value>No rod or bait equipped or set in options.</value>
     <comment>Status when missing bait or rod</comment>
   </data>
-  <data name="EquipFormatRod" xml:space="preserve">
-    <value>/equip range "{0}"</value>
-    <comment>Rod equip command</comment>
-  </data>
-  <data name="EquipFormatBait" xml:space="preserve">
-    <value>/equip ammo "{0}"</value>
-    <comment>Bait equip command</comment>
-  </data>
-  <data name="CommandCastSneak" xml:space="preserve">
-    <value>/ma Sneak &lt;me&gt;</value>
-    <comment>command cast sneak</comment>
-  </data>
   <data name="StatusErrorSneakLackMP" xml:space="preserve">
     <value>Not enough MP to cast Sneak.</value>
     <comment>Status when MP is too low</comment>
-  </data>
-  <data name="CommandFish" xml:space="preserve">
-    <value>/fish</value>
-    <comment>command fish</comment>
-  </data>
-  <data name="CommandCancelStatus" xml:space="preserve">
-    <value>//cancel {0}</value>
-    <comment>command format cancel plugin</comment>
   </data>
   <data name="StatusFormatFightingFish" xml:space="preserve">
     <value>Fighting {0}.</value>
@@ -378,10 +334,6 @@
     <value>Faking {0}.</value>
     <comment>Status when fake fighting a fish</comment>
   </data>
-  <data name="FormatFishHP" xml:space="preserve">
-    <value>{0}/{1} [{2}s]</value>
-    <comment>Fish HP shown when option checked</comment>
-  </data>
   <data name="StatusFormatKillingFish" xml:space="preserve">
     <value>Killing {0} in {1} seconds.</value>
     <comment>Status when force killing a fish</comment>
@@ -393,10 +345,6 @@
   <data name="StatusFormatNoCatchFirst" xml:space="preserve">
     <value>No catch.</value>
     <comment>Status on first no catch</comment>
-  </data>
-  <data name="FormatFishNameMultiple" xml:space="preserve">
-    <value>{0} x{1}</value>
-    <comment>For renaming fish where 2 or 3 caught in one cast</comment>
   </data>
   <data name="StatusErrorHealing" xml:space="preserve">
     <value>Healing/Sitting, please stand.</value>
@@ -494,26 +442,6 @@
     <value>Inventory is full: Shutting down.</value>
     <comment>Status when inventory full and shutting down</comment>
   </data>
-  <data name="CommandWarp" xml:space="preserve">
-    <value>/ma "Warp" &lt;me&gt;</value>
-    <comment>command cast warp</comment>
-  </data>
-  <data name="CommandLogout" xml:space="preserve">
-    <value>/logout</value>
-    <comment>command logout</comment>
-  </data>
-  <data name="CommandShutdown" xml:space="preserve">
-    <value>/shutdown</value>
-    <comment>command shutdown</comment>
-  </data>
-  <data name="CommandMoveItem" xml:space="preserve">
-    <value>/moveitem</value>
-    <comment>command moveitem itemtools</comment>
-  </data>
-  <data name="CommandPutItem" xml:space="preserve">
-    <value>/put</value>
-    <comment>command put for itemizer</comment>
-  </data>
   <data name="QuoteMark" xml:space="preserve">
     <value>"</value>
     <comment>Utility quote mark</comment>
@@ -606,42 +534,6 @@
     <value>STOP</value>
     <comment>stop button text</comment>
   </data>
-  <data name="EquipFormatBody" xml:space="preserve">
-    <value>/equip body "{0}"</value>
-    <comment>Body equip command</comment>
-  </data>
-  <data name="EquipFormatHands" xml:space="preserve">
-    <value>/equip hands "{0}"</value>
-    <comment>Hands equip command</comment>
-  </data>
-  <data name="EquipFormatLegs" xml:space="preserve">
-    <value>/equip legs "{0}"</value>
-    <comment>Legs equip command</comment>
-  </data>
-  <data name="EquipFormatFeet" xml:space="preserve">
-    <value>/equip feet "{0}"</value>
-    <comment>Feet equip command</comment>
-  </data>
-  <data name="EquipFormatHead" xml:space="preserve">
-    <value>/equip head "{0}"</value>
-    <comment>Head equip command</comment>
-  </data>
-  <data name="EquipFormatNeck" xml:space="preserve">
-    <value>/equip neck "{0}"</value>
-    <comment>Neck equip command</comment>
-  </data>
-  <data name="EquipFormatwaist" xml:space="preserve">
-    <value>/equip waist "{0}"</value>
-    <comment>Waist equip command</comment>
-  </data>
-  <data name="EquipFormatLRing" xml:space="preserve">
-    <value>/equip ring1 "{0}"</value>
-    <comment>Left ring equip command</comment>
-  </data>
-  <data name="EquipFormatRRing" xml:space="preserve">
-    <value>/equip ring2 "{0}"</value>
-    <comment>Right ring equip command</comment>
-  </data>
   <data name="StatusInfoEnchantBelt" xml:space="preserve">
     <value>Using Fisherman's belt.</value>
     <comment>Status when casting belt enchantment</comment>
@@ -653,10 +545,6 @@
   <data name="StatusInfoEnchantRRing" xml:space="preserve">
     <value>Using right ring ({0}).</value>
     <comment>Status when casting right ring enchantment</comment>
-  </data>
-  <data name="CommandFormatItemMe" xml:space="preserve">
-    <value>/item "{0}" &lt;me&gt;</value>
-    <comment>command to use item on self</comment>
   </data>
   <data name="StatusInfoFatiguedWarping" xml:space="preserve">
     <value>Fatigue limit reached: Warping.</value>
@@ -682,33 +570,9 @@
     <value>Fatigue limit reached: Logging out.</value>
     <comment>Status when fatigued and logging out</comment>
   </data>
-  <data name="FileWarningWav" xml:space="preserve">
-    <value>warning.wav</value>
-    <comment>Warning wav filename</comment>
-  </data>
   <data name="GUIButtonStart" xml:space="preserve">
     <value>START</value>
     <comment>start button text</comment>
-  </data>
-  <data name="CommandChatSay" xml:space="preserve">
-    <value>/s </value>
-    <comment>say chat prefix</comment>
-  </data>
-  <data name="CommandChatLinkshell" xml:space="preserve">
-    <value>/l </value>
-    <comment>linkshell chat prefix</comment>
-  </data>
-  <data name="CommandChatParty" xml:space="preserve">
-    <value>/p </value>
-    <comment>party chat prefix</comment>
-  </data>
-  <data name="CommandChatReply" xml:space="preserve">
-    <value>/t &lt;r&gt; </value>
-    <comment>reply prefix</comment>
-  </data>
-  <data name="CommandChatTell" xml:space="preserve">
-    <value>/t </value>
-    <comment>tell chat prefix</comment>
   </data>
   <data name="RegexGroup1" xml:space="preserve">
     <value>$1</value>
@@ -729,10 +593,6 @@
   <data name="GUIChatTabSay" xml:space="preserve">
     <value>Say</value>
     <comment>Chat tab say chat title</comment>
-  </data>
-  <data name="GUIChatDetectButtonAdd" xml:space="preserve">
-    <value>+</value>
-    <comment>Chat detect add rule button</comment>
   </data>
   <data name="GUIChatDetectActionStop" xml:space="preserve">
     <value>Stop Fishing</value>
@@ -761,10 +621,6 @@
   <data name="GUIChatDetectTypeSay" xml:space="preserve">
     <value>Say</value>
     <comment>Chat detect say type</comment>
-  </data>
-  <data name="GUIChatDetectButtonRemove" xml:space="preserve">
-    <value>-</value>
-    <comment>Chat detect delete rule button</comment>
   </data>
   <data name="StatusErrorIdle" xml:space="preserve">
     <value>Idle.</value>
@@ -797,5 +653,83 @@
   <data name="MessageTitleForceSync" xml:space="preserve">
     <value>Force Sync?</value>
     <comment>Title of messageboxes when force syncing</comment>
+  </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="Period" type="System.Char, mscorlib" xml:space="preserve">
+    <value>.</value>
+  </data>
+  <data name="Exclamation" type="System.Char, mscorlib" xml:space="preserve">
+    <value>!</value>
+  </data>
+  <data name="SpaceChar" type="System.Char, mscorlib" xml:space="preserve">
+    <value> </value>
+  </data>
+  <data name="StatusErrorChatParty" xml:space="preserve">
+    <value>Party chat received!</value>
+    <comment>Status message when stop on party chat</comment>
+  </data>
+  <data name="StatusErrorChatLinkshell" xml:space="preserve">
+    <value>Linkshell chat received!</value>
+    <comment>Status message when stop on linkshell chat</comment>
+  </data>
+  <data name="StatusErrorChatTell" xml:space="preserve">
+    <value>Tell received!</value>
+    <comment>Status message when stop on tell chat</comment>
+  </data>
+  <data name="StatusErrorChatSay" xml:space="preserve">
+    <value>Say chat received!</value>
+    <comment>Status message when stop on say chat</comment>
+  </data>
+  <data name="GUIChatTabAlertParty" xml:space="preserve">
+    <value> PT (!!!)</value>
+    <comment>Chat tab alert text during note event for party</comment>
+  </data>
+  <data name="GUIChatTabAlertLinkshell" xml:space="preserve">
+    <value> LS (!!!)</value>
+    <comment>Chat tab alert text during note event for linkshell</comment>
+  </data>
+  <data name="GUIChatTabAlertTell" xml:space="preserve">
+    <value> Tell (!!!)</value>
+    <comment>Chat tab alert text during note event for tell</comment>
+  </data>
+  <data name="GUIChatTabAlertSay" xml:space="preserve">
+    <value> Say (!!!)</value>
+    <comment>Chat tab alert text during note event for say</comment>
+  </data>
+  <data name="StatusErrorGM" xml:space="preserve">
+    <value>[GM] DETECTED!!!</value>
+    <comment>Status message when GM detected</comment>
+  </data>
+  <data name="GUILblRodNone" xml:space="preserve">
+    <value>No rod equipped!</value>
+    <comment>lbl text for no rod</comment>
+  </data>
+  <data name="GUILblBaitNone" xml:space="preserve">
+    <value>No bait equipped!</value>
+    <comment>lbl text for no bait</comment>
+  </data>
+  <data name="GUIFormatLblSkillTotal" xml:space="preserve">
+    <value> [{0}.{1} total skillups]</value>
+    <comment>gui total skillup format</comment>
+  </data>
+  <data name="FishNameFormatMob" xml:space="preserve">
+    <value>Mob (_{0}_)</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="MessageTitleWarning" xml:space="preserve">
+    <value>WARNING</value>
+  </data>
+  <data name="TestChatFishingSkill" xml:space="preserve">
+    <value>{0}'s fishing skill</value>
+    <comment>Test for fishing skillups</comment>
+  </data>
+  <data name="TestChatFishingSkillPoints" xml:space="preserve">
+    <value>points.</value>
+    <comment>Test for points rather than level up</comment>
   </data>
 </root>
