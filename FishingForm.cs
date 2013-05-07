@@ -16,6 +16,117 @@ namespace Fishing
 {
     internal partial class FishingForm : Form
     {
+        #region Constants
+
+        private static readonly string[] MessageErrorFFACEVersion = {
+            "This program uses FFACE v4.0.0.9 or higher!",
+            "",
+            "Please download the latest version of FFACE and put it in this program's directory."
+        };
+
+        private static readonly string[] MessageVersionUpdate = {
+            "A new version of FishingForm is available.",
+            "Check https://bitbucket.org/FinalDoom/ffxi-fishingform/downloads ",
+            "or http://www.ffevo.net/files/file/214-fishingform-fd-edition/ for the new version."
+        };
+
+        private static readonly string[] MessageBaitItemizer = {
+            "NOTE: Option requires you to have the FFXI Windower Itemizer.dll plugin or Ashita ItemTools.dll extension loaded.",
+            "",
+            "You must enter the command below. {0} will be replaced with the bait name in quotes, e.g.:",
+            "",
+            "    /get {0} sack",
+            "    /gets \"Meatball\" satchel",
+            "",
+            "    /moveitem \"Sliced Cod\" inventory sack 1",
+            "    /moveitem {0} satchel inventory 99",
+            "",
+            "You may also enter several commands, separated by semicolons."
+        };
+
+        private static readonly string[] MessageBaitOther = {
+            "NOTE: You must enter the command below. {0} will be replaced with the bait name in quotes, e.g.:",
+            "",
+            "    /echo Out of {0}!",
+            "",
+            "You may also enter several commands, separated by semicolons."
+        };
+
+        private static readonly string[] MessageInventoryItemizer = {
+            "NOTE: Option requires you to have the FFXI Windower Itemizer.dll plugin or Ashita ItemTools.dll extension loaded.",
+            "",
+            "You must enter the command below, e.g.:",
+            "",
+            "    /put \"Hakuryu\" sack",
+            "    /puts \"Black Sole\" satchel",
+            "",
+            "    /moveitem \"Hakuryu\" inventory sack 1",
+            "    /moveitem \"Black Sole\" inventory satchel 12",
+            "",
+            "You may also enter several commands, separated by semicolons."
+        };
+
+        private const string DllNameFFACE = "FFACE.dll";
+        private const string DllNameHook = "hook.dll";
+        private const string FileWarningWav = "warning.wav";
+        private const string CommandCastSneak = "/ma Sneak <me>";
+        private const string CommandChatSay = "/s ";
+        private const string CommandChatLinkshell = "/l ";
+        private const string CommandChatParty = "/p ";
+        private const string CommandChatReply = "/t <r> ";
+        private const string CommandChatTell = "/t ";
+        private const string CommandFish = "/fish";
+        private const string CommandFormatItemMe = "/item \"{0}\" <me>";
+        private const string CommandCancelStatus = "//cancel {0}";
+        private const string CommandWarp = "/ma \"Warp\" <me>";
+        private const string CommandLogout = "/logout";
+        private const string CommandShutdown = "/shutdown";
+        private const string CommandMoveItem = "/moveitem";
+        private const string CommandPutItem = "/put";
+        private const string EquipFormatRod = "/equip range \"{0}\"";
+        private const string EquipFormatBait = "/equip ammo \"{0}\"";
+        private const string EquipFormatBody = "/equip body \"{0}\"";
+        private const string EquipFormatHands = "/equip hands \"{0}\"";
+        private const string EquipFormatLegs = "/equip legs \"{0}\"";
+        private const string EquipFormatFeet = "/equip feet \"{0}\"";
+        private const string EquipFormatHead = "/equip head \"{0}\"";
+        private const string EquipFormatNeck = "/equip neck \"{0}\"";
+        private const string EquipFormatWaist = "/equip waist \"{0}\"";
+        private const string EquipFormatLRing = "/equip ring1 \"{0}\"";
+        private const string EquipFormatRRing = "/equip ring2 \"{0}\"";
+        private const string FormatTimestampDB = "[hh:mm:ss] ";
+        private const string FormatTimestampVanaMinute = "00";
+        private const string FormatTimestampEarthTime = "MMM. d, yyyy h:mm:ss tt";
+        private const string FormatProgramTitleNoChar = "FishingForm v{0}-mC-FD";
+        private const string FormatProgramTitleLoggedIn = "FishingForm v{0}-mC-FD  ({1})";
+        private const string FormatFishHP = "{0}/{1} [{2}s]";
+        private const string FormatFishNameMultiple = "{0} x{1}";
+        private const string GUIChatDetectButtonAdd = "+";
+        private const string GUIChatDetectButtonRemove = "-";
+        private const string GUIFormatNoCatch = "{0} / {1}";
+        private const string GUILblBlank = "--";
+        private const string GUIFormatLblBait = "{0} [{1}]";
+        private const string GUIFormatVanaTime = "{0}/{1}/{2}, {3}, {4}:{5}, {6} Moon ({7}%)";
+        private const string GUIFormatLblSkillDecimal = " (.{0})";
+        private const string GUIFormatLblSkillDecimalRange = " (.{0} - .{1})";
+        private const string GUILblNA = "N/A";
+        private const string GUIFormatLblInventory = "{0} / {1}";
+        private const string GUIFormatLblGil = "{0:#,#}";
+        private const string GUIFormatLblVanaClock = "{0}:{1}";
+        private const string GUIButtonResizeBig = ">";
+        private const string GUIButtonResizeSmall = "<";
+        private const string ProcessPOLName = "pol";
+        private const string ProgramExeName = "Fishing.exe";
+        private const string RegexAllSpaces = @"^[\s]+$";
+        private const string RegexChatIncomingTell = @"^\w+>> ";
+        private const string RegexChatMode = @"(?:/(?:[slpt]|say|linkshell|party|tell)\b(?: <r>)? )?(.*)";
+        private const string RegexFormatChatLinkshell = @"^<(?!{0})\w+> ";
+        private const string RegexFormatChatParty = @"^\((?!{0})\w+\) ";
+        private const string RegexFormatChatSay = @"^(?!{0})\w+ :";
+        private const string TestChatGM = "[GM";
+
+        #endregion //Constants
+
         #region Members
 
         internal static FFACE _FFACE { get; private set; }
@@ -59,10 +170,10 @@ namespace Fishing
         private static int sayActions = 0;
 
         private static Regex playerChatLinkshell;
-        private static Regex playerChatTell = new Regex(@"^\w+>> ");
+        private static Regex playerChatTell = new Regex(RegexChatIncomingTell);
         private static Regex playerChatParty;
         private static Regex playerChatSay;
-        private static Regex chatMode = new Regex(@"(?:/(?:[slpt]|say|linkshell|party|tell)\b(?: <r>)? )?(.*)");
+        private static Regex chatMode = new Regex(RegexChatMode);
 
         internal enum FishResult
         {
@@ -118,7 +229,7 @@ namespace Fishing
 
             timer.Enabled = true;
 
-            toolTip.SetToolTip(btnRefreshLists, "Refreshes the Wanted / Unwanted lists from your database, based on currently equipped rod / bait / zone.\r\rIf there are no entries after pressing this button, your database has no entries for the current combination.");
+            toolTip.SetToolTip(btnRefreshLists, "Refreshes the Wanted / Unwanted lists from your database, based on currently equipped rod / bait / zone." + Environment.NewLine + "If there are no entries after pressing this button, your database has no entries for the current combination.");
             toolTip.SetToolTip(btnCastReset, "Reset cast wait to 3.0/3.5. This is a quick reset if you become fatigued and rezone.");
             toolTip.SetToolTip(btnResize, "Resize chat log to fill dialog, click again to restore (will automatically restore if fishing terminates).");
             toolTip.SetToolTip(cbAlwaysOnTop, "Set dialog to always visible.");
@@ -244,12 +355,8 @@ namespace Fishing
                 }
                 if (!FishSQL.IsProgramUpdated())
                 {
-                    string[] message = {"A new version of FishingForm is available.",
-                                          "Check https://bitbucket.org/FinalDoom/ffxi-fishingform/downloads ",
-                                          "or http://www.ffevo.net/files/file/214-fishingform-fd-edition/ for the new version."
-                                      };
-                    MessageBox.Show(string.Join(Environment.NewLine, message));
-                    foreach (string s in message)
+                    MessageBox.Show(string.Join(Environment.NewLine, MessageVersionUpdate));
+                    foreach (string s in MessageVersionUpdate)
                     {
                         UpdateDBLog(s);
                     }
@@ -297,13 +404,13 @@ namespace Fishing
 		{
             using (ProcessSelector ChooseProcess = new ProcessSelector())
             {
-                if (characterName != null && characterName != Resources.ArgumentForceSync)
+                if (characterName != null && characterName != Resources.ArgumentNoArgs)
                 {
-                    for (int i = 0; i <= Process.GetProcessesByName(Resources.ProcessPOLName).Length; i++)
+                    for (int i = 0; i <= Process.GetProcessesByName(ProcessPOLName).Length; i++)
                     {
-                        if (Process.GetProcessesByName(Resources.ProcessPOLName)[i].MainWindowTitle == characterName)
+                        if (Process.GetProcessesByName(ProcessPOLName)[i].MainWindowTitle == characterName)
                         {
-                            ChooseProcess.ThisProcess = new ProcessSelector.POLProcess(Process.GetProcessesByName(Resources.ProcessPOLName)[i].Id, Process.GetProcessesByName(Resources.ProcessPOLName)[i].MainWindowTitle);
+                            ChooseProcess.ThisProcess = new ProcessSelector.POLProcess(Process.GetProcessesByName(ProcessPOLName)[i].Id, Process.GetProcessesByName(ProcessPOLName)[i].MainWindowTitle);
                             break;
                         }
                     }
@@ -316,8 +423,8 @@ namespace Fishing
 				{
 					_FFACE = null;
 					_Player = null;
-                    FileVersionInfo ver = FileVersionInfo.GetVersionInfo(Resources.ProgramExeName);
-                    this.Text = string.Format(Resources.FormatProgramTitleNoChar, ver.FileVersion);
+                    FileVersionInfo ver = FileVersionInfo.GetVersionInfo(ProgramExeName);
+                    this.Text = string.Format(FormatProgramTitleNoChar, ver.FileVersion);
 					_Process = null;
 					return;
 				}
@@ -326,18 +433,18 @@ namespace Fishing
                 {
                     _FFACE = new FFACE(ChooseProcess.ThisProcess.POLID);
                     _Player = new FFACE.PlayerTools(_FFACE._InstanceID);
-                    playerChatLinkshell = new Regex(string.Format(@"^<(?!{0})\w+> ", _Player.Name));
-                    playerChatParty = new Regex(string.Format(@"^\((?!{0})\w+\) ", _Player.Name));
-                    playerChatSay = new Regex(string.Format(@"^(?!{0})\w+ :", _Player.Name));
-                    FileVersionInfo ver = FileVersionInfo.GetVersionInfo(Resources.ProgramExeName);
-                    this.Text = string.Format(Resources.FormatProgramTitleLoggedIn, ver.FileVersion, ChooseProcess.ThisProcess.POLName);
+                    playerChatLinkshell = new Regex(string.Format(RegexFormatChatLinkshell, _Player.Name));
+                    playerChatParty = new Regex(string.Format(RegexFormatChatParty, _Player.Name));
+                    playerChatSay = new Regex(string.Format(RegexFormatChatSay, _Player.Name));
+                    FileVersionInfo ver = FileVersionInfo.GetVersionInfo(ProgramExeName);
+                    this.Text = string.Format(FormatProgramTitleLoggedIn, ver.FileVersion, ChooseProcess.ThisProcess.POLName);
 
                     //windower path
                     //_FFACE = new FFACE((int)PID);
                     Process pol = Process.GetProcessById((int)ChooseProcess.ThisProcess.POLID);
                     foreach (ProcessModule mod in pol.Modules)
                     {
-                        if (mod.ModuleName.ToLower() == Resources.DllNameHook)
+                        if (mod.ModuleName.ToLower() == DllNameHook)
                         {
                             FFACE.WindowerPath = Path.Combine(Path.GetDirectoryName(mod.FileName), Resources.PathWindowerResourcesFolder);
                             break;
@@ -351,7 +458,7 @@ namespace Fishing
                 }
                 catch (DllNotFoundException)   //occurs when FFACE.dll cannot be found
                 {
-                    if (File.Exists(Path.Combine(Application.StartupPath, Resources.DllNameFFACE)))
+                    if (File.Exists(Path.Combine(Application.StartupPath, DllNameFFACE)))
                     {
                         MessageBox.Show(Resources.MessageErrorAdministratorNeeded, Resources.MessageTitleError);
                     }
@@ -363,11 +470,7 @@ namespace Fishing
                 }
                 catch (EntryPointNotFoundException)   //occurs when 'CreateInstance' entry point in FFACE.dll cannot be found
                 {
-                    string[] message = {"This program uses FFACE v4.0.0.9 or higher!",
-                                           "",
-                                           "Please download the latest version of FFACE and put it in this program's directory."
-                                       };
-                    MessageBox.Show(string.Join(Environment.NewLine, message), "Error");
+                    MessageBox.Show(string.Join(Environment.NewLine, MessageErrorFFACEVersion), Resources.MessageTitleError);
                     Environment.Exit(0);
                 }
 
@@ -421,7 +524,7 @@ namespace Fishing
             if (cbBaitItemizerItemTools.Checked || cbBaitactionOther.Checked)
             {
                 bait = string.Format(Resources.FormatQuoteArg, bait);
-                foreach (string command in tbBaitactionOther.Text.Split(new String[] { ";" }, StringSplitOptions.RemoveEmptyEntries))
+                foreach (string command in tbBaitactionOther.Text.Split(new String[] { Resources.Semicolon }, StringSplitOptions.RemoveEmptyEntries))
                 {
                     _FFACE.Windower.SendString(string.Format(command, bait));
                     Thread.Sleep(1000);  //pause to give the game time to move bait
@@ -495,8 +598,8 @@ namespace Fishing
             string strRod = LastRodName;
             string rod = GetRodName(_FFACE.Item.GetEquippedItemID(EquipSlot.Range));
             string bait = GetBaitName(_FFACE.Item.GetEquippedItemID(EquipSlot.Ammo));
-            string strRodEquipMessage = string.Format(Resources.EquipFormatRod, LastRodName);
-            string strBaitEquipMessage = string.Format(Resources.EquipFormatBait, LastBaitName);
+            string strRodEquipMessage = string.Format(EquipFormatRod, LastRodName);
+            string strBaitEquipMessage = string.Format(EquipFormatBait, LastBaitName);
 
             // Just starting or zoned
             if ((string.IsNullOrEmpty(lblZone.Text)) || (lblZone.Text != strZone))
@@ -544,7 +647,7 @@ namespace Fishing
                     // Check to make sure we have enough MP
                     if (_FFACE.Player.MPCurrent >= 12)
                     {
-                        _FFACE.Windower.SendString(Resources.CommandCastSneak);
+                        _FFACE.Windower.SendString(CommandCastSneak);
                         Thread.Sleep(500);
                         // While we are casting, sleep the thread.
                         while (_FFACE.Player.CastPercentEx < 95)
@@ -570,7 +673,7 @@ namespace Fishing
 			CheckEnchantment();
             SetStatus(string.Format(Resources.StatusFormatCastingBait, LastBaitName, baitLeft));
 
-            _FFACE.Windower.SendString(Resources.CommandFish);
+            _FFACE.Windower.SendString(CommandFish);
 
         }
 
@@ -588,7 +691,7 @@ namespace Fishing
         /// </summary>
         /// <returns>True the statuseffect is active</returns>
 
-        private bool IsStatusEffectActive(StatusEffect seffect)
+        private static bool IsStatusEffectActive(StatusEffect seffect)
         {
             foreach (var statuseffects in _FFACE.Player.StatusEffects)
             {
@@ -602,9 +705,9 @@ namespace Fishing
         /// Cancels Status effect (Requires Cancel Plugin to be active)
         /// </summary>
         
-        private void CancelSpell(StatusEffect seffect)
+        private static void CancelSpell(StatusEffect seffect)
         {
-            _FFACE.Windower.SendString(string.Format(Resources.CommandCancelStatus, (short)seffect));
+            _FFACE.Windower.SendString(string.Format(CommandCancelStatus, (short)seffect));
         } // @ private void CancelSpell(StatusEffect seffect)
 
         private FishResult FightFish()
@@ -815,7 +918,7 @@ namespace Fishing
 
                 if (cbFishHP.Checked)
                 {
-                    SetLblHP(string.Format(Resources.FormatFishHP, _FFACE.Fish.HPCurrent, _FFACE.Fish.HPMax, _FFACE.Fish.Timeout));
+                    SetLblHP(string.Format(FormatFishHP, _FFACE.Fish.HPCurrent, _FFACE.Fish.HPMax, _FFACE.Fish.Timeout));
                 }
 
                 if (cbReaction.Checked)
@@ -860,7 +963,7 @@ namespace Fishing
 
                     if (cbFishHP.Checked)
                     {
-                        SetLblHP(string.Format(Resources.FormatFishHP, currentFishHP, _FFACE.Fish.HPMax, _FFACE.Fish.Timeout));
+                        SetLblHP(string.Format(FormatFishHP, currentFishHP, _FFACE.Fish.HPMax, _FFACE.Fish.Timeout));
                     }
                     Thread.Sleep(1);
                 }
@@ -908,8 +1011,8 @@ namespace Fishing
                 {
                     // Remove punctuation and articles, but don't change fish name if it's only a partial match of one of the words
                     // At least one of the words must match
-                    List<string> fishNameParts = new List<string>((fish.Split(new char[3] { ' ', '.', '!'})).AsEnumerable());
-                    List<string> fishKeyParts = new List<string>((f.Key.Split(new char[1] { ' ' })).AsEnumerable());
+                    List<string> fishNameParts = new List<string>((fish.Split(new char[3] { Resources.SpaceChar, Resources.Period, Resources.Exclamation})).AsEnumerable());
+                    List<string> fishKeyParts = new List<string>((f.Key.Split(new char[1] { Resources.SpaceChar })).AsEnumerable());
                     bool found = false;
                     foreach (string p in fishKeyParts)
                     {
@@ -922,7 +1025,7 @@ namespace Fishing
                     int test;
                     if (int.TryParse(fishNameParts[0], out test))
                     {
-                        string multiple = string.Format(Resources.FormatFishNameMultiple, f.Key, test);
+                        string multiple = string.Format(FormatFishNameMultiple, f.Key, test);
                         if (Dictionaries.fishDictionary.Keys.Contains(multiple))
                         {
                             name = multiple;
@@ -1233,7 +1336,7 @@ namespace Fishing
                         {
                             string[] tempactionstring = command.Split(new String[] { Resources.Space }, StringSplitOptions.RemoveEmptyEntries);
                             // Check command type
-                            if (!(tempactionstring[0].StartsWith(Resources.CommandMoveItem) || tempactionstring[0].StartsWith(Resources.CommandPutItem)))
+                            if (!(tempactionstring[0].StartsWith(CommandMoveItem) || tempactionstring[0].StartsWith(CommandPutItem)))
                             {
                                 Stop(false, Resources.StatusErrorItemizerUnknown);
                             }
@@ -1249,7 +1352,7 @@ namespace Fishing
                             }
 
                             string storagemedium;
-                            if (tempactionstring[0].StartsWith(Resources.CommandMoveItem))
+                            if (tempactionstring[0].StartsWith(CommandMoveItem))
                             {
                                 storagemedium = tempactionstring[tempactionstring.Length - 1].ToLower();
                                 // Command ends with a quantity. Get correct storage medium
@@ -1289,19 +1392,19 @@ namespace Fishing
                 if (rbFullactionWarp.Checked)
                 {
                     SetStatus(Resources.StatusInfoFullInventoryWarp);
-                    _FFACE.Windower.SendString(Resources.CommandWarp);
+                    _FFACE.Windower.SendString(CommandWarp);
                     Thread.Sleep(30000);
                 }
                 if (rbFullactionLogout.Checked)
                 {
                     SetStatus(Resources.StatusInfoFullInventoryLogout);
-                    _FFACE.Windower.SendString(Resources.CommandLogout);
+                    _FFACE.Windower.SendString(CommandLogout);
                     Thread.Sleep(30000);
                 }
                 else if (rbFullactionShutdown.Checked)
                 {
                     SetStatus(Resources.StatusInfoFullInventoryShutdown);
-                    _FFACE.Windower.SendString(Resources.CommandShutdown);
+                    _FFACE.Windower.SendString(CommandShutdown);
                     Thread.Sleep(30000);
                 }
                 Stop(false, Resources.StatusErrorFullInventory);
@@ -1591,12 +1694,7 @@ namespace Fishing
         /// </summary>
         public void Reattach()
         {
-            bool wasFishing = false;
-
-            if (Resources.GUIButtonStop == btnStart.Text)
-            {
-                wasFishing = true;
-            }
+            bool wasFishing = Resources.GUIButtonStop == btnStart.Text;
 
             Stop(false, Resources.StatusErrorChatGet);
 
@@ -1680,35 +1778,35 @@ namespace Fishing
 		{
 			if (!string.IsNullOrEmpty(tbBodyGear.Text) && GetGearName(_FFACE.Item.GetEquippedItemID(EquipSlot.Body)) != tbBodyGear.Text)
 			{
-				_FFACE.Windower.SendString(string.Format(Resources.EquipFormatBody, tbBodyGear.Text));
+				_FFACE.Windower.SendString(string.Format(EquipFormatBody, tbBodyGear.Text));
             }
             if (!string.IsNullOrEmpty(tbHandsGear.Text) && GetGearName(_FFACE.Item.GetEquippedItemID(EquipSlot.Hands)) != tbHandsGear.Text)
 			{
-				_FFACE.Windower.SendString(string.Format(Resources.EquipFormatHands, tbHandsGear.Text));
+				_FFACE.Windower.SendString(string.Format(EquipFormatHands, tbHandsGear.Text));
             }
             if (!string.IsNullOrEmpty(tbLegsGear.Text) && GetGearName(_FFACE.Item.GetEquippedItemID(EquipSlot.Legs)) != tbLegsGear.Text)
 			{
-                _FFACE.Windower.SendString(string.Format(Resources.EquipFormatLegs, tbLegsGear.Text));
+                _FFACE.Windower.SendString(string.Format(EquipFormatLegs, tbLegsGear.Text));
             }
             if (!string.IsNullOrEmpty(tbFeetGear.Text) && GetGearName(_FFACE.Item.GetEquippedItemID(EquipSlot.Feet)) != tbFeetGear.Text)
 			{
-                _FFACE.Windower.SendString(string.Format(Resources.EquipFormatFeet, tbFeetGear.Text));
+                _FFACE.Windower.SendString(string.Format(EquipFormatFeet, tbFeetGear.Text));
             }
             if (!string.IsNullOrEmpty(tbHeadGear.Text) && GetGearName(_FFACE.Item.GetEquippedItemID(EquipSlot.Head)) != tbHeadGear.Text)
 			{
-                _FFACE.Windower.SendString(string.Format(Resources.EquipFormatHead, tbHeadGear.Text));
+                _FFACE.Windower.SendString(string.Format(EquipFormatHead, tbHeadGear.Text));
             }
             if (!string.IsNullOrEmpty(tbNeckGear.Text) && GetGearName(_FFACE.Item.GetEquippedItemID(EquipSlot.Neck)) != tbNeckGear.Text)
 			{
-                _FFACE.Windower.SendString(string.Format(Resources.EquipFormatNeck, tbNeckGear.Text));
+                _FFACE.Windower.SendString(string.Format(EquipFormatNeck, tbNeckGear.Text));
             }
             if (!string.IsNullOrEmpty(tbWaistGear.Text) && GetGearName(_FFACE.Item.GetEquippedItemID(EquipSlot.Waist)) != tbWaistGear.Text)
 			{
-                _FFACE.Windower.SendString(string.Format(Resources.EquipFormatwaist, tbWaistGear.Text));
+                _FFACE.Windower.SendString(string.Format(EquipFormatWaist, tbWaistGear.Text));
 			}
             if (!string.IsNullOrEmpty(tbLRingGear.Text) && GetGearName(_FFACE.Item.GetEquippedItemID(EquipSlot.RingLeft)) != tbLRingGear.Text)
 			{
-                _FFACE.Windower.SendString(string.Format(Resources.EquipFormatLRing, tbLRingGear.Text));
+                _FFACE.Windower.SendString(string.Format(EquipFormatLRing, tbLRingGear.Text));
 				if (tbLRingGear.Text == tbRRingGear.Text)
 				{
 					Thread.Sleep(500);
@@ -1716,7 +1814,7 @@ namespace Fishing
             }
             if (!string.IsNullOrEmpty(tbRRingGear.Text) && GetGearName(_FFACE.Item.GetEquippedItemID(EquipSlot.RingRight)) != tbRRingGear.Text)
 			{
-                _FFACE.Windower.SendString(string.Format(Resources.EquipFormatRRing, tbRRingGear.Text));
+                _FFACE.Windower.SendString(string.Format(EquipFormatRRing, tbRRingGear.Text));
             }
         } // @ private void GearUp()
 
@@ -1756,7 +1854,7 @@ namespace Fishing
 				if (enchantInactive)
 				{
 					SetStatus(Resources.StatusInfoEnchantBelt);
-					_FFACE.Windower.SendString(string.Format(Resources.CommandFormatItemMe, tbWaistGear.Text));
+					_FFACE.Windower.SendString(string.Format(CommandFormatItemMe, tbWaistGear.Text));
                     Thread.Sleep(500);
 					WaitUntil(Status.Standing);
 				}
@@ -1767,7 +1865,7 @@ namespace Fishing
 			if (cbLRingGear.Enabled && cbLRingGear.Checked && enchantmentsNeeded > 0)
 			{
 				SetStatus(string.Format(Resources.StatusInfoEnchantLRing, tbLRingGear.Text));
-				_FFACE.Windower.SendString(string.Format(Resources.CommandFormatItemMe, tbLRingGear.Text));
+				_FFACE.Windower.SendString(string.Format(CommandFormatItemMe, tbLRingGear.Text));
                 Thread.Sleep(500);
 				WaitUntil(Status.Standing);
                 enchantmentsNeeded = GetNeededEnchantments();
@@ -1776,7 +1874,7 @@ namespace Fishing
 			if (cbRRingGear.Enabled && cbRRingGear.Checked && enchantmentsNeeded > 0)
 			{
 				SetStatus(string.Format(Resources.StatusInfoEnchantRRing, tbRRingGear.Text));
-                _FFACE.Windower.SendString(string.Format(Resources.CommandFormatItemMe, tbRRingGear.Text));
+                _FFACE.Windower.SendString(string.Format(CommandFormatItemMe, tbRRingGear.Text));
                 Thread.Sleep(500);
 				WaitUntil(Status.Standing);
 			}
@@ -1786,19 +1884,19 @@ namespace Fishing
         {
             if (cbBaitActionWarp.Checked)
             {
-                _FFACE.Windower.SendString(Resources.CommandWarp);
+                _FFACE.Windower.SendString(CommandWarp);
                 SetStatus(Resources.StatusInfoBaitWarping);
                 Thread.Sleep(30000);
             }
             if (cbBaitActionShutdown.Checked)
             {
-                _FFACE.Windower.SendString(Resources.CommandShutdown);
+                _FFACE.Windower.SendString(CommandShutdown);
                 SetStatus(Resources.StatusInfoBaitShutdown);
                 Thread.Sleep(33000);
             }
             else if (cbBaitActionLogout.Checked)
             {
-                _FFACE.Windower.SendString(Resources.CommandLogout);
+                _FFACE.Windower.SendString(CommandLogout);
                 SetStatus(Resources.StatusInfoBaitLogout);
                 Thread.Sleep(33000);
             }
@@ -1809,18 +1907,18 @@ namespace Fishing
         {
             if (cbFatiguedActionWarp.Checked)
             {
-                _FFACE.Windower.SendString(Resources.CommandWarp);
+                _FFACE.Windower.SendString(CommandWarp);
                 SetStatus(Resources.StatusInfoFatiguedWarping);
                 Thread.Sleep(30000);
             }
             if (cbFatiguedActionShutdown.Checked)
             {
-                _FFACE.Windower.SendString(Resources.CommandShutdown);
+                _FFACE.Windower.SendString(CommandShutdown);
                 SetStatus(Resources.StatusInfoFatiguedShutdown);
             }
             else if (cbFatiguedActionLogout.Checked)
             {
-                _FFACE.Windower.SendString(Resources.CommandLogout);
+                _FFACE.Windower.SendString(CommandLogout);
                 SetStatus(Resources.StatusInfoFatiguedLogout);
             }
             Thread.Sleep(33000);
@@ -1847,7 +1945,7 @@ namespace Fishing
                 }
                 if (null != workerThread)
                 {
-                    string equipMessage = string.Format(Resources.EquipFormatBait, LastBaitName);
+                    string equipMessage = string.Format(EquipFormatBait, LastBaitName);
 
                     SetProgressMaxValue(0);
 
@@ -1880,9 +1978,9 @@ namespace Fishing
                         }
                     }
 
-                    if (stopSound && cbStopSound.Checked && File.Exists(Resources.FileWarningWav))
+                    if (stopSound && cbStopSound.Checked && File.Exists(FileWarningWav))
                     {
-                        SoundPlayer spWave = new SoundPlayer(Resources.FileWarningWav);
+                        SoundPlayer spWave = new SoundPlayer(FileWarningWav);
                         spWave.Play();
                     }
 
@@ -2038,7 +2136,7 @@ namespace Fishing
         {
             this.UIThread(delegate
             {
-                lblNoCatchAt.Text = string.Format("{0} / {1}", consecutiveNoCatchCount, numMaxNoCatch.Value);
+                lblNoCatchAt.Text = string.Format(GUIFormatNoCatch, consecutiveNoCatchCount, numMaxNoCatch.Value);
             });
         } // @ private void SetNoCatch(int releases)
 
@@ -2094,7 +2192,7 @@ namespace Fishing
                 for (int i = FishChat.tellLogAdded - 1; i >= 0; --i)
                 {
                     testLine = FishChat.tellLog[i].Text;
-                    if (testLine.Length >= 3 && testLine.Substring(0, 3) == "[GM")
+                    if (testLine.Length >= 3 && testLine.Substring(0, 3) == TestChatGM)
                     {
                         gmDetect();
                     }
@@ -2105,11 +2203,11 @@ namespace Fishing
                 for (int i = FishChat.chatLogAdded - 1; i >= 0; --i)
                 {
                     testLine = FishChat.chatLog[i].Text;
-                    if (testLine.StartsWith(_Player.Name + "'s fishing skill"))
+                    if (testLine.StartsWith(string.Format(Resources.TestChatFishingSkill, _Player.Name)))
                     {
-                        if (testLine.EndsWith("points."))
+                        if (testLine.EndsWith(Resources.TestChatFishingSkillPoints))
                         {
-                            if (int.TryParse(testLine.Substring(testLine.LastIndexOf(' ') - 1, 1), out skillLast))
+                            if (int.TryParse(testLine.Substring(testLine.LastIndexOf(Resources.SpaceChar) - 1, 1), out skillLast))
                             {
                                 skillDecimalMin += skillLast;
                                 skillDecimalMax += skillLast;
@@ -2122,8 +2220,8 @@ namespace Fishing
                         }
                         else // Level up
                         {
-                            int lastSpace = testLine.LastIndexOf(' ');
-                            int.TryParse(testLine.Substring(lastSpace + 1, testLine.LastIndexOf('.') - lastSpace - 1), out skillLevel);
+                            int lastSpace = testLine.LastIndexOf(Resources.SpaceChar);
+                            int.TryParse(testLine.Substring(lastSpace + 1, testLine.LastIndexOf(Resources.Period) - lastSpace - 1), out skillLevel);
                             skillDecimalMin = 0;
                             if (skillDecimalMax < 10) // Partial levelup previously recorded
                             {
@@ -2161,14 +2259,14 @@ namespace Fishing
                 {
                     UpdateChatLogs(rtbParty, FishChat.partyLog, FishChat.partyLogAdded);
 
-                    DoCustomChatActions(partyActions, FishChat.partyLogAdded, FishChat.partyLog, playerChatParty, "Party chat received!", tabChatPageParty, " PT (!!!)");
+                    DoCustomChatActions(partyActions, FishChat.partyLogAdded, FishChat.partyLog, playerChatParty, Resources.StatusErrorChatParty, tabChatPageParty, Resources.GUIChatTabAlertParty);
                 }
 
                 if (0 < FishChat.shellLogAdded)
                 {
                     UpdateChatLogs(rtbShell, FishChat.shellLog, FishChat.shellLogAdded);
 
-                    DoCustomChatActions(shellActions, FishChat.shellLogAdded, FishChat.shellLog, playerChatLinkshell, "Linkshell chat received!", tabChatPageLS, " LS (!!!)");
+                    DoCustomChatActions(shellActions, FishChat.shellLogAdded, FishChat.shellLog, playerChatLinkshell, Resources.StatusErrorChatLinkshell, tabChatPageLS, Resources.GUIChatTabAlertLinkshell);
                 }
 
                 if (0 < FishChat.tellLogAdded)
@@ -2180,14 +2278,14 @@ namespace Fishing
                     {
                         tellActions |= (int)ChatAction.Note;
                     }
-                    DoCustomChatActions(tellActions, FishChat.tellLogAdded, FishChat.tellLog, playerChatTell, "Tell received!", tabChatPageTell, " Tell (!!!)");
+                    DoCustomChatActions(tellActions, FishChat.tellLogAdded, FishChat.tellLog, playerChatTell, Resources.StatusErrorChatTell, tabChatPageTell, Resources.GUIChatTabAlertTell);
                     tellActions = oldTellActions;
                 }
                 if (0 < FishChat.sayLogAdded)
                 {
                     UpdateChatLogs(rtbSay, FishChat.sayLog, FishChat.sayLogAdded);
 
-                    DoCustomChatActions(sayActions, FishChat.sayLogAdded, FishChat.sayLog, playerChatSay, "Say chat received!", tabChatPageSay, " Say (!!!)");
+                    DoCustomChatActions(sayActions, FishChat.sayLogAdded, FishChat.sayLog, playerChatSay, Resources.StatusErrorChatSay, tabChatPageSay, Resources.GUIChatTabAlertSay);
                 }
                 FishChat.Clear();  //clear ___LogAdded variables for next update
             });
@@ -2258,7 +2356,7 @@ namespace Fishing
                 {
                     rtbDB.SelectionStart = rtbDB.Text.Length;
                     rtbDB.SelectionColor = Color.SlateBlue;
-                    rtbDB.SelectedText = DateTime.Now.ToString("[hh:mm:ss] ");
+                    rtbDB.SelectedText = DateTime.Now.ToString(FormatTimestampDB);
                     rtbDB.SelectionColor = Color.White;
                     rtbDB.SelectedText = line + Environment.NewLine;
                     rtbDB.SelectionStart = rtbDB.Text.Length - 1;
@@ -2301,14 +2399,14 @@ namespace Fishing
         {
             if (cbGMdetectAutostop.Checked)
             {
-                if (!cbStopSound.Checked && File.Exists(Resources.FileWarningWav))
+                if (!cbStopSound.Checked && File.Exists(FileWarningWav))
                 {
                     doFlashWindow();
-                    SoundPlayer spWave = new SoundPlayer(Resources.FileWarningWav);
+                    SoundPlayer spWave = new SoundPlayer(FileWarningWav);
                     spWave.Play();
                 }
 
-                Stop(false, "[GM] DETECTED!!!");
+                Stop(false, Resources.StatusErrorGM);
             }
         }
 
@@ -2318,12 +2416,12 @@ namespace Fishing
             if (_FFACE == null)
             {
                 lblRod.ForeColor = SystemColors.ControlText;
-                lblRod.Text = "--";
+                lblRod.Text = GUILblBlank;
             }
             else if (string.IsNullOrEmpty(GetRodName(_FFACE.Item.GetEquippedItemID(EquipSlot.Range))))
             {
                 lblRod.ForeColor = Color.Red;
-                lblRod.Text = "No rod equipped!";
+                lblRod.Text = Resources.GUILblRodNone;
             }
             else
             {
@@ -2334,17 +2432,17 @@ namespace Fishing
             if (_FFACE == null)
             {
                 lblBait.ForeColor = SystemColors.ControlText;
-                lblBait.Text = "--";
+                lblBait.Text = GUILblBlank;
             }
             else if (string.IsNullOrEmpty(GetBaitName(_FFACE.Item.GetEquippedItemID(EquipSlot.Ammo))))
             {
                 lblBait.ForeColor = Color.Red;
-                lblBait.Text = "No bait equipped!";
+                lblBait.Text = Resources.GUILblBaitNone;
             }
             else
             {
                 lblBait.ForeColor = SystemColors.ControlText;
-                lblBait.Text = string.Format("{0} [{1}]", GetBaitName(_FFACE.Item.GetEquippedItemID(EquipSlot.Ammo)),
+                lblBait.Text = string.Format(GUIFormatLblBait, GetBaitName(_FFACE.Item.GetEquippedItemID(EquipSlot.Ammo)),
                     _FFACE.Item.GetInventoryItemCount((ushort) _FFACE.Item.GetEquippedItemID(EquipSlot.Ammo)) );
             }
 
@@ -2386,83 +2484,76 @@ namespace Fishing
             }
 
             // the rest
-            lblVanaTime.Text = string.Format("{0}/{1}/{2}, {3}, {4}:{5}, {6} Moon" + " ({7}%)", vanaNow.Month, vanaNow.Day, vanaNow.Year, vanaNow.DayType, vanaNow.Hour, vanaNow.Minute.ToString("00"), vanaNow.GetMoonPhaseName(vanaNow.MoonPhase), vanaNow.MoonPercent);
-            lblEarthTime.Text = DateTime.Now.ToString("MMM. d, yyyy h:mm:ss tt");
-			string skillS = _FFACE == null ? "--" : Math.Max(_FFACE.Player.GetCraftDetails(Craft.Fishing).Level, skillLevel).ToString();
+            lblVanaTime.Text = string.Format(GUIFormatVanaTime, vanaNow.Month, vanaNow.Day, vanaNow.Year, vanaNow.DayType, vanaNow.Hour, vanaNow.Minute.ToString(FormatTimestampVanaMinute), vanaNow.GetMoonPhaseName(vanaNow.MoonPhase), vanaNow.MoonPercent);
+            lblEarthTime.Text = DateTime.Now.ToString(FormatTimestampEarthTime);
+			string skillS = _FFACE == null ? GUILblBlank : Math.Max(_FFACE.Player.GetCraftDetails(Craft.Fishing).Level, skillLevel).ToString();
 			if (_FFACE != null && (skillDecimalMin > 0 || skillDecimalMax > 0))
 			{
-				skillS += " (." + skillDecimalMin.ToString();
-				if (skillDecimalMin != skillDecimalMax)
+				if (skillDecimalMin == skillDecimalMax)
 				{
-					skillS += " - ." + skillDecimalMax.ToString();
+				    skillS += string.Format(GUIFormatLblSkillDecimal, skillDecimalMax);
 				}
-				skillS += ")";
+				else
+				{
+                    skillS += string.Format(GUIFormatLblSkillDecimalRange, skillDecimalMin, skillDecimalMax);
+				}
 			}
             if (_FFACE != null && skillDecimalTotal > 0)
             {
-                skillS += " [";
-                if (skillDecimalTotal > 9)
-                {
-                    skillS += (skillDecimalTotal / 10).ToString();
-                }
-                else
-                {
-                    skillS += "0";
-                }
-                skillS += string.Format(".{0} total skillups]", skillDecimalTotal % 10);
+                skillS += string.Format(Resources.GUIFormatLblSkillTotal, skillDecimalTotal / 10, skillDecimalTotal % 10);
             }
             lblSkill.Text = skillS;
 
             if (_FFACE == null)
             {
-                lblInventorySpace.Text = "-- / --";
-                lblGil.Text = "--";
+                lblInventorySpace.Text = string.Format(GUIFormatLblInventory, GUILblBlank, GUILblBlank);
+                lblGil.Text = GUILblBlank;
             }
             else if (_FFACE.Item.InventoryCount != -1)
             {
-                lblInventorySpace.Text = string.Format("{0} / {1}", _FFACE.Item.InventoryCount, _FFACE.Item.InventoryMax);
+                lblInventorySpace.Text = string.Format(GUIFormatLblInventory, _FFACE.Item.InventoryCount, _FFACE.Item.InventoryMax);
                 try
                 {
-                    lblGil.Text = string.Format("{0:#,#}", _FFACE.Item.CurrentGil);
+                    lblGil.Text = string.Format(GUIFormatLblGil, _FFACE.Item.CurrentGil);
                 }
                 catch
                 {
-                    lblGil.Text = "N/A";
+                    lblGil.Text = GUILblNA;
                 }
             }
             else
             {
-                lblInventorySpace.Text = "N/A";
-                lblGil.Text = "N/A";
+                lblInventorySpace.Text = GUILblNA;
+                lblGil.Text = GUILblNA;
             }
 
             if (_FFACE == null)
             {
-                lblSatchelSpace.Text = "-- / --";
+                lblSatchelSpace.Text = string.Format(GUIFormatLblInventory, GUILblBlank, GUILblBlank);
             }
             else if (_FFACE.Item.SatchelCount != -1)
             {
-                lblSatchelSpace.Text = string.Format("{0} / {1}", _FFACE.Item.SatchelCount, _FFACE.Item.SatchelMax);
+                lblSatchelSpace.Text = string.Format(GUIFormatLblInventory, _FFACE.Item.SatchelCount, _FFACE.Item.SatchelMax);
             }
             else
             {
-                lblSatchelSpace.Text = "N/A";
+                lblSatchelSpace.Text = GUILblNA;
             }
 
             if (_FFACE == null)
             {
-                lblSackSpace.Text = "-- / --";
+                lblSackSpace.Text = string.Format(GUIFormatLblInventory, GUILblBlank, GUILblBlank);
             }
             else if (_FFACE.Item.SackCount != -1)
             {
-                lblSackSpace.Text = string.Format("{0} / {1}", _FFACE.Item.SackCount, _FFACE.Item.SackMax);
+                lblSackSpace.Text = string.Format(GUIFormatLblInventory, _FFACE.Item.SackCount, _FFACE.Item.SackMax);
             }
             else
             {
-                lblSackSpace.Text = "N/A";
+                lblSackSpace.Text = GUILblNA;
             }
 
-            lblVanaClock.Text = string.Format("{0}:{1}", vanaNow.Hour, vanaNow.Minute.ToString("00"));
+            lblVanaClock.Text = string.Format(GUIFormatLblVanaClock, vanaNow.Hour, vanaNow.Minute.ToString(FormatTimestampVanaMinute));
             if (_FFACE != null)
             {
                 SetLblZone(GetZoneName(_FFACE.Player.Zone));
@@ -2475,7 +2566,7 @@ namespace Fishing
 
             if (chatbig)
             {
-                btnResize.Text = ">";
+                btnResize.Text = GUIButtonResizeBig;
                 pnlWanted.Visible = false;
                 pnlUnwanted.Visible = false;
                 btnStart.Visible = false;
@@ -2491,7 +2582,7 @@ namespace Fishing
             }
             else
             {
-                btnResize.Text = "<";
+                btnResize.Text = GUIButtonResizeSmall;
                 pnlWanted.Visible = true;
                 pnlUnwanted.Visible = true;
                 btnStart.Visible = true;
@@ -2592,7 +2683,7 @@ namespace Fishing
 
         private const int bufferSize = 20;
         private static int bufferPosition = 0;
-        private static Regex allSpaces = new Regex(@"^[\s]+$");
+        private static Regex allSpaces = new Regex(RegexAllSpaces);
         private static List<string> chatBuffer = new List<string>(bufferSize);
 
         private void btnChatSend_Click(object sender, EventArgs e)
@@ -2688,27 +2779,27 @@ namespace Fishing
                 switch (e.KeyCode)
                 {
                     case Keys.S:
-                        tbChat.Text = Resources.CommandChatSay + chatMode.Replace(tbChat.Text, Resources.RegexGroup1);
+                        tbChat.Text = CommandChatSay + chatMode.Replace(tbChat.Text, Resources.RegexGroup1);
                         e.Handled = true;
                         e.SuppressKeyPress = true;
                         break;
                     case Keys.L:
-                        tbChat.Text = Resources.CommandChatLinkshell + chatMode.Replace(tbChat.Text, Resources.RegexGroup1);
+                        tbChat.Text = CommandChatLinkshell + chatMode.Replace(tbChat.Text, Resources.RegexGroup1);
                         e.Handled = true;
                         e.SuppressKeyPress = true;
                         break;
                     case Keys.P:
-                        tbChat.Text = Resources.CommandChatParty + chatMode.Replace(tbChat.Text, Resources.RegexGroup1);
+                        tbChat.Text = CommandChatParty + chatMode.Replace(tbChat.Text, Resources.RegexGroup1);
                         e.Handled = true;
                         e.SuppressKeyPress = true;
                         break;
                     case Keys.R:
-                        tbChat.Text = Resources.CommandChatReply + chatMode.Replace(tbChat.Text, Resources.RegexGroup1);
+                        tbChat.Text = CommandChatReply + chatMode.Replace(tbChat.Text, Resources.RegexGroup1);
                         e.Handled = true;
                         e.SuppressKeyPress = true;
                         break;
                     case Keys.T:
-                        tbChat.Text = Resources.CommandChatTell + chatMode.Replace(tbChat.Text, Resources.RegexGroup1);
+                        tbChat.Text = CommandChatTell + chatMode.Replace(tbChat.Text, Resources.RegexGroup1);
                         e.Handled = true;
                         e.SuppressKeyPress = true;
                         break;
@@ -2991,19 +3082,7 @@ namespace Fishing
                 rbFullactionOther.Checked = false;
                 if (OptionsConfigured)
                 {
-                    string[] message = {"NOTE: Option requires you to have the FFXI Windower Itemizer.dll plugin or Ashita ItemTools.dll extension loaded.",
-                                           "",
-                                           "You must enter the command below, e.g.:",
-                                           "",
-                                           "/put \"Hakuryu\" sack",
-                                           "    /puts \"Black Sole\" satchel",
-                                           "",
-                                           "    /moveitem \"Hakuryu\" inventory sack 1",
-                                           "    /moveitem \"Black Sole\" inventory satchel 12",
-                                           "",
-                                           "You may also enter several commands, separated by semicolons."
-                                       };
-                    MessageBox.Show(string.Join(Environment.NewLine, message));
+                    MessageBox.Show(string.Join(Environment.NewLine, MessageInventoryItemizer));
                 }
             }
         }
@@ -3016,19 +3095,7 @@ namespace Fishing
                 cbBaitactionOther.Checked = false;
                 if (OptionsConfigured)
                 {
-                    string[] message = {"NOTE: Option requires you to have the FFXI Windower Itemizer.dll plugin or Ashita ItemTools.dll extension loaded.",
-                                           "",
-                                           "You must enter the command below. {0} will be replaced with the bait name in quotes, e.g.:",
-                                           "",
-                                           "    /get {0} sack",
-                                           "    /gets {0} satchel",
-                                           "",
-                                           "    /moveitem \"Hakuryu\" inventory sack 1",
-                                           "    /moveitem {0} satchel inventory 99",
-                                           "",
-                                           "You may also enter several commands, separated by semicolons."
-                                       };
-                    MessageBox.Show(string.Join(Environment.NewLine, message));
+                    MessageBox.Show(string.Join(Environment.NewLine, MessageBaitItemizer));
                 }
             }
         }
@@ -3041,13 +3108,7 @@ namespace Fishing
                 cbBaitItemizerItemTools.Checked = false;
                 if (OptionsConfigured)
                 {
-                    string[] message = {"NOTE: You must enter the command below. {0} will be replaced with the bait name in quotes, e.g.:",
-                                           "",
-                                           "    /echo Out of {0}!",
-                                           "",
-                                           "You may also enter several commands, separated by semicolons."
-                                       };
-                    MessageBox.Show(string.Join(Environment.NewLine, message));
+                    MessageBox.Show(string.Join(Environment.NewLine, MessageBaitOther));
                 }
             }
         }
@@ -3066,7 +3127,7 @@ namespace Fishing
         private void btnChatDetectAdd_Remove_click(object sender, EventArgs e)
         {
             Button btn = (Button)sender;
-            if (btn.Text.Equals(Resources.GUIChatDetectButtonAdd))
+            if (btn.Text.Equals(GUIChatDetectButtonAdd))
             {
                 int offset = 23 * chatDetectBtnChatRemoveList.Count;
                 int taboffset = 5 * chatDetectBtnChatRemoveList.Count;
@@ -3126,7 +3187,7 @@ namespace Fishing
                 btnRemoveChatDetect.Name = "btnRemoveChatDetect";
                 btnRemoveChatDetect.Size = new System.Drawing.Size(ScaleWidth(23), ScaleHeight(23));
                 btnRemoveChatDetect.TabIndex = 4 + taboffset;
-                btnRemoveChatDetect.Text = Resources.GUIChatDetectButtonRemove;
+                btnRemoveChatDetect.Text = GUIChatDetectButtonRemove;
                 btnRemoveChatDetect.UseVisualStyleBackColor = true;
                 btnRemoveChatDetect.Click += new System.EventHandler(this.btnChatDetectAdd_Remove_click);
                 chatDetectBtnChatRemoveList.Add(btnRemoveChatDetect);

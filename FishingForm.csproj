@@ -131,6 +131,7 @@
     <Compile Include="FishingDBSyncForm.Designer.cs">
       <DependentUpon>FishingDBSyncForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="FishingFormDBLogger.cs" />
     <Compile Include="Fishing\FishChat.cs" />
     <Compile Include="Fishing\FishDB.cs" />
     <Compile Include="Fishing\FishDic.cs" />

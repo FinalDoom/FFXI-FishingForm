@@ -268,105 +268,6 @@ namespace Fishing.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to //cancel {0}.
-        /// </summary>
-        internal static string CommandCancelStatus {
-            get {
-                return ResourceManager.GetString("CommandCancelStatus", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to /ma Sneak &lt;me&gt;.
-        /// </summary>
-        internal static string CommandCastSneak {
-            get {
-                return ResourceManager.GetString("CommandCastSneak", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to /l .
-        /// </summary>
-        internal static string CommandChatLinkshell {
-            get {
-                return ResourceManager.GetString("CommandChatLinkshell", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to /p .
-        /// </summary>
-        internal static string CommandChatParty {
-            get {
-                return ResourceManager.GetString("CommandChatParty", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to /t &lt;r&gt; .
-        /// </summary>
-        internal static string CommandChatReply {
-            get {
-                return ResourceManager.GetString("CommandChatReply", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to /s .
-        /// </summary>
-        internal static string CommandChatSay {
-            get {
-                return ResourceManager.GetString("CommandChatSay", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to /t .
-        /// </summary>
-        internal static string CommandChatTell {
-            get {
-                return ResourceManager.GetString("CommandChatTell", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to /fish.
-        /// </summary>
-        internal static string CommandFish {
-            get {
-                return ResourceManager.GetString("CommandFish", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to /item &quot;{0}&quot; &lt;me&gt;.
-        /// </summary>
-        internal static string CommandFormatItemMe {
-            get {
-                return ResourceManager.GetString("CommandFormatItemMe", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to /logout.
-        /// </summary>
-        internal static string CommandLogout {
-            get {
-                return ResourceManager.GetString("CommandLogout", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to /moveitem.
-        /// </summary>
-        internal static string CommandMoveItem {
-            get {
-                return ResourceManager.GetString("CommandMoveItem", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to sack.
         /// </summary>
         internal static string CommandPartSack {
@@ -381,33 +282,6 @@ namespace Fishing.Properties {
         internal static string CommandPartSatchel {
             get {
                 return ResourceManager.GetString("CommandPartSatchel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to /put.
-        /// </summary>
-        internal static string CommandPutItem {
-            get {
-                return ResourceManager.GetString("CommandPutItem", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to /shutdown.
-        /// </summary>
-        internal static string CommandShutdown {
-            get {
-                return ResourceManager.GetString("CommandShutdown", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to /ma &quot;Warp&quot; &lt;me&gt;.
-        /// </summary>
-        internal static string CommandWarp {
-            get {
-                return ResourceManager.GetString("CommandWarp", resourceCulture);
             }
         }
         
@@ -492,128 +366,12 @@ namespace Fishing.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to FFACE.dll.
+        ///   Looks up a localized resource of type System.Char similar to !.
         /// </summary>
-        internal static string DllNameFFACE {
+        internal static char Exclamation {
             get {
-                return ResourceManager.GetString("DllNameFFACE", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to hook.dll.
-        /// </summary>
-        internal static string DllNameHook {
-            get {
-                return ResourceManager.GetString("DllNameHook", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to /equip ammo &quot;{0}&quot;.
-        /// </summary>
-        internal static string EquipFormatBait {
-            get {
-                return ResourceManager.GetString("EquipFormatBait", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to /equip body &quot;{0}&quot;.
-        /// </summary>
-        internal static string EquipFormatBody {
-            get {
-                return ResourceManager.GetString("EquipFormatBody", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to /equip feet &quot;{0}&quot;.
-        /// </summary>
-        internal static string EquipFormatFeet {
-            get {
-                return ResourceManager.GetString("EquipFormatFeet", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to /equip hands &quot;{0}&quot;.
-        /// </summary>
-        internal static string EquipFormatHands {
-            get {
-                return ResourceManager.GetString("EquipFormatHands", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to /equip head &quot;{0}&quot;.
-        /// </summary>
-        internal static string EquipFormatHead {
-            get {
-                return ResourceManager.GetString("EquipFormatHead", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to /equip legs &quot;{0}&quot;.
-        /// </summary>
-        internal static string EquipFormatLegs {
-            get {
-                return ResourceManager.GetString("EquipFormatLegs", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to /equip ring1 &quot;{0}&quot;.
-        /// </summary>
-        internal static string EquipFormatLRing {
-            get {
-                return ResourceManager.GetString("EquipFormatLRing", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to /equip neck &quot;{0}&quot;.
-        /// </summary>
-        internal static string EquipFormatNeck {
-            get {
-                return ResourceManager.GetString("EquipFormatNeck", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to /equip range &quot;{0}&quot;.
-        /// </summary>
-        internal static string EquipFormatRod {
-            get {
-                return ResourceManager.GetString("EquipFormatRod", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to /equip ring2 &quot;{0}&quot;.
-        /// </summary>
-        internal static string EquipFormatRRing {
-            get {
-                return ResourceManager.GetString("EquipFormatRRing", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to /equip waist &quot;{0}&quot;.
-        /// </summary>
-        internal static string EquipFormatwaist {
-            get {
-                return ResourceManager.GetString("EquipFormatwaist", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to warning.wav.
-        /// </summary>
-        internal static string FileWarningWav {
-            get {
-                return ResourceManager.GetString("FileWarningWav", resourceCulture);
+                object obj = ResourceManager.GetObject("Exclamation", resourceCulture);
+                return ((char)(obj));
             }
         }
         
@@ -632,6 +390,15 @@ namespace Fishing.Properties {
         internal static string FishNameBreakRod {
             get {
                 return ResourceManager.GetString("FishNameBreakRod", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mob (_{0}_).
+        /// </summary>
+        internal static string FishNameFormatMob {
+            get {
+                return ResourceManager.GetString("FishNameFormatMob", resourceCulture);
             }
         }
         
@@ -735,42 +502,6 @@ namespace Fishing.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0}/{1} [{2}s].
-        /// </summary>
-        internal static string FormatFishHP {
-            get {
-                return ResourceManager.GetString("FormatFishHP", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to {0} x{1}.
-        /// </summary>
-        internal static string FormatFishNameMultiple {
-            get {
-                return ResourceManager.GetString("FormatFishNameMultiple", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to FishingForm v{0}-mC-FD  ({1}).
-        /// </summary>
-        internal static string FormatProgramTitleLoggedIn {
-            get {
-                return ResourceManager.GetString("FormatProgramTitleLoggedIn", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to FishingForm v{0}-mC-FD.
-        /// </summary>
-        internal static string FormatProgramTitleNoChar {
-            get {
-                return ResourceManager.GetString("FormatProgramTitleNoChar", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to &quot;{0}&quot;.
         /// </summary>
         internal static string FormatQuoteArg {
@@ -825,24 +556,6 @@ namespace Fishing.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to +.
-        /// </summary>
-        internal static string GUIChatDetectButtonAdd {
-            get {
-                return ResourceManager.GetString("GUIChatDetectButtonAdd", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to -.
-        /// </summary>
-        internal static string GUIChatDetectButtonRemove {
-            get {
-                return ResourceManager.GetString("GUIChatDetectButtonRemove", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Linkshell.
         /// </summary>
         internal static string GUIChatDetectTypeLinkshell {
@@ -879,6 +592,42 @@ namespace Fishing.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to  LS (!!!).
+        /// </summary>
+        internal static string GUIChatTabAlertLinkshell {
+            get {
+                return ResourceManager.GetString("GUIChatTabAlertLinkshell", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to  PT (!!!).
+        /// </summary>
+        internal static string GUIChatTabAlertParty {
+            get {
+                return ResourceManager.GetString("GUIChatTabAlertParty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to  Say (!!!).
+        /// </summary>
+        internal static string GUIChatTabAlertSay {
+            get {
+                return ResourceManager.GetString("GUIChatTabAlertSay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to  Tell (!!!).
+        /// </summary>
+        internal static string GUIChatTabAlertTell {
+            get {
+                return ResourceManager.GetString("GUIChatTabAlertTell", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to LS.
         /// </summary>
         internal static string GUIChatTabLinkshell {
@@ -911,6 +660,34 @@ namespace Fishing.Properties {
         internal static string GUIChatTabTell {
             get {
                 return ResourceManager.GetString("GUIChatTabTell", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to  [{0}.{1} total skillups].
+        /// </summary>
+        internal static string GUIFormatLblSkillTotal {
+            get {
+                return ResourceManager.GetString("GUIFormatLblSkillTotal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No bait equipped!.
+        /// </summary>
+        internal static string GUILblBaitNone {
+            get {
+                return ResourceManager.GetString("GUILblBaitNone", resourceCulture);
+            }
+        }
+        
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No rod equipped!.
+        /// </summary>
+        internal static string GUILblRodNone {
+            get {
+                return ResourceManager.GetString("GUILblRodNone", resourceCulture);
             }
         }
         
@@ -1061,6 +838,24 @@ namespace Fishing.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to WARNING.
+        /// </summary>
+        internal static string MessageTitleWarning {
+            get {
+                return ResourceManager.GetString("MessageTitleWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No.
+        /// </summary>
+        internal static string No {
+            get {
+                return ResourceManager.GetString("No", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Windower path could not be found.
         /// </summary>
         internal static string PathWindowerResourcesError {
@@ -1079,20 +874,12 @@ namespace Fishing.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to pol.
+        ///   Looks up a localized resource of type System.Char similar to ..
         /// </summary>
-        internal static string ProcessPOLName {
+        internal static char Period {
             get {
-                return ResourceManager.GetString("ProcessPOLName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to FishingForm.exe.
-        /// </summary>
-        internal static string ProgramExeName {
-            get {
-                return ResourceManager.GetString("ProgramExeName", resourceCulture);
+                object obj = ResourceManager.GetObject("Period", resourceCulture);
+                return ((char)(obj));
             }
         }
         
@@ -1143,6 +930,16 @@ namespace Fishing.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Char similar to  .
+        /// </summary>
+        internal static char SpaceChar {
+            get {
+                object obj = ResourceManager.GetObject("SpaceChar", resourceCulture);
+                return ((char)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Error, you cannot fish..
         /// </summary>
         internal static string StatusErrorCantFish {
@@ -1161,11 +958,56 @@ namespace Fishing.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Linkshell chat received!.
+        /// </summary>
+        internal static string StatusErrorChatLinkshell {
+            get {
+                return ResourceManager.GetString("StatusErrorChatLinkshell", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Party chat received!.
+        /// </summary>
+        internal static string StatusErrorChatParty {
+            get {
+                return ResourceManager.GetString("StatusErrorChatParty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Say chat received!.
+        /// </summary>
+        internal static string StatusErrorChatSay {
+            get {
+                return ResourceManager.GetString("StatusErrorChatSay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tell received!.
+        /// </summary>
+        internal static string StatusErrorChatTell {
+            get {
+                return ResourceManager.GetString("StatusErrorChatTell", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Inventory is full!.
         /// </summary>
         internal static string StatusErrorFullInventory {
             get {
                 return ResourceManager.GetString("StatusErrorFullInventory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to [GM] DETECTED!!!.
+        /// </summary>
+        internal static string StatusErrorGM {
+            get {
+                return ResourceManager.GetString("StatusErrorGM", resourceCulture);
             }
         }
         
@@ -1652,6 +1494,33 @@ namespace Fishing.Properties {
         internal static string StatusInfoWaitBite {
             get {
                 return ResourceManager.GetString("StatusInfoWaitBite", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0}&apos;s fishing skill.
+        /// </summary>
+        internal static string TestChatFishingSkill {
+            get {
+                return ResourceManager.GetString("TestChatFishingSkill", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to points..
+        /// </summary>
+        internal static string TestChatFishingSkillPoints {
+            get {
+                return ResourceManager.GetString("TestChatFishingSkillPoints", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Yes.
+        /// </summary>
+        internal static string Yes {
+            get {
+                return ResourceManager.GetString("Yes", resourceCulture);
             }
         }
     }
