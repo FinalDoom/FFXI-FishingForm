@@ -111,7 +111,7 @@ namespace Fishing
 
             if (args.Count > 1)
             {
-                if (args[1].ToLower() == "start") { btnStart_Click(btnStart, MouseEventArgs.Empty); }
+                if (args[1].ToLower() == Resources.ArgumentStart) { btnStart_Click(btnStart, MouseEventArgs.Empty); }
             }
 
             #region FormElements
@@ -119,7 +119,7 @@ namespace Fishing
             timer.Enabled = true;
 
             toolTip.SetToolTip(btnRefreshLists, "Refreshes the Wanted / Unwanted lists from your database, based on currently equipped rod / bait / zone.\r\rIf there are no entries after pressing this button, your database has no entries for the current combination.");
-            toolTip.SetToolTip(btnCastReset, "Reset cast wait to 3.0/3.5. This is a quick reset if you become fatiged and rezone.");
+            toolTip.SetToolTip(btnCastReset, "Reset cast wait to 3.0/3.5. This is a quick reset if you become fatigued and rezone.");
             toolTip.SetToolTip(btnResize, "Resize chat log to fill dialog, click again to restore (will automatically restore if fishing terminates).");
             toolTip.SetToolTip(cbAlwaysOnTop, "Set dialog to always visible.");
             toolTip.SetToolTip(cbCatchUnknown, "Catch any unknown fish, those not shown in either the Wanted or Unwanted lists.");
@@ -224,7 +224,7 @@ namespace Fishing
 
         private void RestoreLocation()
         {
-            if (null != Settings.Default.WindowLocation)
+            if (Point.Empty == Settings.Default.WindowLocation)
             {
                 this.Location = GetNearestConnectedScreenWindowLocation();
             }
@@ -238,7 +238,7 @@ namespace Fishing
                 {
                     return;
                 }
-                while (!DBLogger.StartDBTransaction("Beginning database sync."))
+                while (!DBLogger.StartDBTransaction(Resources.MessageDBSyncStart))
                 {
                     Thread.Sleep(250);
                 }
@@ -261,7 +261,7 @@ namespace Fishing
                 }
                 catch (Exception e)
                 {
-                    DBLogger.Error("Error getting fish updates from XML.");
+                    DBLogger.Error(Resources.MessageDBErrorXML);
                     DBLogger.Info(e.ToString());
                 }
                 try{
@@ -269,7 +269,7 @@ namespace Fishing
                 }
                 catch (Exception e)
                 {
-                    DBLogger.Error("Error uploading fish changes.");
+                    DBLogger.Error(Resources.MessageDBErrorUpload);
                     DBLogger.Info(e.ToString());
                 }
                 try{
@@ -277,19 +277,19 @@ namespace Fishing
                 }
                 catch (Exception e)
                 {
-                    DBLogger.Error("Error downloading fish updates.");
+                    DBLogger.Error(Resources.MessageDBErrorDownload);
                     DBLogger.Info(e.ToString());
                 }
             }
             catch (Exception e)
             {
-                DBLogger.Error("Error doing database sync.");
+                DBLogger.Error(Resources.MessageDBErrorGeneral);
                 DBLogger.Info(e.ToString());
             }
             finally
             {
                 FishSQL.CloseConnection();
-                DBLogger.EndDBTransaction("Database sync finished.");
+                DBLogger.EndDBTransaction(Resources.MessageDBSyncFinish);
             }
         }
 
@@ -297,13 +297,13 @@ namespace Fishing
 		{
             using (ProcessSelector ChooseProcess = new ProcessSelector())
             {
-                if (characterName != null && characterName != "No_args")
+                if (characterName != null && characterName != Resources.ArgumentForceSync)
                 {
-                    for (int i = 0; i <= Process.GetProcessesByName("pol").Length; i++)
+                    for (int i = 0; i <= Process.GetProcessesByName(Resources.ProcessPOLName).Length; i++)
                     {
-                        if (Process.GetProcessesByName("pol")[i].MainWindowTitle == characterName)
+                        if (Process.GetProcessesByName(Resources.ProcessPOLName)[i].MainWindowTitle == characterName)
                         {
-                            ChooseProcess.ThisProcess = new ProcessSelector.POLProcess(Process.GetProcessesByName("pol")[i].Id, Process.GetProcessesByName("pol")[i].MainWindowTitle);
+                            ChooseProcess.ThisProcess = new ProcessSelector.POLProcess(Process.GetProcessesByName(Resources.ProcessPOLName)[i].Id, Process.GetProcessesByName(Resources.ProcessPOLName)[i].MainWindowTitle);
                             break;
                         }
                     }
@@ -316,8 +316,8 @@ namespace Fishing
 				{
 					_FFACE = null;
 					_Player = null;
-                    FileVersionInfo ver = FileVersionInfo.GetVersionInfo("fishing.exe");
-                    this.Text = string.Format("FishingForm v{0}-mC-FD", ver.FileVersion);
+                    FileVersionInfo ver = FileVersionInfo.GetVersionInfo(Resources.ProgramExeName);
+                    this.Text = string.Format(Resources.FormatProgramTitleNoChar, ver.FileVersion);
 					_Process = null;
 					return;
 				}
@@ -329,33 +329,35 @@ namespace Fishing
                     playerChatLinkshell = new Regex(string.Format(@"^<(?!{0})\w+> ", _Player.Name));
                     playerChatParty = new Regex(string.Format(@"^\((?!{0})\w+\) ", _Player.Name));
                     playerChatSay = new Regex(string.Format(@"^(?!{0})\w+ :", _Player.Name));
-                    FileVersionInfo ver = FileVersionInfo.GetVersionInfo("fishing.exe");
-                    this.Text = string.Format("FishingForm v{0}-mC-FD  ({1})", ver.FileVersion, ChooseProcess.ThisProcess.POLName);
+                    FileVersionInfo ver = FileVersionInfo.GetVersionInfo(Resources.ProgramExeName);
+                    this.Text = string.Format(Resources.FormatProgramTitleLoggedIn, ver.FileVersion, ChooseProcess.ThisProcess.POLName);
 
                     //windower path
                     //_FFACE = new FFACE((int)PID);
-                    Process pol = Process.GetProcessById((int)ChooseProcess.ThisProcess.POLID); //.GetProcessesByName("pol");
+                    Process pol = Process.GetProcessById((int)ChooseProcess.ThisProcess.POLID);
                     foreach (ProcessModule mod in pol.Modules)
                     {
-                        if (mod.ModuleName.ToLower() == "hook.dll")
+                        if (mod.ModuleName.ToLower() == Resources.DllNameHook)
                         {
-                            FFACE.WindowerPath = Path.GetDirectoryName(mod.FileName) + @"\plugins"; //.Substring(0, mod.FileName.Length - 8) + @"\plugins\";
+                            FFACE.WindowerPath = Path.Combine(Path.GetDirectoryName(mod.FileName), Resources.PathWindowerResourcesFolder);
                             break;
                         }
                     }
                     if (String.IsNullOrEmpty(FFACE.WindowerPath))
-                        FFACE.WindowerPath = "Windower path could not be found";
+                    {
+                        FFACE.WindowerPath = Resources.PathWindowerResourcesError;
+                    }
 
                 }
                 catch (DllNotFoundException)   //occurs when FFACE.dll cannot be found
                 {
-                    if (File.Exists(Application.StartupPath + @"\FFACE.dll"))
+                    if (File.Exists(Path.Combine(Application.StartupPath, Resources.DllNameFFACE)))
                     {
-                        MessageBox.Show("Please run FishingForm.exe as an Administrator.", "Error");
+                        MessageBox.Show(Resources.MessageErrorAdministratorNeeded, Resources.MessageTitleError);
                     }
                     else
                     {
-                        MessageBox.Show("FFACE.dll was not found in the program's directory!", "Error");
+                        MessageBox.Show(Resources.MessageErrorFFACEMissing, Resources.MessageTitleError);
                     }
                     Environment.Exit(0);
                 }
@@ -387,14 +389,14 @@ namespace Fishing
                 if (((int)numMaxNoCatch.Value < consecutiveNoCatchCount))
                 {
                     SetNoCatch(consecutiveNoCatchCount = 0);
-                    Fatigued("Fatigue limit reached: Max no catches.");
+                    Fatigued(Resources.StatusFatigueNoCatches);
                     return;
                 }
 
                 // Stop at skill level
                 if (cbSkillCap.Checked && numSkillCap.Value <= Math.Max(_FFACE.Player.GetCraftDetails(Craft.Fishing).Level, skillLevel))
                 {
-                    Stop(false, "Fishing skill cap reached.");
+                    Stop(false, Resources.StatusErrorSkillCapped);
                     return;
                 }
 
@@ -402,15 +404,15 @@ namespace Fishing
 				{
 					decimal randomCast = Math.Round((decimal)rnd.NextDouble() * (numCastIntervalHigh.Value - numCastIntervalLow.Value), 1);
 					decimal castWait = numCastIntervalLow.Value + randomCast;
-					SetStatus(string.Format("Casting in {0} seconds.", castWait));
-					lblHP.Text = "";
+					SetStatus(string.Format(Resources.StatusFormatCastingSeconds, castWait));
+                    SetLblHP(string.Empty);
 					Thread.Sleep((int)(castWait * 1000));
 				}
 
                 Fish();
             }
 
-            Stop(true, "Changed zones.");
+            Stop(true, Resources.StatusErrorZoneChanged);
 
         } // @ private void BackgroundFishing()
 
@@ -418,7 +420,7 @@ namespace Fishing
         {
             if (cbBaitItemizerItemTools.Checked || cbBaitactionOther.Checked)
             {
-                bait = string.Format("\"{0}\"", bait);
+                bait = string.Format(Resources.FormatQuoteArg, bait);
                 foreach (string command in tbBaitactionOther.Text.Split(new String[] { ";" }, StringSplitOptions.RemoveEmptyEntries))
                 {
                     _FFACE.Windower.SendString(string.Format(command, bait));
@@ -457,7 +459,7 @@ namespace Fishing
             {
                 LastBaitName = LastRodName = string.Empty;
                 SetLblZone(string.Empty);
-                Stop(false, "No rod or bait equipped or set in options.");
+                Stop(false, Resources.StatusErrorNoBaitOrRodEquipped);
                 ClearLists();
 
                 return false;
@@ -493,8 +495,8 @@ namespace Fishing
             string strRod = LastRodName;
             string rod = GetRodName(_FFACE.Item.GetEquippedItemID(EquipSlot.Range));
             string bait = GetBaitName(_FFACE.Item.GetEquippedItemID(EquipSlot.Ammo));
-            string strRodEquipMessage = string.Format("/equip range \"{0}\"", LastRodName);
-            string strBaitEquipMessage = string.Format("/equip ammo \"{0}\"", LastBaitName);
+            string strRodEquipMessage = string.Format(Resources.EquipFormatRod, LastRodName);
+            string strBaitEquipMessage = string.Format(Resources.EquipFormatBait, LastBaitName);
 
             // Just starting or zoned
             if ((string.IsNullOrEmpty(lblZone.Text)) || (lblZone.Text != strZone))
@@ -542,7 +544,7 @@ namespace Fishing
                     // Check to make sure we have enough MP
                     if (_FFACE.Player.MPCurrent >= 12)
                     {
-                        _FFACE.Windower.SendString(string.Format("/ma Sneak <me>"));
+                        _FFACE.Windower.SendString(Resources.CommandCastSneak);
                         Thread.Sleep(500);
                         // While we are casting, sleep the thread.
                         while (_FFACE.Player.CastPercentEx < 95)
@@ -555,7 +557,7 @@ namespace Fishing
                     }
                     else
                     {
-                        Stop(false, "Not enough MP to cast Sneak.");
+                        Stop(false, Resources.StatusErrorSneakLackMP);
                     }
                 }
             }
@@ -566,9 +568,9 @@ namespace Fishing
             uint baitLeft = _FFACE.Item.GetInventoryItemCount((ushort) _FFACE.Item.GetEquippedItemID(EquipSlot.Ammo));
 
 			CheckEnchantment();
-            SetStatus(string.Format("Casting a {0} [{1}].", LastBaitName, baitLeft));
+            SetStatus(string.Format(Resources.StatusFormatCastingBait, LastBaitName, baitLeft));
 
-            _FFACE.Windower.SendString("/fish");
+            _FFACE.Windower.SendString(Resources.CommandFish);
 
         }
 
@@ -602,12 +604,12 @@ namespace Fishing
         
         private void CancelSpell(StatusEffect seffect)
         {
-            _FFACE.Windower.SendString(string.Format("//cancel {0}", (short)seffect));
+            _FFACE.Windower.SendString(string.Format(Resources.CommandCancelStatus, (short)seffect));
         } // @ private void CancelSpell(StatusEffect seffect)
 
         private FishResult FightFish()
         {
-            SetStatus(string.Format("Fighting {0}.", currentFish));
+            SetStatus(string.Format(Resources.StatusFormatFightingFish, currentFish));
             FishResult result = FightTo(0);
             SetProgress(0);
             Thread.Sleep(100);
@@ -623,24 +625,17 @@ namespace Fishing
                 Thread.Sleep(200);
             }
 
-            SetStatus(string.Format("Reeling in {0}.", currentFish));
+            SetStatus(string.Format(Resources.StatusFormatReelingFish, currentFish));
             SetLblHP(string.Empty);
 
-            string strNewFish = "Unknown";
+            string strNewFish = Resources.FishNameUnknown;
             string strPlayerName = _FFACE.Player.Name;
-            string strCaught = strPlayerName + " caught ";
-            string strTempFish = strPlayerName + " obtained the temporary item: ";
-            string strObtain = strPlayerName + " obtains ";
-            string strMonster = strPlayerName + " caught a monster!";
-            string strQuest = strPlayerName + " fishes up a large box";
-            string strLostCatch = "You lost your catch.";
-            string strLackSkill = "You lost your catch due to your lack of skill.";
-            string strTooSmall = "Whatever caught the hook was too small";
-            string strTooLarge = "Whatever caught the hook was too large";
-            string strLineBreak = "Your line breaks.";
-            string strRodBreak = "Your rod breaks.";
-            string strInvFull = strPlayerName + " regretfully releases";
-            string strZone = "We are now docking in ";
+            string strCaught = string.Format(Resources.ChatFormatCaught, strPlayerName);
+            string strTempFish = string.Format(Resources.ChatFormatTempFish, strPlayerName);
+            string strObtain = string.Format(Resources.ChatFormatObtains, strPlayerName);
+            string strMonster = string.Format(Resources.ChatFormatMonster, strPlayerName);
+            string strQuest = string.Format(Resources.ChatFormatQuestBox, strPlayerName);
+            string strInvFull = string.Format(Resources.ChatFormatInventoryFull, strPlayerName);
             bool foundMatch = false;
             bool caughtmonster = false;
 
@@ -652,9 +647,9 @@ namespace Fishing
                     {
                         string chatLine = FishChat.fishLog[i].Text;
 
-                        if (chatLine.Contains(strLostCatch))
+                        if (chatLine.Contains(Resources.ChatLostCatch))
                         {
-                            strNewFish = "Lost the catch";
+                            strNewFish = Resources.FishNameLostCatch;
                             result = FishResult.LostCatch;
                             foundMatch = true;
                             break;
@@ -662,48 +657,48 @@ namespace Fishing
 
                         if (chatLine.Contains(strMonster))
                         {
-                            strNewFish = "Monster";
+                            strNewFish = Resources.FishNameMonster;
                             result = FishResult.Monster;
                             foundMatch = true;
                             caughtmonster = true;
                             break;
                         }
 
-                        if (chatLine.Contains(strTooSmall))
+                        if (chatLine.Contains(Resources.ChatLostTooSmall))
                         {
-                            strNewFish = "Too small fish";
+                            strNewFish = Resources.FishNameTooSmall;
                             result = FishResult.TooSmall;
                             foundMatch = true;
                             break;
                         }
 
-                        if (chatLine.Contains(strTooLarge))
+                        if (chatLine.Contains(Resources.ChatLostTooLarge))
                         {
-                            strNewFish = "Too large fish";
+                            strNewFish = Resources.FishNameTooLarge;
                             result = FishResult.TooLarge;
                             foundMatch = true;
                             break;
                         }
 
-                        if (chatLine.Contains(strLineBreak))
+                        if (chatLine.Contains(Resources.ChatHookLineBreak))
                         {
-                            strNewFish = "Break line fish";
+                            strNewFish = Resources.FishNameBreakLine;
                             result = FishResult.LineBreak;
                             foundMatch = true;
                             break;
                         }
 
-                        if (chatLine.Contains(strRodBreak))
+                        if (chatLine.Contains(Resources.ChatRodBreak))
                         {
-                            strNewFish = "Break rod fish";
+                            strNewFish = Resources.FishNameBreakRod;
                             result = FishResult.RodBreak;
                             foundMatch = true;
                             break;
                         }
 
-                        if (chatLine.Contains(strLackSkill))
+                        if (chatLine.Contains(Resources.ChatLostLackSkill))
                         {
-                            strNewFish = "Lack skill fish";
+                            strNewFish = Resources.FishNameLackSkill;
                             result = FishResult.LackSkill;
                             foundMatch = true;
                             break;
@@ -718,7 +713,7 @@ namespace Fishing
 
                         if (chatLine.Contains(strQuest))
                         {
-                            strNewFish = "Brigand's Chart Box";
+                            strNewFish = Resources.FishNameQuestBox;
                             foundMatch = true;
                             break;
                         }
@@ -730,9 +725,9 @@ namespace Fishing
                             break;
                         }
 
-                        if (chatLine.Contains(strZone))
+                        if (chatLine.Contains(Resources.ChatLostShipDock))
                         {
-                            strNewFish = "Lost the catch";
+                            strNewFish = Resources.FishNameLostCatch;
                             result = FishResult.Zoned;
                             foundMatch = true;
                             break;
@@ -763,7 +758,7 @@ namespace Fishing
                 //Stop(false, "Monster Caught!!!");
             }
 
-            if ("Unknown" == currentFish)
+            if (Resources.FishNameUnknown == currentFish)
             {
                 currentFish = strNewFish;
             }
@@ -788,7 +783,7 @@ namespace Fishing
                 min = (int)(fishesMaxHP * (GetFakeSmallLow() / 100));
             }
 
-            SetStatus(string.Format("Faking {0}.", currentFish));
+            SetStatus(string.Format(Resources.StatusFormatFakingFish, currentFish));
 
             FishResult result = FightTo(rnd.Next(min, max));
 
@@ -812,68 +807,70 @@ namespace Fishing
             SetNoCatch(consecutiveNoCatchCount = 0);
             SetProgressMaxValue(_FFACE.Fish.HPMax);
 
-            System.Timers.Timer progress = new System.Timers.Timer();
-            progress.Elapsed += new ElapsedEventHandler(timer_DisplayProgressEvent);
-            progress.Interval = 20;
-            progress.Start();
-
-            if (cbFishHP.Checked)
+            using (System.Timers.Timer progress = new System.Timers.Timer())
             {
-                SetLblHP(string.Format("{0}/{1} [{2}s]", _FFACE.Fish.HPCurrent, _FFACE.Fish.HPMax, _FFACE.Fish.Timeout));
-            }
-
-            if (cbReaction.Checked)
-            {
-                Thread.Sleep((int)sleepInterval * 1000);
-            }
-
-            while ((_FFACE.Fish.FishOnLine) && (_FFACE.Player.Zone == currentZone) && (currentFishHP > fishFinalHP))
-            {
-                if (cbExtend.Checked && _FFACE.Fish.HPCurrent > 0 && extendtime)
-                {
-                    extendtime = false;
-                    short extendReelTime = (short)(_FFACE.Fish.Timeout + 30);
-                    _FFACE.Fish.SetFishTimeOut(extendReelTime);
-                } //extend fish timeout if option enabled
-
-                if (cbQuickKill.Checked && _FFACE.Fish.HPCurrent > 0 && killtimer)
-                {
-                    killtimer = false;
-                    int killSleep = (1000 * (int)numQuickKill.Value);
-                    lblHP.Text = "";
-                    lblStatus.Text = string.Format("Killing {0} in {1} seconds.", currentFish, numQuickKill.Value);
-                    Thread.Sleep(killSleep);
-                    _FFACE.Fish.SetHP(0);
-                } //kill fish early if option enabled
-
-                if (cbAutoKill.Checked && _FFACE.Fish.HPCurrent > 0 && _FFACE.Fish.Timeout <= 5)
-                {
-                    _FFACE.Fish.SetHP(0);
-                } //kill fish at warning if option enabled
-
-                if (Status.LostCatch == currentStatus)
-                {
-                    WinClear();
-                    WaitUntil(Status.Standing);
-
-                    return FishResult.LostCatch;
-                }
-
-                _FFACE.Fish.FightFish();
-                currentFishHP = _FFACE.Fish.HPCurrent;
+                progress.Elapsed += new ElapsedEventHandler(timer_DisplayProgressEvent);
+                progress.Interval = 20;
+                progress.Start();
 
                 if (cbFishHP.Checked)
                 {
-                    SetLblHP(string.Format("{0}/{1} [{2}s]", currentFishHP, _FFACE.Fish.HPMax, _FFACE.Fish.Timeout));
+                    SetLblHP(string.Format(Resources.FormatFishHP, _FFACE.Fish.HPCurrent, _FFACE.Fish.HPMax, _FFACE.Fish.Timeout));
                 }
-                Thread.Sleep(1);
+
+                if (cbReaction.Checked)
+                {
+                    Thread.Sleep((int)sleepInterval * 1000);
+                }
+
+                while ((_FFACE.Fish.FishOnLine) && (_FFACE.Player.Zone == currentZone) && (currentFishHP > fishFinalHP))
+                {
+                    if (cbExtend.Checked && _FFACE.Fish.HPCurrent > 0 && extendtime)
+                    {
+                        extendtime = false;
+                        short extendReelTime = (short)(_FFACE.Fish.Timeout + 30);
+                        _FFACE.Fish.SetFishTimeOut(extendReelTime);
+                    } //extend fish timeout if option enabled
+
+                    if (cbQuickKill.Checked && _FFACE.Fish.HPCurrent > 0 && killtimer)
+                    {
+                        killtimer = false;
+                        int killSleep = (1000 * (int)numQuickKill.Value);
+                        SetLblHP(string.Empty);
+                        lblStatus.Text = string.Format(Resources.StatusFormatKillingFish, currentFish, numQuickKill.Value);
+                        Thread.Sleep(killSleep);
+                        _FFACE.Fish.SetHP(0);
+                    } //kill fish early if option enabled
+
+                    if (cbAutoKill.Checked && _FFACE.Fish.HPCurrent > 0 && _FFACE.Fish.Timeout <= 5)
+                    {
+                        _FFACE.Fish.SetHP(0);
+                    } //kill fish at warning if option enabled
+
+                    if (Status.LostCatch == currentStatus)
+                    {
+                        WinClear();
+                        WaitUntil(Status.Standing);
+
+                        return FishResult.LostCatch;
+                    }
+
+                    _FFACE.Fish.FightFish();
+                    currentFishHP = _FFACE.Fish.HPCurrent;
+
+                    if (cbFishHP.Checked)
+                    {
+                        SetLblHP(string.Format(Resources.FormatFishHP, currentFishHP, _FFACE.Fish.HPMax, _FFACE.Fish.Timeout));
+                    }
+                    Thread.Sleep(1);
+                }
+                WinClear();
+                progress.Stop();
             }
-            WinClear();
-            progress.Stop();
 
             if (_FFACE.Player.Zone != currentZone)
             {
-                Stop(true, "Changed zones.");
+                Stop(true, Resources.StatusErrorZoneChanged);
                 return FishResult.LostCatch;
             }
 
@@ -888,11 +885,11 @@ namespace Fishing
 
 			if (1 < consecutiveNoCatchCount)
 			{
-				SetStatus(string.Format("No catch, {0} in a row.", consecutiveNoCatchCount));
+				SetStatus(string.Format(Resources.StatusFormatNoCatchNumber, consecutiveNoCatchCount));
 			}
 			else
 			{
-				SetStatus("No catch.");
+				SetStatus(Resources.StatusFormatNoCatchFirst);
 			}
 
 			FishStats.totalCastCount++;
@@ -925,7 +922,7 @@ namespace Fishing
                     int test;
                     if (int.TryParse(fishNameParts[0], out test))
                     {
-                        string multiple = string.Format("{0} x{1}", f.Key, test);
+                        string multiple = string.Format(Resources.FormatFishNameMultiple, f.Key, test);
                         if (Dictionaries.fishDictionary.Keys.Contains(multiple))
                         {
                             name = multiple;
@@ -956,7 +953,7 @@ namespace Fishing
         private void RegisterFish(bool isNewFish, string ID1, string ID2, string ID3)
         {
             currentFish = GetFishName(currentFish);
-            if (isNewFish && "Unknown" != currentFish)
+            if (isNewFish && Resources.FishNameUnknown != currentFish)
             {
                 FishDB.AddNewFish(ref currentFish, lblZone.Text, LastBaitName, LastRodName, ID1, ID2, ID3, false, false);
             }
@@ -969,13 +966,13 @@ namespace Fishing
 
             if ((Status.Healing == currentStatus) || (Status.Sitting == currentStatus))
             {
-                Stop(false, "Healing/Sitting, please stand.");
+                Stop(false, Resources.StatusErrorHealing);
                 return;
             }
 
             if (_FFACE.Player.Zone != currentZone)
             {
-                Stop(true, "Changed zones!");
+                Stop(true, Resources.StatusErrorZoneChanged);
                 return;
             }
 
@@ -1001,41 +998,41 @@ namespace Fishing
                     {
                         string chatLine = FishChat.chatLog[i].Text;
 
-                        if (chatLine.Equals("You must wait longer to perform that action."))
+                        if (chatLine.Equals(Resources.ChatWaitLonger))
                         {
-                            SetStatus("Adding one second to cast times.");
+                            SetStatus(Resources.StatusInfoAddTime);
                             IncreaseCastTime();
                             Thread.Sleep(2000);
                             return;
                         }
 
-                        if (chatLine.Equals("You can't fish without bait on the hook."))
+                        if (chatLine.Equals(Resources.ChatNoBait))
                         {
                             if (!CheckRodAndBait())
                             {
-                                OutOfBait("Out of bait.");
+                                OutOfBait(Resources.StatusErrorNoBait);
                                 return;
                             }
                         }
 
-                        if (chatLine.Equals("Your rod breaks."))
+                        if (chatLine.Equals(Resources.ChatRodBreak))
                         {
                             if (!CheckRodAndBait())
                             {
-                                Stop(false, "Your rod is broken.");
+                                Stop(false, Resources.StatusErrorRodBroken);
                                 return;
                             }
                         }
 
-                        if (chatLine.Equals("You cannot fish here."))
+                        if (chatLine.Equals(Resources.ChatBadLocation))
                         {
-                            Stop(false, "Move to a fishing position.");
+                            Stop(false, Resources.StatusErrorMovePlayer);
                             return;
                         }
 
                         if (_FFACE.Player.Zone != currentZone)
                         {
-                            Stop(true, "Changed zones!");
+                            Stop(true, Resources.StatusErrorZoneChanged);
                             return;
                         }
                     }
@@ -1066,15 +1063,15 @@ namespace Fishing
 				}
 				else
 				{
-					Stop(false, "Not fishing for unknown reason.");
+					Stop(false, Resources.StatusErrorUnknown);
 					return;
 				}
             }
 
 			if (Status.FishBite != currentStatus)
 			{
-				SetStatus("Waiting for a bite.");
-				lblHP.Text = "";
+				SetStatus(Resources.StatusInfoWaitBite);
+                SetLblHP(string.Empty);
 			}
 
             while (_FFACE.Player.Zone == currentZone)
@@ -1106,12 +1103,12 @@ namespace Fishing
                         {
                             string chatLine = FishChat.fishLog[i].Text;
 
-                            if (chatLine.Equals("Something caught the hook!"))
+                            if (chatLine.Equals(Resources.ChatHookSmallFish))
                             {
                                 if (cbIgnoreSmallFish.Checked)
                                 {
                                     RegisterFish(fishAccepted, ID1, ID2, ID3);
-                                    currentFish = "Ignored Small Fish";
+                                    currentFish = Resources.FishNameIgnoredSmall;
                                     LogResult(Release());
                                 }
                                 else
@@ -1135,12 +1132,12 @@ namespace Fishing
                                 break;
                             }
 
-                            if (chatLine.Equals("Something caught the hook!!!"))
+                            if (chatLine.Equals(Resources.ChatHookLargeFish))
                             {
                                 if (cbIgnoreLargeFish.Checked)
                                 {
                                     RegisterFish(fishAccepted, ID1, ID2, ID3);
-                                    currentFish = "Ignored Large Fish";
+                                    currentFish = Resources.FishNameIgnoredLarge;
                                     LogResult(Release());
                                 }
                                 else
@@ -1164,12 +1161,12 @@ namespace Fishing
                                 break;
                             }
 
-                            if (chatLine.Equals("Something clamps onto your line ferociously!"))
+                            if (chatLine.Equals(Resources.ChatHookMonster))
                             {
                                 if (cbIgnoreMonster.Checked)
                                 {
                                     RegisterFish(fishAccepted, ID1, ID2, ID3);
-                                    currentFish = "Ignored Monster";
+                                    currentFish = Resources.FishNameIgnoredMonster;
                                     LogResult(Release());
                                 }
                                 else
@@ -1186,12 +1183,12 @@ namespace Fishing
                                 break;
                             }
 
-                            if (chatLine.Equals("You feel something pulling at your line."))
+                            if (chatLine.Equals(Resources.ChatHookItem))
                             {
                                 if (cbIgnoreItem.Checked)
                                 {
                                     RegisterFish(fishAccepted, ID1, ID2, ID3);
-                                    currentFish = "Ignored Item";
+                                    currentFish = Resources.FishNameIgnoredItem;
                                     LogResult(Release());
                                 }
                                 else
@@ -1231,20 +1228,20 @@ namespace Fishing
                     if (cbInventoryItemizerItemTools.Checked)
                     {
                         // Get the strings, first split on semicolons for multiple fish
-                        string[] tempcommandstring = tbFullactionOther.Text.Split(new String[] { ";" }, StringSplitOptions.RemoveEmptyEntries);
+                        string[] tempcommandstring = tbFullactionOther.Text.Split(new String[] { Resources.Semicolon }, StringSplitOptions.RemoveEmptyEntries);
                         foreach (string command in tempcommandstring)
                         {
-                            string[] tempactionstring = command.Split(new String[] { " " }, StringSplitOptions.RemoveEmptyEntries);
+                            string[] tempactionstring = command.Split(new String[] { Resources.Space }, StringSplitOptions.RemoveEmptyEntries);
                             // Check command type
-                            if (!(tempactionstring[0].StartsWith("/moveitem") || tempactionstring[0].StartsWith("/put")))
+                            if (!(tempactionstring[0].StartsWith(Resources.CommandMoveItem) || tempactionstring[0].StartsWith(Resources.CommandPutItem)))
                             {
-                                Stop(false, "Unknown itemizer/itemtools command.");
+                                Stop(false, Resources.StatusErrorItemizerUnknown);
                             }
 
                             string fish;
-                            if (command.Contains("\""))
+                            if (command.Contains(Resources.QuoteMark))
                             {
-                                fish = command.Split(new String[] { "\"" }, StringSplitOptions.RemoveEmptyEntries)[1];
+                                fish = command.Split(new String[] { Resources.QuoteMark }, StringSplitOptions.RemoveEmptyEntries)[1];
                             }
                             else
                             {
@@ -1252,11 +1249,11 @@ namespace Fishing
                             }
 
                             string storagemedium;
-                            if (tempactionstring[0].StartsWith("/moveitem"))
+                            if (tempactionstring[0].StartsWith(Resources.CommandMoveItem))
                             {
                                 storagemedium = tempactionstring[tempactionstring.Length - 1].ToLower();
                                 // Command ends with a quantity. Get correct storage medium
-                                if (storagemedium != "satchel" && storagemedium != "sack")
+                                if (storagemedium != Resources.CommandPartSatchel && storagemedium != Resources.CommandPartSack)
                                 {
                                     storagemedium = tempactionstring[tempactionstring.Length - 2].ToLower();
                                 }
@@ -1267,47 +1264,47 @@ namespace Fishing
                             }
 
                             // Check storage location
-                            if (storagemedium != "satchel" && storagemedium != "sack")
+                            if (storagemedium != Resources.CommandPartSatchel && storagemedium != Resources.CommandPartSack)
                             {
-                                Stop(false, "Unknown destination to move fish.");
+                                Stop(false, Resources.StatusErrorItemizerDestination);
                             }
 
-                            MoveItems(string.Join(" ", tempactionstring), ref fish, ref storagemedium);
+                            MoveItems(string.Join(Resources.Space, tempactionstring), ref fish, ref storagemedium);
                         }
                     }
                     else if (rbFullactionOther.Checked)
                     {
-                        SetStatus("Running full inventory command.");
+                        SetStatus(Resources.StatusInfoFullInventoryCommand);
                         _FFACE.Windower.SendString(tbFullactionOther.Text);
                         Thread.Sleep(10000);
                     }
                 }
                 else
                 {
-                    Stop(false, "Inventory is full!");
+                    Stop(false, Resources.StatusErrorFullInventory);
                 }
             }
             if (_FFACE.Item.InventoryCount == _FFACE.Item.InventoryMax && cbFullActionStop.Checked)
             {
                 if (rbFullactionWarp.Checked)
                 {
-                    SetStatus("Inventory is full: Warping.");
-                    _FFACE.Windower.SendString("/ma \"Warp\" <me>");
+                    SetStatus(Resources.StatusInfoFullInventoryWarp);
+                    _FFACE.Windower.SendString(Resources.CommandWarp);
                     Thread.Sleep(30000);
                 }
                 if (rbFullactionLogout.Checked)
                 {
-                    SetStatus("Inventory is full: Logging out.");
-                    _FFACE.Windower.SendString("/logout");
+                    SetStatus(Resources.StatusInfoFullInventoryLogout);
+                    _FFACE.Windower.SendString(Resources.CommandLogout);
                     Thread.Sleep(30000);
                 }
                 else if (rbFullactionShutdown.Checked)
                 {
-                    SetStatus("Inventory is full: Shutting down.");
-                    _FFACE.Windower.SendString("/shutdown");
+                    SetStatus(Resources.StatusInfoFullInventoryShutdown);
+                    _FFACE.Windower.SendString(Resources.CommandShutdown);
                     Thread.Sleep(30000);
                 }
-                Stop(false, "Inventory is full!");
+                Stop(false, Resources.StatusErrorFullInventory);
                 return;
             }
         }
@@ -1316,7 +1313,7 @@ namespace Fishing
         {
             // Look up item ID
             int tempitemid = FFACE.ParseResources.GetItemId(itemname);
-            if (storagearea == "sack")
+            if (storagearea == Resources.CommandPartSack)
             {
                 // If we find the itemid and the sack is not full move item to sack
                 if (tempitemid > 0 && ( _FFACE.Item.SackCount != _FFACE.Item.SackMax ))
@@ -1327,22 +1324,22 @@ namespace Fishing
                     while (( _FFACE.Item.SackCount < _FFACE.Item.SackMax ) && inventorycount > 0)
                     {
                         // Update Status
-                        SetStatus(string.Format("Moving {0} to Sack: {1} remaining.", itemname, inventorycount));
+                        SetStatus(string.Format(Resources.StatusFormatMoveToSack, itemname, inventorycount));
                         // Send string to POL
                         _FFACE.Windower.SendString(command);
 						inventorycount = _FFACE.Item.GetInventoryItemCount((ushort)tempitemid);
                         // The dreaded sleep()!
                         Thread.Sleep(rnd.Next(750,1500));
                     }
-                    SetStatus(string.Format("Finished moving {0} to Sack.", itemname));
+                    SetStatus(string.Format(Resources.StatusFormatMoveSackFinished, itemname));
                 }
                 else
                 {
-                    SetStatus("Sack is full.");
+                    SetStatus(Resources.StatusInfoFullSack);
 					Thread.Sleep(750);
                 }
             }
-            if (storagearea == "satchel")
+            if (storagearea == Resources.CommandPartSatchel)
             {
                 if (tempitemid > 0 && ( _FFACE.Item.SatchelCount != _FFACE.Item.SatchelMax ))
                 {
@@ -1352,18 +1349,18 @@ namespace Fishing
                     while (( _FFACE.Item.SatchelCount < _FFACE.Item.SatchelMax ) && inventorycount > 0)
                     {
                         // Update Status
-                        SetStatus(string.Format("Moving {0} to Satchel: {1} remaining.", itemname, inventorycount));
+                        SetStatus(string.Format(Resources.StatusFormatMoveToSatchel, itemname, inventorycount));
                         // Send string to POL
                         _FFACE.Windower.SendString(command);
 						inventorycount = _FFACE.Item.GetInventoryItemCount((ushort)tempitemid);
                         // The dreaded sleep()!
                         Thread.Sleep(rnd.Next(750, 1500));
                     }
-                    SetStatus(string.Format("Finished moving {0} to Sack.", itemname));
+                    SetStatus(string.Format(Resources.StatusFormatMoveSatchelFinished, itemname));
                 }
                 else
                 {
-                    SetStatus("Satchel is full.");
+                    SetStatus(Resources.StatusInfoFullSatchel);
 					Thread.Sleep(750);
                 }
             }
@@ -1372,7 +1369,7 @@ namespace Fishing
         private FishResult Release()
         {
             WinClear();
-            SetStatus(string.Format("Releasing {0}.", currentFish));
+            SetStatus(string.Format(Resources.StatusFormatReleaseFish, currentFish));
             decimal randomReaction = Math.Round((decimal)rnd.NextDouble() * (numReactionHigh.Value - numReactionLow.Value), 1);
             decimal sleepInterval = numReactionLow.Value + randomReaction + 0.01m;
             
@@ -1453,14 +1450,14 @@ namespace Fishing
             switch (result)
             {
                 case FishResult.Error:
-                    Stop(false, "Error, you cannot fish.");
+                    Stop(false, Resources.StatusErrorCantFish);
                     break;
                 case FishResult.InventoryProblem:
                     FishStats.releasedCount++;
                     FishStats.AddFish(FishStats.releasedFishes, currentFish);
                     if (cbFullActionStop.Checked)
                     {
-                        Stop(false, "Inventory might be full.");
+                        Stop(false, Resources.StatusErrorInventoryProblem);
                     }
                     break;
                 case FishResult.LackSkill:
@@ -1477,7 +1474,7 @@ namespace Fishing
                     break;
                 case FishResult.Monster:
                     FishStats.monsterCount++;
-                    Stop(false, "Monster caught!!!");
+                    Stop(false, Resources.StatusErrorMonster);
                     break;
                 case FishResult.Released:
                     FishStats.releasedCount++;
@@ -1486,10 +1483,10 @@ namespace Fishing
                 case FishResult.RodBreak:
                     FishStats.rodBreakCount++;
                     FishStats.AddFish(FishStats.rodBreakFishes, currentFish);
-                    SetStatus("Your rod is broken. Attempting to re-equip.");
+                    SetStatus(Resources.StatusInfoRodBroken);
                     if (!CheckRodAndBait())
                     {
-                        Stop(false, "Your rod is broken.");
+                        Stop(false, Resources.StatusErrorRodBroken);
                     }
                     break;
                 case FishResult.Success:
@@ -1502,7 +1499,7 @@ namespace Fishing
                         if (consecutiveCatchCount == (int)numMaxCatch.Value)
                         {
                             consecutiveCatchCount = 0;
-                            Fatigued("Fatigue limit reached: Max catch limit.");
+                            Fatigued(Resources.StatusFatiguedMaxCatchLimit);
                         }
                     }
                     break;
@@ -1517,7 +1514,7 @@ namespace Fishing
                 case FishResult.Zoned:
                     FishStats.lostCatchCount++;
                     FishStats.AddFish(FishStats.lostCatchFishes, currentFish);
-                    Stop(true, "Zoned while catching a fish.");
+                    Stop(true, Resources.StatusErrorZoned);
                     break;
             }
 
@@ -1537,7 +1534,7 @@ namespace Fishing
                 }
                 else
                 {
-                    Stop(true, "Changed zones.");
+                    Stop(true, Resources.StatusErrorZoneChanged);
                     break;
                 }
             }
@@ -1563,7 +1560,7 @@ namespace Fishing
                 }
                 else
                 {
-                    Stop(true, "Changed zones.");
+                    Stop(true, Resources.StatusErrorZoneChanged);
                     break;
                 }
             }
@@ -1596,12 +1593,12 @@ namespace Fishing
         {
             bool wasFishing = false;
 
-            if ("STOP" == btnStart.Text)
+            if (Resources.GUIButtonStop == btnStart.Text)
             {
                 wasFishing = true;
             }
 
-            Stop(false, "Fatal chat log error, attempting to recover.");
+            Stop(false, Resources.StatusErrorChatGet);
 
             _FFACE = null;
             _Player = null;
@@ -1613,12 +1610,12 @@ namespace Fishing
 
                 if (wasFishing)
                 {
-                    SetStatus("Reattached to process, attempting to restart fishing.");
+                    SetStatus(Resources.StatusInfoReattachedRestart);
                     Start();  //restart the fishing loop if the user was fishing
                 }
                 else
                 {
-                    SetStatus("Reattached to process after chat error, ready to fish.");
+                    SetStatus(Resources.StatusInfoReattachSuccess);
                 }
             }
 
@@ -1630,12 +1627,12 @@ namespace Fishing
 			{
 				if (workerThread != null)
 				{
-					Stop(false, "Not fishing because character is not logged in.");
+					Stop(false, Resources.StatusErrorLoggedOut);
 				}
 				ChooseProcess(null);
 				if (_Process == null || !_Process.IsAvailable)
 				{
-					SetStatus("No FFXI process available.");
+					SetStatus(Resources.StatusInfoNoProcess);
 					return false;
 				}
 			}
@@ -1673,7 +1670,7 @@ namespace Fishing
                 workerThread.IsBackground = true;
                 workerThread.Start();
 
-                btnStart.Text = "STOP";
+                btnStart.Text = Resources.GUIButtonStop;
                 btnStartM.Image = Fishing.Properties.Resources.icon_stop;
             }
 
@@ -1683,35 +1680,35 @@ namespace Fishing
 		{
 			if (!string.IsNullOrEmpty(tbBodyGear.Text) && GetGearName(_FFACE.Item.GetEquippedItemID(EquipSlot.Body)) != tbBodyGear.Text)
 			{
-				_FFACE.Windower.SendString("/equip body \"" + tbBodyGear.Text + "\"");
+				_FFACE.Windower.SendString(string.Format(Resources.EquipFormatBody, tbBodyGear.Text));
             }
             if (!string.IsNullOrEmpty(tbHandsGear.Text) && GetGearName(_FFACE.Item.GetEquippedItemID(EquipSlot.Hands)) != tbHandsGear.Text)
 			{
-				_FFACE.Windower.SendString("/equip hands \"" + tbHandsGear.Text + "\"");
+				_FFACE.Windower.SendString(string.Format(Resources.EquipFormatHands, tbHandsGear.Text));
             }
             if (!string.IsNullOrEmpty(tbLegsGear.Text) && GetGearName(_FFACE.Item.GetEquippedItemID(EquipSlot.Legs)) != tbLegsGear.Text)
 			{
-				_FFACE.Windower.SendString("/equip legs \"" + tbLegsGear.Text + "\"");
+                _FFACE.Windower.SendString(string.Format(Resources.EquipFormatLegs, tbLegsGear.Text));
             }
             if (!string.IsNullOrEmpty(tbFeetGear.Text) && GetGearName(_FFACE.Item.GetEquippedItemID(EquipSlot.Feet)) != tbFeetGear.Text)
 			{
-				_FFACE.Windower.SendString("/equip feet \"" + tbFeetGear.Text + "\"");
+                _FFACE.Windower.SendString(string.Format(Resources.EquipFormatFeet, tbFeetGear.Text));
             }
             if (!string.IsNullOrEmpty(tbHeadGear.Text) && GetGearName(_FFACE.Item.GetEquippedItemID(EquipSlot.Head)) != tbHeadGear.Text)
 			{
-				_FFACE.Windower.SendString("/equip head \"" + tbHeadGear.Text + "\"");
+                _FFACE.Windower.SendString(string.Format(Resources.EquipFormatHead, tbHeadGear.Text));
             }
             if (!string.IsNullOrEmpty(tbNeckGear.Text) && GetGearName(_FFACE.Item.GetEquippedItemID(EquipSlot.Neck)) != tbNeckGear.Text)
 			{
-				_FFACE.Windower.SendString("/equip neck \"" + tbNeckGear.Text + "\"");
+                _FFACE.Windower.SendString(string.Format(Resources.EquipFormatNeck, tbNeckGear.Text));
             }
             if (!string.IsNullOrEmpty(tbWaistGear.Text) && GetGearName(_FFACE.Item.GetEquippedItemID(EquipSlot.Waist)) != tbWaistGear.Text)
 			{
-				_FFACE.Windower.SendString("/equip waist \"" + tbWaistGear.Items[tbWaistGear.SelectedIndex].ToString() + "\"");
+                _FFACE.Windower.SendString(string.Format(Resources.EquipFormatwaist, tbWaistGear.Text));
 			}
             if (!string.IsNullOrEmpty(tbLRingGear.Text) && GetGearName(_FFACE.Item.GetEquippedItemID(EquipSlot.RingLeft)) != tbLRingGear.Text)
 			{
-				_FFACE.Windower.SendString("/equip ring1 \"" + tbLRingGear.Text + "\"");
+                _FFACE.Windower.SendString(string.Format(Resources.EquipFormatLRing, tbLRingGear.Text));
 				if (tbLRingGear.Text == tbRRingGear.Text)
 				{
 					Thread.Sleep(500);
@@ -1719,7 +1716,7 @@ namespace Fishing
             }
             if (!string.IsNullOrEmpty(tbRRingGear.Text) && GetGearName(_FFACE.Item.GetEquippedItemID(EquipSlot.RingRight)) != tbRRingGear.Text)
 			{
-				_FFACE.Windower.SendString("/equip ring2 \"" + tbRRingGear.Text + "\"");
+                _FFACE.Windower.SendString(string.Format(Resources.EquipFormatRRing, tbRRingGear.Text));
             }
         } // @ private void GearUp()
 
@@ -1758,8 +1755,9 @@ namespace Fishing
 				}
 				if (enchantInactive)
 				{
-					SetStatus("Using Fisherman's belt.");
-					_FFACE.Windower.SendString("/item \"" + tbWaistGear.Items[tbWaistGear.SelectedIndex].ToString() + "\" <me>");
+					SetStatus(Resources.StatusInfoEnchantBelt);
+					_FFACE.Windower.SendString(string.Format(Resources.CommandFormatItemMe, tbWaistGear.Text));
+                    Thread.Sleep(500);
 					WaitUntil(Status.Standing);
 				}
 			}
@@ -1768,8 +1766,8 @@ namespace Fishing
 			// Check if left ring enchantments are available and not on
 			if (cbLRingGear.Enabled && cbLRingGear.Checked && enchantmentsNeeded > 0)
 			{
-				SetStatus(string.Format("Using left ring ({0}).", tbLRingGear.Text));
-				_FFACE.Windower.SendString("/item \"" + tbLRingGear.Text + "\" <me>");
+				SetStatus(string.Format(Resources.StatusInfoEnchantLRing, tbLRingGear.Text));
+				_FFACE.Windower.SendString(string.Format(Resources.CommandFormatItemMe, tbLRingGear.Text));
                 Thread.Sleep(500);
 				WaitUntil(Status.Standing);
                 enchantmentsNeeded = GetNeededEnchantments();
@@ -1777,8 +1775,8 @@ namespace Fishing
 			// Check if right ring enchantments are available and not on
 			if (cbRRingGear.Enabled && cbRRingGear.Checked && enchantmentsNeeded > 0)
 			{
-				SetStatus(string.Format("Using right ring ({0}).", tbRRingGear.Text));
-                _FFACE.Windower.SendString("/item \"" + tbRRingGear.Text + "\" <me>");
+				SetStatus(string.Format(Resources.StatusInfoEnchantRRing, tbRRingGear.Text));
+                _FFACE.Windower.SendString(string.Format(Resources.CommandFormatItemMe, tbRRingGear.Text));
                 Thread.Sleep(500);
 				WaitUntil(Status.Standing);
 			}
@@ -1788,20 +1786,20 @@ namespace Fishing
         {
             if (cbBaitActionWarp.Checked)
             {
-                _FFACE.Windower.SendString("/ma \"Warp\" <me>");
-                SetStatus("Fatigue limit reached: Warping.");
+                _FFACE.Windower.SendString(Resources.CommandWarp);
+                SetStatus(Resources.StatusInfoBaitWarping);
                 Thread.Sleep(30000);
             }
             if (cbBaitActionShutdown.Checked)
             {
-                _FFACE.Windower.SendString("/shutdown");
-                SetStatus("Fatigue limit reached: Shutting down.");
+                _FFACE.Windower.SendString(Resources.CommandShutdown);
+                SetStatus(Resources.StatusInfoBaitShutdown);
                 Thread.Sleep(33000);
             }
             else if (cbBaitActionLogout.Checked)
             {
-                _FFACE.Windower.SendString("/logout");
-                SetStatus("Fatigue limit reached: Logging out.");
+                _FFACE.Windower.SendString(Resources.CommandLogout);
+                SetStatus(Resources.StatusInfoBaitLogout);
                 Thread.Sleep(33000);
             }
             Stop(false, message);
@@ -1811,19 +1809,19 @@ namespace Fishing
         {
             if (cbFatiguedActionWarp.Checked)
             {
-                _FFACE.Windower.SendString("/ma \"Warp\" <me>");
-                SetStatus("Fatigue limit reached: Warping.");
+                _FFACE.Windower.SendString(Resources.CommandWarp);
+                SetStatus(Resources.StatusInfoFatiguedWarping);
                 Thread.Sleep(30000);
             }
             if (cbFatiguedActionShutdown.Checked)
             {
-                _FFACE.Windower.SendString("/shutdown");
-                SetStatus("Fatigue limit reached: Shutting down.");
+                _FFACE.Windower.SendString(Resources.CommandShutdown);
+                SetStatus(Resources.StatusInfoFatiguedShutdown);
             }
             else if (cbFatiguedActionLogout.Checked)
             {
-                _FFACE.Windower.SendString("/logout");
-                SetStatus("Fatigue limit reached: Logging out.");
+                _FFACE.Windower.SendString(Resources.CommandLogout);
+                SetStatus(Resources.StatusInfoFatiguedLogout);
             }
             Thread.Sleep(33000);
             Stop(false, message);
@@ -1849,7 +1847,7 @@ namespace Fishing
                 }
                 if (null != workerThread)
                 {
-                    string equipMessage = string.Format("/equip ammo \"{0}\"", LastBaitName);
+                    string equipMessage = string.Format(Resources.EquipFormatBait, LastBaitName);
 
                     SetProgressMaxValue(0);
 
@@ -1882,9 +1880,9 @@ namespace Fishing
                         }
                     }
 
-                    if (stopSound && cbStopSound.Checked && File.Exists("warning.wav"))
+                    if (stopSound && cbStopSound.Checked && File.Exists(Resources.FileWarningWav))
                     {
-                        SoundPlayer spWave = new SoundPlayer("warning.wav");
+                        SoundPlayer spWave = new SoundPlayer(Resources.FileWarningWav);
                         spWave.Play();
                     }
 
@@ -1899,7 +1897,7 @@ namespace Fishing
                     workerThread.Abort();
                     // while(workerThread.IsAlive) { Thread.Sleep(100); }  //*golfandsurf* removed to correct freeze problem.
                     workerThread = null;
-                    btnStart.Text = "START";
+                    btnStart.Text = Resources.GUIButtonStart;
                     btnStartM.Image = Fishing.Properties.Resources.icon_play;
                 }
             });
@@ -2303,10 +2301,10 @@ namespace Fishing
         {
             if (cbGMdetectAutostop.Checked)
             {
-                if (!cbStopSound.Checked && File.Exists("warning.wav"))
+                if (!cbStopSound.Checked && File.Exists(Resources.FileWarningWav))
                 {
                     doFlashWindow();
-                    SoundPlayer spWave = new SoundPlayer("warning.wav");
+                    SoundPlayer spWave = new SoundPlayer(Resources.FileWarningWav);
                     spWave.Play();
                 }
 
@@ -2601,7 +2599,7 @@ namespace Fishing
         {
             if (_FFACE == null)
             {
-                SetStatus("No FFXI process available.");
+                SetStatus(Resources.StatusInfoNoProcess);
                 return;
             }
             if ((0 < tbChat.Text.Length) && (!tbChat.Text.Equals(allSpaces)))
@@ -2690,27 +2688,27 @@ namespace Fishing
                 switch (e.KeyCode)
                 {
                     case Keys.S:
-                        tbChat.Text = "/s " + chatMode.Replace(tbChat.Text, "$1");
+                        tbChat.Text = Resources.CommandChatSay + chatMode.Replace(tbChat.Text, Resources.RegexGroup1);
                         e.Handled = true;
                         e.SuppressKeyPress = true;
                         break;
                     case Keys.L:
-                        tbChat.Text = "/l " + chatMode.Replace(tbChat.Text, "$1");
+                        tbChat.Text = Resources.CommandChatLinkshell + chatMode.Replace(tbChat.Text, Resources.RegexGroup1);
                         e.Handled = true;
                         e.SuppressKeyPress = true;
                         break;
                     case Keys.P:
-                        tbChat.Text = "/p " + chatMode.Replace(tbChat.Text, "$1");
+                        tbChat.Text = Resources.CommandChatParty + chatMode.Replace(tbChat.Text, Resources.RegexGroup1);
                         e.Handled = true;
                         e.SuppressKeyPress = true;
                         break;
                     case Keys.R:
-                        tbChat.Text = "/t <r> " + chatMode.Replace(tbChat.Text, "$1");
+                        tbChat.Text = Resources.CommandChatReply + chatMode.Replace(tbChat.Text, Resources.RegexGroup1);
                         e.Handled = true;
                         e.SuppressKeyPress = true;
                         break;
                     case Keys.T:
-                        tbChat.Text = "/t " + chatMode.Replace(tbChat.Text, "$1");
+                        tbChat.Text = Resources.CommandChatTell + chatMode.Replace(tbChat.Text, Resources.RegexGroup1);
                         e.Handled = true;
                         e.SuppressKeyPress = true;
                         break;
@@ -2758,22 +2756,22 @@ namespace Fishing
         {
             if (tabChat.SelectedTab == tabChatPageTell)
             {
-                tabChatPageTell.Text = "Tell";
+                tabChatPageTell.Text = Resources.GUIChatTabTell;
                 statusStripMain.BackColor = SystemColors.Control;
             }
             else if (tabChat.SelectedTab == tabChatPageParty)
             {
-                tabChatPageParty.Text = "PT";
+                tabChatPageParty.Text = Resources.GUIChatTabParty;
                 statusStripMain.BackColor = SystemColors.Control;
             }
             else if (tabChat.SelectedTab == tabChatPageLS)
             {
-                tabChatPageLS.Text = "LS";
+                tabChatPageLS.Text = Resources.GUIChatTabLinkshell;
                 statusStripMain.BackColor = SystemColors.Control;
             }
             else if (tabChat.SelectedTab == tabChatPageSay)
             {
-                tabChatPageSay.Text = "Say";
+                tabChatPageSay.Text = Resources.GUIChatTabSay;
                 statusStripMain.BackColor = SystemColors.Control;
             }
         }
@@ -3068,7 +3066,7 @@ namespace Fishing
         private void btnChatDetectAdd_Remove_click(object sender, EventArgs e)
         {
             Button btn = (Button)sender;
-            if (btn.Text.Equals("+"))
+            if (btn.Text.Equals(Resources.GUIChatDetectButtonAdd))
             {
                 int offset = 23 * chatDetectBtnChatRemoveList.Count;
                 int taboffset = 5 * chatDetectBtnChatRemoveList.Count;
@@ -3081,9 +3079,9 @@ namespace Fishing
                 cmbChatAction.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
                 cmbChatAction.FormattingEnabled = true;
                 cmbChatAction.Items.AddRange(new object[] {
-            "Stop Fishing",
-            "Note On Tab",
-            "Flash Window"});
+            Resources.GUIChatDetectActionStop,
+            Resources.GUIChatDetectActionNote,
+            Resources.GUIChatDetectActionFlash});
                 cmbChatAction.Location = new System.Drawing.Point(ScaleWidth(136), ScaleHeight(2 + offset + panelChatDetect.AutoScrollPosition.Y));
                 cmbChatAction.Name = "cmbChatAction";
                 cmbChatAction.Size = new System.Drawing.Size(ScaleWidth(83), ScaleHeight(20));
@@ -3099,10 +3097,10 @@ namespace Fishing
                 cmbChatType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
                 cmbChatType.FormattingEnabled = true;
                 cmbChatType.Items.AddRange(new object[] {
-            "Tell",
-            "Party",
-            "Linkshell",
-            "Say"});
+            Resources.GUIChatDetectTypeTell,
+            Resources.GUIChatDetectTypeParty,
+            Resources.GUIChatDetectTypeLinkshell,
+            Resources.GUIChatDetectTypeSay});
                 cmbChatType.Location = new System.Drawing.Point(ScaleWidth(23), ScaleHeight(2 + offset + panelChatDetect.AutoScrollPosition.Y));
                 cmbChatType.Name = "cmbChatType";
                 cmbChatType.Size = new System.Drawing.Size(ScaleWidth(61), ScaleHeight(20));
@@ -3128,7 +3126,7 @@ namespace Fishing
                 btnRemoveChatDetect.Name = "btnRemoveChatDetect";
                 btnRemoveChatDetect.Size = new System.Drawing.Size(ScaleWidth(23), ScaleHeight(23));
                 btnRemoveChatDetect.TabIndex = 4 + taboffset;
-                btnRemoveChatDetect.Text = "-";
+                btnRemoveChatDetect.Text = Resources.GUIChatDetectButtonRemove;
                 btnRemoveChatDetect.UseVisualStyleBackColor = true;
                 btnRemoveChatDetect.Click += new System.EventHandler(this.btnChatDetectAdd_Remove_click);
                 chatDetectBtnChatRemoveList.Add(btnRemoveChatDetect);
@@ -3215,31 +3213,31 @@ namespace Fishing
                     continue;
                 }
                 action = chatDetectCmbChatActionList[i].SelectedItem.ToString();
-                if (action.StartsWith("Stop"))
+                if (action.Equals(Resources.GUIChatDetectActionStop))
                 {
                     tmpAction = ChatAction.Stop;
                 }
-                else if (action.StartsWith("Note"))
+                else if (action.Equals(Resources.GUIChatDetectActionNote))
                 {
                     tmpAction = ChatAction.Note;
                 }
-                else if (action.StartsWith("Flash"))
+                else if (action.Equals(Resources.GUIChatDetectActionFlash))
                 {
                     tmpAction = ChatAction.Flash;
                 }
-                if (type.Equals("Tell"))
+                if (type.Equals(Resources.GUIChatDetectTypeTell))
                 {
                     tellActions |= (int)tmpAction;
                 }
-                else if (type.Equals("Linkshell"))
+                else if (type.Equals(Resources.GUIChatDetectTypeLinkshell))
                 {
                     shellActions |= (int)tmpAction;
                 }
-                else if (type.Equals("Party"))
+                else if (type.Equals(Resources.GUIChatDetectTypeParty))
                 {
                     partyActions |= (int)tmpAction;
                 }
-                else if (type.Equals("Say"))
+                else if (type.Equals(Resources.GUIChatDetectTypeSay))
                 {
                     sayActions |= (int)tmpAction;
                 }
@@ -3254,12 +3252,12 @@ namespace Fishing
 
         private void btnStart_Click(object sender, EventArgs e)
         {
-            if ("STOP" == btnStart.Text)
+            if (Resources.GUIButtonStop == btnStart.Text)
             {
                 stopSound = false;
                 statusWarningColor = false;
                 bool storeChatBig = chatbig;
-                Stop(false, "Idle.");
+                Stop(false, Resources.StatusErrorIdle);
                 chatbig = storeChatBig;
             }
             else
@@ -3339,12 +3337,12 @@ namespace Fishing
             if (IsRodBaitSet())
             {
                 PopulateLists();
-                SetStatus("Wanted / Unwanted lists refreshed.");
+                SetStatus(Resources.StatusInfoListsRefreshed);
             }
             else
             {
 
-                SetStatus("Equip a rod / bait to refresh lists.");
+                SetStatus(Resources.StatusInfoEquipToRefresh);
             }
         }
 
@@ -3360,8 +3358,8 @@ namespace Fishing
 
         private void btnSettingsReset_Click(object sender, EventArgs e)
         {
-            string message = "Do you really want to reset the settings?";
-            string caption = "Reset Option Settings";
+            string message = Resources.MessageSettingsReset;
+            string caption = Resources.MessageTitleSettingsReset;
             MessageBoxButtons buttons = MessageBoxButtons.YesNo;
             DialogResult result = MessageBox.Show(message, caption, buttons);
 
@@ -3455,8 +3453,8 @@ namespace Fishing
 
         private void btnSettingsSave_Click(object sender, EventArgs e)
         {
-            string message = "Do you really want to save the current settings?";
-            string caption = "Save Option Settings";
+            string message = Resources.MessageSettingsSave;
+            string caption = Resources.MessageTitleSettingsSave;
             MessageBoxButtons buttons = MessageBoxButtons.YesNo;
             DialogResult result = MessageBox.Show(message, caption, buttons);
 
@@ -3821,15 +3819,9 @@ namespace Fishing
                 else
                 {
                     Fishie selectedFish = (Fishie)selectedListBox.SelectedItem;
-                    if (FishDB.ChangeName(selectedFish, tbChangeName.Text, false))
-                    {
-                        tbChangeName.Hide();
-                        e.Handled = true;
-                    }
-                    else
-                    {
-                        MessageBox.Show(this, string.Format("A fish with the name \"{0}\" already exists with different IDs.\nPlease choose a different name.", tbChangeName.Text), "Error!");
-                    }
+                    FishDB.ChangeName(selectedFish, tbChangeName.Text, false);
+                    tbChangeName.Hide();
+                    e.Handled = true;
                 }
             }
 
