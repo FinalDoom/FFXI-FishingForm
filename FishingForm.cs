@@ -255,17 +255,41 @@ namespace Fishing
                     }
                 }
 
-                FishDB.GetUpdates();
-                FishSQL.DoUploadFish();
-                FishSQL.DoDownloadFish();
-                DBLogger.EndDBTransaction("Database sync finished.");
+                try
+                {
+                    FishDB.GetUpdates();
+                }
+                catch (Exception e)
+                {
+                    DBLogger.Error("Error getting fish updates from XML.");
+                    DBLogger.Info(e.ToString());
+                }
+                try{
+                    FishSQL.DoUploadFish();
+                }
+                catch (Exception e)
+                {
+                    DBLogger.Error("Error uploading fish changes.");
+                    DBLogger.Info(e.ToString());
+                }
+                try{
+                    FishSQL.DoDownloadFish();
+                }
+                catch (Exception e)
+                {
+                    DBLogger.Error("Error downloading fish updates.");
+                    DBLogger.Info(e.ToString());
+                }
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                DBLogger.Error("Error doing database sync.");
+                DBLogger.Info(e.ToString());
             }
             finally
             {
                 FishSQL.CloseConnection();
+                DBLogger.EndDBTransaction("Database sync finished.");
             }
         }
 

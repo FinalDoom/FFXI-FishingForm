@@ -92,14 +92,21 @@ namespace Fishing
             {
                 if (!errorred)
                 {
+                    string message;
                     switch (e.Number)
                     {
                         case 0:
-                            MessageBox.Show("Could not connect to FishDB MySQL server. Please contact program maintainer.");
+                            message = "Could not connect to FishDB MySQL server. Please contact program maintainer.";
                             break;
                         default:
-                            MessageBox.Show("Could not connect to FishDB MySQL server. Error number " + e.Number.ToString());
+                            message = "Could not connect to FishDB MySQL server. Error number " + e.Number.ToString();
                             break;
+                    }
+                    MessageBox.Show(message);
+                    if (StatusDisplay != null)
+                    {
+                        StatusDisplay.Warning(message);
+                        StatusDisplay.Info(e.ToString());
                     }
                     errorred = true;
                 }
@@ -118,8 +125,13 @@ namespace Fishing
                 }
                 return true;
             }
-            catch (MySqlException)
+            catch (MySqlException e)
             {
+                if (StatusDisplay != null)
+                {
+                    StatusDisplay.Warning("Could not close connection.");
+                    StatusDisplay.Info(e.ToString());
+                }
                 return false;
             }
         }
@@ -147,8 +159,13 @@ namespace Fishing
                         {
                             date = cmd.ExecuteScalar();
                         }
-                        catch (MySqlException)
+                        catch (MySqlException e)
                         {
+                            if (StatusDisplay != null)
+                            {
+                                StatusDisplay.Error("Error getting Newest DB Modification Time");
+                                StatusDisplay.Info(e.ToString());
+                            }
                         }
                         if (!string.IsNullOrEmpty(date.ToString()))
                         {
@@ -189,10 +206,18 @@ namespace Fishing
                     }
                     catch (MySqlException e)
                     {
-                        if (e.Number == 1062)
+                        switch (e.Number)
                         {
-                            // Duplicate primary key. We were successful anyway
-                            return true;
+                            case 1062:
+                                // Duplicate primary key. We were successful anyway
+                                return true;
+                            default:
+                                if (StatusDisplay != null)
+                                {
+                                    StatusDisplay.Error(string.Format("Error adding new fish \"{0}\"", fish));
+                                    StatusDisplay.Info(e.ToString());
+                                }
+                                break;
                         }
                     }
                 }
@@ -229,8 +254,13 @@ namespace Fishing
                         cmd.ExecuteNonQuery();
                         return true;
                     }
-                    catch (MySqlException)
+                    catch (MySqlException e)
                     {// Don't care
+                        if (StatusDisplay != null)
+                        {
+                            StatusDisplay.Warning(string.Format("Error renaming fish \"{0}\" to \"{1}\"", oldName, fish));
+                            StatusDisplay.Info(e.ToString());
+                        }
                     }
                 }
             }
@@ -251,8 +281,13 @@ namespace Fishing
                 {
                     return int.Parse(cmd.ExecuteScalar().ToString());
                 }
-                catch (MySqlException)
+                catch (MySqlException e)
                 {
+                    if (StatusDisplay != null)
+                    {
+                        StatusDisplay.Error(string.Format("Error getting fish ID from DB for \"{0}\"", name));
+                        StatusDisplay.Info(e.ToString());
+                    }
                     return -1;
                 }
             }
@@ -297,10 +332,19 @@ namespace Fishing
                             }
                             catch (MySqlException e)
                             {
-                                if (e.Number == 1062)
+                                switch (e.Number)
                                 {
-                                    // Duplicate primary key. We were successful anyway
-                                    updatedBait.Add(fishNode, node);
+                                    case 1062:
+                                        // Duplicate primary key. We were successful anyway
+                                        updatedBait.Add(fishNode, node);
+                                        break;
+                                    default:
+                                        if (StatusDisplay != null)
+                                        {
+                                            StatusDisplay.Error(string.Format("Error adding bait \"{0}\" to fish \"{1}\"", b, fish));
+                                            StatusDisplay.Info(e.ToString());
+                                        }
+                                        break;
                                 }
                             }
                         }
@@ -351,10 +395,19 @@ namespace Fishing
                             }
                             catch (MySqlException e)
                             {
-                                if (e.Number == 1062)
+                                switch (e.Number)
                                 {
-                                    // Duplicate primary key. We were successful anyway
-                                    updatedZones.Add(fishNode, node);
+                                    case 1062:
+                                        // Duplicate primary key. We were successful anyway
+                                        updatedZones.Add(fishNode, node);
+                                        break;
+                                    default:
+                                        if (StatusDisplay != null)
+                                        {
+                                            StatusDisplay.Error(string.Format("Error adding zone \"{0}\" to fish \"{1}\"", z, fish));
+                                            StatusDisplay.Info(e.ToString());
+                                        }
+                                        break;
                                 }
                             }
                         }
@@ -381,12 +434,20 @@ namespace Fishing
                     cmd.CommandText = "CALL get_new_fish (@rodID, @time)";
                     cmd.Parameters.AddWithValue("rodID", rodId);
                     cmd.Parameters.AddWithValue("time", since);
-                    try
+                    using (MySqlDataReader rdr = cmd.ExecuteReader())
                     {
-                        using (MySqlDataReader rdr = cmd.ExecuteReader())
+                        while (rdr.Read())
                         {
-                            while (rdr.Read())
+                            string name = string.Empty;
+                            string id1 = string.Empty;
+                            string id2 = string.Empty;
+                            string id3 = string.Empty;
+                            try
                             {
+                                name = rdr.GetString("Name");
+                                id1 = rdr.GetString("Id1");
+                                id2 = rdr.GetString("Id2");
+                                id3 = rdr.GetString("Id3");
                                 int? zone;
                                 try
                                 {
@@ -405,13 +466,17 @@ namespace Fishing
                                 {
                                     bait = null;
                                 }
-                                fishies.Add(new SQLFishie(rdr.GetString("Name"), rodId, rdr.GetString("Id1"), rdr.GetString("Id2"), rdr.GetString("Id3"), zone, bait));
+                                fishies.Add(new SQLFishie(name, rodId, id1, id2, id3, zone, bait));
                             }
-
+                            catch (MySqlException e)
+                            {
+                                if (StatusDisplay != null)
+                                {
+                                    StatusDisplay.Error(string.Format("Error getting new fish \"{0}\" with IDs: {1}, {2}, {3}", name, id1, id2, id3));
+                                    StatusDisplay.Info(e.ToString());
+                                }
+                            }
                         }
-                    }
-                    catch (MySqlException)
-                    {
                     }
                 }
             }
@@ -435,19 +500,33 @@ namespace Fishing
                     cmd.CommandText = "CALL get_renamed_fish (@rodID, @time)";
                     cmd.Parameters.AddWithValue("rodID", rodId);
                     cmd.Parameters.AddWithValue("time", since);
-                    try
+                    using (MySqlDataReader rdr = cmd.ExecuteReader())
                     {
-                        using (MySqlDataReader rdr = cmd.ExecuteReader())
+                        while (rdr.Read())
                         {
-                            while (rdr.Read())
+                            string name = string.Empty;
+                            string id1 = string.Empty;
+                            string id2 = string.Empty;
+                            string id3 = string.Empty;
+                            string toName = string.Empty;
+                            try
                             {
-                                fishies.Add(new SQLFishie(rdr.GetString("Name"), rodId, rdr.GetString("Id1"), rdr.GetString("Id2"), rdr.GetString("Id3"), null, null), rdr.GetString("ToName"));
+                                name = rdr.GetString("Name");
+                                id1 = rdr.GetString("Id1");
+                                id2 = rdr.GetString("Id2");
+                                id3 = rdr.GetString("Id3");
+                                fishies.Add(new SQLFishie(name, rodId, id1, id2, id3, null, null), rdr.GetString("ToName"));
                             }
-
+                            catch (MySqlException e)
+                            {
+                                if (StatusDisplay != null)
+                                {
+                                    StatusDisplay.Error(string.Format("Error getting renamed fish \"{0}\" to \"{1}\" with IDs: {2}, {3}, {4}", name, toName, id1, id2, id3));
+                                    StatusDisplay.Info(e.ToString());
+                                }
+                            }
                         }
-                    }
-                    catch (MySqlException)
-                    {
+
                     }
                 }
             }
@@ -481,8 +560,13 @@ namespace Fishing
                             }
                         }
                     }
-                    catch (MySqlException)
+                    catch (MySqlException e)
                     {
+                        if (StatusDisplay != null)
+                        {
+                            StatusDisplay.Error("Error getting program version status.");
+                            StatusDisplay.Info(e.ToString());
+                        }
                     }
                 }
             }
@@ -524,14 +608,25 @@ namespace Fishing
                         {
                             zones.Add(node);
                         }
-                        if (UploadFish(fish, rod, fishNode.Attributes["ID1"].Value, fishNode.Attributes["ID2"].Value, fishNode.Attributes["ID3"].Value))
+                        try
                         {
-                            try
+                            if (UploadFish(fish, rod, fishNode.Attributes["ID1"].Value, fishNode.Attributes["ID2"].Value, fishNode.Attributes["ID3"].Value))
                             {
-                                updatedNodes.Add(fishNode, fishNode);
+                                try
+                                {
+                                    updatedNodes.Add(fishNode, fishNode);
+                                }
+                                catch (ArgumentException)
+                                { // In case it's been added already somehow
+                                }
                             }
-                            catch (ArgumentException)
-                            { // In case it's been added already somehow
+                        }
+                        catch (Exception e)
+                        {
+                            if (StatusDisplay != null)
+                            {
+                                StatusDisplay.Error(string.Format("Error uploading fish \"{0}\" for {1}.", fish, rod));
+                                StatusDisplay.Info(e.ToString());
                             }
                         }
                     }
@@ -548,7 +643,18 @@ namespace Fishing
                     }
                     if (baits.Count > 0 || zones.Count > 0)
                     {
-                        UploadBaitAndZone(fish, rod, fishNode.Attributes["ID1"].Value, fishNode.Attributes["ID2"].Value, fishNode.Attributes["ID3"].Value, baits, zones, fishNode, ref updatedBait, ref updatedZones);
+                        try
+                        {
+                            UploadBaitAndZone(fish, rod, fishNode.Attributes["ID1"].Value, fishNode.Attributes["ID2"].Value, fishNode.Attributes["ID3"].Value, baits, zones, fishNode, ref updatedBait, ref updatedZones);
+                        }
+                        catch (Exception e)
+                        {
+                            if (StatusDisplay != null)
+                            {
+                                StatusDisplay.Error(string.Format("Error uploading bait and zones for fish \"{0}\" for {1}.", fish, rod));
+                                StatusDisplay.Info(e.ToString());
+                            }
+                        }
                     }
                     updatedRods.Add(rod);
                 }
@@ -563,9 +669,20 @@ namespace Fishing
                     {
                         StatusDisplay.SetUploadRenameRodAndFish(rod, fish, fishNode.Attributes["rename"].Value);
                     }
-                    if (RenameFish(fish, fishNode.Attributes["rename"].Value, rod, fishNode.Attributes["ID1"].Value, fishNode.Attributes["ID2"].Value, fishNode.Attributes["ID3"].Value))
+                    try
                     {
-                        renamedNodes.Add(fishNode);
+                        if (RenameFish(fish, fishNode.Attributes["rename"].Value, rod, fishNode.Attributes["ID1"].Value, fishNode.Attributes["ID2"].Value, fishNode.Attributes["ID3"].Value))
+                        {
+                            renamedNodes.Add(fishNode);
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        if (StatusDisplay != null)
+                        {
+                            StatusDisplay.Error(string.Format("Error uploading rename from \"{0}\" to \"{1}\" for {2}.", fish, fishNode.Attributes["rename"].Value, rod));
+                            StatusDisplay.Info(e.ToString());
+                        }
                     }
                     updatedRods.Add(rod);
                 }
@@ -617,45 +734,67 @@ namespace Fishing
                 DateTime newest = NewestDBModificationTime(rod);
                 if (FishDB.UpdatesByRod[rod].dbDate < newest)
                 {
-                    List<SQLFishie> newFishies = DownloadNewFish(rod, FishDB.UpdatesByRod[rod].dbDate);
-                    if (null != StatusDisplay)
+                    try
                     {
-                        StatusDisplay.SetDownloadRodFish(newFishies.Count);
-                    }
-                    foreach (SQLFishie fish in newFishies)
-                    {
-                        string name = fish.name;
+                        List<SQLFishie> newFishies = DownloadNewFish(rod, FishDB.UpdatesByRod[rod].dbDate);
                         if (null != StatusDisplay)
                         {
-                            StatusDisplay.SetDownloadFish(name);
-                            if (null == fish.zone)
-                            {
-                                StatusDisplay.SetFishBaitOrZone(name, fish.bait);
-                            }
-                            else
-                            {
-                                StatusDisplay.SetFishBaitOrZone(name, fish.zone);
-                            }
+                            StatusDisplay.SetDownloadRodFish(newFishies.Count);
                         }
-                        FishDB.AddNewFish(ref name, fish.zone, fish.bait, fish.rod, fish.ID1, fish.ID2, fish.ID3, false, true);
+                        foreach (SQLFishie fish in newFishies)
+                        {
+                            string name = fish.name;
+                            if (null != StatusDisplay)
+                            {
+                                StatusDisplay.SetDownloadFish(name);
+                                if (null == fish.zone)
+                                {
+                                    StatusDisplay.SetFishBaitOrZone(name, fish.bait);
+                                }
+                                else
+                                {
+                                    StatusDisplay.SetFishBaitOrZone(name, fish.zone);
+                                }
+                            }
+                            FishDB.AddNewFish(ref name, fish.zone, fish.bait, fish.rod, fish.ID1, fish.ID2, fish.ID3, false, true);
+                        }
                     }
-                    Dictionary<SQLFishie, string> renamedFish = DownloadRenamedFish(rod, FishDB.UpdatesByRod[rod].dbDate);
-                    if (null != StatusDisplay)
+                    catch (Exception e)
                     {
-                        StatusDisplay.SetDownloadRenameRodFish(renamedFish.Count);
+                        if (StatusDisplay != null)
+                        {
+                            StatusDisplay.Error(string.Format("Error downloading new fish for {0}", rod));
+                            StatusDisplay.Info(e.ToString());
+                        }
                     }
-                    foreach (SQLFishie fish in renamedFish.Keys)
+                    try
                     {
+                        Dictionary<SQLFishie, string> renamedFish = DownloadRenamedFish(rod, FishDB.UpdatesByRod[rod].dbDate);
                         if (null != StatusDisplay)
                         {
-                            StatusDisplay.SetDownloadRenameFish(fish.name, renamedFish[fish]);
+                            StatusDisplay.SetDownloadRenameRodFish(renamedFish.Count);
                         }
-                        try
+                        foreach (SQLFishie fish in renamedFish.Keys)
                         {
-                            FishDB.ChangeName(fish.ToFishDBFishie(), renamedFish[fish], true);
+                            if (null != StatusDisplay)
+                            {
+                                StatusDisplay.SetDownloadRenameFish(renamedFish[fish], fish.name);
+                            }
+                            try
+                            {
+                                FishDB.ChangeName(fish.ToFishDBFishie(), renamedFish[fish], true);
+                            }
+                            catch (Exception)
+                            {
+                            }
                         }
-                        catch (Exception)
+                    }
+                    catch (Exception e)
+                    {
+                        if (StatusDisplay != null)
                         {
+                            StatusDisplay.Error(string.Format("Error downloading renames for {0}", rod));
+                            StatusDisplay.Info(e.ToString());
                         }
                     }
                     updateTimes[rod] = newest;
@@ -681,7 +820,18 @@ namespace Fishing
                     Thread.Sleep(250);
                 }
             }
-            DoUploadFish();
+            try
+            {
+                DoUploadFish();
+            }
+            catch (Exception e)
+            {
+                if (StatusDisplay != null)
+                {
+                    StatusDisplay.Error("Error uploading fish");
+                    StatusDisplay.Info(e.ToString());
+                }
+            }
             if (StatusDisplay != null)
             {
                 StatusDisplay.EndDBTransaction("Upload to DB finished.");
