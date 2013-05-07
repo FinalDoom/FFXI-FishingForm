@@ -117,7 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="d_thunder" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\images\d_thunder.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -145,11 +145,657 @@
   <data name="refresh" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\images\refresh_icon.jpg;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="icon_play" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\images\icon_play.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="icon_stop" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\images\icon_stop.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ArgumentForceSync" xml:space="preserve">
+    <value>--force-database-sync</value>
+    <comment>Directs program to force sync with DB</comment>
+  </data>
+  <data name="ArgumentNoArgs" xml:space="preserve">
+    <value>No_args</value>
+    <comment>Indicates program received no arguments</comment>
+  </data>
+  <data name="ArgumentStart" xml:space="preserve">
+    <value>start</value>
+    <comment>Directs program to start when run</comment>
+  </data>
+  <data name="ProcessPOLName" xml:space="preserve">
+    <value>pol</value>
+    <comment>Name of FFXI exe</comment>
+  </data>
+  <data name="StatusFormatMoveToSack" xml:space="preserve">
+    <value>Moving {0} to Sack: {1} remaining.</value>
+    <comment>Status when moving items to sack</comment>
+  </data>
+  <data name="StatusFormatMoveSackFinished" xml:space="preserve">
+    <value>Finished moving {0} to Sack.</value>
+    <comment>Status when done moving items to sack</comment>
+  </data>
+  <data name="MessageDBSyncStart" xml:space="preserve">
+    <value>Beginning database sync.</value>
+    <comment>DB sync starting</comment>
+  </data>
+  <data name="MessageDBSyncFinish" xml:space="preserve">
+    <value>Database sync finished.</value>
+    <comment>DB sync finished</comment>
+  </data>
+  <data name="MessageDBErrorXML" xml:space="preserve">
+    <value>Error getting fish updates from XML.</value>
+    <comment>DB sync error queuing updates from XML</comment>
+  </data>
+  <data name="MessageDBErrorUpload" xml:space="preserve">
+    <value>Error uploading fish changes.</value>
+    <comment>DB sync error uploading</comment>
+  </data>
+  <data name="MessageDBErrorDownload" xml:space="preserve">
+    <value>Error downloading fish updates.</value>
+    <comment>DB sync error when downloading</comment>
+  </data>
+  <data name="MessageDBErrorGeneral" xml:space="preserve">
+    <value>Error doing database sync.</value>
+    <comment>DB sync error</comment>
+  </data>
+  <data name="ProgramExeName" xml:space="preserve">
+    <value>FishingForm.exe</value>
+    <comment>Name of this exe</comment>
+  </data>
+  <data name="FormatProgramTitleNoChar" xml:space="preserve">
+    <value>FishingForm v{0}-mC-FD</value>
+    <comment>Title when not logged in</comment>
+  </data>
+  <data name="FormatProgramTitleLoggedIn" xml:space="preserve">
+    <value>FishingForm v{0}-mC-FD  ({1})</value>
+    <comment>Title when logged in</comment>
+  </data>
+  <data name="DllNameHook" xml:space="preserve">
+    <value>hook.dll</value>
+    <comment>windower hook dll name</comment>
+  </data>
+  <data name="PathWindowerResourcesFolder" xml:space="preserve">
+    <value>plugins</value>
+    <comment>Folder name containing resources.xml</comment>
+  </data>
+  <data name="PathWindowerResourcesError" xml:space="preserve">
+    <value>Windower path could not be found</value>
+    <comment>Unresolvable path for when windower not found</comment>
+  </data>
+  <data name="DllNameFFACE" xml:space="preserve">
+    <value>FFACE.dll</value>
+    <comment>FFACE dll name</comment>
+  </data>
+  <data name="MessageTitleError" xml:space="preserve">
+    <value>FishingForm Error</value>
+    <comment>Title of messageboxes for errors</comment>
+  </data>
+  <data name="MessageErrorAdministratorNeeded" xml:space="preserve">
+    <value>Please run FishingForm.exe as an Administrator.</value>
+    <comment>Status when not run as admin</comment>
+  </data>
+  <data name="MessageErrorFFACEMissing" xml:space="preserve">
+    <value>FFACE.dll was not found in the program's directory!</value>
+    <comment>Status when FFACE not found</comment>
+  </data>
+  <data name="StatusFatigueNoCatches" xml:space="preserve">
+    <value>Fatigue limit reached: Max no catches.</value>
+    <comment>Status when fatigued</comment>
+  </data>
+  <data name="StatusErrorSkillCapped" xml:space="preserve">
+    <value>Fishing skill cap reached.</value>
+    <comment>Status when set skill cap is reached</comment>
+  </data>
+  <data name="StatusFormatCastingSeconds" xml:space="preserve">
+    <value>Casting in {0} seconds.</value>
+    <comment>Status when waiting to cast</comment>
+  </data>
+  <data name="StatusErrorZoneChanged" xml:space="preserve">
+    <value>Changed zones!</value>
+    <comment>Status when zone changed</comment>
+  </data>
+  <data name="FormatQuoteArg" xml:space="preserve">
+    <value>"{0}"</value>
+    <comment>Use to wrap things in quotes</comment>
+  </data>
+  <data name="StatusErrorNoBaitOrRodEquipped" xml:space="preserve">
+    <value>No rod or bait equipped or set in options.</value>
+    <comment>Status when missing bait or rod</comment>
+  </data>
+  <data name="EquipFormatRod" xml:space="preserve">
+    <value>/equip range "{0}"</value>
+    <comment>Rod equip command</comment>
+  </data>
+  <data name="EquipFormatBait" xml:space="preserve">
+    <value>/equip ammo "{0}"</value>
+    <comment>Bait equip command</comment>
+  </data>
+  <data name="CommandCastSneak" xml:space="preserve">
+    <value>/ma Sneak &lt;me&gt;</value>
+    <comment>command cast sneak</comment>
+  </data>
+  <data name="StatusErrorSneakLackMP" xml:space="preserve">
+    <value>Not enough MP to cast Sneak.</value>
+    <comment>Status when MP is too low</comment>
+  </data>
+  <data name="CommandFish" xml:space="preserve">
+    <value>/fish</value>
+    <comment>command fish</comment>
+  </data>
+  <data name="CommandCancelStatus" xml:space="preserve">
+    <value>//cancel {0}</value>
+    <comment>command format cancel plugin</comment>
+  </data>
+  <data name="StatusFormatFightingFish" xml:space="preserve">
+    <value>Fighting {0}.</value>
+    <comment>Status when fighting a fish</comment>
+  </data>
+  <data name="StatusFormatReelingFish" xml:space="preserve">
+    <value>Reeling in {0}.</value>
+    <comment>Status when reeling in a fish</comment>
+  </data>
+  <data name="FishNameUnknown" xml:space="preserve">
+    <value>Unknown</value>
+  </data>
+  <data name="ChatFormatCaught" xml:space="preserve">
+    <value>{0} caught </value>
+    <comment>Ingame part of caught message</comment>
+  </data>
+  <data name="ChatFormatTempFish" xml:space="preserve">
+    <value>{0} obtained the temporary item: </value>
+    <comment>Ingame part of temp fish message</comment>
+  </data>
+  <data name="ChatFormatObtains" xml:space="preserve">
+    <value>{0} obtains </value>
+    <comment>Ingame part of obtain message</comment>
+  </data>
+  <data name="ChatFormatMonster" xml:space="preserve">
+    <value>{0} caught a monster!</value>
+    <comment>Ingame part of monster catch</comment>
+  </data>
+  <data name="ChatFormatQuestBox" xml:space="preserve">
+    <value>{0} fishes up a large box</value>
+    <comment>Ingame part of quest box message</comment>
+  </data>
+  <data name="ChatFormatInventoryFull" xml:space="preserve">
+    <value>{0} regretfully releases</value>
+    <comment>Ingame part of relase message</comment>
+  </data>
+  <data name="ChatLostCatch" xml:space="preserve">
+    <value>You lost your catch.</value>
+    <comment>Ingame lost fish</comment>
+  </data>
+  <data name="ChatLostTooSmall" xml:space="preserve">
+    <value>Whatever caught the hook was too small</value>
+    <comment>Ingame lost too small</comment>
+  </data>
+  <data name="ChatLostTooLarge" xml:space="preserve">
+    <value>Whatever caught the hook was too large</value>
+    <comment>Ingame lost too large</comment>
+  </data>
+  <data name="ChatHookLineBreak" xml:space="preserve">
+    <value>Your line breaks.</value>
+    <comment>Ingame line break</comment>
+  </data>
+  <data name="ChatRodBreak" xml:space="preserve">
+    <value>Your rod breaks.</value>
+    <comment>Ingame rod breaks</comment>
+  </data>
+  <data name="ChatLostLackSkill" xml:space="preserve">
+    <value>You lost your catch due to your lack of skill.</value>
+    <comment>Ingame lost fish lack skill</comment>
+  </data>
+  <data name="ChatLostShipDock" xml:space="preserve">
+    <value>We are now docking in </value>
+    <comment>Ingame boat zone</comment>
+  </data>
+  <data name="FishNameLostCatch" xml:space="preserve">
+    <value>Lost The Catch</value>
+  </data>
+  <data name="FishNameMonster" xml:space="preserve">
+    <value>Monster</value>
+  </data>
+  <data name="FishNameTooSmall" xml:space="preserve">
+    <value>Too Small Fish</value>
+  </data>
+  <data name="FishNameTooLarge" xml:space="preserve">
+    <value>Too Large Fish</value>
+  </data>
+  <data name="FishNameBreakLine" xml:space="preserve">
+    <value>Break Line Fish</value>
+  </data>
+  <data name="FishNameBreakRod" xml:space="preserve">
+    <value>Break Rod Fish</value>
+  </data>
+  <data name="FishNameLackSkill" xml:space="preserve">
+    <value>Lack Skill Fish</value>
+  </data>
+  <data name="FishNameQuestBox" xml:space="preserve">
+    <value>Quest Chart Box</value>
+  </data>
+  <data name="StatusFormatFakingFish" xml:space="preserve">
+    <value>Faking {0}.</value>
+    <comment>Status when fake fighting a fish</comment>
+  </data>
+  <data name="FormatFishHP" xml:space="preserve">
+    <value>{0}/{1} [{2}s]</value>
+    <comment>Fish HP shown when option checked</comment>
+  </data>
+  <data name="StatusFormatKillingFish" xml:space="preserve">
+    <value>Killing {0} in {1} seconds.</value>
+    <comment>Status when force killing a fish</comment>
+  </data>
+  <data name="StatusFormatNoCatchNumber" xml:space="preserve">
+    <value>No catch, {0} in a row.</value>
+    <comment>Status on multiple no catch</comment>
+  </data>
+  <data name="StatusFormatNoCatchFirst" xml:space="preserve">
+    <value>No catch.</value>
+    <comment>Status on first no catch</comment>
+  </data>
+  <data name="FormatFishNameMultiple" xml:space="preserve">
+    <value>{0} x{1}</value>
+    <comment>For renaming fish where 2 or 3 caught in one cast</comment>
+  </data>
+  <data name="StatusErrorHealing" xml:space="preserve">
+    <value>Healing/Sitting, please stand.</value>
+    <comment>Status when character is healing/sitting</comment>
+  </data>
+  <data name="ChatWaitLonger" xml:space="preserve">
+    <value>You must wait longer to perform that action.</value>
+    <comment>Ingame wait longer</comment>
+  </data>
+  <data name="ChatNoBait" xml:space="preserve">
+    <value>You can't fish without bait on the hook.</value>
+    <comment>Ingame no bait</comment>
+  </data>
+  <data name="StatusInfoAddTime" xml:space="preserve">
+    <value>Adding one second to cast times.</value>
+    <comment>Status when adding to cast wait</comment>
+  </data>
+  <data name="StatusErrorNoBait" xml:space="preserve">
+    <value>Out of bait.</value>
+    <comment>Status when out of bait</comment>
+  </data>
+  <data name="StatusErrorRodBroken" xml:space="preserve">
+    <value>Your rod is broken.</value>
+    <comment>Status when rod is broken</comment>
+  </data>
+  <data name="ChatBadLocation" xml:space="preserve">
+    <value>You cannot fish here.</value>
+    <comment>Ingame can't fish</comment>
+  </data>
+  <data name="StatusErrorMovePlayer" xml:space="preserve">
+    <value>Move to a fishing position.</value>
+    <comment>Status when player is not in a fishing location</comment>
+  </data>
+  <data name="StatusErrorUnknown" xml:space="preserve">
+    <value>Not fishing for unknown reason.</value>
+    <comment>Status when not fishing for unknown reason</comment>
+  </data>
+  <data name="StatusInfoWaitBite" xml:space="preserve">
+    <value>Waiting for a bite.</value>
+    <comment>Status when waiting for a fish bite</comment>
+  </data>
+  <data name="ChatHookSmallFish" xml:space="preserve">
+    <value>Something caught the hook!</value>
+    <comment>Ingame hook small fish</comment>
+  </data>
+  <data name="ChatHookLargeFish" xml:space="preserve">
+    <value>Something caught the hook!!!</value>
+    <comment>Ingame hook large fish</comment>
+  </data>
+  <data name="ChatHookMonster" xml:space="preserve">
+    <value>Something clamps onto your line ferociously!</value>
+    <comment>Ingame hook monster</comment>
+  </data>
+  <data name="ChatHookItem" xml:space="preserve">
+    <value>You feel something pulling at your line.</value>
+    <comment>Ingame item hook</comment>
+  </data>
+  <data name="FishNameIgnoredSmall" xml:space="preserve">
+    <value>Ignored Small Fish</value>
+  </data>
+  <data name="FishNameIgnoredLarge" xml:space="preserve">
+    <value>Ignored Large Fish</value>
+  </data>
+  <data name="FishNameIgnoredMonster" xml:space="preserve">
+    <value>Ignored Monster</value>
+  </data>
+  <data name="FishNameIgnoredItem" xml:space="preserve">
+    <value>Ignored Item</value>
+  </data>
+  <data name="StatusErrorItemizerUnknown" xml:space="preserve">
+    <value>Unknown itemizer/itemtools command.</value>
+    <comment>Status when itemizer command can't be parsed</comment>
+  </data>
+  <data name="StatusErrorItemizerDestination" xml:space="preserve">
+    <value>Unknown destination to move fish.</value>
+    <comment>Status when itemizer command can't be parsed for destination</comment>
+  </data>
+  <data name="StatusInfoFullInventoryCommand" xml:space="preserve">
+    <value>Running full inventory command.</value>
+    <comment>Status when attempting to clear inventory</comment>
+  </data>
+  <data name="StatusErrorFullInventory" xml:space="preserve">
+    <value>Inventory is full!</value>
+    <comment>Status on full inventory</comment>
+  </data>
+  <data name="StatusInfoFullInventoryWarp" xml:space="preserve">
+    <value>Inventory is full: Warping.</value>
+    <comment>Status when inventory full and warping</comment>
+  </data>
+  <data name="StatusInfoFullInventoryLogout" xml:space="preserve">
+    <value>Inventory is full: Logging out.</value>
+    <comment>Status when inventory full and logging out</comment>
+  </data>
+  <data name="StatusInfoFullInventoryShutdown" xml:space="preserve">
+    <value>Inventory is full: Shutting down.</value>
+    <comment>Status when inventory full and shutting down</comment>
+  </data>
+  <data name="CommandWarp" xml:space="preserve">
+    <value>/ma "Warp" &lt;me&gt;</value>
+    <comment>command cast warp</comment>
+  </data>
+  <data name="CommandLogout" xml:space="preserve">
+    <value>/logout</value>
+    <comment>command logout</comment>
+  </data>
+  <data name="CommandShutdown" xml:space="preserve">
+    <value>/shutdown</value>
+    <comment>command shutdown</comment>
+  </data>
+  <data name="CommandMoveItem" xml:space="preserve">
+    <value>/moveitem</value>
+    <comment>command moveitem itemtools</comment>
+  </data>
+  <data name="CommandPutItem" xml:space="preserve">
+    <value>/put</value>
+    <comment>command put for itemizer</comment>
+  </data>
+  <data name="QuoteMark" xml:space="preserve">
+    <value>"</value>
+    <comment>Utility quote mark</comment>
+  </data>
+  <data name="CommandPartSatchel" xml:space="preserve">
+    <value>satchel</value>
+    <comment>part of ocmmand for itemizer/itemtools</comment>
+  </data>
+  <data name="CommandPartSack" xml:space="preserve">
+    <value>sack</value>
+    <comment>part of command for itemizer/itemtools</comment>
+  </data>
+  <data name="Space" xml:space="preserve">
+    <value> </value>
+    <comment>Utility space</comment>
+  </data>
+  <data name="Semicolon" xml:space="preserve">
+    <value>;</value>
+    <comment>Utility semicolon</comment>
+  </data>
+  <data name="StatusInfoFullSack" xml:space="preserve">
+    <value>Sack is full.</value>
+    <comment>Status when sack is full</comment>
+  </data>
+  <data name="StatusInfoFullSatchel" xml:space="preserve">
+    <value>Satchel is full.</value>
+    <comment>Status when satchel is full</comment>
+  </data>
+  <data name="StatusFormatMoveToSatchel" xml:space="preserve">
+    <value>Moving {0} to Satchel: {1} remaining.</value>
+    <comment>Status when moving items to satchel</comment>
+  </data>
+  <data name="StatusFormatMoveSatchelFinished" xml:space="preserve">
+    <value>Finished moving {0} to satchel.</value>
+    <comment>Status when done moving items to satchel</comment>
+  </data>
+  <data name="StatusFormatReleaseFish" xml:space="preserve">
+    <value>Releasing {0}.</value>
+    <comment>Status when releasing a fish</comment>
+  </data>
+  <data name="StatusFormatCastingBait" xml:space="preserve">
+    <value>Casting a {0} [{1}].</value>
+    <comment>Status when casting bait</comment>
+  </data>
+  <data name="StatusErrorCantFish" xml:space="preserve">
+    <value>Error, you cannot fish.</value>
+    <comment>Status when you can't fish</comment>
+  </data>
+  <data name="StatusErrorInventoryProblem" xml:space="preserve">
+    <value>Inventory might be full.</value>
+    <comment>Status when inventory maybe full</comment>
+  </data>
+  <data name="StatusErrorMonster" xml:space="preserve">
+    <value>Monster caught!!!</value>
+    <comment>Status when a monster is caught</comment>
+  </data>
+  <data name="StatusInfoRodBroken" xml:space="preserve">
+    <value>Your rod is broken. Attempting to re-equip.</value>
+    <comment>Status when attempting to equip new rod when one's broken</comment>
+  </data>
+  <data name="StatusFatiguedMaxCatchLimit" xml:space="preserve">
+    <value>Fatigue limit reached: Max catch limit.</value>
+    <comment>Status when fatigued by options max catch limit</comment>
+  </data>
+  <data name="StatusErrorZoned" xml:space="preserve">
+    <value>Zoned while catching a fish.</value>
+    <comment>Status when you zone while fishing</comment>
+  </data>
+  <data name="StatusErrorChatGet" xml:space="preserve">
+    <value>Fatal chat log error, attempting to recover.</value>
+    <comment>Status when stopping to reattach to proccess</comment>
+  </data>
+  <data name="StatusInfoReattachedRestart" xml:space="preserve">
+    <value>Reattached to process, attempting to restart fishing.</value>
+    <comment>Status on successful reattach and restart fishing</comment>
+  </data>
+  <data name="StatusInfoReattachSuccess" xml:space="preserve">
+    <value>Reattached to process after chat error, ready to fish.</value>
+    <comment>Status on successful reattach, no restart</comment>
+  </data>
+  <data name="StatusErrorLoggedOut" xml:space="preserve">
+    <value>Not fishing because character is not logged in.</value>
+    <comment>Status when a character is logged out while fishing</comment>
+  </data>
+  <data name="StatusInfoNoProcess" xml:space="preserve">
+    <value>No FFXI process available.</value>
+    <comment>Status when there's no logged in FFXI</comment>
+  </data>
+  <data name="GUIButtonStop" xml:space="preserve">
+    <value>STOP</value>
+    <comment>stop button text</comment>
+  </data>
+  <data name="EquipFormatBody" xml:space="preserve">
+    <value>/equip body "{0}"</value>
+    <comment>Body equip command</comment>
+  </data>
+  <data name="EquipFormatHands" xml:space="preserve">
+    <value>/equip hands "{0}"</value>
+    <comment>Hands equip command</comment>
+  </data>
+  <data name="EquipFormatLegs" xml:space="preserve">
+    <value>/equip legs "{0}"</value>
+    <comment>Legs equip command</comment>
+  </data>
+  <data name="EquipFormatFeet" xml:space="preserve">
+    <value>/equip feet "{0}"</value>
+    <comment>Feet equip command</comment>
+  </data>
+  <data name="EquipFormatHead" xml:space="preserve">
+    <value>/equip head "{0}"</value>
+    <comment>Head equip command</comment>
+  </data>
+  <data name="EquipFormatNeck" xml:space="preserve">
+    <value>/equip neck "{0}"</value>
+    <comment>Neck equip command</comment>
+  </data>
+  <data name="EquipFormatwaist" xml:space="preserve">
+    <value>/equip waist "{0}"</value>
+    <comment>Waist equip command</comment>
+  </data>
+  <data name="EquipFormatLRing" xml:space="preserve">
+    <value>/equip ring1 "{0}"</value>
+    <comment>Left ring equip command</comment>
+  </data>
+  <data name="EquipFormatRRing" xml:space="preserve">
+    <value>/equip ring2 "{0}"</value>
+    <comment>Right ring equip command</comment>
+  </data>
+  <data name="StatusInfoEnchantBelt" xml:space="preserve">
+    <value>Using Fisherman's belt.</value>
+    <comment>Status when casting belt enchantment</comment>
+  </data>
+  <data name="StatusInfoEnchantLRing" xml:space="preserve">
+    <value>Using left ring ({0}).</value>
+    <comment>Status when casting left ring enchantment</comment>
+  </data>
+  <data name="StatusInfoEnchantRRing" xml:space="preserve">
+    <value>Using right ring ({0}).</value>
+    <comment>Status when casting right ring enchantment</comment>
+  </data>
+  <data name="CommandFormatItemMe" xml:space="preserve">
+    <value>/item "{0}" &lt;me&gt;</value>
+    <comment>command to use item on self</comment>
+  </data>
+  <data name="StatusInfoFatiguedWarping" xml:space="preserve">
+    <value>Fatigue limit reached: Warping.</value>
+    <comment>Status when fatigued and warping</comment>
+  </data>
+  <data name="StatusInfoFatiguedShutdown" xml:space="preserve">
+    <value>Fatigue limit reached: Shutting down.</value>
+    <comment>Status when fatigued and shutting down</comment>
+  </data>
+  <data name="StatusInfoBaitWarping" xml:space="preserve">
+    <value>Out of bait: Warping.</value>
+    <comment>Status when out of bait and warping</comment>
+  </data>
+  <data name="StatusInfoBaitShutdown" xml:space="preserve">
+    <value>Out of bait: Shutting down.</value>
+    <comment>Status when out of bait and shutting down</comment>
+  </data>
+  <data name="StatusInfoBaitLogout" xml:space="preserve">
+    <value>Out of bait: Logging out.</value>
+    <comment>Status when out of bait and logging out</comment>
+  </data>
+  <data name="StatusInfoFatiguedLogout" xml:space="preserve">
+    <value>Fatigue limit reached: Logging out.</value>
+    <comment>Status when fatigued and logging out</comment>
+  </data>
+  <data name="FileWarningWav" xml:space="preserve">
+    <value>warning.wav</value>
+    <comment>Warning wav filename</comment>
+  </data>
+  <data name="GUIButtonStart" xml:space="preserve">
+    <value>START</value>
+    <comment>start button text</comment>
+  </data>
+  <data name="CommandChatSay" xml:space="preserve">
+    <value>/s </value>
+    <comment>say chat prefix</comment>
+  </data>
+  <data name="CommandChatLinkshell" xml:space="preserve">
+    <value>/l </value>
+    <comment>linkshell chat prefix</comment>
+  </data>
+  <data name="CommandChatParty" xml:space="preserve">
+    <value>/p </value>
+    <comment>party chat prefix</comment>
+  </data>
+  <data name="CommandChatReply" xml:space="preserve">
+    <value>/t &lt;r&gt; </value>
+    <comment>reply prefix</comment>
+  </data>
+  <data name="CommandChatTell" xml:space="preserve">
+    <value>/t </value>
+    <comment>tell chat prefix</comment>
+  </data>
+  <data name="RegexGroup1" xml:space="preserve">
+    <value>$1</value>
+    <comment>Utility regex group 1</comment>
+  </data>
+  <data name="GUIChatTabTell" xml:space="preserve">
+    <value>Tell</value>
+    <comment>Chat tab tell chat title</comment>
+  </data>
+  <data name="GUIChatTabParty" xml:space="preserve">
+    <value>PT</value>
+    <comment>Chat tab party chat title</comment>
+  </data>
+  <data name="GUIChatTabLinkshell" xml:space="preserve">
+    <value>LS</value>
+    <comment>Chat tab linkshell chat title</comment>
+  </data>
+  <data name="GUIChatTabSay" xml:space="preserve">
+    <value>Say</value>
+    <comment>Chat tab say chat title</comment>
+  </data>
+  <data name="GUIChatDetectButtonAdd" xml:space="preserve">
+    <value>+</value>
+    <comment>Chat detect add rule button</comment>
+  </data>
+  <data name="GUIChatDetectActionStop" xml:space="preserve">
+    <value>Stop Fishing</value>
+    <comment>Chat detect option text for stop fishing</comment>
+  </data>
+  <data name="GUIChatDetectActionNote" xml:space="preserve">
+    <value>Note On Tab</value>
+    <comment>Chat detect option text for note on tab</comment>
+  </data>
+  <data name="GUIChatDetectActionFlash" xml:space="preserve">
+    <value>Flash Window</value>
+    <comment>Chat detect option text for flashing window</comment>
+  </data>
+  <data name="GUIChatDetectTypeTell" xml:space="preserve">
+    <value>Tell</value>
+    <comment>Chat detect tell type</comment>
+  </data>
+  <data name="GUIChatDetectTypeParty" xml:space="preserve">
+    <value>Party</value>
+    <comment>Chat detect party type</comment>
+  </data>
+  <data name="GUIChatDetectTypeLinkshell" xml:space="preserve">
+    <value>Linkshell</value>
+    <comment>Chat detect linkshell type</comment>
+  </data>
+  <data name="GUIChatDetectTypeSay" xml:space="preserve">
+    <value>Say</value>
+    <comment>Chat detect say type</comment>
+  </data>
+  <data name="GUIChatDetectButtonRemove" xml:space="preserve">
+    <value>-</value>
+    <comment>Chat detect delete rule button</comment>
+  </data>
+  <data name="StatusErrorIdle" xml:space="preserve">
+    <value>Idle.</value>
+    <comment>Status when idle</comment>
+  </data>
+  <data name="StatusInfoListsRefreshed" xml:space="preserve">
+    <value>Wanted / Unwanted lists refreshed.</value>
+    <comment>Status when lists refreshed</comment>
+  </data>
+  <data name="StatusInfoEquipToRefresh" xml:space="preserve">
+    <value>Equip a rod / bait to refresh lists.</value>
+    <comment>Status when lists can't be refreshed because no bait/rod equipped</comment>
+  </data>
+  <data name="MessageSettingsReset" xml:space="preserve">
+    <value>Do you really want to reset the settings?</value>
+    <comment>Settings reset message</comment>
+  </data>
+  <data name="MessageTitleSettingsReset" xml:space="preserve">
+    <value>Reset Option Settings</value>
+    <comment>Settings reset title</comment>
+  </data>
+  <data name="MessageSettingsSave" xml:space="preserve">
+    <value>Do you really want to save the current settings?</value>
+    <comment>Settings save message</comment>
+  </data>
+  <data name="MessageTitleSettingsSave" xml:space="preserve">
+    <value>Save Option Settings</value>
+    <comment>Settings save title</comment>
+  </data>
+  <data name="MessageTitleForceSync" xml:space="preserve">
+    <value>Force Sync?</value>
+    <comment>Title of messageboxes when force syncing</comment>
   </data>
 </root>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Fishing.Properties;
+using System;
 using System.Windows.Forms;
 
 namespace Fishing {
@@ -14,17 +15,27 @@ namespace Fishing {
             Form form = null;
             if (args.Length == 0)
             {
-                args = new string[] { "No_args" };
+                args = new string[] { Resources.ArgumentNoArgs };
             }
-            else if (args.Length == 1 && args[0] == "--force-database-sync")
+            else if (args.Length == 1 && args[0] == Resources.ArgumentForceSync)
             {
-                if (DialogResult.Yes == MessageBox.Show("You are about to force sync your FishDB with the remote database.\r\nThis will take a long time.\r\nThe program will exit when the sync is complete.\r\n\r\nIt is suggested that you do not run another FishingForm while the sync is happening.\r\n\r\nAre you sure you want to do this?", "Force Sync?", MessageBoxButtons.YesNo))
+                string[] message =
+                    {
+                        "You are about to force sync your FishDB with the remote database.",
+                        "This will take a long time.",
+                        "The program will exit when the sync is complete.",
+                        "",
+                        "It is suggested that you do not run another FishingForm while the sync is happening.",
+                        "",
+                        "Are you sure you want to do this?"
+                    };
+                if (DialogResult.Yes == MessageBox.Show(string.Join(Environment.NewLine, message), Resources.MessageTitleForceSync, MessageBoxButtons.YesNo))
                 {
                     form = new FishingDBSyncForm();
                 }
                 else
                 {
-                    args = new string[] { "No_args" };
+                    args = new string[] { Resources.ArgumentNoArgs };
                 }
             }
             try
@@ -40,7 +51,7 @@ namespace Fishing {
             }
             catch(Exception e)
             {
-                MessageBox.Show(e.Message + "\r\r" + e.StackTrace, "FishingForm Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(e.Message + Environment.NewLine + Environment.NewLine + e.StackTrace, Resources.MessageTitleError, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }
