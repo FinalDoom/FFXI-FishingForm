@@ -258,7 +258,7 @@ namespace Fishing
             }
         }
 
-        public static void UploadBaitAndZone(string fish, string rod, string ID1, string ID2, string ID3, List<XmlNode> bait, List<XmlNode> zones, XmlNode fishNode, ref Dictionary<XmlNode, XmlNode> updatedNodes)
+        public static void UploadBaitAndZone(string fish, string rod, string ID1, string ID2, string ID3, List<XmlNode> bait, List<XmlNode> zones, XmlNode fishNode, ref Dictionary<XmlNode, XmlNode> updatedBait, ref Dictionary<XmlNode, XmlNode> updatedZones)
         {
             if (OpenConnection())
             {
@@ -290,16 +290,22 @@ namespace Fishing
 
                         try
                         {
-                            cmd.ExecuteNonQuery();
-                            updatedNodes.Add(fishNode, node);
-                        }
-                        catch (MySqlException e)
-                        {
-                            if (e.Number == 1062)
+                            try
                             {
-                                // Duplicate primary key. We were successful anyway
-                                updatedNodes.Add(fishNode, node);
+                                cmd.ExecuteNonQuery();
+                                updatedBait.Add(fishNode, node);
                             }
+                            catch (MySqlException e)
+                            {
+                                if (e.Number == 1062)
+                                {
+                                    // Duplicate primary key. We were successful anyway
+                                    updatedBait.Add(fishNode, node);
+                                }
+                            }
+                        }
+                        catch (ArgumentException)
+                        { // Just in case somehow things get added twice
                         }
                     }
                 }
@@ -338,16 +344,22 @@ namespace Fishing
 
                         try
                         {
-                            cmd.ExecuteNonQuery();
-                            updatedNodes.Add(fishNode, node);
-                        }
-                        catch (MySqlException e)
-                        {
-                            if (e.Number == 1062)
+                            try
                             {
-                                // Duplicate primary key. We were successful anyway
-                                updatedNodes.Add(fishNode, node);
+                                cmd.ExecuteNonQuery();
+                                updatedZones.Add(fishNode, node);
                             }
+                            catch (MySqlException e)
+                            {
+                                if (e.Number == 1062)
+                                {
+                                    // Duplicate primary key. We were successful anyway
+                                    updatedZones.Add(fishNode, node);
+                                }
+                            }
+                        }
+                        catch (ArgumentException)
+                        { // Just in case somehow things get added twice
                         }
                     }
                 }
@@ -490,6 +502,8 @@ namespace Fishing
                 List<XmlNode> uploadFish = new List<XmlNode>(FishDB.DBNewFish);
                 FishDB.DBNewFish.Clear();
                 Dictionary<XmlNode, XmlNode> updatedNodes = new Dictionary<XmlNode, XmlNode>();
+                Dictionary<XmlNode, XmlNode> updatedBait = new Dictionary<XmlNode, XmlNode>();
+                Dictionary<XmlNode, XmlNode> updatedZones = new Dictionary<XmlNode, XmlNode>();
                 foreach (XmlNode fishNode in uploadFish)
                 {
                     List<XmlNode> baits = new List<XmlNode>();
@@ -512,7 +526,13 @@ namespace Fishing
                         }
                         if (UploadFish(fish, rod, fishNode.Attributes["ID1"].Value, fishNode.Attributes["ID2"].Value, fishNode.Attributes["ID3"].Value))
                         {
-                            updatedNodes.Add(fishNode, fishNode);
+                            try
+                            {
+                                updatedNodes.Add(fishNode, fishNode);
+                            }
+                            catch (ArgumentException)
+                            { // In case it's been added already somehow
+                            }
                         }
                     }
                     else
@@ -528,7 +548,7 @@ namespace Fishing
                     }
                     if (baits.Count > 0 || zones.Count > 0)
                     {
-                        UploadBaitAndZone(fish, rod, fishNode.Attributes["ID1"].Value, fishNode.Attributes["ID2"].Value, fishNode.Attributes["ID3"].Value, baits, zones, fishNode, ref updatedNodes);
+                        UploadBaitAndZone(fish, rod, fishNode.Attributes["ID1"].Value, fishNode.Attributes["ID2"].Value, fishNode.Attributes["ID3"].Value, baits, zones, fishNode, ref updatedBait, ref updatedZones);
                     }
                     updatedRods.Add(rod);
                 }
@@ -557,6 +577,14 @@ namespace Fishing
                 foreach (XmlNode node in updatedNodes.Keys)
                 {
                     FishDB.UnsetNew(node, updatedNodes[node]);
+                }
+                foreach (XmlNode node in updatedBait.Keys)
+                {
+                    FishDB.UnsetNew(node, updatedBait[node]);
+                }
+                foreach (XmlNode node in updatedZones.Keys)
+                {
+                    FishDB.UnsetNew(node, updatedZones[node]);
                 }
                 foreach (XmlNode node in renamedNodes)
                 {
