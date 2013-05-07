@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Fishing.Properties;
 using MySql.Data.MySqlClient;
 using System.Windows.Forms;
 using System.Data;
@@ -51,14 +52,82 @@ namespace Fishing
 
     internal static class FishSQL
     {
+        #region Constants
+
+        private static readonly string[] MessageFormatErrorBadZoneName = {
+            "Broken zone name found:",
+            "Rod: {0}", "Fish: {1}", "Zone: {2}",
+            "",
+            "Please fix it to match a Windower resources.xml name,",
+            "and add an attribute to the parent tag: new=\"\""
+        };
+
+        private const string FormatConnection = "SERVER={0};PORT={1};DATABASE={2};UID={3};PASSWORD={4};";
+        private const string server = "instance44985.db.xeround.com";
+        private const string port = "6382";
+        private const string database = "FishDB";
+        // These are procedure-only credentials. Contact FinalDoom for an admin account, eg. if taking over this project.
+        private const string uid = "FishClient";
+        private const string password = "ThePasswordForTheFishClient";
+        private const string ZoneSelbinaPirates = "Selbina (Pirates)";
+        private const string ZoneMhauraPirates = "Mhaura (Pirates)";
+
+        // MySQL Commands
+        private const string MySQLCmdNewestUpdate = "CALL get_newest_update (@rodID)";
+        private const string MySQLCommandAddFish = "CALL add_new_fish (@rodID, @name, @Id1, @Id2, @Id3)";
+        private const string MySQLCommandRenameFish = "CALL rename_fish (@fromName, @toName, @rodID, @Id1, @Id2, @Id3)";
+        private const string MySQLCommandGetFishID = "CALL check_fish (@rodID, @name, @Id1, @Id2, @Id3)";
+        private const string MySQLCommandAddFishBait = "CALL add_fish_bait (@fishID, @baitID)";
+        private const string MySQLCommandAddFishZone = "CALL add_fish_zone (@fishID, @zoneID)";
+        private const string MySQLCommandGetNewFishSince = "CALL get_new_fish (@rodID, @time)";
+        private const string MySQLCommandGetRenamedFishSince = "CALL get_renamed_fish (@rodID, @time)";
+        private const string MySQLCommandIsVersionCurrent = "Call is_current_version (@major, @minor, @build, @revision)";
+
+        // MySQL Params
+        private const string MySQLParamRodID = "rodID";
+        private const string MySQLParamFishName = "name";
+        private const string MySQLParamId1 = "Id1";
+        private const string MySQLParamId2 = "Id2";
+        private const string MySQLParamId3 = "Id3";
+        private const string MySQLParamFishFromName = "fromName";
+        private const string MySQLParamFishToName = "toName";
+        private const string MySQLParamFishID = "fishID";
+        private const string MySQLParamBaitID = "baitID";
+        private const string MySQLParamZoneID = "zoneID";
+        private const string MySQLParamTime = "time";
+        private const string MySQLParamZone = "Zone";
+        private const string MySQLParamBait = "Bait";
+        private const string MySQLParamVersionMajor = "major";
+        private const string MySQLParamVersionMinor = "minor";
+        private const string mySqlParamVersionBuild = "build";
+        private const string mySqlParamVersionRevision = "revision";
+
+        // Message constants
+        private const string MessageErrorNoConnection = "Could not connect to FishDB MySQL server. Please contact program maintainer.";
+        private const string MessageErrorCouldntConnect = "Could not connect to FishDB MySQL server. Error number ";
+        private const string MessageWarningCloseConnection = "Could not close connection.";
+        private const string MessageErrorNewestModTime = "Error getting Newest DB Modification Time";
+        private const string MessageFormatErrorGettingFishID = "Error getting fish ID from DB for \"{0}\"";
+        private const string MessageFormatErrorAddingFish = "Error adding new fish \"{0}\"";
+        private const string MessageFormatErrorRenamingFish = "Error renaming fish \"{0}\" to \"{1}\"";
+        private const string MessageFormatErrorAddingBaitFish = "Error adding bait \"{0}\" to fish \"{1}\"";
+        private const string MessageFormatErrorAddingZoneFish = "Error adding zone \"{0}\" to fish \"{1}\"";
+        private const string MessageFormatErrorGettingNewFishWithIDs = "Error getting new fish \"{0}\" with IDs: {1}, {2}, {3}";
+        private const string MessageFormatErrorGettingRenamedFishWithIDs = "Error getting renamed fish \"{0}\" to \"{1}\" with IDs: {2}, {3}, {4}";
+        private const string MessageErrorGettingVersion = "Error getting program version status.";
+        private const string MessageFormatErrorUploadingFishRod = "Error uploading fish \"{0}\" for {1}.";
+        private const string MessageFormatErrorUploadingBaitZones = "Error uploading bait and zones for fish \"{0}\" for {1}.";
+        private const string MessageFormatErrorUploadingRename = "Error uploading rename from \"{0}\" to \"{1}\" for {2}.";
+        private const string MessageFormatErrorDownloadingFishRod = "Error downloading new fish for {0}";
+        private const string MessageFormatErrorDownloadingRenameRod = "Error downloading renames for {0}";
+        private const string MessageUploadStart = "Starting upload to DB.";
+        private const string MessageErrorUploading = "Error uploading fish";
+        private const string MessageUploadFinished = "Upload to DB finished.";
+
+        #endregion //Constants
+
         internal static IFishDBStatusDisplay StatusDisplay { private get; set; }
         internal static MySqlConnection Connection { get; private set; }
-        private static string server = "instance44985.db.xeround.com";
-        private static string port = "6382";
-        private static string database = "FishDB";
-        // These are procedure-only credentials. Contact FinalDoom for an admin account, eg. if taking over this project.
-        private static string uid = "FishClient";
-        private static string password = "ThePasswordForTheFishClient";
         private static bool errorred = false;
 
         static FishSQL()
@@ -69,7 +138,7 @@ namespace Fishing
         //Initialize connection
         private static void Initialize()
         {
-            Connection = new MySqlConnection(string.Format("SERVER={0};PORT={1};DATABASE={2};UID={3};PASSWORD={4};", server, port, database, uid, password));
+            Connection = new MySqlConnection(string.Format(FormatConnection, server, port, database, uid, password));
         }
 
         //open connection to database
@@ -96,10 +165,10 @@ namespace Fishing
                     switch (e.Number)
                     {
                         case 0:
-                            message = "Could not connect to FishDB MySQL server. Please contact program maintainer.";
+                            message = MessageErrorNoConnection;
                             break;
                         default:
-                            message = "Could not connect to FishDB MySQL server. Error number " + e.Number.ToString();
+                            message = MessageErrorCouldntConnect + e.Number.ToString();
                             break;
                     }
                     MessageBox.Show(message);
@@ -129,7 +198,7 @@ namespace Fishing
             {
                 if (StatusDisplay != null)
                 {
-                    StatusDisplay.Warning("Could not close connection.");
+                    StatusDisplay.Warning(MessageWarningCloseConnection);
                     StatusDisplay.Info(e.ToString());
                 }
                 return false;
@@ -150,9 +219,10 @@ namespace Fishing
         {
                 if (OpenConnection())
                 {
-                    using (MySqlCommand cmd = new MySqlCommand("CALL get_newest_update (@rodID)", Connection))
+                    using (MySqlCommand cmd = Connection.CreateCommand())
                     {
-                        cmd.Parameters.AddWithValue("rodID", rodId);
+                        cmd.CommandText = MySQLCmdNewestUpdate;
+                        cmd.Parameters.AddWithValue(MySQLParamRodID, rodId);
 
                         object date = string.Empty;
                         try
@@ -163,7 +233,7 @@ namespace Fishing
                         {
                             if (StatusDisplay != null)
                             {
-                                StatusDisplay.Error("Error getting Newest DB Modification Time");
+                                StatusDisplay.Error(MessageErrorNewestModTime);
                                 StatusDisplay.Info(e.ToString());
                             }
                         }
@@ -192,12 +262,12 @@ namespace Fishing
                 // Try adding the fish
                 using (MySqlCommand cmd = Connection.CreateCommand())
                 {
-                    cmd.CommandText = "CALL add_new_fish (@rodID, @name, @Id1, @Id2, @Id3)";
-                    cmd.Parameters.AddWithValue("rodID", rodId);
-                    cmd.Parameters.AddWithValue("name", fish);
-                    cmd.Parameters.AddWithValue("Id1", id1);
-                    cmd.Parameters.AddWithValue("Id2", id2);
-                    cmd.Parameters.AddWithValue("Id3", id3);
+                    cmd.CommandText = MySQLCommandAddFish;
+                    cmd.Parameters.AddWithValue(MySQLParamRodID, rodId);
+                    cmd.Parameters.AddWithValue(MySQLParamFishName, fish);
+                    cmd.Parameters.AddWithValue(MySQLParamId1, id1);
+                    cmd.Parameters.AddWithValue(MySQLParamId2, id2);
+                    cmd.Parameters.AddWithValue(MySQLParamId3, id3);
 
                     try
                     {
@@ -214,7 +284,7 @@ namespace Fishing
                             default:
                                 if (StatusDisplay != null)
                                 {
-                                    StatusDisplay.Error(string.Format("Error adding new fish \"{0}\"", fish));
+                                    StatusDisplay.Error(string.Format(MessageFormatErrorAddingFish, fish));
                                     StatusDisplay.Info(e.ToString());
                                 }
                                 break;
@@ -241,13 +311,13 @@ namespace Fishing
                 // Try renaming the fish
                 using (MySqlCommand cmd = Connection.CreateCommand())
                 {
-                    cmd.CommandText = "CALL rename_fish (@fromName, @toName, @rodID, @Id1, @Id2, @Id3)";
-                    cmd.Parameters.AddWithValue("fromName", oldName);
-                    cmd.Parameters.AddWithValue("toName", fish);
-                    cmd.Parameters.AddWithValue("rodID", rodId);
-                    cmd.Parameters.AddWithValue("Id1", id1);
-                    cmd.Parameters.AddWithValue("Id2", id2);
-                    cmd.Parameters.AddWithValue("Id3", id3);
+                    cmd.CommandText = MySQLCommandRenameFish;
+                    cmd.Parameters.AddWithValue(MySQLParamFishFromName, oldName);
+                    cmd.Parameters.AddWithValue(MySQLParamFishToName, fish);
+                    cmd.Parameters.AddWithValue(MySQLParamRodID, rodId);
+                    cmd.Parameters.AddWithValue(MySQLParamId1, id1);
+                    cmd.Parameters.AddWithValue(MySQLParamId2, id2);
+                    cmd.Parameters.AddWithValue(MySQLParamId3, id3);
 
                     try
                     {
@@ -258,7 +328,7 @@ namespace Fishing
                     {// Don't care
                         if (StatusDisplay != null)
                         {
-                            StatusDisplay.Warning(string.Format("Error renaming fish \"{0}\" to \"{1}\"", oldName, fish));
+                            StatusDisplay.Warning(string.Format(MessageFormatErrorRenamingFish, oldName, fish));
                             StatusDisplay.Info(e.ToString());
                         }
                     }
@@ -271,12 +341,12 @@ namespace Fishing
         {
             using (MySqlCommand cmd = Connection.CreateCommand())
             {
-                cmd.CommandText = "CALL check_fish (@rodID, @Name, @Id1, @Id2, @Id3)";
-                cmd.Parameters.AddWithValue("rodID", rodId);
-                cmd.Parameters.AddWithValue("Name", name);
-                cmd.Parameters.AddWithValue("Id1", id1);
-                cmd.Parameters.AddWithValue("Id2", id2);
-                cmd.Parameters.AddWithValue("Id3", id3);
+                cmd.CommandText = MySQLCommandGetFishID;
+                cmd.Parameters.AddWithValue(MySQLParamRodID, rodId);
+                cmd.Parameters.AddWithValue(MySQLParamFishName, name);
+                cmd.Parameters.AddWithValue(MySQLParamId1, id1);
+                cmd.Parameters.AddWithValue(MySQLParamId2, id2);
+                cmd.Parameters.AddWithValue(MySQLParamId3, id3);
                 try
                 {
                     return int.Parse(cmd.ExecuteScalar().ToString());
@@ -285,7 +355,7 @@ namespace Fishing
                 {
                     if (StatusDisplay != null)
                     {
-                        StatusDisplay.Error(string.Format("Error getting fish ID from DB for \"{0}\"", name));
+                        StatusDisplay.Error(string.Format(MessageFormatErrorGettingFishID, name));
                         StatusDisplay.Info(e.ToString());
                     }
                     return -1;
@@ -319,9 +389,9 @@ namespace Fishing
                     }
                     using (MySqlCommand cmd = Connection.CreateCommand())
                     {
-                        cmd.CommandText = "CALL add_fish_bait (@fishID, @baitID)";
-                        cmd.Parameters.AddWithValue("fishID", fishId);
-                        cmd.Parameters.AddWithValue("baitID", Dictionaries.baitDictionary[b]);
+                        cmd.CommandText = MySQLCommandAddFishBait;
+                        cmd.Parameters.AddWithValue(MySQLParamFishID, fishId);
+                        cmd.Parameters.AddWithValue(MySQLParamBaitID, Dictionaries.baitDictionary[b]);
 
                         try
                         {
@@ -341,7 +411,7 @@ namespace Fishing
                                     default:
                                         if (StatusDisplay != null)
                                         {
-                                            StatusDisplay.Error(string.Format("Error adding bait \"{0}\" to fish \"{1}\"", b, fish));
+                                            StatusDisplay.Error(string.Format(MessageFormatErrorAddingBaitFish, b, fish));
                                             StatusDisplay.Info(e.ToString());
                                         }
                                         break;
@@ -364,25 +434,32 @@ namespace Fishing
                     }
                     using (MySqlCommand cmd = Connection.CreateCommand())
                     {
-                        cmd.CommandText = "CALL add_fish_zone (@fishID, @zoneID)";
-                        cmd.Parameters.AddWithValue("fishID", fishId);
-                        if (z.EndsWith("Selbina (Pirates)"))
+                        cmd.CommandText = MySQLCommandAddFishZone;
+                        cmd.Parameters.AddWithValue(MySQLParamFishID, fishId);
+                        if (z.EndsWith(ZoneSelbinaPirates))
                         {
-                            cmd.Parameters.AddWithValue("zoneID", (int)FFACETools.Zone.Ferry_between_Mhaura__Selbina_Pirates);
+                            cmd.Parameters.AddWithValue(MySQLParamZoneID, (int)FFACETools.Zone.Ferry_between_Mhaura__Selbina_Pirates);
                         }
-                        else if (z.EndsWith("Mhaura (Pirates)"))
+                        else if (z.EndsWith(ZoneMhauraPirates))
                         {
-                            cmd.Parameters.AddWithValue("zoneID", (int)FFACETools.Zone.Ferry_between_Selbina__Mhaura_Pirates);
+                            cmd.Parameters.AddWithValue(MySQLParamZoneID, (int)FFACETools.Zone.Ferry_between_Selbina__Mhaura_Pirates);
                         }
                         else
                         {
                             if (FFACE.ParseResources.GetAreaId(z) == 0)
                             {
-                                MessageBox.Show(string.Format("Broken zone name found:\r\nRod: {0}\r\nFish: {1}\r\nZone: {2}\r\n\r\nPlease fix it to match a Windower resources.xml name,\r\nand add an attribute to the parent tag: name", rod, fish, z));
+                                MessageBox.Show(string.Format(string.Join(Environment.NewLine, MessageFormatErrorBadZoneName), rod, fish, z));
+                                if (StatusDisplay != null)
+                                {
+                                    foreach (string msg in MessageFormatErrorBadZoneName)
+                                    {
+                                        StatusDisplay.Error(msg);
+                                    }
+                                }
                             }
                             else
                             {
-                                cmd.Parameters.AddWithValue("zoneID", (int)FFACE.ParseResources.GetAreaId(z));
+                                cmd.Parameters.AddWithValue(MySQLParamZoneID, (int)FFACE.ParseResources.GetAreaId(z));
                             }
                         }
 
@@ -404,7 +481,7 @@ namespace Fishing
                                     default:
                                         if (StatusDisplay != null)
                                         {
-                                            StatusDisplay.Error(string.Format("Error adding zone \"{0}\" to fish \"{1}\"", z, fish));
+                                            StatusDisplay.Error(string.Format(MessageFormatErrorAddingZoneFish, z, fish));
                                             StatusDisplay.Info(e.ToString());
                                         }
                                         break;
@@ -431,9 +508,9 @@ namespace Fishing
             {
                 using (MySqlCommand cmd = Connection.CreateCommand())
                 {
-                    cmd.CommandText = "CALL get_new_fish (@rodID, @time)";
-                    cmd.Parameters.AddWithValue("rodID", rodId);
-                    cmd.Parameters.AddWithValue("time", since);
+                    cmd.CommandText = MySQLCommandGetNewFishSince;
+                    cmd.Parameters.AddWithValue(MySQLParamRodID, rodId);
+                    cmd.Parameters.AddWithValue(MySQLParamTime, since);
                     using (MySqlDataReader rdr = cmd.ExecuteReader())
                     {
                         while (rdr.Read())
@@ -444,14 +521,14 @@ namespace Fishing
                             string id3 = string.Empty;
                             try
                             {
-                                name = rdr.GetString("Name");
-                                id1 = rdr.GetString("Id1");
-                                id2 = rdr.GetString("Id2");
-                                id3 = rdr.GetString("Id3");
+                                name = rdr.GetString(MySQLParamFishName);
+                                id1 = rdr.GetString(MySQLParamId1);
+                                id2 = rdr.GetString(MySQLParamId2);
+                                id3 = rdr.GetString(MySQLParamId3);
                                 int? zone;
                                 try
                                 {
-                                    zone = int.Parse(rdr["Zone"].ToString());
+                                    zone = int.Parse(rdr[MySQLParamZone].ToString());
                                 }
                                 catch (Exception)
                                 {
@@ -460,7 +537,7 @@ namespace Fishing
                                 int? bait;
                                 try
                                 {
-                                    bait = int.Parse(rdr["Bait"].ToString());
+                                    bait = int.Parse(rdr[MySQLParamBait].ToString());
                                 }
                                 catch (Exception)
                                 {
@@ -472,7 +549,7 @@ namespace Fishing
                             {
                                 if (StatusDisplay != null)
                                 {
-                                    StatusDisplay.Error(string.Format("Error getting new fish \"{0}\" with IDs: {1}, {2}, {3}", name, id1, id2, id3));
+                                    StatusDisplay.Error(string.Format(MessageFormatErrorGettingNewFishWithIDs, name, id1, id2, id3));
                                     StatusDisplay.Info(e.ToString());
                                 }
                             }
@@ -497,9 +574,9 @@ namespace Fishing
             {
                 using (MySqlCommand cmd = Connection.CreateCommand())
                 {
-                    cmd.CommandText = "CALL get_renamed_fish (@rodID, @time)";
-                    cmd.Parameters.AddWithValue("rodID", rodId);
-                    cmd.Parameters.AddWithValue("time", since);
+                    cmd.CommandText = MySQLCommandGetRenamedFishSince;
+                    cmd.Parameters.AddWithValue(MySQLParamRodID, rodId);
+                    cmd.Parameters.AddWithValue(MySQLParamTime, since);
                     using (MySqlDataReader rdr = cmd.ExecuteReader())
                     {
                         while (rdr.Read())
@@ -511,17 +588,17 @@ namespace Fishing
                             string toName = string.Empty;
                             try
                             {
-                                name = rdr.GetString("Name");
-                                id1 = rdr.GetString("Id1");
-                                id2 = rdr.GetString("Id2");
-                                id3 = rdr.GetString("Id3");
-                                fishies.Add(new SQLFishie(name, rodId, id1, id2, id3, null, null), rdr.GetString("ToName"));
+                                name = rdr.GetString(MySQLParamFishName);
+                                id1 = rdr.GetString(MySQLParamId1);
+                                id2 = rdr.GetString(MySQLParamId2);
+                                id3 = rdr.GetString(MySQLParamId3);
+                                fishies.Add(new SQLFishie(name, rodId, id1, id2, id3, null, null), rdr.GetString(MySQLParamFishToName));
                             }
                             catch (MySqlException e)
                             {
                                 if (StatusDisplay != null)
                                 {
-                                    StatusDisplay.Error(string.Format("Error getting renamed fish \"{0}\" to \"{1}\" with IDs: {2}, {3}, {4}", name, toName, id1, id2, id3));
+                                    StatusDisplay.Error(string.Format(MessageFormatErrorGettingRenamedFishWithIDs, name, toName, id1, id2, id3));
                                     StatusDisplay.Info(e.ToString());
                                 }
                             }
@@ -539,15 +616,15 @@ namespace Fishing
             bool updated = false;
             if (OpenConnection())
             {
-                String[] versionInfo = FileVersionInfo.GetVersionInfo("fishing.exe").FileVersion.Split(new char[1] { '.' });
+                String[] versionInfo = FileVersionInfo.GetVersionInfo(FishingForm.ProgramExeName).FileVersion.Split(new char[1] { Resources.Period });
 
                 using (MySqlCommand cmd = Connection.CreateCommand())
                 {
-                    cmd.CommandText = "Call is_current_version (@major, @minor, @build, @revision)";
-                    cmd.Parameters.AddWithValue("major", versionInfo[0]);
-                    cmd.Parameters.AddWithValue("minor", versionInfo[1]);
-                    cmd.Parameters.AddWithValue("build", versionInfo[2]);
-                    cmd.Parameters.AddWithValue("revision", versionInfo[3]);
+                    cmd.CommandText = MySQLCommandIsVersionCurrent;
+                    cmd.Parameters.AddWithValue(MySQLParamVersionMajor, versionInfo[0]);
+                    cmd.Parameters.AddWithValue(MySQLParamVersionMinor, versionInfo[1]);
+                    cmd.Parameters.AddWithValue(mySqlParamVersionBuild, versionInfo[2]);
+                    cmd.Parameters.AddWithValue(mySqlParamVersionRevision, versionInfo[3]);
 
                     try
                     {
@@ -564,7 +641,7 @@ namespace Fishing
                     {
                         if (StatusDisplay != null)
                         {
-                            StatusDisplay.Error("Error getting program version status.");
+                            StatusDisplay.Error(MessageErrorGettingVersion);
                             StatusDisplay.Info(e.ToString());
                         }
                     }
@@ -573,6 +650,9 @@ namespace Fishing
             return updated;
         }
 
+        /**
+         * <note>This is highly coupled with FishDB, perhaps it can be done better.</note>
+         */
         public static void DoUploadFish()
         {
             if (null != StatusDisplay)
@@ -592,25 +672,25 @@ namespace Fishing
                 {
                     List<XmlNode> baits = new List<XmlNode>();
                     List<XmlNode> zones = new List<XmlNode>();
-                    string rod = fishNode.OwnerDocument.SelectSingleNode("/Rod").Attributes["name"].Value;
-                    string fish = fishNode.Attributes["name"].Value;
+                    string rod = fishNode.OwnerDocument.SelectSingleNode(FishDB.XPathRodNode).Attributes[FishDB.XMLAttrName].Value;
+                    string fish = fishNode.Attributes[MySQLParamFishName].Value;
                     if (null != StatusDisplay)
                     {
                         StatusDisplay.SetUploadRodAndFish(rod, fish);
                     }
-                    if (null != fishNode.Attributes["new"])
+                    if (null != fishNode.Attributes[FishDB.XMLAttrNew])
                     {
-                        foreach (XmlNode node in fishNode["Baits"].ChildNodes)
+                        foreach (XmlNode node in fishNode[FishDB.XMLNodeBaits].ChildNodes)
                         {
                             baits.Add(node);
                         }
-                        foreach (XmlNode node in fishNode["Zones"].ChildNodes)
+                        foreach (XmlNode node in fishNode[FishDB.XMLNodeZones].ChildNodes)
                         {
                             zones.Add(node);
                         }
                         try
                         {
-                            if (UploadFish(fish, rod, fishNode.Attributes["ID1"].Value, fishNode.Attributes["ID2"].Value, fishNode.Attributes["ID3"].Value))
+                            if (UploadFish(fish, rod, fishNode.Attributes[FishDB.XMLAttrID1].Value, fishNode.Attributes[FishDB.XMLAttrID2].Value, fishNode.Attributes[FishDB.XMLAttrID3].Value))
                             {
                                 try
                                 {
@@ -625,18 +705,18 @@ namespace Fishing
                         {
                             if (StatusDisplay != null)
                             {
-                                StatusDisplay.Error(string.Format("Error uploading fish \"{0}\" for {1}.", fish, rod));
+                                StatusDisplay.Error(string.Format(MessageFormatErrorUploadingFishRod, fish, rod));
                                 StatusDisplay.Info(e.ToString());
                             }
                         }
                     }
                     else
                     {
-                        foreach (XmlNode node in fishNode.SelectNodes("Baits/Bait[@new]"))
+                        foreach (XmlNode node in fishNode.SelectNodes(FishDB.XPathNewBait))
                         {
                             baits.Add(node);
                         }
-                        foreach (XmlNode node in fishNode.SelectNodes("Zones/Zone[@new]"))
+                        foreach (XmlNode node in fishNode.SelectNodes(FishDB.XPathNewZones))
                         {
                             zones.Add(node);
                         }
@@ -645,13 +725,13 @@ namespace Fishing
                     {
                         try
                         {
-                            UploadBaitAndZone(fish, rod, fishNode.Attributes["ID1"].Value, fishNode.Attributes["ID2"].Value, fishNode.Attributes["ID3"].Value, baits, zones, fishNode, ref updatedBait, ref updatedZones);
+                            UploadBaitAndZone(fish, rod, fishNode.Attributes[FishDB.XMLAttrID1].Value, fishNode.Attributes[FishDB.XMLAttrID2].Value, fishNode.Attributes[FishDB.XMLAttrID3].Value, baits, zones, fishNode, ref updatedBait, ref updatedZones);
                         }
                         catch (Exception e)
                         {
                             if (StatusDisplay != null)
                             {
-                                StatusDisplay.Error(string.Format("Error uploading bait and zones for fish \"{0}\" for {1}.", fish, rod));
+                                StatusDisplay.Error(string.Format(MessageFormatErrorUploadingBaitZones, fish, rod));
                                 StatusDisplay.Info(e.ToString());
                             }
                         }
@@ -663,15 +743,15 @@ namespace Fishing
                 List<XmlNode> renamedNodes = new List<XmlNode>();
                 foreach (XmlNode fishNode in renameFish)
                 {
-                    string rod = fishNode.OwnerDocument.SelectSingleNode("/Rod").Attributes["name"].Value;
-                    string fish = fishNode.Attributes["name"].Value;
+                    string rod = fishNode.OwnerDocument.SelectSingleNode(FishDB.XPathRodNode).Attributes[MySQLParamFishName].Value;
+                    string fish = fishNode.Attributes[MySQLParamFishName].Value;
                     if (null != StatusDisplay)
                     {
-                        StatusDisplay.SetUploadRenameRodAndFish(rod, fish, fishNode.Attributes["rename"].Value);
+                        StatusDisplay.SetUploadRenameRodAndFish(rod, fish, fishNode.Attributes[FishDB.XMLAttrRename].Value);
                     }
                     try
                     {
-                        if (RenameFish(fish, fishNode.Attributes["rename"].Value, rod, fishNode.Attributes["ID1"].Value, fishNode.Attributes["ID2"].Value, fishNode.Attributes["ID3"].Value))
+                        if (RenameFish(fish, fishNode.Attributes[FishDB.XMLAttrRename].Value, rod, fishNode.Attributes[FishDB.XMLAttrID1].Value, fishNode.Attributes[FishDB.XMLAttrID2].Value, fishNode.Attributes[FishDB.XMLAttrID3].Value))
                         {
                             renamedNodes.Add(fishNode);
                         }
@@ -680,7 +760,7 @@ namespace Fishing
                     {
                         if (StatusDisplay != null)
                         {
-                            StatusDisplay.Error(string.Format("Error uploading rename from \"{0}\" to \"{1}\" for {2}.", fish, fishNode.Attributes["rename"].Value, rod));
+                            StatusDisplay.Error(string.Format(MessageFormatErrorUploadingRename, fish, fishNode.Attributes[FishDB.XMLAttrRename].Value, rod));
                             StatusDisplay.Info(e.ToString());
                         }
                     }
@@ -763,7 +843,7 @@ namespace Fishing
                     {
                         if (StatusDisplay != null)
                         {
-                            StatusDisplay.Error(string.Format("Error downloading new fish for {0}", rod));
+                            StatusDisplay.Error(string.Format(MessageFormatErrorDownloadingFishRod, rod));
                             StatusDisplay.Info(e.ToString());
                         }
                     }
@@ -793,7 +873,7 @@ namespace Fishing
                     {
                         if (StatusDisplay != null)
                         {
-                            StatusDisplay.Error(string.Format("Error downloading renames for {0}", rod));
+                            StatusDisplay.Error(string.Format(MessageFormatErrorDownloadingRenameRod, rod));
                             StatusDisplay.Info(e.ToString());
                         }
                     }
@@ -815,7 +895,7 @@ namespace Fishing
         {
             if (StatusDisplay != null)
             {
-                while (!StatusDisplay.StartDBTransaction("Starting upload to DB."))
+                while (!StatusDisplay.StartDBTransaction(MessageUploadStart))
                 {
                     Thread.Sleep(250);
                 }
@@ -828,13 +908,13 @@ namespace Fishing
             {
                 if (StatusDisplay != null)
                 {
-                    StatusDisplay.Error("Error uploading fish");
+                    StatusDisplay.Error(MessageErrorUploading);
                     StatusDisplay.Info(e.ToString());
                 }
             }
             if (StatusDisplay != null)
             {
-                StatusDisplay.EndDBTransaction("Upload to DB finished.");
+                StatusDisplay.EndDBTransaction(MessageUploadFinished);
             }
         }
 

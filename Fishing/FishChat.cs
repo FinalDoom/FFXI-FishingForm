@@ -237,12 +237,12 @@ namespace Fishing
         /// <remarks>
         /// To reduce brightness use a number smaller than 1. To increase brightness use a number larger tnan 1
         /// </remarks>
-        /// <param name="c">The original colour</param>
+        /// <param name="color">The original colour</param>
         /// <param name="brightness">The luminance delta</param>
         /// <returns>An adjusted colour</returns>
-        public static Color ModifyBrightness(Color c, double brightness)
+        public static Color ModifyBrightness(Color color, double brightness)
         {
-            HSL hsl = RGB_to_HSL(c);
+            HSL hsl = RGB_to_HSL(color);
             hsl.L *= brightness;
 
             return HSL_to_RGB(hsl);
