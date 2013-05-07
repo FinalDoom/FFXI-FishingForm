@@ -237,6 +237,11 @@ noted rod. Some rods do not have any data, so the default value remains.
 Changes
 -------
 
+1.7.0.17
+--------
+- Lots more error checking for DB stuff
+- DB tab after chat tabs displays info about syncs
+
 1.6.7.49
 --------
 - Import useful fixes from 1.7

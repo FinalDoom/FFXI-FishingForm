@@ -80,5 +80,20 @@ namespace Fishing
          * <param name="baitOrZone">The name of the bait or zone being synced</param>
          */
         void SetFishBaitOrZone(string fish, string baitOrZone);
+        /**
+         * <summary>Set a message indicating an error has been encountered.</summary>
+         * <param name="message">The error message</param>
+         */
+        void Error(string message);
+        /**
+         * <summary>Set a message indicating an warning condition has been encountered.</summary>
+         * <param name="message">The warning message</param>
+         */
+        void Warning(string message);
+        /**
+         * <summary>Set a general message.</summary>
+         * <param name="message">The message</param>
+         */
+        void Info(string message);
     }
 }

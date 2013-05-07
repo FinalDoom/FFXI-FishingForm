@@ -197,5 +197,35 @@ namespace Fishing
                 progress.Value = prog;
             });
         }
+
+        public void Error(string message)
+        {
+            this.UIThread(delegate
+            {
+                lblRod.Text = string.Format("ERROR: {0}", message);
+                lblFish.Text = string.Empty;
+                Thread.Sleep(500);
+            });
+        }
+
+        public void Warning(string message)
+        {
+            this.UIThread(delegate
+            {
+                lblRod.Text = string.Format("WARNING: {0}", message);
+                lblFish.Text = string.Empty;
+                Thread.Sleep(500);
+            });
+        }
+
+        public void Info(string message)
+        {
+            this.UIThread(delegate
+            {
+                lblRod.Text = string.Format("Info: {0}", message);
+                lblFish.Text = string.Empty;
+                Thread.Sleep(500);
+            });
+        }
     }
 }
