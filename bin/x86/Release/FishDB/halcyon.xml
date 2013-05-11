@@ -678,4 +678,24 @@
       <Bait>Little Worm</Bait>
     </Baits>
   </Fish>
+  <Fish name="Hamsi x2" wanted="No" ID1="140" ID2="21" ID3="14">
+    <Zones />
+    <Baits>
+      <Bait>Sabiki Rig</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Hamsi x3" wanted="No" ID1="160" ID2="21" ID3="15">
+    <Zones />
+    <Baits>
+      <Bait>Sabiki Rig</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="a bluetail!" wanted="No" ID1="260" ID2="24" ID3="6">
+    <Zones>
+      <Zone>East Sarutabaruta</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Minnow</Bait>
+    </Baits>
+  </Fish>
 </Rod>
