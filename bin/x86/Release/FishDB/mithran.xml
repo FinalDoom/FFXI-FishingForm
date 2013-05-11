@@ -125,4 +125,10 @@
       <Bait>Crayfish Ball</Bait>
     </Baits>
   </Fish>
+  <Fish name="Dark Bass" wanted="No" ID1="160" ID2="29" ID3="7">
+    <Zones />
+    <Baits>
+      <Bait>Minnow</Bait>
+    </Baits>
+  </Fish>
 </Rod>
