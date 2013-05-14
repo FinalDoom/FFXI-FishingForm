@@ -179,6 +179,7 @@
       <Zone>Quicksand Caves</Zone>
       <Zone>East Sarutabaruta</Zone>
       <Zone>Windurst Waters</Zone>
+      <Zone>Beaucedine Glacier [S]</Zone>
     </Zones>
     <Baits>
       <Bait>Robber Rig</Bait>
@@ -202,8 +203,8 @@
       <Bait>Minnow</Bait>
       <Bait>Trout Ball</Bait>
       <Bait>Sinking Minnow</Bait>
-      <Bait>Shrimp Lure</Bait>
       <Bait>Sardine Ball</Bait>
+      <Bait>Shrimp Lure</Bait>
     </Baits>
   </Fish>
   <Fish name="Gigant Octopus" wanted="No" ID1="220" ID2="18" ID3="4" ID4="9">
@@ -804,6 +805,7 @@
       <Zone>Qufim Island</Zone>
       <Zone>Beaucedine Glacier</Zone>
       <Zone>Beaucedine Glacier [S]</Zone>
+      <Zone>Port Jeuno</Zone>
     </Zones>
     <Baits>
       <Bait>Sinking Minnow</Bait>
