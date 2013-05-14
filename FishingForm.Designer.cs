@@ -163,6 +163,9 @@
             this.cbWaistGear = new System.Windows.Forms.CheckBox();
             this.tabOptionsPageAdvanced = new System.Windows.Forms.TabPage();
             this.gbExhaustedBait = new System.Windows.Forms.GroupBox();
+            this.cbBaitItemizerSatchel = new System.Windows.Forms.CheckBox();
+            this.cbBaitItemizerSack = new System.Windows.Forms.CheckBox();
+            this.numBaitactionOtherTime = new System.Windows.Forms.NumericUpDown();
             this.tbBaitactionOther = new System.Windows.Forms.TextBox();
             this.cbBaitactionOther = new System.Windows.Forms.CheckBox();
             this.cbBaitItemizerItemTools = new System.Windows.Forms.CheckBox();
@@ -174,12 +177,15 @@
             this.cbFatiguedActionLogout = new System.Windows.Forms.CheckBox();
             this.cbFatiguedActionShutdown = new System.Windows.Forms.CheckBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.cbFullActionStop = new System.Windows.Forms.CheckBox();
             this.tbFullactionOther = new System.Windows.Forms.TextBox();
-            this.rbFullactionOther = new System.Windows.Forms.CheckBox();
-            this.rbFullactionShutdown = new System.Windows.Forms.CheckBox();
-            this.rbFullactionLogout = new System.Windows.Forms.CheckBox();
-            this.rbFullactionWarp = new System.Windows.Forms.CheckBox();
+            this.cbInventoryItemizerSatchel = new System.Windows.Forms.CheckBox();
+            this.cbInventoryItemizerSack = new System.Windows.Forms.CheckBox();
+            this.numFullactionOtherTime = new System.Windows.Forms.NumericUpDown();
+            this.cbFullActionStop = new System.Windows.Forms.CheckBox();
+            this.cbFullactionOther = new System.Windows.Forms.CheckBox();
+            this.cbFullactionShutdown = new System.Windows.Forms.CheckBox();
+            this.cbFullactionLogout = new System.Windows.Forms.CheckBox();
+            this.cbFullactionWarp = new System.Windows.Forms.CheckBox();
             this.cbInventoryItemizerItemTools = new System.Windows.Forms.CheckBox();
             this.timer = new System.Windows.Forms.Timer(this.components);
             this.statusStripMain = new System.Windows.Forms.StatusStrip();
@@ -231,8 +237,10 @@
             this.tabOptionsPageGear.SuspendLayout();
             this.tabOptionsPageAdvanced.SuspendLayout();
             this.gbExhaustedBait.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numBaitactionOtherTime)).BeginInit();
             this.gbOnFatigue.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numFullactionOtherTime)).BeginInit();
             this.statusStripMain.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -354,7 +362,7 @@
             this.rtbStats.Margin = new System.Windows.Forms.Padding(0);
             this.rtbStats.Name = "rtbStats";
             this.rtbStats.ReadOnly = true;
-            this.rtbStats.Size = new System.Drawing.Size(372, 194);
+            this.rtbStats.Size = new System.Drawing.Size(372, 202);
             this.rtbStats.TabIndex = 10;
             this.rtbStats.Text = "";
             // 
@@ -370,7 +378,7 @@
             this.pnlLog.Location = new System.Drawing.Point(0, 0);
             this.pnlLog.Margin = new System.Windows.Forms.Padding(0);
             this.pnlLog.Name = "pnlLog";
-            this.pnlLog.Size = new System.Drawing.Size(526, 244);
+            this.pnlLog.Size = new System.Drawing.Size(526, 252);
             this.pnlLog.TabIndex = 0;
             // 
             // pnlWanted
@@ -380,7 +388,7 @@
             this.pnlWanted.Controls.Add(this.lbWanted);
             this.pnlWanted.Location = new System.Drawing.Point(3, 33);
             this.pnlWanted.Name = "pnlWanted";
-            this.pnlWanted.Size = new System.Drawing.Size(140, 73);
+            this.pnlWanted.Size = new System.Drawing.Size(140, 87);
             this.pnlWanted.TabIndex = 2;
             // 
             // cbCatchUnknown
@@ -414,7 +422,7 @@
             this.lbWanted.Location = new System.Drawing.Point(0, 16);
             this.lbWanted.Margin = new System.Windows.Forms.Padding(0);
             this.lbWanted.Name = "lbWanted";
-            this.lbWanted.Size = new System.Drawing.Size(140, 56);
+            this.lbWanted.Size = new System.Drawing.Size(140, 69);
             this.lbWanted.Sorted = true;
             this.lbWanted.TabIndex = 2;
             this.lbWanted.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listBox_MouseDoubleClick);
@@ -426,10 +434,10 @@
             | System.Windows.Forms.AnchorStyles.Left)));
             this.pnlUnwanted.Controls.Add(this.lblUnwantedHeader);
             this.pnlUnwanted.Controls.Add(this.lbUnwanted);
-            this.pnlUnwanted.Location = new System.Drawing.Point(3, 106);
+            this.pnlUnwanted.Location = new System.Drawing.Point(3, 121);
             this.pnlUnwanted.Margin = new System.Windows.Forms.Padding(0);
             this.pnlUnwanted.Name = "pnlUnwanted";
-            this.pnlUnwanted.Size = new System.Drawing.Size(140, 113);
+            this.pnlUnwanted.Size = new System.Drawing.Size(140, 106);
             this.pnlUnwanted.TabIndex = 3;
             // 
             // lblUnwantedHeader
@@ -454,7 +462,7 @@
             this.lbUnwanted.Location = new System.Drawing.Point(0, 16);
             this.lbUnwanted.Margin = new System.Windows.Forms.Padding(0);
             this.lbUnwanted.Name = "lbUnwanted";
-            this.lbUnwanted.Size = new System.Drawing.Size(140, 93);
+            this.lbUnwanted.Size = new System.Drawing.Size(140, 86);
             this.lbUnwanted.Sorted = true;
             this.lbUnwanted.TabIndex = 1;
             this.lbUnwanted.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listBox_MouseDoubleClick);
@@ -501,7 +509,7 @@
             this.tabDisplay.Name = "tabDisplay";
             this.tabDisplay.Padding = new System.Drawing.Point(0, 0);
             this.tabDisplay.SelectedIndex = 0;
-            this.tabDisplay.Size = new System.Drawing.Size(380, 219);
+            this.tabDisplay.Size = new System.Drawing.Size(380, 227);
             this.tabDisplay.TabIndex = 8;
             this.tabDisplay.SelectedIndexChanged += new System.EventHandler(this.tabDisplay_SelectedIndexChanged);
             // 
@@ -516,7 +524,7 @@
             this.tabDisplayPageChat.Location = new System.Drawing.Point(4, 21);
             this.tabDisplayPageChat.Name = "tabDisplayPageChat";
             this.tabDisplayPageChat.Padding = new System.Windows.Forms.Padding(3);
-            this.tabDisplayPageChat.Size = new System.Drawing.Size(372, 194);
+            this.tabDisplayPageChat.Size = new System.Drawing.Size(372, 202);
             this.tabDisplayPageChat.TabIndex = 3;
             this.tabDisplayPageChat.Text = "Chat";
             // 
@@ -788,7 +796,7 @@
             this.tabDisplayPageStats.Location = new System.Drawing.Point(4, 21);
             this.tabDisplayPageStats.Margin = new System.Windows.Forms.Padding(0);
             this.tabDisplayPageStats.Name = "tabDisplayPageStats";
-            this.tabDisplayPageStats.Size = new System.Drawing.Size(372, 194);
+            this.tabDisplayPageStats.Size = new System.Drawing.Size(372, 202);
             this.tabDisplayPageStats.TabIndex = 0;
             this.tabDisplayPageStats.Text = "Stats";
             this.tabDisplayPageStats.UseVisualStyleBackColor = true;
@@ -816,7 +824,7 @@
             this.tabDisplayPageInfo.Location = new System.Drawing.Point(4, 21);
             this.tabDisplayPageInfo.Margin = new System.Windows.Forms.Padding(0);
             this.tabDisplayPageInfo.Name = "tabDisplayPageInfo";
-            this.tabDisplayPageInfo.Size = new System.Drawing.Size(372, 194);
+            this.tabDisplayPageInfo.Size = new System.Drawing.Size(372, 202);
             this.tabDisplayPageInfo.TabIndex = 1;
             this.tabDisplayPageInfo.Text = "Info";
             // 
@@ -995,7 +1003,7 @@
             this.tabDisplayPageOptions.Location = new System.Drawing.Point(4, 21);
             this.tabDisplayPageOptions.Margin = new System.Windows.Forms.Padding(0);
             this.tabDisplayPageOptions.Name = "tabDisplayPageOptions";
-            this.tabDisplayPageOptions.Size = new System.Drawing.Size(372, 194);
+            this.tabDisplayPageOptions.Size = new System.Drawing.Size(372, 202);
             this.tabDisplayPageOptions.TabIndex = 2;
             this.tabDisplayPageOptions.Text = "Options";
             // 
@@ -1010,7 +1018,7 @@
             this.tabOptions.Location = new System.Drawing.Point(0, 0);
             this.tabOptions.Name = "tabOptions";
             this.tabOptions.SelectedIndex = 0;
-            this.tabOptions.Size = new System.Drawing.Size(372, 194);
+            this.tabOptions.Size = new System.Drawing.Size(372, 202);
             this.tabOptions.TabIndex = 0;
             // 
             // tabOptionsPageForm
@@ -1029,7 +1037,7 @@
             this.tabOptionsPageForm.Controls.Add(this.cbAlwaysOnTop);
             this.tabOptionsPageForm.Location = new System.Drawing.Point(4, 21);
             this.tabOptionsPageForm.Name = "tabOptionsPageForm";
-            this.tabOptionsPageForm.Size = new System.Drawing.Size(364, 169);
+            this.tabOptionsPageForm.Size = new System.Drawing.Size(364, 177);
             this.tabOptionsPageForm.TabIndex = 3;
             this.tabOptionsPageForm.Text = "General";
             // 
@@ -1321,7 +1329,7 @@
             this.tabOptionsPageChat.Location = new System.Drawing.Point(4, 21);
             this.tabOptionsPageChat.Name = "tabOptionsPageChat";
             this.tabOptionsPageChat.Padding = new System.Windows.Forms.Padding(3);
-            this.tabOptionsPageChat.Size = new System.Drawing.Size(364, 169);
+            this.tabOptionsPageChat.Size = new System.Drawing.Size(364, 177);
             this.tabOptionsPageChat.TabIndex = 6;
             this.tabOptionsPageChat.Text = "Chat";
             this.tabOptionsPageChat.UseVisualStyleBackColor = true;
@@ -1365,7 +1373,7 @@
             this.gbGMDetect.Controls.Add(this.cbGMdetectAutostop);
             this.gbGMDetect.Location = new System.Drawing.Point(6, 7);
             this.gbGMDetect.Name = "gbGMDetect";
-            this.gbGMDetect.Size = new System.Drawing.Size(93, 151);
+            this.gbGMDetect.Size = new System.Drawing.Size(93, 148);
             this.gbGMDetect.TabIndex = 0;
             this.gbGMDetect.TabStop = false;
             this.gbGMDetect.Text = "GM Detection";
@@ -1407,7 +1415,7 @@
             this.tabOptionsPageFight.Location = new System.Drawing.Point(4, 21);
             this.tabOptionsPageFight.Name = "tabOptionsPageFight";
             this.tabOptionsPageFight.Padding = new System.Windows.Forms.Padding(3);
-            this.tabOptionsPageFight.Size = new System.Drawing.Size(364, 169);
+            this.tabOptionsPageFight.Size = new System.Drawing.Size(364, 177);
             this.tabOptionsPageFight.TabIndex = 2;
             this.tabOptionsPageFight.Text = "Fight";
             // 
@@ -1718,7 +1726,7 @@
             this.tabOptionsPageGear.Location = new System.Drawing.Point(4, 21);
             this.tabOptionsPageGear.Name = "tabOptionsPageGear";
             this.tabOptionsPageGear.Padding = new System.Windows.Forms.Padding(3);
-            this.tabOptionsPageGear.Size = new System.Drawing.Size(364, 169);
+            this.tabOptionsPageGear.Size = new System.Drawing.Size(364, 177);
             this.tabOptionsPageGear.TabIndex = 4;
             this.tabOptionsPageGear.Text = "Gear";
             // 
@@ -2000,12 +2008,17 @@
             this.tabOptionsPageAdvanced.Location = new System.Drawing.Point(4, 21);
             this.tabOptionsPageAdvanced.Name = "tabOptionsPageAdvanced";
             this.tabOptionsPageAdvanced.Padding = new System.Windows.Forms.Padding(3);
-            this.tabOptionsPageAdvanced.Size = new System.Drawing.Size(364, 169);
+            this.tabOptionsPageAdvanced.Size = new System.Drawing.Size(364, 177);
             this.tabOptionsPageAdvanced.TabIndex = 5;
             this.tabOptionsPageAdvanced.Text = "Other";
             // 
             // gbExhaustedBait
             // 
+            this.gbExhaustedBait.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.gbExhaustedBait.Controls.Add(this.cbBaitItemizerSatchel);
+            this.gbExhaustedBait.Controls.Add(this.cbBaitItemizerSack);
+            this.gbExhaustedBait.Controls.Add(this.numBaitactionOtherTime);
             this.gbExhaustedBait.Controls.Add(this.tbBaitactionOther);
             this.gbExhaustedBait.Controls.Add(this.cbBaitactionOther);
             this.gbExhaustedBait.Controls.Add(this.cbBaitItemizerItemTools);
@@ -2014,27 +2027,81 @@
             this.gbExhaustedBait.Controls.Add(this.cbBaitActionShutdown);
             this.gbExhaustedBait.Location = new System.Drawing.Point(131, 6);
             this.gbExhaustedBait.Name = "gbExhaustedBait";
-            this.gbExhaustedBait.Size = new System.Drawing.Size(119, 155);
+            this.gbExhaustedBait.Size = new System.Drawing.Size(119, 165);
             this.gbExhaustedBait.TabIndex = 3;
             this.gbExhaustedBait.TabStop = false;
             this.gbExhaustedBait.Text = "On Bait Exhausted";
             // 
+            // cbBaitItemizerSatchel
+            // 
+            this.cbBaitItemizerSatchel.AutoSize = true;
+            this.cbBaitItemizerSatchel.Enabled = false;
+            this.cbBaitItemizerSatchel.Location = new System.Drawing.Point(55, 35);
+            this.cbBaitItemizerSatchel.Name = "cbBaitItemizerSatchel";
+            this.cbBaitItemizerSatchel.Size = new System.Drawing.Size(61, 17);
+            this.cbBaitItemizerSatchel.TabIndex = 10;
+            this.cbBaitItemizerSatchel.Text = "Satchel";
+            this.cbBaitItemizerSatchel.UseVisualStyleBackColor = true;
+            // 
+            // cbBaitItemizerSack
+            // 
+            this.cbBaitItemizerSack.AutoSize = true;
+            this.cbBaitItemizerSack.Enabled = false;
+            this.cbBaitItemizerSack.Location = new System.Drawing.Point(6, 35);
+            this.cbBaitItemizerSack.Name = "cbBaitItemizerSack";
+            this.cbBaitItemizerSack.Size = new System.Drawing.Size(49, 17);
+            this.cbBaitItemizerSack.TabIndex = 9;
+            this.cbBaitItemizerSack.Text = "Sack";
+            this.cbBaitItemizerSack.UseVisualStyleBackColor = true;
+            // 
+            // numBaitactionOtherTime
+            // 
+            this.numBaitactionOtherTime.DecimalPlaces = 1;
+            this.numBaitactionOtherTime.Enabled = false;
+            this.numBaitactionOtherTime.Increment = new decimal(new int[] {
+            5,
+            0,
+            0,
+            65536});
+            this.numBaitactionOtherTime.Location = new System.Drawing.Point(67, 52);
+            this.numBaitactionOtherTime.Maximum = new decimal(new int[] {
+            99,
+            0,
+            0,
+            0});
+            this.numBaitactionOtherTime.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numBaitactionOtherTime.Name = "numBaitactionOtherTime";
+            this.numBaitactionOtherTime.Size = new System.Drawing.Size(46, 18);
+            this.numBaitactionOtherTime.TabIndex = 8;
+            this.numBaitactionOtherTime.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
             // tbBaitactionOther
             // 
             this.tbBaitactionOther.Enabled = false;
-            this.tbBaitactionOther.Location = new System.Drawing.Point(6, 53);
+            this.tbBaitactionOther.Location = new System.Drawing.Point(6, 71);
+            this.tbBaitactionOther.Multiline = true;
             this.tbBaitactionOther.Name = "tbBaitactionOther";
             this.tbBaitactionOther.Size = new System.Drawing.Size(107, 18);
             this.tbBaitactionOther.TabIndex = 5;
+            this.tbBaitactionOther.Enter += new System.EventHandler(this.tbBaitactionOther_Enter);
+            this.tbBaitactionOther.Leave += new System.EventHandler(this.tbBaitactionOther_Leave);
             // 
             // cbBaitactionOther
             // 
             this.cbBaitactionOther.AutoSize = true;
-            this.cbBaitactionOther.Location = new System.Drawing.Point(6, 35);
+            this.cbBaitactionOther.Location = new System.Drawing.Point(6, 53);
             this.cbBaitactionOther.Name = "cbBaitactionOther";
-            this.cbBaitactionOther.Size = new System.Drawing.Size(102, 17);
+            this.cbBaitactionOther.Size = new System.Drawing.Size(52, 17);
             this.cbBaitactionOther.TabIndex = 4;
-            this.cbBaitactionOther.Text = "Other Command";
+            this.cbBaitactionOther.Text = "Other";
             this.cbBaitactionOther.UseVisualStyleBackColor = true;
             this.cbBaitactionOther.CheckedChanged += new System.EventHandler(this.cbBaitactionOther_CheckedChanged);
             // 
@@ -2052,7 +2119,7 @@
             // cbBaitActionWarp
             // 
             this.cbBaitActionWarp.AutoSize = true;
-            this.cbBaitActionWarp.Location = new System.Drawing.Point(6, 74);
+            this.cbBaitActionWarp.Location = new System.Drawing.Point(6, 92);
             this.cbBaitActionWarp.Name = "cbBaitActionWarp";
             this.cbBaitActionWarp.Size = new System.Drawing.Size(50, 17);
             this.cbBaitActionWarp.TabIndex = 0;
@@ -2062,7 +2129,7 @@
             // cbBaitActionLogout
             // 
             this.cbBaitActionLogout.AutoSize = true;
-            this.cbBaitActionLogout.Location = new System.Drawing.Point(6, 91);
+            this.cbBaitActionLogout.Location = new System.Drawing.Point(6, 109);
             this.cbBaitActionLogout.Name = "cbBaitActionLogout";
             this.cbBaitActionLogout.Size = new System.Drawing.Size(59, 17);
             this.cbBaitActionLogout.TabIndex = 1;
@@ -2073,7 +2140,7 @@
             // cbBaitActionShutdown
             // 
             this.cbBaitActionShutdown.AutoSize = true;
-            this.cbBaitActionShutdown.Location = new System.Drawing.Point(6, 109);
+            this.cbBaitActionShutdown.Location = new System.Drawing.Point(6, 127);
             this.cbBaitActionShutdown.Name = "cbBaitActionShutdown";
             this.cbBaitActionShutdown.Size = new System.Drawing.Size(74, 17);
             this.cbBaitActionShutdown.TabIndex = 2;
@@ -2090,7 +2157,7 @@
             this.gbOnFatigue.Controls.Add(this.cbFatiguedActionShutdown);
             this.gbOnFatigue.Location = new System.Drawing.Point(256, 6);
             this.gbOnFatigue.Name = "gbOnFatigue";
-            this.gbOnFatigue.Size = new System.Drawing.Size(102, 150);
+            this.gbOnFatigue.Size = new System.Drawing.Size(102, 165);
             this.gbOnFatigue.TabIndex = 2;
             this.gbOnFatigue.TabStop = false;
             this.gbOnFatigue.Text = "On Fatigue Stop";
@@ -2131,24 +2198,89 @@
             // 
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-            this.groupBox1.Controls.Add(this.cbFullActionStop);
             this.groupBox1.Controls.Add(this.tbFullactionOther);
-            this.groupBox1.Controls.Add(this.rbFullactionOther);
-            this.groupBox1.Controls.Add(this.rbFullactionShutdown);
-            this.groupBox1.Controls.Add(this.rbFullactionLogout);
-            this.groupBox1.Controls.Add(this.rbFullactionWarp);
+            this.groupBox1.Controls.Add(this.cbInventoryItemizerSatchel);
+            this.groupBox1.Controls.Add(this.cbInventoryItemizerSack);
+            this.groupBox1.Controls.Add(this.numFullactionOtherTime);
+            this.groupBox1.Controls.Add(this.cbFullActionStop);
+            this.groupBox1.Controls.Add(this.cbFullactionOther);
+            this.groupBox1.Controls.Add(this.cbFullactionShutdown);
+            this.groupBox1.Controls.Add(this.cbFullactionLogout);
+            this.groupBox1.Controls.Add(this.cbFullactionWarp);
             this.groupBox1.Controls.Add(this.cbInventoryItemizerItemTools);
             this.groupBox1.Location = new System.Drawing.Point(6, 6);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(119, 150);
+            this.groupBox1.Size = new System.Drawing.Size(119, 165);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "On Full Inventory";
             // 
+            // tbFullactionOther
+            // 
+            this.tbFullactionOther.Enabled = false;
+            this.tbFullactionOther.Location = new System.Drawing.Point(6, 71);
+            this.tbFullactionOther.Multiline = true;
+            this.tbFullactionOther.Name = "tbFullactionOther";
+            this.tbFullactionOther.Size = new System.Drawing.Size(107, 18);
+            this.tbFullactionOther.TabIndex = 2;
+            this.tbFullactionOther.Enter += new System.EventHandler(this.tbFullactionOther_Enter);
+            this.tbFullactionOther.Leave += new System.EventHandler(this.tbFullactionOther_Leave);
+            // 
+            // cbInventoryItemizerSatchel
+            // 
+            this.cbInventoryItemizerSatchel.AutoSize = true;
+            this.cbInventoryItemizerSatchel.Enabled = false;
+            this.cbInventoryItemizerSatchel.Location = new System.Drawing.Point(56, 35);
+            this.cbInventoryItemizerSatchel.Name = "cbInventoryItemizerSatchel";
+            this.cbInventoryItemizerSatchel.Size = new System.Drawing.Size(61, 17);
+            this.cbInventoryItemizerSatchel.TabIndex = 12;
+            this.cbInventoryItemizerSatchel.Text = "Satchel";
+            this.cbInventoryItemizerSatchel.UseVisualStyleBackColor = true;
+            // 
+            // cbInventoryItemizerSack
+            // 
+            this.cbInventoryItemizerSack.AutoSize = true;
+            this.cbInventoryItemizerSack.Enabled = false;
+            this.cbInventoryItemizerSack.Location = new System.Drawing.Point(6, 35);
+            this.cbInventoryItemizerSack.Name = "cbInventoryItemizerSack";
+            this.cbInventoryItemizerSack.Size = new System.Drawing.Size(49, 17);
+            this.cbInventoryItemizerSack.TabIndex = 11;
+            this.cbInventoryItemizerSack.Text = "Sack";
+            this.cbInventoryItemizerSack.UseVisualStyleBackColor = true;
+            // 
+            // numFullactionOtherTime
+            // 
+            this.numFullactionOtherTime.DecimalPlaces = 1;
+            this.numFullactionOtherTime.Enabled = false;
+            this.numFullactionOtherTime.Increment = new decimal(new int[] {
+            5,
+            0,
+            0,
+            65536});
+            this.numFullactionOtherTime.Location = new System.Drawing.Point(67, 52);
+            this.numFullactionOtherTime.Maximum = new decimal(new int[] {
+            99,
+            0,
+            0,
+            0});
+            this.numFullactionOtherTime.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numFullactionOtherTime.Name = "numFullactionOtherTime";
+            this.numFullactionOtherTime.Size = new System.Drawing.Size(46, 18);
+            this.numFullactionOtherTime.TabIndex = 7;
+            this.numFullactionOtherTime.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
             // cbFullActionStop
             // 
             this.cbFullActionStop.AutoSize = true;
-            this.cbFullActionStop.Location = new System.Drawing.Point(6, 74);
+            this.cbFullActionStop.Location = new System.Drawing.Point(6, 92);
             this.cbFullActionStop.Name = "cbFullActionStop";
             this.cbFullActionStop.Size = new System.Drawing.Size(84, 17);
             this.cbFullActionStop.TabIndex = 6;
@@ -2156,56 +2288,48 @@
             this.cbFullActionStop.UseVisualStyleBackColor = true;
             this.cbFullActionStop.CheckedChanged += new System.EventHandler(this.cbFullActionStop_CheckedChanged);
             // 
-            // tbFullactionOther
+            // cbFullactionOther
             // 
-            this.tbFullactionOther.Enabled = false;
-            this.tbFullactionOther.Location = new System.Drawing.Point(6, 53);
-            this.tbFullactionOther.Name = "tbFullactionOther";
-            this.tbFullactionOther.Size = new System.Drawing.Size(107, 18);
-            this.tbFullactionOther.TabIndex = 2;
+            this.cbFullactionOther.AutoSize = true;
+            this.cbFullactionOther.Location = new System.Drawing.Point(6, 53);
+            this.cbFullactionOther.Name = "cbFullactionOther";
+            this.cbFullactionOther.Size = new System.Drawing.Size(52, 17);
+            this.cbFullactionOther.TabIndex = 1;
+            this.cbFullactionOther.Text = "Other";
+            this.cbFullactionOther.UseVisualStyleBackColor = true;
+            this.cbFullactionOther.CheckedChanged += new System.EventHandler(this.cbFullactionOther_CheckedChanged);
             // 
-            // rbFullactionOther
+            // cbFullactionShutdown
             // 
-            this.rbFullactionOther.AutoSize = true;
-            this.rbFullactionOther.Location = new System.Drawing.Point(6, 35);
-            this.rbFullactionOther.Name = "rbFullactionOther";
-            this.rbFullactionOther.Size = new System.Drawing.Size(102, 17);
-            this.rbFullactionOther.TabIndex = 1;
-            this.rbFullactionOther.Text = "Other Command";
-            this.rbFullactionOther.UseVisualStyleBackColor = true;
-            this.rbFullactionOther.CheckedChanged += new System.EventHandler(this.rbFullactionOther_CheckedChanged);
+            this.cbFullactionShutdown.AutoSize = true;
+            this.cbFullactionShutdown.Location = new System.Drawing.Point(6, 145);
+            this.cbFullactionShutdown.Name = "cbFullactionShutdown";
+            this.cbFullactionShutdown.Size = new System.Drawing.Size(74, 17);
+            this.cbFullactionShutdown.TabIndex = 5;
+            this.cbFullactionShutdown.Text = "Shutdown";
+            this.cbFullactionShutdown.UseVisualStyleBackColor = true;
+            this.cbFullactionShutdown.CheckedChanged += new System.EventHandler(this.cbFullactionShutdown_CheckedChanged);
             // 
-            // rbFullactionShutdown
+            // cbFullactionLogout
             // 
-            this.rbFullactionShutdown.AutoSize = true;
-            this.rbFullactionShutdown.Location = new System.Drawing.Point(6, 127);
-            this.rbFullactionShutdown.Name = "rbFullactionShutdown";
-            this.rbFullactionShutdown.Size = new System.Drawing.Size(74, 17);
-            this.rbFullactionShutdown.TabIndex = 5;
-            this.rbFullactionShutdown.Text = "Shutdown";
-            this.rbFullactionShutdown.UseVisualStyleBackColor = true;
-            this.rbFullactionShutdown.CheckedChanged += new System.EventHandler(this.rbFullactionShutdown_CheckedChanged);
+            this.cbFullactionLogout.AutoSize = true;
+            this.cbFullactionLogout.Location = new System.Drawing.Point(6, 127);
+            this.cbFullactionLogout.Name = "cbFullactionLogout";
+            this.cbFullactionLogout.Size = new System.Drawing.Size(59, 17);
+            this.cbFullactionLogout.TabIndex = 4;
+            this.cbFullactionLogout.Text = "Logout";
+            this.cbFullactionLogout.UseVisualStyleBackColor = true;
+            this.cbFullactionLogout.CheckedChanged += new System.EventHandler(this.cbFullactionLogout_CheckedChanged);
             // 
-            // rbFullactionLogout
+            // cbFullactionWarp
             // 
-            this.rbFullactionLogout.AutoSize = true;
-            this.rbFullactionLogout.Location = new System.Drawing.Point(6, 109);
-            this.rbFullactionLogout.Name = "rbFullactionLogout";
-            this.rbFullactionLogout.Size = new System.Drawing.Size(59, 17);
-            this.rbFullactionLogout.TabIndex = 4;
-            this.rbFullactionLogout.Text = "Logout";
-            this.rbFullactionLogout.UseVisualStyleBackColor = true;
-            this.rbFullactionLogout.CheckedChanged += new System.EventHandler(this.rbFullactionLogout_CheckedChanged);
-            // 
-            // rbFullactionWarp
-            // 
-            this.rbFullactionWarp.AutoSize = true;
-            this.rbFullactionWarp.Location = new System.Drawing.Point(6, 91);
-            this.rbFullactionWarp.Name = "rbFullactionWarp";
-            this.rbFullactionWarp.Size = new System.Drawing.Size(50, 17);
-            this.rbFullactionWarp.TabIndex = 3;
-            this.rbFullactionWarp.Text = "Warp";
-            this.rbFullactionWarp.UseVisualStyleBackColor = true;
+            this.cbFullactionWarp.AutoSize = true;
+            this.cbFullactionWarp.Location = new System.Drawing.Point(6, 109);
+            this.cbFullactionWarp.Name = "cbFullactionWarp";
+            this.cbFullactionWarp.Size = new System.Drawing.Size(50, 17);
+            this.cbFullactionWarp.TabIndex = 3;
+            this.cbFullactionWarp.Text = "Warp";
+            this.cbFullactionWarp.UseVisualStyleBackColor = true;
             // 
             // cbInventoryItemizerItemTools
             // 
@@ -2232,7 +2356,7 @@
             this.lblStatus,
             this.lblHP,
             this.progressBarST});
-            this.statusStripMain.Location = new System.Drawing.Point(0, 219);
+            this.statusStripMain.Location = new System.Drawing.Point(0, 227);
             this.statusStripMain.Name = "statusStripMain";
             this.statusStripMain.Size = new System.Drawing.Size(526, 25);
             this.statusStripMain.TabIndex = 1;
@@ -2289,14 +2413,14 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.ClientSize = new System.Drawing.Size(526, 244);
+            this.ClientSize = new System.Drawing.Size(526, 252);
             this.Controls.Add(this.statusStripMain);
             this.Controls.Add(this.pnlLog);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(2);
             this.MaximizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(542, 282);
+            this.MinimumSize = new System.Drawing.Size(542, 290);
             this.Name = "FishingForm";
             this.Opacity = 0.99D;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
@@ -2359,10 +2483,12 @@
             this.tabOptionsPageAdvanced.ResumeLayout(false);
             this.gbExhaustedBait.ResumeLayout(false);
             this.gbExhaustedBait.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numBaitactionOtherTime)).EndInit();
             this.gbOnFatigue.ResumeLayout(false);
             this.gbOnFatigue.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numFullactionOtherTime)).EndInit();
             this.statusStripMain.ResumeLayout(false);
             this.statusStripMain.PerformLayout();
             this.ResumeLayout(false);
@@ -2439,11 +2565,11 @@
         private System.Windows.Forms.CheckBox cbWaistGear;
         private System.Windows.Forms.TabPage tabOptionsPageAdvanced;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.CheckBox rbFullactionWarp;
-        private System.Windows.Forms.CheckBox rbFullactionLogout;
-        private System.Windows.Forms.CheckBox rbFullactionShutdown;
+        private System.Windows.Forms.CheckBox cbFullactionWarp;
+        private System.Windows.Forms.CheckBox cbFullactionLogout;
+        private System.Windows.Forms.CheckBox cbFullactionShutdown;
         private System.Windows.Forms.TextBox tbFullactionOther;
-        private System.Windows.Forms.CheckBox rbFullactionOther;
+        private System.Windows.Forms.CheckBox cbFullactionOther;
         private System.Windows.Forms.GroupBox gbOnFatigue;
         private System.Windows.Forms.CheckBox cbFatiguedActionWarp;
         private System.Windows.Forms.CheckBox cbFatiguedActionLogout;
@@ -2536,6 +2662,12 @@
         private System.Windows.Forms.CheckBox cbFullActionStop;
         private System.Windows.Forms.TabPage tabChatPageDB;
         private System.Windows.Forms.RichTextBox rtbDB;
+        private System.Windows.Forms.CheckBox cbBaitItemizerSatchel;
+        private System.Windows.Forms.CheckBox cbBaitItemizerSack;
+        private System.Windows.Forms.NumericUpDown numBaitactionOtherTime;
+        private System.Windows.Forms.CheckBox cbInventoryItemizerSatchel;
+        private System.Windows.Forms.CheckBox cbInventoryItemizerSack;
+        private System.Windows.Forms.NumericUpDown numFullactionOtherTime;
     }
 }
 

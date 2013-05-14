@@ -625,18 +625,6 @@ namespace Fishing.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool ItemizerItemTools {
-            get {
-                return ((bool)(this["ItemizerItemTools"]));
-            }
-            set {
-                this["ItemizerItemTools"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("200")]
         public decimal MaxCatchValue {
             get {
@@ -812,6 +800,90 @@ namespace Fishing.Properties {
             }
             set {
                 this["FullActionStop"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1.0")]
+        public decimal FullActionOtherTime {
+            get {
+                return ((decimal)(this["FullActionOtherTime"]));
+            }
+            set {
+                this["FullActionOtherTime"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1.0")]
+        public decimal BaitOtherTime {
+            get {
+                return ((decimal)(this["BaitOtherTime"]));
+            }
+            set {
+                this["BaitOtherTime"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool FullActionItemizer {
+            get {
+                return ((bool)(this["FullActionItemizer"]));
+            }
+            set {
+                this["FullActionItemizer"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool FullActionSack {
+            get {
+                return ((bool)(this["FullActionSack"]));
+            }
+            set {
+                this["FullActionSack"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool FullActionSatchel {
+            get {
+                return ((bool)(this["FullActionSatchel"]));
+            }
+            set {
+                this["FullActionSatchel"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool BaitSack {
+            get {
+                return ((bool)(this["BaitSack"]));
+            }
+            set {
+                this["BaitSack"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool BaitSatchel {
+            get {
+                return ((bool)(this["BaitSatchel"]));
+            }
+            set {
+                this["BaitSatchel"] = value;
             }
         }
     }

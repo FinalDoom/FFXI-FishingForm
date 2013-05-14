@@ -63,14 +63,12 @@ namespace Fishing
         };
 
         private const string FormatConnection = "SERVER={0};PORT={1};DATABASE={2};UID={3};PASSWORD={4};";
-        private const string server = "instance44985.db.xeround.com";
-        private const string port = "6382";
+        private const string server = "ec2-54-235-92-8.compute-1.amazonaws.com";
+        private const string port = "3308";
         private const string database = "FishDB";
         // These are procedure-only credentials. Contact FinalDoom for an admin account, eg. if taking over this project.
         private const string uid = "FishClient";
         private const string password = "ThePasswordForTheFishClient";
-        private const string ZoneSelbinaPirates = "Selbina (Pirates)";
-        private const string ZoneMhauraPirates = "Mhaura (Pirates)";
 
         // MySQL Commands
         private const string MySQLCmdNewestUpdate = "CALL get_newest_update (@rodID)";
@@ -124,11 +122,15 @@ namespace Fishing
         private const string MessageErrorUploading = "Error uploading fish";
         private const string MessageUploadFinished = "Upload to DB finished.";
 
+        // Misc
+        private const string ZoneSelbinaPirates = "Selbina (Pirates)";
+        private const string ZoneMhauraPirates = "Mhaura (Pirates)";
+
         #endregion //Constants
 
         internal static IFishDBStatusDisplay StatusDisplay { private get; set; }
         internal static MySqlConnection Connection { get; private set; }
-        private static bool errorred = false;
+        private static bool errored = false;
 
         static FishSQL()
         {
@@ -159,7 +161,7 @@ namespace Fishing
             }
             catch (MySqlException e)
             {
-                if (!errorred)
+                if (!errored)
                 {
                     string message;
                     switch (e.Number)
@@ -177,7 +179,7 @@ namespace Fishing
                         StatusDisplay.Warning(message);
                         StatusDisplay.Info(e.ToString());
                     }
-                    errorred = true;
+                    errored = true;
                 }
                 return false;
             }

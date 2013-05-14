@@ -53,11 +53,18 @@ namespace Fishing
                 return;
             }
 
-            StartDBTransaction("Starting Sync...");
-            FishDB.MarkAllFishNew();
-            FishDB.GetUpdates();
-            FishSQL.DoUploadFish();
-            FishSQL.DoDownloadFish();
+            try
+            {
+                StartDBTransaction("Starting Sync...");
+                FishDB.MarkAllFishNew();
+                FishDB.GetUpdates();
+                FishSQL.BackgroundUpload();
+                FishSQL.DoDownloadFish();
+            }
+            catch (Exception e)
+            {
+                Error(e.ToString());
+            }
             EndDBTransaction("Done!");
         }
 
@@ -204,6 +211,7 @@ namespace Fishing
             {
                 lblRod.Text = string.Format("ERROR: {0}", message);
                 lblFish.Text = string.Empty;
+                MessageBox.Show(message, "ERROR");
                 Thread.Sleep(500);
             });
         }
@@ -214,6 +222,7 @@ namespace Fishing
             {
                 lblRod.Text = string.Format("WARNING: {0}", message);
                 lblFish.Text = string.Empty;
+                MessageBox.Show(message, "WARNING");
                 Thread.Sleep(500);
             });
         }
@@ -224,6 +233,7 @@ namespace Fishing
             {
                 lblRod.Text = string.Format("Info: {0}", message);
                 lblFish.Text = string.Empty;
+                MessageBox.Show(message, "Info");
                 Thread.Sleep(500);
             });
         }
