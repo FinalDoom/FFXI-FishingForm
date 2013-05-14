@@ -30,18 +30,12 @@ namespace Fishing
             "or http://www.ffevo.net/files/file/214-fishingform-fd-edition/ for the new version."
         };
 
-        private static readonly string[] MessageBaitItemizer = {
-            "NOTE: Option requires you to have the FFXI Windower Itemizer.dll plugin or Ashita ItemTools.dll extension loaded.",
+        private static readonly string[] MessageInventoryOther = {
+            "NOTE: You must enter the command below. {0} will be replaced with the any fish in the wanted list's name (as long as it's similar to the ingame name) in quotes, e.g.:",
             "",
-            "You must enter the command below. {0} will be replaced with the bait name in quotes, e.g.:",
+            "    /echo Caught too many {0}!",
             "",
-            "    /get {0} sack",
-            "    /gets \"Meatball\" satchel",
-            "",
-            "    /moveitem \"Sliced Cod\" inventory sack 1",
-            "    /moveitem {0} satchel inventory 99",
-            "",
-            "You may also enter several commands, separated by semicolons."
+            "You may also enter several commands, separated by semicolons or newlines. Fishing will attempt to resume after the number of seconds indicated in the number box to the right."
         };
 
         private static readonly string[] MessageBaitOther = {
@@ -49,25 +43,13 @@ namespace Fishing
             "",
             "    /echo Out of {0}!",
             "",
-            "You may also enter several commands, separated by semicolons."
-        };
-
-        private static readonly string[] MessageInventoryItemizer = {
-            "NOTE: Option requires you to have the FFXI Windower Itemizer.dll plugin or Ashita ItemTools.dll extension loaded.",
-            "",
-            "You must enter the command below, e.g.:",
-            "",
-            "    /put \"Hakuryu\" sack",
-            "    /puts \"Black Sole\" satchel",
-            "",
-            "    /moveitem \"Hakuryu\" inventory sack 1",
-            "    /moveitem \"Black Sole\" inventory satchel 12",
-            "",
-            "You may also enter several commands, separated by semicolons."
+            "You may also enter several commands, separated by semicolons or newlines. Fishing will attempt to resume after the number of seconds indicated in the number box to the right."
         };
 
         private const string DllNameFFACE = "FFACE.dll";
         private const string DllNameHook = "hook.dll";
+        private const string DllNameItemizer = "itemizer.dll";
+        private const string DllNameItemTools = "itemtools.dll";
         private const string FileWarningWav = "warning.wav";
         private const string CommandCastSneak = "/ma Sneak <me>";
         private const string CommandChatSay = "/s ";
@@ -81,8 +63,6 @@ namespace Fishing
         private const string CommandWarp = "/ma \"Warp\" <me>";
         private const string CommandLogout = "/logout";
         private const string CommandShutdown = "/shutdown";
-        private const string CommandMoveItem = "/moveitem";
-        private const string CommandPutItem = "/put";
         private const string EquipFormatRod = "/equip range \"{0}\"";
         private const string EquipFormatBait = "/equip ammo \"{0}\"";
         private const string EquipFormatBody = "/equip body \"{0}\"";
@@ -139,6 +119,8 @@ namespace Fishing
         private static Thread workerThread;
         private static SizeF currentScaleFactor = new SizeF(1f, 1f);
         private static FishingFormDBLogger DBLogger;
+        private static bool ItemizerAvailable = false;
+        private static bool ItemToolsAvailable = false;
 
 		private static int skillLast = 0;
 		private static int skillDecimalMin = 0;
@@ -155,7 +137,6 @@ namespace Fishing
         private static bool stopSound = false;
         private static bool statusWarningColor = false;
         private static bool chatbig = false;
-        private static FFACETools.Weekday day { get; set; }
         private static bool OptionsConfigured = false;
 
         private static List<Label> chatDetectLblOnList = new List<Label>();
@@ -261,13 +242,25 @@ namespace Fishing
             toolTip.SetToolTip(cbBaitActionShutdown, "Shut down when out of bait, unless above command finds bait.");
             toolTip.SetToolTip(cbBaitActionLogout, "Log out when out of bait, unless above command finds bait.");
             toolTip.SetToolTip(cbBaitActionWarp, "Warp when out of bait, unless above command finds bait.");
+            toolTip.SetToolTip(cbBaitItemizerSack, "Fetch bait from sack.");
+            toolTip.SetToolTip(cbBaitItemizerSatchel, "Fetch bait from satchel.");
+            toolTip.SetToolTip(cbBaitItemizerItemTools, "Enables Itemizer plugin support to automatically grab current bait when none is found in inventory. This will attempt to fetch bait to prevent any warp, logout, or shutdown action.");
+            toolTip.SetToolTip(cbBaitactionOther, "Execute below command when out of bait. Wait for the number of seconds to the right. Warp, logout, or shutdown will occur if bait is still not found after executing this command.");
+            toolTip.SetToolTip(numBaitactionOtherTime, "Number of seconds to wait for command to execute.");
 			toolTip.SetToolTip(cbFatiguedActionShutdown, "Shut down when catch limit is reached.");
 			toolTip.SetToolTip(cbFatiguedActionLogout, "Log out when catch limit is reached.");
 			toolTip.SetToolTip(cbFatiguedActionWarp, "Warp when catch limit is reached.");
             toolTip.SetToolTip(cbStopSound, "When fishing terminates unexpectedly, play warning.wav sound.");
             toolTip.SetToolTip(cbTellDetect, "Changes status bar color and Tell tab name when receiving a message.");
-            toolTip.SetToolTip(cbInventoryItemizerItemTools, "Enables Itemizer plugin support to store fish when inventory is full.");
-            toolTip.SetToolTip(cbInventoryItemizerItemTools, "Enables Itemizer plugin support to grab bait when none is found in inventory. This will attempt to fetch bait to prevent any warp, logout, or shutdown action.");
+            toolTip.SetToolTip(cbFullactionShutdown, "Shut down when inventory is full.");
+            toolTip.SetToolTip(cbFullactionLogout, "Log out when inventory is full.");
+            toolTip.SetToolTip(cbFullactionWarp, "Warp when inventory is full.");
+            toolTip.SetToolTip(cbFullActionStop, "Stop fishing when inventory is full. If disabled, fishing will continue, but no shutdown, logout, or warp will occur.");
+            toolTip.SetToolTip(cbInventoryItemizerSack, "Put fish in sack.");
+            toolTip.SetToolTip(cbInventoryItemizerSatchel, "Put fish in satchel.");
+            toolTip.SetToolTip(cbInventoryItemizerItemTools, "Enables Itemizer plugin support to automatically store fish when inventory is full.");
+            toolTip.SetToolTip(cbFullactionOther, "Execute below command when inventory is full. Wait for the number of seconds to the right.");
+            toolTip.SetToolTip(numFullactionOtherTime, "Number of seconds to wait for command to execute.");
             toolTip.SetToolTip(cbMaxCatch, "Stops fishing when # of catches reached; value resets when limit is reached.");
             toolTip.SetToolTip(cbSneakFishing, "Will cast the spell Sneak prior to casting.");
             toolTip.SetToolTip(cbSkillCap, "Stop when skill reaches specified level.");
@@ -450,6 +443,32 @@ namespace Fishing
                             break;
                         }
                     }
+                    foreach (ProcessModule mod in pol.Modules)
+                    {
+                        if (mod.ModuleName.ToLower() == DllNameItemizer)
+                        {
+                            ItemizerAvailable = true;
+                            break;
+                        }
+                        if (mod.ModuleName.ToLower() == DllNameItemTools)
+                        {
+                            ItemToolsAvailable = true;
+                            break;
+                        }
+                    }
+                    foreach (ProcessModule mod in pol.Modules)
+                    {
+                        if (mod.ModuleName.ToLower() == DllNameItemizer)
+                        {
+                            ItemizerAvailable = true;
+                            break;
+                        }
+                        if (mod.ModuleName.ToLower() == DllNameItemTools)
+                        {
+                            ItemToolsAvailable = true;
+                            break;
+                        }
+                    }
                     if (String.IsNullOrEmpty(FFACE.WindowerPath))
                     {
                         FFACE.WindowerPath = Resources.PathWindowerResourcesError;
@@ -521,13 +540,40 @@ namespace Fishing
 
         private void RetrieveBait(string bait)
         {
-            if (cbBaitItemizerItemTools.Checked || cbBaitactionOther.Checked)
+            if (cbBaitItemizerItemTools.Checked)
+            {
+                string baitLocation;
+                if (cbBaitItemizerSack.Checked && _FFACE.Item.GetSackItemCount((ushort)Dictionaries.baitDictionary[bait]) > 0)
+                {
+                    baitLocation = "sack";
+                }
+                else if (cbBaitItemizerSatchel.Checked && _FFACE.Item.GetSatchelItemCount((ushort)Dictionaries.baitDictionary[bait]) > 0)
+                {
+                    baitLocation = "satchel";
+                }
+                else
+                {
+                    return;
+                }
+                bait = string.Format(Resources.FormatQuoteArg, bait);
+                if (ItemizerAvailable)
+                {
+                    _FFACE.Windower.SendString(string.Format("/gets {0} {1}", bait, baitLocation));
+                    Thread.Sleep(1000); //pause to give the game time to move bait
+                }
+                else if (ItemToolsAvailable)
+                {
+                    _FFACE.Windower.SendString(string.Format("/moveitem {0} {1} inventory 99", bait, baitLocation));
+                    Thread.Sleep(1000); //pause to give the game time to move bait
+                }
+            }
+            else if (cbBaitactionOther.Checked && !string.IsNullOrEmpty(tbBaitactionOther.Text))
             {
                 bait = string.Format(Resources.FormatQuoteArg, bait);
-                foreach (string command in tbBaitactionOther.Text.Split(new String[] { Resources.Semicolon }, StringSplitOptions.RemoveEmptyEntries))
+                foreach (string command in tbBaitactionOther.Text.Split(new String[] {Resources.Semicolon, Environment.NewLine}, StringSplitOptions.RemoveEmptyEntries))
                 {
                     _FFACE.Windower.SendString(string.Format(command, bait));
-                    Thread.Sleep(1000);  //pause to give the game time to move bait
+                    Thread.Sleep((int)(numBaitactionOtherTime.Value * 1000)); //pause to give the game time to execute commands
                 }
             }
         }
@@ -1000,8 +1046,8 @@ namespace Fishing
 			UpdateStats();
 			WaitUntil(Status.Standing);
 		}
-        
-        public string GetFishName(string fish)
+
+        private string GetFishName(string fish)
         {
             string name = fish;
             // Get a better name for the fish
@@ -1324,63 +1370,58 @@ namespace Fishing
         {
             //move items with itemizer or itemtools or custom script
             if (_FFACE.Item.InventoryCount == _FFACE.Item.InventoryMax
-                    && (cbInventoryItemizerItemTools.Checked || rbFullactionOther.Checked))
+                    && (cbInventoryItemizerItemTools.Checked || cbFullactionOther.Checked))
             {
-                if (!string.IsNullOrEmpty(tbFullactionOther.Text))
+                if (cbInventoryItemizerItemTools.Checked)
                 {
-                    if (cbInventoryItemizerItemTools.Checked)
+                    foreach (Fishie fishie in lbWanted.Items)
                     {
-                        // Get the strings, first split on semicolons for multiple fish
-                        string[] tempcommandstring = tbFullactionOther.Text.Split(new String[] { Resources.Semicolon }, StringSplitOptions.RemoveEmptyEntries);
-                        foreach (string command in tempcommandstring)
+                        if (!(cbInventoryItemizerSack.Checked && _FFACE.Item.SackCount < _FFACE.Item.SackMax) &&
+                            !(cbInventoryItemizerSatchel.Checked && _FFACE.Item.SatchelCount < _FFACE.Item.SatchelMax))
                         {
-                            string[] tempactionstring = command.Split(new String[] { Resources.Space }, StringSplitOptions.RemoveEmptyEntries);
-                            // Check command type
-                            if (!(tempactionstring[0].StartsWith(CommandMoveItem) || tempactionstring[0].StartsWith(CommandPutItem)))
+                            break;
+                        }
+                        // Get best guess for the fish name
+                        string name = GetFishName(fishie.name);
+                        if (!Dictionaries.fishDictionary.ContainsKey(name) || _FFACE.Item.GetInventoryItemCount((ushort)Dictionaries.fishDictionary[name]) == 0)
+                        {
+                            continue;
+                        }
+                        name = string.Format(Resources.FormatQuoteArg, name);
+                        string storagemedium;
+                        if (_FFACE.Item.GetInventoryItemCount((ushort)Dictionaries.fishDictionary[name]) > 0 &&
+                            cbInventoryItemizerSack.Checked && _FFACE.Item.SackCount < _FFACE.Item.SackMax)
+                        {
+                            storagemedium = Resources.CommandPartSack;
+                            if (ItemizerAvailable)
                             {
-                                Stop(false, Resources.StatusErrorItemizerUnknown);
+                                MoveItems(string.Format("/puts {0} {1}", name, storagemedium), ref name, ref storagemedium);
                             }
-
-                            string fish;
-                            if (command.Contains(Resources.QuoteMark))
+                            else if (ItemToolsAvailable)
                             {
-                                fish = command.Split(new String[] { Resources.QuoteMark }, StringSplitOptions.RemoveEmptyEntries)[1];
+                                MoveItems(string.Format("/moveitem {0} inventory {1} 12", name, storagemedium), ref name, ref storagemedium);
                             }
-                            else
+                        }
+                        if (_FFACE.Item.GetInventoryItemCount((ushort)Dictionaries.fishDictionary[name]) > 0 &&
+                            cbInventoryItemizerSatchel.Checked && _FFACE.Item.SatchelCount < _FFACE.Item.SatchelMax)
+                        {
+                            storagemedium = Resources.CommandPartSatchel;
+                            if (ItemizerAvailable)
                             {
-                                fish = tempactionstring[1];
+                                MoveItems(string.Format("/puts {0} {1}", name, storagemedium), ref name, ref storagemedium);
                             }
-
-                            string storagemedium;
-                            if (tempactionstring[0].StartsWith(CommandMoveItem))
+                            else if (ItemToolsAvailable)
                             {
-                                storagemedium = tempactionstring[tempactionstring.Length - 1].ToLower();
-                                // Command ends with a quantity. Get correct storage medium
-                                if (storagemedium != Resources.CommandPartSatchel && storagemedium != Resources.CommandPartSack)
-                                {
-                                    storagemedium = tempactionstring[tempactionstring.Length - 2].ToLower();
-                                }
+                                MoveItems(string.Format("/moveitem {0} inventory {1} 12", name, storagemedium), ref name, ref storagemedium);
                             }
-                            else
-                            {
-                                storagemedium = tempactionstring[tempactionstring.Length - 1].ToLower();
-                            }
-
-                            // Check storage location
-                            if (storagemedium != Resources.CommandPartSatchel && storagemedium != Resources.CommandPartSack)
-                            {
-                                Stop(false, Resources.StatusErrorItemizerDestination);
-                            }
-
-                            MoveItems(string.Join(Resources.Space, tempactionstring), ref fish, ref storagemedium);
                         }
                     }
-                    else if (rbFullactionOther.Checked)
-                    {
-                        SetStatus(Resources.StatusInfoFullInventoryCommand);
-                        _FFACE.Windower.SendString(tbFullactionOther.Text);
-                        Thread.Sleep(10000);
-                    }
+                }
+                else if (cbFullactionOther.Checked && !string.IsNullOrEmpty(tbFullactionOther.Text))
+                {
+                    SetStatus(Resources.StatusInfoFullInventoryCommand);
+                    _FFACE.Windower.SendString(tbFullactionOther.Text);
+                    Thread.Sleep((int)(numFullactionOtherTime.Value * 1000));
                 }
                 else
                 {
@@ -1389,19 +1430,19 @@ namespace Fishing
             }
             if (_FFACE.Item.InventoryCount == _FFACE.Item.InventoryMax && cbFullActionStop.Checked)
             {
-                if (rbFullactionWarp.Checked)
+                if (cbFullactionWarp.Checked)
                 {
                     SetStatus(Resources.StatusInfoFullInventoryWarp);
                     _FFACE.Windower.SendString(CommandWarp);
                     Thread.Sleep(30000);
                 }
-                if (rbFullactionLogout.Checked)
+                if (cbFullactionLogout.Checked)
                 {
                     SetStatus(Resources.StatusInfoFullInventoryLogout);
                     _FFACE.Windower.SendString(CommandLogout);
                     Thread.Sleep(30000);
                 }
-                else if (rbFullactionShutdown.Checked)
+                else if (cbFullactionShutdown.Checked)
                 {
                     SetStatus(Resources.StatusInfoFullInventoryShutdown);
                     _FFACE.Windower.SendString(CommandShutdown);
@@ -2194,7 +2235,7 @@ namespace Fishing
                     testLine = FishChat.tellLog[i].Text;
                     if (testLine.Length >= 3 && testLine.Substring(0, 3) == TestChatGM)
                     {
-                        gmDetect();
+                        GMDetect();
                     }
                 }
                 //end added by golfandsurf 6/21/2010: GMdetect
@@ -2313,7 +2354,7 @@ namespace Fishing
                         }
                         if ((actions & (int)ChatAction.Flash) == (int)ChatAction.Flash)
                         {
-                            doFlashWindow();
+                            DoFlashWindow();
                         }
                         break;
                     }
@@ -2390,18 +2431,18 @@ namespace Fishing
             return (int)(height * currentScaleFactor.Height);
         }
 
-        private void doFlashWindow()
+        private void DoFlashWindow()
         {
             FlashWindow.Flash(this);
         }
 
-        private void gmDetect()
+        private void GMDetect()
         {
             if (cbGMdetectAutostop.Checked)
             {
                 if (!cbStopSound.Checked && File.Exists(FileWarningWav))
                 {
-                    doFlashWindow();
+                    DoFlashWindow();
                     SoundPlayer spWave = new SoundPlayer(FileWarningWav);
                     spWave.Play();
                 }
@@ -3017,28 +3058,32 @@ namespace Fishing
 
         #region Other
 
-        private void rbFullactionOther_CheckedChanged(object sender, EventArgs e)
+        private void cbFullactionOther_CheckedChanged(object sender, EventArgs e)
         {
-            tbFullactionOther.Enabled = rbFullactionOther.Checked || cbInventoryItemizerItemTools.Checked;
-            if (rbFullactionOther.Checked)
+            tbFullactionOther.Enabled = numFullactionOtherTime.Enabled = cbFullactionOther.Checked;
+            if (cbFullactionOther.Checked)
             {
                 cbInventoryItemizerItemTools.Checked = false;
+                if (OptionsConfigured)
+                {
+                    MessageBox.Show(string.Join(Environment.NewLine, MessageInventoryOther));
+                }
             }
         }
 
-        private void rbFullactionLogout_CheckedChanged(object sender, EventArgs e)
+        private void cbFullactionLogout_CheckedChanged(object sender, EventArgs e)
         {
-			if (rbFullactionLogout.Checked)
+			if (cbFullactionLogout.Checked)
 			{
-				rbFullactionShutdown.Checked = false;
+				cbFullactionShutdown.Checked = false;
 			}
         }
 
-        private void rbFullactionShutdown_CheckedChanged(object sender, EventArgs e)
+        private void cbFullactionShutdown_CheckedChanged(object sender, EventArgs e)
         {
-			if (rbFullactionShutdown.Checked)
+			if (cbFullactionShutdown.Checked)
 			{
-				rbFullactionLogout.Checked = false;
+				cbFullactionLogout.Checked = false;
 			}
         }
 
@@ -3076,33 +3121,25 @@ namespace Fishing
 
         private void cbEnableItemizerItemTools_CheckedChanged(object sender, EventArgs e)
         {
-            tbFullactionOther.Enabled = rbFullactionOther.Checked || cbInventoryItemizerItemTools.Checked;
+            cbInventoryItemizerSack.Enabled = cbInventoryItemizerSatchel.Enabled = cbInventoryItemizerItemTools.Checked;
             if (cbInventoryItemizerItemTools.Checked)
             {
-                rbFullactionOther.Checked = false;
-                if (OptionsConfigured)
-                {
-                    MessageBox.Show(string.Join(Environment.NewLine, MessageInventoryItemizer));
-                }
+                cbFullactionOther.Checked = false;
             }
         }
 
         private void cbBaitItemizerItemTools_CheckedChanged(object sender, EventArgs e)
         {
-            tbBaitactionOther.Enabled = cbBaitactionOther.Checked || cbBaitItemizerItemTools.Checked;
+            cbBaitItemizerSack.Enabled = cbBaitItemizerSatchel.Enabled = cbBaitItemizerItemTools.Checked;
             if (cbBaitItemizerItemTools.Checked)
             {
                 cbBaitactionOther.Checked = false;
-                if (OptionsConfigured)
-                {
-                    MessageBox.Show(string.Join(Environment.NewLine, MessageBaitItemizer));
-                }
             }
         }
 
         private void cbBaitactionOther_CheckedChanged(object sender, EventArgs e)
         {
-            tbBaitactionOther.Enabled = cbBaitactionOther.Checked || cbBaitItemizerItemTools.Checked;
+            tbBaitactionOther.Enabled = numBaitactionOtherTime.Enabled = cbBaitactionOther.Checked;
             if (cbBaitactionOther.Checked)
             {
                 cbBaitItemizerItemTools.Checked = false;
@@ -3115,9 +3152,34 @@ namespace Fishing
 
         private void cbFullActionStop_CheckedChanged(object sender, EventArgs e)
         {
-            rbFullactionWarp.Enabled = cbFullActionStop.Checked;
-            rbFullactionLogout.Enabled = cbFullActionStop.Checked;
-            rbFullactionShutdown.Enabled = cbFullActionStop.Checked;
+            cbFullactionWarp.Enabled = cbFullActionStop.Checked;
+            cbFullactionLogout.Enabled = cbFullActionStop.Checked;
+            cbFullactionShutdown.Enabled = cbFullActionStop.Checked;
+        }
+
+        private static Size tbFullactionOtherSize;
+        private static Size tbBaitactionOtherSize;
+
+        private void tbFullactionOther_Enter(object sender, EventArgs e)
+        {
+            tbFullactionOtherSize = tbFullactionOther.Size;
+            tbFullactionOther.Size = new Size(tbFullactionOtherSize.Width, tbFullactionOtherSize.Height + ScaleHeight(71));
+        }
+
+        private void tbFullactionOther_Leave(object sender, EventArgs e)
+        {
+            tbFullactionOther.Size = tbFullactionOtherSize;
+        }
+
+        private void tbBaitactionOther_Enter(object sender, EventArgs e)
+        {
+            tbBaitactionOtherSize = tbBaitactionOther.Size;
+            tbBaitactionOther.Size = new Size(tbBaitactionOtherSize.Width, tbBaitactionOtherSize.Height + ScaleHeight(71));
+        }
+
+        private void tbBaitactionOther_Leave(object sender, EventArgs e)
+        {
+            tbBaitactionOther.Size = tbBaitactionOtherSize;
         }
 
         #endregion //Other
@@ -3453,12 +3515,16 @@ namespace Fishing
                 Settings.Default.Extend = cbExtend.Checked = false;
                 Settings.Default.QuickKill = cbQuickKill.Checked = false;
                 Settings.Default.QuickKillValue = numQuickKill.Value = 15;
+                Settings.Default.FullActionItemizer = cbInventoryItemizerItemTools.Checked = false;
+                Settings.Default.FullActionSack = cbInventoryItemizerSack.Checked = false;
+                Settings.Default.FullActionSatchel = cbInventoryItemizerSatchel.Checked = false;
                 Settings.Default.FullActionOtherText = tbFullactionOther.Text = "";
-                Settings.Default.FullActionOther = rbFullactionOther.Checked = false;
-                Settings.Default.FullActionWarp = rbFullactionWarp.Checked = false;
+                Settings.Default.FullActionOtherTime = numFullactionOtherTime.Value = 1.0m;
+                Settings.Default.FullActionOther = cbFullactionOther.Checked = false;
+                Settings.Default.FullActionWarp = cbFullactionWarp.Checked = false;
                 Settings.Default.FullActionStop = cbFullActionStop.Checked = true;
-                Settings.Default.FullActionLogout = rbFullactionLogout.Checked = false;
-                Settings.Default.FullActionShutdown = rbFullactionShutdown.Checked = false;
+                Settings.Default.FullActionLogout = cbFullactionLogout.Checked = false;
+                Settings.Default.FullActionShutdown = cbFullactionShutdown.Checked = false;
                 Settings.Default.IgnoreItems = cbIgnoreItem.Checked = true;
                 Settings.Default.IgnoreMonsters = cbIgnoreMonster.Checked = true;
                 Settings.Default.IgnoreSmallFish = cbIgnoreSmallFish.Checked = false;
@@ -3482,15 +3548,17 @@ namespace Fishing
                 Settings.Default.BaitLogout = cbBaitActionLogout.Checked = false;
                 Settings.Default.BaitWarp = cbBaitActionWarp.Checked = false;
                 Settings.Default.BaitItemizer = cbBaitItemizerItemTools.Checked = false;
+                Settings.Default.BaitSack = cbBaitItemizerSack.Checked = false;
+                Settings.Default.BaitSatchel = cbBaitItemizerSatchel.Checked = false;
                 Settings.Default.BaitOther = cbBaitactionOther.Checked = false;
                 Settings.Default.BaitOtherText = tbBaitactionOther.Text = "";
+                Settings.Default.BaitOtherTime = numBaitactionOtherTime.Value = 1.0m;
 				Settings.Default.FatiguedShutdown = cbFatiguedActionShutdown.Checked = false;
 				Settings.Default.FatiguedLogout = cbFatiguedActionLogout.Checked = false;
 				Settings.Default.FatiguedWarp = cbFatiguedActionWarp.Checked = false;
                 Settings.Default.StopSound = cbStopSound.Checked = false;
                 Settings.Default.TellDetect = cbTellDetect.Checked = true;
                 Settings.Default.ShowFishHP = cbFishHP.Checked = true;
-                Settings.Default.ItemizerItemTools = cbInventoryItemizerItemTools.Checked = false;
                 Settings.Default.SneakFishing = cbSneakFishing.Checked = false;
 
                 // Chat detect settings
@@ -3541,11 +3609,15 @@ namespace Fishing
                 Settings.Default.ReactionMax = numReactionHigh.Value;
                 Settings.Default.ReactionMin = numReactionLow.Value;
                 Settings.Default.FullActionOtherText = tbFullactionOther.Text;
-				Settings.Default.FullActionOther = rbFullactionOther.Checked;
+                Settings.Default.FullActionItemizer = cbInventoryItemizerItemTools.Checked;
+                Settings.Default.FullActionSack = cbInventoryItemizerSack.Checked;
+                Settings.Default.FullActionSatchel = cbInventoryItemizerSatchel.Checked;
+				Settings.Default.FullActionOther = cbFullactionOther.Checked;
+                Settings.Default.FullActionOtherTime = numFullactionOtherTime.Value;
                 Settings.Default.FullActionStop = cbFullActionStop.Checked;
-				Settings.Default.FullActionWarp = rbFullactionWarp.Checked;
-				Settings.Default.FullActionLogout = rbFullactionLogout.Checked;
-                Settings.Default.FullActionShutdown = rbFullactionShutdown.Checked;
+				Settings.Default.FullActionWarp = cbFullactionWarp.Checked;
+				Settings.Default.FullActionLogout = cbFullactionLogout.Checked;
+                Settings.Default.FullActionShutdown = cbFullactionShutdown.Checked;
                 Settings.Default.RodGear = tbRodGear.SelectedIndex;
                 Settings.Default.BaitGear = tbBaitGear.SelectedIndex;
 				Settings.Default.BodyGear = tbBodyGear.SelectedIndex;
@@ -3565,8 +3637,11 @@ namespace Fishing
                 Settings.Default.BaitLogout = cbBaitActionLogout.Checked;
                 Settings.Default.BaitWarp = cbBaitActionWarp.Checked;
                 Settings.Default.BaitItemizer = cbBaitItemizerItemTools.Checked;
+                Settings.Default.BaitSack = cbBaitItemizerSack.Checked;
+                Settings.Default.BaitSatchel = cbBaitItemizerSatchel.Checked;
                 Settings.Default.BaitOther = cbBaitactionOther.Checked;
                 Settings.Default.BaitOtherText = tbBaitactionOther.Text;
+                Settings.Default.BaitOtherTime = numBaitactionOtherTime.Value;
 				Settings.Default.FatiguedShutdown = cbFatiguedActionShutdown.Checked;
 				Settings.Default.FatiguedLogout = cbFatiguedActionLogout.Checked;
 				Settings.Default.FatiguedWarp = cbFatiguedActionWarp.Checked;
@@ -3581,7 +3656,6 @@ namespace Fishing
                 Settings.Default.IgnoreLargeFish = cbIgnoreLargeFish.Checked;
                 Settings.Default.TellDetect = cbTellDetect.Checked;
                 Settings.Default.ShowFishHP = cbFishHP.Checked;
-                Settings.Default.ItemizerItemTools = cbInventoryItemizerItemTools.Checked;
                 Settings.Default.SneakFishing = cbSneakFishing.Checked;
 
                 // Chat detect settings
@@ -3633,11 +3707,15 @@ namespace Fishing
             numReactionHigh.Value = Settings.Default.ReactionMax;
             numReactionLow.Value = Settings.Default.ReactionMin;
             tbFullactionOther.Text = Settings.Default.FullActionOtherText;
-			rbFullactionOther.Checked = Settings.Default.FullActionOther;
+            numFullactionOtherTime.Value = Settings.Default.FullActionOtherTime;
+            cbInventoryItemizerItemTools.Checked = Settings.Default.FullActionItemizer;
+            cbInventoryItemizerSack.Checked = Settings.Default.FullActionSack;
+            cbInventoryItemizerSatchel.Checked = Settings.Default.FullActionSatchel;
+			cbFullactionOther.Checked = Settings.Default.FullActionOther;
             cbFullActionStop.Checked = Settings.Default.FullActionStop;
-			rbFullactionWarp.Checked = Settings.Default.FullActionWarp;
-			rbFullactionLogout.Checked = Settings.Default.FullActionLogout;
-            rbFullactionShutdown.Checked = Settings.Default.FullActionShutdown;
+			cbFullactionWarp.Checked = Settings.Default.FullActionWarp;
+			cbFullactionLogout.Checked = Settings.Default.FullActionLogout;
+            cbFullactionShutdown.Checked = Settings.Default.FullActionShutdown;
             tbRodGear.SelectedIndex = Settings.Default.RodGear;
             tbBaitGear.SelectedIndex = Settings.Default.BaitGear;
 			tbBodyGear.SelectedIndex = Settings.Default.BodyGear;
@@ -3657,8 +3735,11 @@ namespace Fishing
             cbBaitActionLogout.Checked = Settings.Default.BaitLogout;
             cbBaitActionWarp.Checked = Settings.Default.BaitWarp;
             cbBaitItemizerItemTools.Checked = Settings.Default.BaitItemizer;
+            cbBaitItemizerSack.Checked = Settings.Default.BaitSack;
+            cbBaitItemizerSatchel.Checked = Settings.Default.BaitSatchel;
             cbBaitactionOther.Checked = Settings.Default.BaitOther;
             tbBaitactionOther.Text = Settings.Default.BaitOtherText;
+            numBaitactionOtherTime.Value = Settings.Default.BaitOtherTime;
 			cbFatiguedActionShutdown.Checked = Settings.Default.FatiguedShutdown;
 			cbFatiguedActionLogout.Checked = Settings.Default.FatiguedLogout;
 			cbFatiguedActionWarp.Checked = Settings.Default.FatiguedWarp;
@@ -3672,7 +3753,6 @@ namespace Fishing
             cbIgnoreSmallFish.Checked = Settings.Default.IgnoreSmallFish;
             cbIgnoreLargeFish.Checked = Settings.Default.IgnoreLargeFish;
             cbTellDetect.Checked = Settings.Default.TellDetect;
-            cbInventoryItemizerItemTools.Checked = Settings.Default.ItemizerItemTools;
             cbSneakFishing.Checked = Settings.Default.SneakFishing;
 
             // Chat detect settings
