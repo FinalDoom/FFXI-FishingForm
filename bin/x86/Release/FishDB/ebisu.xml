@@ -31,6 +31,7 @@
       <Zone>Lufaise Meadows</Zone>
       <Zone>Misareaux Coast</Zone>
       <Zone>La Theine Plateau</Zone>
+      <Zone>Jugner Forest [S]</Zone>
     </Zones>
     <Baits>
       <Bait>Minnow</Bait>
@@ -113,12 +114,14 @@
       <Zone>Open sea route to Al Zahbi</Zone>
       <Zone>Kazham</Zone>
       <Zone>Den of Rancor</Zone>
+      <Zone>Batallia Downs [S]</Zone>
     </Zones>
     <Baits>
       <Bait>Robber Rig</Bait>
       <Bait>Meatball</Bait>
       <Bait>Worm Lure</Bait>
       <Bait>Shrimp Lure</Bait>
+      <Bait>Minnow</Bait>
     </Baits>
   </Fish>
   <Fish name="Mob (Thalassic Pugil)" wanted="No" ID1="300" ID2="15" ID3="12" ID4="7">
@@ -127,6 +130,7 @@
     </Zones>
     <Baits>
       <Bait>Robber Rig</Bait>
+      <Bait>Sinking Minnow</Bait>
     </Baits>
   </Fish>
   <Fish name="Rusty Bucket" wanted="No" ID1="60" ID2="19" ID3="15" ID4="9">
@@ -137,6 +141,7 @@
       <Zone>Kazham</Zone>
       <Zone>East Sarutabaruta</Zone>
       <Zone>Port San d'Oria</Zone>
+      <Zone>Windurst Waters</Zone>
     </Zones>
     <Baits>
       <Bait>Robber Rig</Bait>
@@ -145,14 +150,19 @@
       <Bait>Fly Lure</Bait>
       <Bait>Dwarf Pugil</Bait>
       <Bait>Minnow</Bait>
+      <Bait>Sinking Minnow</Bait>
+      <Bait>Little Worm</Bait>
     </Baits>
   </Fish>
   <Fish name="Ogre Eel" wanted="No" ID1="240" ID2="29" ID3="15" ID4="14">
     <Zones>
       <Zone>Vunkerl Inlet [S]</Zone>
+      <Zone>East Sarutabaruta</Zone>
     </Zones>
     <Baits>
       <Bait>Robber Rig</Bait>
+      <Bait>Sinking Minnow</Bait>
+      <Bait>Shrimp Lure</Bait>
     </Baits>
   </Fish>
   <Fish name="Rusty Subligar" wanted="No" ID1="60" ID2="22" ID3="15" ID4="11">
@@ -166,6 +176,10 @@
       <Zone>Talacca Cove</Zone>
       <Zone>Kuftal Tunnel</Zone>
       <Zone>Qufim Island</Zone>
+      <Zone>Quicksand Caves</Zone>
+      <Zone>East Sarutabaruta</Zone>
+      <Zone>Windurst Waters</Zone>
+      <Zone>Beaucedine Glacier [S]</Zone>
     </Zones>
     <Baits>
       <Bait>Robber Rig</Bait>
@@ -174,6 +188,7 @@
       <Bait>Lugworm</Bait>
       <Bait>Sinking Minnow</Bait>
       <Bait>Minnow</Bait>
+      <Bait>Little Worm</Bait>
     </Baits>
   </Fish>
   <Fish name="Arrowwood Log" wanted="No" ID1="60" ID2="18" ID3="15" ID4="9">
@@ -181,12 +196,15 @@
       <Zone>Vunkerl Inlet [S]</Zone>
       <Zone>Lufaise Meadows</Zone>
       <Zone>Beaucedine Glacier</Zone>
+      <Zone>Jugner Forest [S]</Zone>
     </Zones>
     <Baits>
       <Bait>Robber Rig</Bait>
       <Bait>Minnow</Bait>
       <Bait>Trout Ball</Bait>
       <Bait>Sinking Minnow</Bait>
+      <Bait>Sardine Ball</Bait>
+      <Bait>Shrimp Lure</Bait>
     </Baits>
   </Fish>
   <Fish name="Gigant Octopus" wanted="No" ID1="220" ID2="18" ID3="4" ID4="9">
@@ -206,6 +224,9 @@
       <Zone>Port San d'Oria</Zone>
       <Zone>Qufim Island</Zone>
       <Zone>Mhaura</Zone>
+      <Zone>Jugner Forest [S]</Zone>
+      <Zone>East Sarutabaruta</Zone>
+      <Zone>Windurst Waters</Zone>
     </Zones>
     <Baits>
       <Bait>Robber Rig</Bait>
@@ -214,6 +235,7 @@
       <Bait>Lugworm</Bait>
       <Bait>Minnow</Bait>
       <Bait>Sinking Minnow</Bait>
+      <Bait>Little Worm</Bait>
     </Baits>
   </Fish>
   <Fish name="Mob (Bloodsucker)" wanted="No" ID1="300" ID2="18" ID3="10" ID4="9">
@@ -230,15 +252,19 @@
     </Zones>
     <Baits>
       <Bait>Robber Rig</Bait>
+      <Bait>Shrimp Lure</Bait>
+      <Bait>Sinking Minnow</Bait>
     </Baits>
   </Fish>
   <Fish name="Garpike" wanted="Yes" ID1="220" ID2="24" ID3="5" ID4="12">
     <Zones>
       <Zone>Vunkerl Inlet [S]</Zone>
+      <Zone>Batallia Downs [S]</Zone>
     </Zones>
     <Baits>
       <Bait>Robber Rig</Bait>
       <Bait>Sinking Minnow</Bait>
+      <Bait>Minnow</Bait>
     </Baits>
   </Fish>
   <Fish name="Mob (Submarine Nipper)" wanted="No" ID1="300" ID2="16" ID3="15" ID4="8">
@@ -248,14 +274,18 @@
     <Baits>
       <Bait>Robber Rig</Bait>
       <Bait>Dwarf Pugil</Bait>
+      <Bait>Sinking Minnow</Bait>
     </Baits>
   </Fish>
   <Fish name="Bastore Sweeper" wanted="No" ID1="60" ID2="17" ID3="6" ID4="8">
     <Zones>
       <Zone>Vunkerl Inlet [S]</Zone>
+      <Zone>Batallia Downs [S]</Zone>
     </Zones>
     <Baits>
       <Bait>Robber Rig</Bait>
+      <Bait>Sinking Minnow</Bait>
+      <Bait>Meatball</Bait>
     </Baits>
   </Fish>
   <Fish name="Quus" wanted="No" ID1="240" ID2="12" ID3="9" ID4="6">
@@ -276,10 +306,12 @@
       <Zone>Vunkerl Inlet [S]</Zone>
       <Zone>Sea Serpent Grotto</Zone>
       <Zone>Port Windurst</Zone>
+      <Zone>East Sarutabaruta</Zone>
     </Zones>
     <Baits>
       <Bait>Robber Rig</Bait>
       <Bait>Shrimp Lure</Bait>
+      <Bait>Sinking Minnow</Bait>
     </Baits>
   </Fish>
   <Fish name="Silver Shark" wanted="Yes" ID1="200" ID2="35" ID3="5" ID4="15">
@@ -289,6 +321,7 @@
       <Zone>Ship bound for Selbina (Pirates)</Zone>
       <Zone>Ship bound for Mhaura (Pirates)</Zone>
       <Zone>Sauromugue Champaign</Zone>
+      <Zone>Batallia Downs [S]</Zone>
     </Zones>
     <Baits>
       <Bait>Meatball</Bait>
@@ -584,11 +617,13 @@
       <Zone>Kazham</Zone>
       <Zone>Den of Rancor</Zone>
       <Zone>Mhaura</Zone>
+      <Zone>East Sarutabaruta</Zone>
     </Zones>
     <Baits>
       <Bait>Worm Lure</Bait>
       <Bait>Shrimp Lure</Bait>
       <Bait>Meatball</Bait>
+      <Bait>Sinking Minnow</Bait>
     </Baits>
   </Fish>
   <Fish name="Crescent Fish" wanted="Yes" ID1="180" ID2="28" ID3="9" ID4="14">
@@ -605,6 +640,7 @@
     </Zones>
     <Baits>
       <Bait>Fly Lure</Bait>
+      <Bait>Sinking Minnow</Bait>
     </Baits>
   </Fish>
   <Fish name="Mob (Bloodsucker)" wanted="No" ID1="300" ID2="19" ID3="9" ID4="9">
@@ -613,6 +649,8 @@
     </Zones>
     <Baits>
       <Bait>Robber Rig</Bait>
+      <Bait>Sinking Minnow</Bait>
+      <Bait>Shrimp Lure</Bait>
     </Baits>
   </Fish>
   <Fish name="Takitaro" wanted="Yes" ID1="280" ID2="27" ID3="4" ID4="18">
@@ -766,9 +804,12 @@
     <Zones>
       <Zone>Qufim Island</Zone>
       <Zone>Beaucedine Glacier</Zone>
+      <Zone>Beaucedine Glacier [S]</Zone>
+      <Zone>Port Jeuno</Zone>
     </Zones>
     <Baits>
       <Bait>Sinking Minnow</Bait>
+      <Bait>Shrimp Lure</Bait>
     </Baits>
   </Fish>
   <Fish name="Crystal Bass" wanted="Yes" ID1="180" ID2="24" ID3="9" ID4="12">
@@ -798,6 +839,7 @@
   <Fish name="Nebimonite" wanted="No" ID1="120" ID2="30" ID3="11" ID4="15">
     <Zones>
       <Zone>Sea Serpent Grotto</Zone>
+      <Zone>Ship bound for Selbina</Zone>
     </Zones>
     <Baits>
       <Bait>Shrimp Lure</Bait>
@@ -840,6 +882,7 @@
       <Zone>Port San d'Oria</Zone>
       <Zone>Western Altepa Desert</Zone>
       <Zone>La Theine Plateau</Zone>
+      <Zone>Jugner Forest [S]</Zone>
     </Zones>
     <Baits>
       <Bait>Minnow</Bait>
@@ -855,6 +898,7 @@
     <Baits>
       <Bait>Minnow</Bait>
       <Bait>Sinking Minnow</Bait>
+      <Bait>Shrimp Lure</Bait>
     </Baits>
   </Fish>
   <Fish name="Cone Calamary" wanted="No" ID1="120" ID2="40" ID3="12" ID4="20">
@@ -862,6 +906,8 @@
       <Zone>Ship bound for Mhaura</Zone>
       <Zone>Ship bound for Selbina</Zone>
       <Zone>Beaucedine Glacier</Zone>
+      <Zone>Batallia Downs [S]</Zone>
+      <Zone>Beaucedine Glacier [S]</Zone>
     </Zones>
     <Baits>
       <Bait>Minnow</Bait>
@@ -874,6 +920,7 @@
       <Zone>Ship bound for Selbina</Zone>
       <Zone>Beaucedine Glacier</Zone>
       <Zone>Qufim Island</Zone>
+      <Zone>Batallia Downs [S]</Zone>
     </Zones>
     <Baits>
       <Bait>Minnow</Bait>
@@ -887,6 +934,7 @@
     <Baits>
       <Bait>Minnow</Bait>
       <Bait>Sinking Minnow</Bait>
+      <Bait>Shrimp Lure</Bait>
     </Baits>
   </Fish>
   <Fish name="Giant Chirai" wanted="Yes" ID1="300" ID2="37" ID3="5" ID4="27">
@@ -913,6 +961,7 @@
       <Bait>Trout Ball</Bait>
       <Bait>Sinking Minnow</Bait>
       <Bait>Minnow</Bait>
+      <Bait>Sardine Ball</Bait>
     </Baits>
   </Fish>
   <Fish name="Mob (Qufim Pugil)" wanted="No" ID1="300" ID2="16" ID3="15" ID4="8">
@@ -926,6 +975,7 @@
   <Fish name="Hakuryu" wanted="Yes" ID1="260" ID2="37" ID3="4">
     <Zones>
       <Zone>Beaucedine Glacier</Zone>
+      <Zone>Beaucedine Glacier [S]</Zone>
     </Zones>
     <Baits>
       <Bait>Sinking Minnow</Bait>
@@ -1034,25 +1084,21 @@
   <Fish name="Nosteau Herring" wanted="No" ID1="180" ID2="21" ID3="9">
     <Zones>
       <Zone>Beaucedine Glacier</Zone>
+      <Zone>Beaucedine Glacier [S]</Zone>
     </Zones>
     <Baits>
       <Bait>Sardine Ball</Bait>
+      <Bait>Shrimp Lure</Bait>
     </Baits>
   </Fish>
   <Fish name="Tiger Cod" wanted="No" ID1="200" ID2="23" ID3="11">
     <Zones>
       <Zone>Beaucedine Glacier</Zone>
+      <Zone>Beaucedine Glacier [S]</Zone>
     </Zones>
     <Baits>
       <Bait>Sardine Ball</Bait>
-    </Baits>
-  </Fish>
-  <Fish name="Mob (_1_)" wanted="No" ID1="300" ID2="17" ID3="10">
-    <Zones>
-      <Zone>Vunkerl Inlet [S]</Zone>
-    </Zones>
-    <Baits>
-      <Bait>Little Worm</Bait>
+      <Bait>Shrimp Lure</Bait>
     </Baits>
   </Fish>
   <Fish name="Break line fish" wanted="No" ID1="300" ID2="46" ID3="7">
@@ -1141,6 +1187,7 @@
     </Zones>
     <Baits>
       <Bait>Shrimp Lure</Bait>
+      <Bait>Sinking Minnow</Bait>
     </Baits>
   </Fish>
   <Fish name="Bastore Bream" wanted="No" ID1="240" ID2="31" ID3="11">
@@ -1192,9 +1239,127 @@
     </Baits>
   </Fish>
   <Fish name="Tiger Shark" wanted="No" ID1="200" ID2="49" ID3="4">
-    <Zones />
+    <Zones>
+      <Zone>Ship bound for Selbina</Zone>
+    </Zones>
     <Baits>
       <Bait>Sinking Minnow</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Gold Lobster" wanted="No" ID1="80" ID2="35" ID3="6">
+    <Zones>
+      <Zone>East Sarutabaruta</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Sinking Minnow</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Break line fish (_2_)" wanted="No" ID1="160" ID2="54" ID3="5">
+    <Zones>
+      <Zone>Abyssea - Vunkerl</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Meatball</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Moat Carp" wanted="No" ID1="200" ID2="16" ID3="12">
+    <Zones>
+      <Zone>Windurst Waters</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Little Worm</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Mob (Palm Crab)" wanted="No" ID1="300" ID2="16" ID3="15">
+    <Zones>
+      <Zone>East Sarutabaruta</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Sinking Minnow</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Cheval Salmon" wanted="No" ID1="160" ID2="21" ID3="9">
+    <Zones>
+      <Zone>Jugner Forest [S]</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Minnow</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Shining Trout" wanted="No" ID1="240" ID2="16" ID3="7">
+    <Zones>
+      <Zone>Jugner Forest [S]</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Minnow</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Megalodon" wanted="No" ID1="240" ID2="49" ID3="8">
+    <Zones>
+      <Zone>Batallia Downs [S]</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Minnow</Bait>
+      <Bait>Meatball</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Tricolored Carp" wanted="No" ID1="260" ID2="19" ID3="14">
+    <Zones>
+      <Zone>Jugner Forest [S]</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Shrimp Lure</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Mob (Land Pugil)" wanted="No" ID1="300" ID2="15" ID3="12">
+    <Zones>
+      <Zone>Batallia Downs [S]</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Minnow</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Mob (Snipper)" wanted="No" ID1="300" ID2="16" ID3="15">
+    <Zones>
+      <Zone>Batallia Downs [S]</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Meatball</Bait>
+      <Bait>Minnow</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Mob (Bloodsucker)" wanted="No" ID1="300" ID2="17" ID3="10">
+    <Zones>
+      <Zone>Vunkerl Inlet [S]</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Little Worm</Bait>
+      <Bait>Sinking Minnow</Bait>
+      <Bait>Shrimp Lure</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Mob (Pug Pugil)" wanted="No" ID1="300" ID2="17" ID3="10">
+    <Zones>
+      <Zone>East Sarutabaruta</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Sinking Minnow</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Gold Carp" wanted="No" ID1="300" ID2="18" ID3="12">
+    <Zones>
+      <Zone>Windurst Waters</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Little Worm</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Abaia" wanted="No" ID1="300" ID2="55" ID3="6">
+    <Zones>
+      <Zone>Jugner Forest [S]</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Minnow</Bait>
     </Baits>
   </Fish>
 </Rod>

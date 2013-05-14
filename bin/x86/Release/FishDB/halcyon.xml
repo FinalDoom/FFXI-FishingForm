@@ -147,6 +147,7 @@
       <Zone>Bibiki Bay</Zone>
       <Zone>Jugner Forest</Zone>
       <Zone>Port San d'Oria</Zone>
+      <Zone>Selbina</Zone>
     </Zones>
     <Baits>
       <Bait>Meatball</Bait>
@@ -156,6 +157,7 @@
       <Bait>Worm Lure</Bait>
       <Bait>Frog Lure</Bait>
       <Bait>Shrimp Lure</Bait>
+      <Bait>Sabiki Rig</Bait>
     </Baits>
   </Fish>
   <Fish name="Rusty Cap" wanted="No" ID1="60" ID2="38" ID3="15" ID4="26">
@@ -233,11 +235,13 @@
       <Zone>Port Bastok</Zone>
       <Zone>Manaclipper</Zone>
       <Zone>Bibiki Bay</Zone>
+      <Zone>Selbina</Zone>
     </Zones>
     <Baits>
       <Bait>Crayfish Ball</Bait>
       <Bait>Fly Lure</Bait>
       <Bait>Worm Lure</Bait>
+      <Bait>Sabiki Rig</Bait>
     </Baits>
   </Fish>
   <Fish name="Cone Calamary" wanted="No" ID1="120" ID2="40" ID3="12" ID4="28">
@@ -620,7 +624,9 @@
     </Baits>
   </Fish>
   <Fish name="Quus" wanted="No" ID1="240" ID2="12" ID3="9">
-    <Zones />
+    <Zones>
+      <Zone>Selbina</Zone>
+    </Zones>
     <Baits>
       <Bait>Sabiki Rig</Bait>
     </Baits>
@@ -634,7 +640,9 @@
     </Baits>
   </Fish>
   <Fish name="Quus x2" wanted="No" ID1="260" ID2="12" ID3="9">
-    <Zones />
+    <Zones>
+      <Zone>Selbina</Zone>
+    </Zones>
     <Baits>
       <Bait>Sabiki Rig</Bait>
     </Baits>
@@ -676,6 +684,26 @@
     </Zones>
     <Baits>
       <Bait>Little Worm</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Hamsi x2" wanted="No" ID1="140" ID2="21" ID3="14">
+    <Zones />
+    <Baits>
+      <Bait>Sabiki Rig</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Hamsi x3" wanted="No" ID1="160" ID2="21" ID3="15">
+    <Zones />
+    <Baits>
+      <Bait>Sabiki Rig</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="a bluetail!" wanted="No" ID1="260" ID2="24" ID3="6">
+    <Zones>
+      <Zone>East Sarutabaruta</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Minnow</Bait>
     </Baits>
   </Fish>
 </Rod>
