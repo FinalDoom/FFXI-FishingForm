@@ -237,6 +237,10 @@ noted rod. Some rods do not have any data, so the default value remains.
 Changes
 -------
 
+1.7.0.18
+--------
+- New database
+
 1.7.0.17
 --------
 - Lots more error checking for DB stuff
