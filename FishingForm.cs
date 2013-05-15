@@ -708,11 +708,16 @@ namespace Fishing
                     else
                     {
                         Stop(false, Resources.StatusErrorSneakLackMP);
+                        return;
                     }
                 }
             }
 
-            CheckRodAndBait();
+            if (!CheckRodAndBait())
+            {
+                Stop(false, Resources.StatusErrorNoBait);
+                return;
+            }
 
             uint baitLeft = _FFACE.Item.GetInventoryItemCount((ushort) _FFACE.Item.GetEquippedItemID(EquipSlot.Ammo));
 
@@ -1434,10 +1439,6 @@ namespace Fishing
                         _FFACE.Windower.SendString(string.Format(tbFullactionOther.Text, name));
                         Thread.Sleep((int)(numFullactionOtherTime.Value * 1000));
                     }
-                }
-                else
-                {
-                    Stop(false, Resources.StatusErrorFullInventory);
                 }
             }
             if (_FFACE.Item.InventoryCount == _FFACE.Item.InventoryMax && cbFullActionStop.Checked)
