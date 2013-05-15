@@ -613,9 +613,11 @@
   </Fish>
   <Fish name="Nosteau Herring" wanted="No" ID1="180" ID2="23" ID3="9" ID4="23">
     <Zones>
+      <Zone>Batallia Downs</Zone>
       <Zone>Port Jeuno</Zone>
     </Zones>
     <Baits>
+      <Bait>Robber Rig</Bait>
       <Bait>Shrimp Lure</Bait>
     </Baits>
   </Fish>
@@ -1755,6 +1757,7 @@
   </Fish>
   <Fish name="Silver Shark" wanted="No" ID1="240" ID2="38" ID3="7">
     <Zones>
+      <Zone>Batallia Downs</Zone>
       <Zone>Ship bound for Selbina</Zone>
     </Zones>
     <Baits>
@@ -2060,22 +2063,6 @@
     </Zones>
     <Baits>
       <Bait>Sinking Minnow</Bait>
-    </Baits>
-  </Fish>
-  <Fish name="a Nosteau herring!" wanted="No" ID1="180" ID2="23" ID3="9">
-    <Zones>
-      <Zone>Batallia Downs</Zone>
-    </Zones>
-    <Baits>
-      <Bait>Robber Rig</Bait>
-    </Baits>
-  </Fish>
-  <Fish name="a silver shark!" wanted="No" ID1="200" ID2="38" ID3="5">
-    <Zones>
-      <Zone>Batallia Downs</Zone>
-    </Zones>
-    <Baits>
-      <Bait>Meatball</Bait>
     </Baits>
   </Fish>
   <Fish name="Mob (_1_)" wanted="No" ID1="300" ID2="17" ID3="11">

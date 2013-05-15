@@ -698,12 +698,4 @@
       <Bait>Sabiki Rig</Bait>
     </Baits>
   </Fish>
-  <Fish name="a bluetail!" wanted="No" ID1="260" ID2="24" ID3="6">
-    <Zones>
-      <Zone>East Sarutabaruta</Zone>
-    </Zones>
-    <Baits>
-      <Bait>Minnow</Bait>
-    </Baits>
-  </Fish>
 </Rod>
