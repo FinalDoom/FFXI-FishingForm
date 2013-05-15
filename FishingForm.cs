@@ -164,6 +164,7 @@ namespace Fishing
             LineBreak,
             LostCatch,
             Monster,
+            // TODO Use this Quest value somewhere. It could be useful
             Quest,
             TooLarge,
             TooSmall,
@@ -266,17 +267,17 @@ namespace Fishing
             toolTip.SetToolTip(cbSkillCap, "Stop when skill reaches specified level.");
             toolTip.SetToolTip(cbChatDetect, "Uncheck to disable all chat detectors set below.");
 
-            this.tbBaitGear.Items.AddRange(Dictionaries.baitList.ToArray());
-            this.tbRodGear.Items.AddRange(Dictionaries.rodList.ToArray());
-            this.tbBodyGear.Items.AddRange(Dictionaries.gearList.GetRange(Dictionaries.bodyIndex, Dictionaries.bodyCount).ToArray());
-            this.tbHandsGear.Items.AddRange(Dictionaries.gearList.GetRange(Dictionaries.handsIndex, Dictionaries.handsCount).ToArray());
-            this.tbLegsGear.Items.AddRange(Dictionaries.gearList.GetRange(Dictionaries.legsIndex, Dictionaries.legsCount).ToArray());
-            this.tbFeetGear.Items.AddRange(Dictionaries.gearList.GetRange(Dictionaries.feetIndex, Dictionaries.feetCount).ToArray());
-            this.tbHeadGear.Items.AddRange(Dictionaries.gearList.GetRange(Dictionaries.headIndex, Dictionaries.headCount).ToArray());
-            this.tbNeckGear.Items.AddRange(Dictionaries.gearList.GetRange(Dictionaries.neckIndex, Dictionaries.neckCount).ToArray());
-            this.tbWaistGear.Items.AddRange(Dictionaries.gearList.GetRange(Dictionaries.waistIndex, Dictionaries.waistCount).ToArray());
-            this.tbLRingGear.Items.AddRange(Dictionaries.gearList.GetRange(Dictionaries.ringsIndex, Dictionaries.ringsCount).ToArray());
-            this.tbRRingGear.Items.AddRange(Dictionaries.gearList.GetRange(Dictionaries.ringsIndex, Dictionaries.ringsCount).ToArray());
+            tbBaitGear.Items.AddRange(Dictionaries.baitList.ToArray());
+            tbRodGear.Items.AddRange(Dictionaries.rodList.ToArray());
+            tbBodyGear.Items.AddRange(Dictionaries.gearList.GetRange(Dictionaries.bodyIndex, Dictionaries.bodyCount).ToArray());
+            tbHandsGear.Items.AddRange(Dictionaries.gearList.GetRange(Dictionaries.handsIndex, Dictionaries.handsCount).ToArray());
+            tbLegsGear.Items.AddRange(Dictionaries.gearList.GetRange(Dictionaries.legsIndex, Dictionaries.legsCount).ToArray());
+            tbFeetGear.Items.AddRange(Dictionaries.gearList.GetRange(Dictionaries.feetIndex, Dictionaries.feetCount).ToArray());
+            tbHeadGear.Items.AddRange(Dictionaries.gearList.GetRange(Dictionaries.headIndex, Dictionaries.headCount).ToArray());
+            tbNeckGear.Items.AddRange(Dictionaries.gearList.GetRange(Dictionaries.neckIndex, Dictionaries.neckCount).ToArray());
+            tbWaistGear.Items.AddRange(Dictionaries.gearList.GetRange(Dictionaries.waistIndex, Dictionaries.waistCount).ToArray());
+            tbLRingGear.Items.AddRange(Dictionaries.gearList.GetRange(Dictionaries.ringsIndex, Dictionaries.ringsCount).ToArray());
+            tbRRingGear.Items.AddRange(Dictionaries.gearList.GetRange(Dictionaries.ringsIndex, Dictionaries.ringsCount).ToArray());
 
             FishDB.OnChanged += new FishDB.DBChanged(PopulateLists);
             FishStats.OnChanged += new FishStats.FishStatsChanged(UpdateStats);
@@ -713,7 +714,6 @@ namespace Fishing
 
             CheckRodAndBait();
 
-            uint baitCount = _FFACE.Item.GetEquippedItemCount(EquipSlot.Ammo);
             uint baitLeft = _FFACE.Item.GetInventoryItemCount((ushort) _FFACE.Item.GetEquippedItemID(EquipSlot.Ammo));
 
 			CheckEnchantment();
@@ -903,6 +903,7 @@ namespace Fishing
             // [Fix] Stop on no bait or caught a monster
             if (caughtmonster)
             {
+                // TODO What is/was this clause for?
                 caughtmonster = false;
                 //Stop(false, "Monster Caught!!!");
             }
@@ -1449,7 +1450,6 @@ namespace Fishing
                     Thread.Sleep(30000);
                 }
                 Stop(false, Resources.StatusErrorFullInventory);
-                return;
             }
         }
 
@@ -1805,12 +1805,12 @@ namespace Fishing
                 CheckEnchantment();
 
                 ts = new ThreadStart(BackgroundFishing);
-                workerThread = new Thread(ts);
+                workerThread = new Thread(BackgroundFishing);
                 workerThread.IsBackground = true;
                 workerThread.Start();
 
                 btnStart.Text = Resources.GUIButtonStop;
-                btnStartM.Image = Fishing.Properties.Resources.icon_stop;
+                btnStartM.Image = Resources.icon_stop;
             }
 
         } // @ private void Start()
@@ -2037,7 +2037,7 @@ namespace Fishing
                     // while(workerThread.IsAlive) { Thread.Sleep(100); }  //*golfandsurf* removed to correct freeze problem.
                     workerThread = null;
                     btnStart.Text = Resources.GUIButtonStart;
-                    btnStartM.Image = Fishing.Properties.Resources.icon_play;
+                    btnStartM.Image = Resources.icon_play;
                 }
             });
         } // @ private void Stop(bool zoned, string status)
@@ -2061,7 +2061,7 @@ namespace Fishing
             decimal ret = decimal.Zero;
             this.UIThreadInvoke(delegate
             {
-                ret = this.numFakeLargeIntervalHigh.Value;
+                ret = numFakeLargeIntervalHigh.Value;
             });
             return ret;
         } // @ private decimal GetFakeLargeHigh()
@@ -2137,16 +2137,6 @@ namespace Fishing
             });
         } // @ private void SetBait(string bait)
 
-        private string GetBait()
-        {
-            string ret = string.Empty;
-            this.UIThreadInvoke(delegate
-            {
-                ret = LastBaitName;
-            });
-            return ret;
-        } // @ private void GetBait()
-
         private void SetRod(string rod)
         {
             this.UIThread(delegate
@@ -2154,16 +2144,6 @@ namespace Fishing
                 LastRodName = rod;
             });
         } // @ private void SetRod(string rod)
-
-        private string GetRod()
-        {
-            string ret = string.Empty;
-            this.UIThreadInvoke(delegate
-            {
-                ret = LastRodName;
-            });
-            return ret;
-        } // @ private void GetRod()
 
         private void SetLblZone(string zone)
         {
@@ -2491,35 +2471,35 @@ namespace Fishing
             switch (vanaNow.DayType)
             {
                 case Weekday.Darksday:
-                    lblVanaDay.Image = Fishing.Properties.Resources.d_dark;
+                    lblVanaDay.Image = Resources.d_dark;
                     lblVanaDay.ForeColor = Color.DarkGray;
                     break;
                 case Weekday.Earthsday:
-                    lblVanaDay.Image = Fishing.Properties.Resources.d_earth;
+                    lblVanaDay.Image = Resources.d_earth;
                     lblVanaDay.ForeColor = Color.Yellow;
                     break;
                 case Weekday.Firesday:
-                    lblVanaDay.Image = Fishing.Properties.Resources.d_fire;
+                    lblVanaDay.Image = Resources.d_fire;
                     lblVanaDay.ForeColor = Color.DarkOrange;
                     break;
                 case Weekday.Iceday:
-                    lblVanaDay.Image = Fishing.Properties.Resources.d_ice;
+                    lblVanaDay.Image = Resources.d_ice;
                     lblVanaDay.ForeColor = Color.LightBlue;
                     break;
                 case Weekday.Lightningday:
-                    lblVanaDay.Image = Fishing.Properties.Resources.d_thunder;
+                    lblVanaDay.Image = Resources.d_thunder;
                     lblVanaDay.ForeColor = Color.DarkMagenta;
                     break;
                 case Weekday.Lightsday:
-                    lblVanaDay.Image = Fishing.Properties.Resources.d_light;
+                    lblVanaDay.Image = Resources.d_light;
                     lblVanaDay.ForeColor = Color.LightGray;
                     break;
                 case Weekday.Watersday:
-                    lblVanaDay.Image = Fishing.Properties.Resources.d_water;
+                    lblVanaDay.Image = Resources.d_water;
                     lblVanaDay.ForeColor = Color.Blue;
                     break;
                 case Weekday.Windsday:
-                    lblVanaDay.Image = Fishing.Properties.Resources.d_wind;
+                    lblVanaDay.Image = Resources.d_wind;
                     lblVanaDay.ForeColor = Color.LightGreen;
                     break;
             }
@@ -3197,17 +3177,17 @@ namespace Fishing
                 // cmbChatAction
                 // 
                 ComboBox cmbChatAction = new ComboBox();
-                cmbChatAction.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-                cmbChatAction.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-                cmbChatAction.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+                cmbChatAction.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+                cmbChatAction.AutoCompleteSource = AutoCompleteSource.ListItems;
+                cmbChatAction.DropDownStyle = ComboBoxStyle.DropDownList;
                 cmbChatAction.FormattingEnabled = true;
                 cmbChatAction.Items.AddRange(new object[] {
             Resources.GUIChatDetectActionStop,
             Resources.GUIChatDetectActionNote,
             Resources.GUIChatDetectActionFlash});
-                cmbChatAction.Location = new System.Drawing.Point(ScaleWidth(136), ScaleHeight(2 + offset + panelChatDetect.AutoScrollPosition.Y));
+                cmbChatAction.Location = new Point(ScaleWidth(136), ScaleHeight(2 + offset + panelChatDetect.AutoScrollPosition.Y));
                 cmbChatAction.Name = "cmbChatAction";
-                cmbChatAction.Size = new System.Drawing.Size(ScaleWidth(83), ScaleHeight(20));
+                cmbChatAction.Size = new Size(ScaleWidth(83), ScaleHeight(20));
                 cmbChatAction.TabIndex = 3 + taboffset;
                 cmbChatAction.SelectedIndexChanged += new System.EventHandler(this.cmbChatDetection_SelectedIndexChanged);
                 chatDetectCmbChatActionList.Add(cmbChatAction);
@@ -3215,18 +3195,18 @@ namespace Fishing
                 // cmbChatType
                 // 
                 ComboBox cmbChatType = new ComboBox();
-                cmbChatType.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-                cmbChatType.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-                cmbChatType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+                cmbChatType.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+                cmbChatType.AutoCompleteSource = AutoCompleteSource.ListItems;
+                cmbChatType.DropDownStyle = ComboBoxStyle.DropDownList;
                 cmbChatType.FormattingEnabled = true;
                 cmbChatType.Items.AddRange(new object[] {
             Resources.GUIChatDetectTypeTell,
             Resources.GUIChatDetectTypeParty,
             Resources.GUIChatDetectTypeLinkshell,
             Resources.GUIChatDetectTypeSay});
-                cmbChatType.Location = new System.Drawing.Point(ScaleWidth(23), ScaleHeight(2 + offset + panelChatDetect.AutoScrollPosition.Y));
+                cmbChatType.Location = new Point(ScaleWidth(23), ScaleHeight(2 + offset + panelChatDetect.AutoScrollPosition.Y));
                 cmbChatType.Name = "cmbChatType";
-                cmbChatType.Size = new System.Drawing.Size(ScaleWidth(61), ScaleHeight(20));
+                cmbChatType.Size = new Size(ScaleWidth(61), ScaleHeight(20));
                 cmbChatType.TabIndex = 1 + taboffset;
                 cmbChatType.SelectedIndexChanged += new System.EventHandler(this.cmbChatDetection_SelectedIndexChanged);
                 chatDetectCmbChatTypeList.Add(cmbChatType);
@@ -3235,9 +3215,9 @@ namespace Fishing
                 // 
                 Label lblChatOn = new Label();
                 lblChatOn.AutoSize = true;
-                lblChatOn.Location = new System.Drawing.Point(ScaleWidth(2), ScaleHeight(5 + offset + panelChatDetect.AutoScrollPosition.Y));
+                lblChatOn.Location = new Point(ScaleWidth(2), ScaleHeight(5 + offset + panelChatDetect.AutoScrollPosition.Y));
                 lblChatOn.Name = "lblChatOn";
-                lblChatOn.Size = new System.Drawing.Size(ScaleWidth(21), ScaleHeight(13));
+                lblChatOn.Size = new Size(ScaleWidth(21), ScaleHeight(13));
                 lblChatOn.TabIndex = 0 + taboffset;
                 lblChatOn.Text = "On";
                 chatDetectLblOnList.Add(lblChatOn);
@@ -3245,9 +3225,9 @@ namespace Fishing
                 // btnRemoveChatDetect
                 // 
                 Button btnRemoveChatDetect = new Button();
-                btnRemoveChatDetect.Location = new System.Drawing.Point(ScaleWidth(220), ScaleHeight(offset + panelChatDetect.AutoScrollPosition.Y));
+                btnRemoveChatDetect.Location = new Point(ScaleWidth(220), ScaleHeight(offset + panelChatDetect.AutoScrollPosition.Y));
                 btnRemoveChatDetect.Name = "btnRemoveChatDetect";
-                btnRemoveChatDetect.Size = new System.Drawing.Size(ScaleWidth(23), ScaleHeight(23));
+                btnRemoveChatDetect.Size = new Size(ScaleWidth(23), ScaleHeight(23));
                 btnRemoveChatDetect.TabIndex = 4 + taboffset;
                 btnRemoveChatDetect.Text = GUIChatDetectButtonRemove;
                 btnRemoveChatDetect.UseVisualStyleBackColor = true;
@@ -3258,16 +3238,16 @@ namespace Fishing
                 // 
                 Label lblChatReceived = new Label();
                 lblChatReceived.AutoSize = true;
-                lblChatReceived.Location = new System.Drawing.Point(ScaleWidth(84), ScaleHeight(5 + offset + panelChatDetect.AutoScrollPosition.Y));
+                lblChatReceived.Location = new Point(ScaleWidth(84), ScaleHeight(5 + offset + panelChatDetect.AutoScrollPosition.Y));
                 lblChatReceived.Name = "lblChatReceived";
-                lblChatReceived.Size = new System.Drawing.Size(ScaleWidth(54), ScaleHeight(13));
+                lblChatReceived.Size = new Size(ScaleWidth(54), ScaleHeight(13));
                 lblChatReceived.TabIndex = 2 + taboffset;
                 lblChatReceived.Text = "Received,";
                 chatDetectLblReceivedList.Add(lblChatReceived);
 
                 panelChatDetect.SuspendLayout();
                 // Move Add button down
-                btnChatDetectAdd.Location = new System.Drawing.Point(btnChatDetectAdd.Location.X, ScaleHeight(23 + offset + panelChatDetect.AutoScrollPosition.Y));
+                btnChatDetectAdd.Location = new Point(btnChatDetectAdd.Location.X, ScaleHeight(23 + offset + panelChatDetect.AutoScrollPosition.Y));
                 btnChatDetectAdd.TabIndex = 5 + taboffset;
 
                 panelChatDetect.Controls.Add(cmbChatAction);
@@ -3285,13 +3265,13 @@ namespace Fishing
                 panelChatDetect.SuspendLayout();
                 for (int i = index + 1; i < chatDetectBtnChatRemoveList.Count; ++i)
                 {
-                    chatDetectLblOnList[i].Location = new System.Drawing.Point(chatDetectLblOnList[i].Location.X, chatDetectLblOnList[i].Location.Y - ScaleHeight(23));
-                    chatDetectCmbChatTypeList[i].Location = new System.Drawing.Point(chatDetectCmbChatTypeList[i].Location.X, chatDetectCmbChatTypeList[i].Location.Y - ScaleHeight(23));
-                    chatDetectLblReceivedList[i].Location = new System.Drawing.Point(chatDetectLblReceivedList[i].Location.X, chatDetectLblReceivedList[i].Location.Y - ScaleHeight(23));
-                    chatDetectCmbChatActionList[i].Location = new System.Drawing.Point(chatDetectCmbChatActionList[i].Location.X, chatDetectCmbChatActionList[i].Location.Y - ScaleHeight(23));
-                    chatDetectBtnChatRemoveList[i].Location = new System.Drawing.Point(chatDetectBtnChatRemoveList[i].Location.X, chatDetectBtnChatRemoveList[i].Location.Y - ScaleHeight(23));
+                    chatDetectLblOnList[i].Location = new Point(chatDetectLblOnList[i].Location.X, chatDetectLblOnList[i].Location.Y - ScaleHeight(23));
+                    chatDetectCmbChatTypeList[i].Location = new Point(chatDetectCmbChatTypeList[i].Location.X, chatDetectCmbChatTypeList[i].Location.Y - ScaleHeight(23));
+                    chatDetectLblReceivedList[i].Location = new Point(chatDetectLblReceivedList[i].Location.X, chatDetectLblReceivedList[i].Location.Y - ScaleHeight(23));
+                    chatDetectCmbChatActionList[i].Location = new Point(chatDetectCmbChatActionList[i].Location.X, chatDetectCmbChatActionList[i].Location.Y - ScaleHeight(23));
+                    chatDetectBtnChatRemoveList[i].Location = new Point(chatDetectBtnChatRemoveList[i].Location.X, chatDetectBtnChatRemoveList[i].Location.Y - ScaleHeight(23));
                 }
-                btnChatDetectAdd.Location = new System.Drawing.Point(btnChatDetectAdd.Location.X, btnChatDetectAdd.Location.Y - ScaleHeight(23));
+                btnChatDetectAdd.Location = new Point(btnChatDetectAdd.Location.X, btnChatDetectAdd.Location.Y - ScaleHeight(23));
 
                 panelChatDetect.Controls.Remove(chatDetectLblOnList[index]);
                 panelChatDetect.Controls.Remove(chatDetectCmbChatTypeList[index]);
@@ -3904,7 +3884,7 @@ namespace Fishing
             int x = selectedListBox.Location.X + r.X + 1;
             int y = selectedListBox.Location.Y + r.Y - 2;
 
-            this.selectedListBox.Parent.Controls.Add(this.tbChangeName);
+            selectedListBox.Parent.Controls.Add(this.tbChangeName);
             tbChangeName.Location = new Point(x, y);
             tbChangeName.Size = new Size(r.Width, r.Height);
             tbChangeName.Text = selectedListBox.SelectedItem.ToString();
