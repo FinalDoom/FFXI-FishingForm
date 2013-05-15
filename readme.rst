@@ -237,6 +237,14 @@ noted rod. Some rods do not have any data, so the default value remains.
 Changes
 -------
 
+1.7.0.19
+--------
+- Automatic bait/fish handling when out of bait or full inventory: auto get/put from/to sack/satchel
+
+1.7.0.18
+--------
+- New database
+
 1.7.0.17
 --------
 - Lots more error checking for DB stuff
