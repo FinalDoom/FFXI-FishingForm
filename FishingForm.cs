@@ -35,7 +35,7 @@ namespace Fishing
             "",
             "    /echo Caught too many {0}!",
             "",
-            "You may also enter several commands, separated by semicolons or newlines. Fishing will attempt to resume after the number of seconds indicated in the number box to the right."
+            "You may also enter several commands, separated by semicolons or newlines. Fishing will attempt to resume after the number of seconds indicated in the number box to the right times the number of fish in the wanted list."
         };
 
         private static readonly string[] MessageBaitOther = {
@@ -259,7 +259,7 @@ namespace Fishing
             toolTip.SetToolTip(cbInventoryItemizerSack, "Put fish in sack.");
             toolTip.SetToolTip(cbInventoryItemizerSatchel, "Put fish in satchel.");
             toolTip.SetToolTip(cbInventoryItemizerItemTools, "Enables Itemizer plugin support to automatically store fish when inventory is full.");
-            toolTip.SetToolTip(cbFullactionOther, "Execute below command when inventory is full. Wait for the number of seconds to the right.");
+            toolTip.SetToolTip(cbFullactionOther, "Execute below command when inventory is full. Wait for the number of seconds to the right for each fish in the wanted list.");
             toolTip.SetToolTip(numFullactionOtherTime, "Number of seconds to wait for command to execute.");
             toolTip.SetToolTip(cbMaxCatch, "Stops fishing when # of catches reached; value resets when limit is reached.");
             toolTip.SetToolTip(cbSneakFishing, "Will cast the spell Sneak prior to casting.");
@@ -1420,8 +1420,19 @@ namespace Fishing
                 else if (cbFullactionOther.Checked && !string.IsNullOrEmpty(tbFullactionOther.Text))
                 {
                     SetStatus(Resources.StatusInfoFullInventoryCommand);
-                    _FFACE.Windower.SendString(tbFullactionOther.Text);
-                    Thread.Sleep((int)(numFullactionOtherTime.Value * 1000));
+
+                    foreach (Fishie fishie in lbWanted.Items)
+                    {
+                        // Get best guess for the fish name
+                        string name = GetFishName(fishie.name);
+                        if (!Dictionaries.fishDictionary.ContainsKey(name) || _FFACE.Item.GetInventoryItemCount((ushort)Dictionaries.fishDictionary[name]) == 0)
+                        {
+                            continue;
+                        }
+                        name = string.Format(Resources.FormatQuoteArg, name);
+                        _FFACE.Windower.SendString(string.Format(tbFullactionOther.Text, name));
+                        Thread.Sleep((int)(numFullactionOtherTime.Value * 1000));
+                    }
                 }
                 else
                 {
