@@ -698,4 +698,10 @@
       <Bait>Sabiki Rig</Bait>
     </Baits>
   </Fish>
+  <Fish name="Istakoz" wanted="No" ID1="80" ID2="35" ID3="6">
+    <Zones>
+      <Zone>Nashmau</Zone>
+    </Zones>
+    <Zone />
+  </Fish>
 </Rod>

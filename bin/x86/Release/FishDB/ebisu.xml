@@ -115,6 +115,7 @@
       <Zone>Kazham</Zone>
       <Zone>Den of Rancor</Zone>
       <Zone>Batallia Downs [S]</Zone>
+      <Zone>Abyssea - Vunkerl</Zone>
     </Zones>
     <Baits>
       <Bait>Robber Rig</Bait>
@@ -122,6 +123,7 @@
       <Bait>Worm Lure</Bait>
       <Bait>Shrimp Lure</Bait>
       <Bait>Minnow</Bait>
+      <Bait>Dwarf Pugil</Bait>
     </Baits>
   </Fish>
   <Fish name="Mob (Thalassic Pugil)" wanted="No" ID1="300" ID2="15" ID3="12" ID4="7">
@@ -1101,7 +1103,7 @@
       <Bait>Shrimp Lure</Bait>
     </Baits>
   </Fish>
-  <Fish name="Break line fish" wanted="No" ID1="300" ID2="46" ID3="7">
+  <Fish name="Matsya" wanted="No" ID1="300" ID2="46" ID3="7" rename="Break line fish">
     <Zones>
       <Zone>Vunkerl Inlet [S]</Zone>
     </Zones>
@@ -1361,5 +1363,11 @@
     <Baits>
       <Bait>Minnow</Bait>
     </Baits>
+  </Fish>
+  <Fish name="Rusty Kunai/Zaghnal" wanted="No" ID1="60" ID2="16" ID3="15">
+    <Zones>
+      <Zone>Abyssea - La Theine</Zone>
+    </Zones>
+    <Zone />
   </Fish>
 </Rod>
