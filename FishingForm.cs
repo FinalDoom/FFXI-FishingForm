@@ -1393,7 +1393,7 @@ namespace Fishing
                         {
                             continue;
                         }
-                        name = string.Format(Resources.FormatQuoteArg, name);
+                        string quoteName = string.Format(Resources.FormatQuoteArg, name);
                         string storagemedium;
                         if (_FFACE.Item.GetInventoryItemCount((ushort)Dictionaries.fishDictionary[name]) > 0 &&
                             cbInventoryItemizerSack.Checked && _FFACE.Item.SackCount < _FFACE.Item.SackMax)
@@ -1401,11 +1401,11 @@ namespace Fishing
                             storagemedium = Resources.CommandPartSack;
                             if (ItemizerAvailable)
                             {
-                                MoveItems(string.Format("/puts {0} {1}", name, storagemedium), ref name, ref storagemedium);
+                                MoveItems(string.Format("/puts {0} {1}", quoteName, storagemedium), ref name, ref storagemedium);
                             }
                             else if (ItemToolsAvailable)
                             {
-                                MoveItems(string.Format("/moveitem {0} inventory {1} 12", name, storagemedium), ref name, ref storagemedium);
+                                MoveItems(string.Format("/moveitem {0} inventory {1} 12", quoteName, storagemedium), ref name, ref storagemedium);
                             }
                         }
                         if (_FFACE.Item.GetInventoryItemCount((ushort)Dictionaries.fishDictionary[name]) > 0 &&
@@ -1414,11 +1414,11 @@ namespace Fishing
                             storagemedium = Resources.CommandPartSatchel;
                             if (ItemizerAvailable)
                             {
-                                MoveItems(string.Format("/puts {0} {1}", name, storagemedium), ref name, ref storagemedium);
+                                MoveItems(string.Format("/puts {0} {1}", quoteName, storagemedium), ref name, ref storagemedium);
                             }
                             else if (ItemToolsAvailable)
                             {
-                                MoveItems(string.Format("/moveitem {0} inventory {1} 12", name, storagemedium), ref name, ref storagemedium);
+                                MoveItems(string.Format("/moveitem {0} inventory {1} 12", quoteName, storagemedium), ref name, ref storagemedium);
                             }
                         }
                     }

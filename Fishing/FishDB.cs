@@ -340,7 +340,7 @@ namespace Fishing
                 }
 
                 fishNode.AppendChild(xmlDoc.CreateNode(XmlNodeType.Element, XMLNodeZones, xmlDoc.NamespaceURI));
-                fishNode.AppendChild(xmlDoc.CreateNode(XmlNodeType.Element, XMLNodeZone, xmlDoc.NamespaceURI));
+                fishNode.AppendChild(xmlDoc.CreateNode(XmlNodeType.Element, XMLNodeBaits, xmlDoc.NamespaceURI));
             }
 
             if(null != zone)
