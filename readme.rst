@@ -237,6 +237,10 @@ noted rod. Some rods do not have any data, so the default value remains.
 Changes
 -------
 
+1.7.0.21
+--------
+- Misspelling fix
+
 1.7.0.20
 --------
 - Bug fixes
