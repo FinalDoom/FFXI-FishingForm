@@ -41,7 +41,7 @@ namespace Fishing
             {"Abaia", 5476},
             {"Ahtapot", 5455},
             {"Alabaligi", 5461},
-            {"Armored Picses", 4316},
+            {"Armored Pisces", 4316},
             {"Aurora Bass", 5818},
             // B
             {"Barnacle", 5954},
