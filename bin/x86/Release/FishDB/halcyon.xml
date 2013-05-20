@@ -158,6 +158,7 @@
       <Bait>Frog Lure</Bait>
       <Bait>Shrimp Lure</Bait>
       <Bait>Sabiki Rig</Bait>
+      <Bait>Little Worm</Bait>
     </Baits>
   </Fish>
   <Fish name="Rusty Cap" wanted="No" ID1="60" ID2="38" ID3="15" ID4="26">
@@ -182,6 +183,7 @@
       <Zone>Jugner Forest</Zone>
       <Zone>Port San d'Oria</Zone>
       <Zone>Selbina</Zone>
+      <Zone>Yhoator Jungle</Zone>
     </Zones>
     <Baits>
       <Bait>Meatball</Bait>
@@ -290,6 +292,7 @@
       <Zone>Bastok Markets</Zone>
       <Zone>Jugner Forest</Zone>
       <Zone>Port San d'Oria</Zone>
+      <Zone>Northern San d'Oria</Zone>
     </Zones>
     <Baits>
       <Bait>Insect Ball</Bait>
@@ -305,6 +308,8 @@
       <Zone>Bastok Markets</Zone>
       <Zone>Jugner Forest</Zone>
       <Zone>Port San d'Oria</Zone>
+      <Zone>Yhoator Jungle</Zone>
+      <Zone>Northern San d'Oria</Zone>
     </Zones>
     <Baits>
       <Bait>Insect Ball</Bait>
@@ -370,6 +375,7 @@
       <Zone>Bastok Markets</Zone>
       <Zone>Jugner Forest</Zone>
       <Zone>Port San d'Oria</Zone>
+      <Zone>Northern San d'Oria</Zone>
     </Zones>
     <Baits>
       <Bait>Insect Ball</Bait>
@@ -428,6 +434,7 @@
     </Zones>
     <Baits>
       <Bait>Minnow</Bait>
+      <Bait>Lugworm</Bait>
     </Baits>
   </Fish>
   <Fish name="Black Sole" wanted="No" ID1="240" ID2="33" ID3="7">
@@ -459,9 +466,11 @@
   <Fish name="Bastore Bream" wanted="Yes" ID1="200" ID2="31" ID3="9">
     <Zones>
       <Zone>Port Windurst</Zone>
+      <Zone>Sea Serpent Grotto</Zone>
     </Zones>
     <Baits>
       <Bait>Minnow</Bait>
+      <Bait>Shrimp Lure</Bait>
     </Baits>
   </Fish>
   <Fish name="Yellow Globe x2" wanted="Yes" ID1="180" ID2="17" ID3="11">
@@ -659,6 +668,8 @@
     <Zones>
       <Zone>Windurst Woods</Zone>
       <Zone>Rabao</Zone>
+      <Zone>Ru'Aun Gardens</Zone>
+      <Zone>Port San d'Oria</Zone>
     </Zones>
     <Baits>
       <Bait>Little Worm</Bait>
@@ -703,5 +714,66 @@
       <Zone>Nashmau</Zone>
     </Zones>
     <Zone />
+  </Fish>
+  <Fish name="Break Line Fish" wanted="No" ID1="60" ID2="22" ID3="15">
+    <Zones>
+      <Zone>Yhoator Jungle</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Insect Ball</Bait>
+      <Bait>Little Worm</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Rusty Pick" wanted="No" ID1="60" ID2="47" ID3="15">
+    <Zones>
+      <Zone>Yhoator Jungle</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Insect Ball</Bait>
+      <Bait>Little Worm</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Nebimonite" wanted="No" ID1="120" ID2="30" ID3="11">
+    <Zones>
+      <Zone>Sea Serpent Grotto</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Shrimp Lure</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Forest Carp" wanted="No" ID1="240" ID2="11" ID3="6">
+    <Zones>
+      <Zone>Yhoator Jungle</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Insect Ball</Bait>
+      <Bait>Little Worm</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Mob (_2_)" wanted="No" ID1="300" ID2="15" ID3="11">
+    <Zones>
+      <Zone>Yhoator Jungle</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Insect Ball</Bait>
+      <Bait>Little Worm</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Mob (_1_)" wanted="No" ID1="300" ID2="16" ID3="14">
+    <Zones>
+      <Zone>Yhoator Jungle</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Insect Ball</Bait>
+      <Bait>Little Worm</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Mob (_3_)" wanted="No" ID1="300" ID2="17" ID3="9">
+    <Zones>
+      <Zone>Yhoator Jungle</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Insect Ball</Bait>
+    </Baits>
   </Fish>
 </Rod>
