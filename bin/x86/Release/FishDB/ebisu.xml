@@ -759,6 +759,8 @@
     </Zones>
     <Baits>
       <Bait>Meatball</Bait>
+      <Bait>Rotten Meat</Bait>
+      <Bait>Shrimp Lure</Bait>
     </Baits>
   </Fish>
   <Fish name="Mob (Stygian Pugil)" wanted="No" ID1="300" ID2="16" ID3="11" ID4="8">
@@ -767,6 +769,7 @@
     </Zones>
     <Baits>
       <Bait>Meatball</Bait>
+      <Bait>Shrimp Lure</Bait>
     </Baits>
   </Fish>
   <Fish name="Mob (Devil Manta)" wanted="Yes" ID1="300" ID2="19" ID3="9" ID4="9">
@@ -780,9 +783,11 @@
   <Fish name="Rusty Cap" wanted="No" ID1="60" ID2="38" ID3="15" ID4="19">
     <Zones>
       <Zone>Kuftal Tunnel</Zone>
+      <Zone>Pashhow Marshlands [S]</Zone>
     </Zones>
     <Baits>
       <Bait>Meatball</Bait>
+      <Bait>Shrimp Lure</Bait>
     </Baits>
   </Fish>
   <Fish name="Matsya" wanted="Yes" ID1="300" ID2="40" ID3="7" ID4="32">
@@ -982,6 +987,7 @@
     <Baits>
       <Bait>Sinking Minnow</Bait>
       <Bait>Minnow</Bait>
+      <Bait>Sardine Ball</Bait>
     </Baits>
   </Fish>
   <Fish name="Mob (Greater Pugil)" wanted="No" ID1="300" ID2="16" ID3="15">
@@ -991,6 +997,7 @@
     <Baits>
       <Bait>Sinking Minnow</Bait>
       <Bait>Minnow</Bait>
+      <Bait>Sardine Ball</Bait>
     </Baits>
   </Fish>
   <Fish name="Gigant Squid" wanted="No" ID1="200" ID2="43" ID3="7">
@@ -1262,6 +1269,7 @@
     </Zones>
     <Baits>
       <Bait>Meatball</Bait>
+      <Bait>Minnow</Bait>
     </Baits>
   </Fish>
   <Fish name="Moat Carp" wanted="No" ID1="200" ID2="16" ID3="12">
