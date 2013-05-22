@@ -559,13 +559,11 @@ namespace Fishing
                 bait = string.Format(Resources.FormatQuoteArg, bait);
                 if (ItemizerAvailable)
                 {
-                    _FFACE.Windower.SendString(string.Format("/gets {0} {1}", bait, baitLocation));
-                    Thread.Sleep(1000); //pause to give the game time to move bait
+                    DoMoveItem(string.Format("/gets {0} {1}", bait, baitLocation), baitLocation, "inventory", (ushort)Dictionaries.baitDictionary[bait]);
                 }
                 else if (ItemToolsAvailable)
                 {
-                    _FFACE.Windower.SendString(string.Format("/moveitem {0} {1} inventory 99", bait, baitLocation));
-                    Thread.Sleep(1000); //pause to give the game time to move bait
+                    DoMoveItem(string.Format("/moveitem {0} {1} inventory 99", bait, baitLocation), baitLocation, "inventory", (ushort)Dictionaries.baitDictionary[bait]);
                 }
             }
             else if (cbBaitactionOther.Checked && !string.IsNullOrEmpty(tbBaitactionOther.Text))
@@ -658,9 +656,8 @@ namespace Fishing
             // No rod or bait equipped. Try equipping
             if (string.IsNullOrEmpty(rod) || string.IsNullOrEmpty(bait) || LastBaitName != bait || LastRodName != rod)
             {
-                _FFACE.Windower.SendString(strRodEquipMessage);
-                _FFACE.Windower.SendString(strBaitEquipMessage);
-                Thread.Sleep(1500);
+                DoEquipping(strRodEquipMessage, (ushort)Dictionaries.rodDictionary[LastRodName], EquipSlot.Range);
+                DoEquipping(strBaitEquipMessage, (ushort)Dictionaries.baitDictionary[LastBaitName], EquipSlot.Ammo);
             }
 
             if (IsRodBaitEquipped())  //check to see if bait/rod changed since last loop
@@ -673,9 +670,8 @@ namespace Fishing
             else  //if IsRodBaitEquipped returns false, most likely out of bait, try to get it from sack/satchel with itemizer/itemtools
             { //if that doesn't work, return false
                 RetrieveBait(LastBaitName);
-                _FFACE.Windower.SendString(strRodEquipMessage);
-                _FFACE.Windower.SendString(strBaitEquipMessage);
-                Thread.Sleep(1500);  //pause to give the game time to equip bait
+                DoEquipping(strRodEquipMessage, (ushort)Dictionaries.rodDictionary[LastRodName], EquipSlot.Range);
+                DoEquipping(strBaitEquipMessage, (ushort)Dictionaries.baitDictionary[LastBaitName], EquipSlot.Ammo);
 
                 if (!IsRodBaitEquipped())
                 {
@@ -1482,10 +1478,8 @@ namespace Fishing
                         // Update Status
                         SetStatus(string.Format(Resources.StatusFormatMoveToSack, itemname, inventorycount));
                         // Send string to POL
-                        _FFACE.Windower.SendString(command);
+                        DoMoveItem(command, "inventory", storagearea, (ushort)Dictionaries.fishDictionary[itemname]);
 						inventorycount = _FFACE.Item.GetInventoryItemCount((ushort)tempitemid);
-                        // The dreaded sleep()!
-                        Thread.Sleep(rnd.Next(750,1500));
                     }
                     SetStatus(string.Format(Resources.StatusFormatMoveSackFinished, itemname));
                 }
@@ -1507,10 +1501,8 @@ namespace Fishing
                         // Update Status
                         SetStatus(string.Format(Resources.StatusFormatMoveToSatchel, itemname, inventorycount));
                         // Send string to POL
-                        _FFACE.Windower.SendString(command);
+                        DoMoveItem(command, "inventory", storagearea, (ushort)Dictionaries.fishDictionary[itemname]);
 						inventorycount = _FFACE.Item.GetInventoryItemCount((ushort)tempitemid);
-                        // The dreaded sleep()!
-                        Thread.Sleep(rnd.Next(750, 1500));
                     }
                     SetStatus(string.Format(Resources.StatusFormatMoveSatchelFinished, itemname));
                 }
@@ -1723,6 +1715,112 @@ namespace Fishing
             sw.Stop();
 
         } // @ private void WaitUntil(Status status, int quit)
+
+        /// <summary>
+        /// Equip an item (2 tries), waiting up to 5 seconds, if it is in the inventory.
+        /// </summary>
+        /// <param name="equipString">complete ingame equip command</param>
+        /// <param name="itemID">ID of the item being equipped</param>
+        /// <param name="slot">Slot being equipped to</param>
+        private void DoEquipping(string equipString, ushort itemID, EquipSlot slot)
+        {
+            // Is the item even available? (This doesn't grab from sack or satchel)
+            if (_FFACE.Item.GetInventoryItemCount(itemID) > 0)
+            {
+                bool equipped = _FFACE.Item.GetEquippedItemID(slot) == itemID;
+                if (equipped)
+                {
+                    return;
+                }
+                _FFACE.Windower.SendString(equipString);
+                Stopwatch sw = new Stopwatch();
+                sw.Start();
+                // Give it 2 seconds to equip the item
+                while (sw.ElapsedMilliseconds < 2000)
+                {
+                    if (_FFACE.Item.GetEquippedItemID(slot) == itemID)
+                    {
+                        equipped = true;
+                        break;
+                    }
+                    Thread.Sleep(100);
+                }
+                if (!equipped)
+                {
+                    _FFACE.Windower.SendString(equipString);
+                    while (sw.ElapsedMilliseconds < 5000)
+                    {
+                        if (_FFACE.Item.GetEquippedItemID(slot) == itemID)
+                        {
+                            break;
+                        }
+                        Thread.Sleep(100);
+                    }
+                }
+            }
+        } // @ private void DoEquipping(string equipString, ushort itemID, EquipSlot slot)
+
+        /// <summary>
+        /// Get count of an item in a string defined location.
+        /// </summary>
+        /// <param name="location">location to search</param>
+        /// <param name="itemID">item ID to count</param>
+        /// <returns>count of passed items in passed location</returns>
+        private uint GetLocationItemCount(string location, ushort itemID)
+        {
+            switch (location)
+            {
+                case "sack":
+                    return _FFACE.Item.GetSackItemCount(itemID);
+                case "satchel":
+                    return _FFACE.Item.GetSatchelItemCount(itemID);
+                case "inventory":
+                    return _FFACE.Item.GetInventoryItemCount(itemID);
+            }
+            return 0;
+        } // @ private uint GetLocationItemCount(string location, ushort itemID)
+
+        /// <summary>
+        /// Attempts to move an item from one location to another in minimal time,
+        /// with 5 seconds for lag, and a retry if a command isn't received
+        /// for some reason the first time. Assumes target location is not full.
+        /// </summary>
+        /// <param name="command">ingame command to move items</param>
+        /// <param name="fromLoc">location items are being moved from</param>
+        /// <param name="toLoc">location items are being moved to</param>
+        /// <param name="itemID">item ID being moved</param>
+        private void DoMoveItem(string command, string fromLoc, string toLoc, ushort itemID)
+        {
+            uint fromCount = GetLocationItemCount(fromLoc, itemID);
+            uint toCount = GetLocationItemCount(toLoc, itemID);
+            if (fromCount > 0)
+            {
+                _FFACE.Windower.SendString(command);
+                Stopwatch sw = new Stopwatch();
+                sw.Start();
+                bool moved = false;
+                while (sw.ElapsedMilliseconds < 2000)
+                {
+                    if (GetLocationItemCount(toLoc, itemID) > toCount && GetLocationItemCount(fromLoc, itemID) < fromCount)
+                    {
+                        moved = true;
+                        break;
+                    }
+                    Thread.Sleep(100);
+                }
+                if (!moved)
+                {
+                    while (sw.ElapsedMilliseconds < 5000)
+                    {
+                        if (GetLocationItemCount(toLoc, itemID) > toCount && GetLocationItemCount(fromLoc, itemID) < fromCount)
+                        {
+                            break;
+                        }
+                        Thread.Sleep(100);
+                    }
+                }
+            }
+        }
 
         /// <summary>
         /// Clears any keys sent to FFXI by this program, so they don't "lock"
@@ -2027,7 +2125,7 @@ namespace Fishing
                         if (string.IsNullOrEmpty(GetBaitName(_FFACE.Item.GetEquippedItemID(EquipSlot.Ammo))))
                         {
                             WaitUntil(Status.Standing);
-                            _FFACE.Windower.SendString(equipMessage);
+                            DoEquipping(equipMessage, (ushort)Dictionaries.baitDictionary[LastBaitName], EquipSlot.Ammo);
                         }
                     }
 
