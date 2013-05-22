@@ -833,9 +833,13 @@ namespace Fishing
                                 {
                                     StatusDisplay.SetFishBaitOrZone(name, fish.bait);
                                 }
-                                else
+                                else if (null == fish.bait)
                                 {
                                     StatusDisplay.SetFishBaitOrZone(name, fish.zone);
+                                }
+                                else
+                                {
+                                    StatusDisplay.SetFishBaitOrZone(name, string.Format("{0} using {1}", fish.zone, fish.bait));
                                 }
                             }
                             FishDB.AddNewFish(ref name, fish.zone, fish.bait, fish.rod, fish.ID1, fish.ID2, fish.ID3, false, true);
