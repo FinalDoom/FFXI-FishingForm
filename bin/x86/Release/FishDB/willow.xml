@@ -1,2 +1,18 @@
 <Rod name="Willow Fish. Rod">
+  <Fish name="Crayfish" wanted="No" ID1="140" ID2="36" ID3="15">
+    <Zones>
+      <Zone>Quicksand Caves</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Little Worm</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Tricolored Carp" wanted="No" ID1="260" ID2="28" ID3="14">
+    <Zones>
+      <Zone>Northern San d'Oria</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Little Worm</Bait>
+    </Baits>
+  </Fish>
 </Rod>
