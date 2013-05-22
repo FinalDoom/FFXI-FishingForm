@@ -329,10 +329,27 @@ namespace Fishing
 
         private void RestoreLocation()
         {
-            if (Point.Empty == Settings.Default.WindowLocation)
+            Point location = Settings.Default.WindowLocation;
+            if (location == Point.Empty)
             {
-                this.Location = GetNearestConnectedScreenWindowLocation();
+                return;
             }
+            Point lowerRight = Settings.Default.WindowLocation;
+            lowerRight.Offset(Settings.Default.WindowSize.Width, Settings.Default.WindowSize.Height);
+            // Adjust lower right to be on screen
+            if (!ThisPointIsOnOneOfTheConnectedScreens(lowerRight))
+            {
+                Point offset1 = GetClosestOnScreenOffsetPoint(lowerRight);
+                location.Offset(offset1);
+            }
+            // Adjust upper left to be on screen
+            if (!ThisPointIsOnOneOfTheConnectedScreens(location))
+            {
+                Point offset2 = GetClosestOnScreenOffsetPoint(location);
+                location.Offset(offset2);
+            }
+
+            this.Location = location;
         }
 
         private void CheckDatabase()
@@ -2781,27 +2798,6 @@ namespace Fishing
                 }
             }
             return smallestOffset;
-        }
-
-        public static Point GetNearestConnectedScreenWindowLocation()
-        {
-            Point location = Settings.Default.WindowLocation;
-            Point lowerRight = Settings.Default.WindowLocation;
-            lowerRight.Offset(Settings.Default.WindowSize.Width, Settings.Default.WindowSize.Height);
-            // Adjust lower right to be on screen
-            if (!ThisPointIsOnOneOfTheConnectedScreens(lowerRight))
-            {
-                Point offset1 = GetClosestOnScreenOffsetPoint(lowerRight);
-                location.Offset(offset1);
-            }
-            // Adjust upper left to be on screen
-            if (!ThisPointIsOnOneOfTheConnectedScreens(location))
-            {
-                Point offset2 = GetClosestOnScreenOffsetPoint(location);
-                location.Offset(offset2);
-            }
-
-            return location;
         }
 
         #endregion //Methods_Advanced
