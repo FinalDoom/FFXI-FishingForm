@@ -656,7 +656,8 @@ namespace Fishing
             // No rod or bait equipped. Try equipping
             if (string.IsNullOrEmpty(rod) || string.IsNullOrEmpty(bait) || LastBaitName != bait || LastRodName != rod)
             {
-                Thread.Sleep(1500);
+                DoEquipping(strRodEquipMessage, (ushort)Dictionaries.rodDictionary[LastRodName], EquipSlot.Range);
+                DoEquipping(strBaitEquipMessage, (ushort)Dictionaries.baitDictionary[LastBaitName], EquipSlot.Ammo);
             }
 
             if (IsRodBaitEquipped())  //check to see if bait/rod changed since last loop
@@ -671,7 +672,6 @@ namespace Fishing
                 RetrieveBait(LastBaitName);
                 DoEquipping(strRodEquipMessage, (ushort)Dictionaries.rodDictionary[LastRodName], EquipSlot.Range);
                 DoEquipping(strBaitEquipMessage, (ushort)Dictionaries.baitDictionary[LastBaitName], EquipSlot.Ammo);
-                Thread.Sleep(2000);  //pause to give the game time to equip bait
 
                 if (!IsRodBaitEquipped())
                 {
