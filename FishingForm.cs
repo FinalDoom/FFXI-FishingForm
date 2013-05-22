@@ -711,7 +711,7 @@ namespace Fishing
 
             if (!CheckRodAndBait())
             {
-                Stop(false, Resources.StatusErrorNoBait);
+                OutOfBait(Resources.StatusErrorNoBait);
                 return;
             }
 
@@ -1665,13 +1665,13 @@ namespace Fishing
                     Stop(true, Resources.StatusErrorZoned);
                     break;
             }
-
+            // Don't put anything here without making sure any Stop() above will still be observed correctly
         } // @ private void LogResult(FishResult result)
 
         /// <summary>
         /// Pauses the execution of the thread until the player meets the passed Status
         /// </summary>
-        /// <param name="status">enum FFACETools.Status</param>
+        /// <param name="status">enum FFACETools.Status to wait for</param>
         private void WaitUntil(Status status)
         {
             while (status != currentStatus)
@@ -1915,7 +1915,7 @@ namespace Fishing
                 CheckEnchantment();
 
                 ts = new ThreadStart(BackgroundFishing);
-                workerThread = new Thread(BackgroundFishing);
+                workerThread = new Thread(ts);
                 workerThread.IsBackground = true;
                 workerThread.Start();
 
