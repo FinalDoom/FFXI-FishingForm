@@ -237,6 +237,11 @@ noted rod. Some rods do not have any data, so the default value remains.
 Changes
 -------
 
+1.7.0.22
+--------
+- More intelligence when moving items and equipping things
+- Minor fixes
+
 1.7.0.21
 --------
 - Misspelling fix
