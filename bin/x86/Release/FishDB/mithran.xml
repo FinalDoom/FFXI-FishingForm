@@ -131,4 +131,20 @@
       <Bait>Minnow</Bait>
     </Baits>
   </Fish>
+  <Fish name="Bastore Sardine x3" wanted="No" ID1="140" ID2="27" ID3="13">
+    <Zones>
+      <Zone>Selbina</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Sabiki Rig</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Tricolored Carp" wanted="No" ID1="240" ID2="24" ID3="12">
+    <Zones>
+      <Zone>Northern San d'Oria</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Little Worm</Bait>
+    </Baits>
+  </Fish>
 </Rod>
