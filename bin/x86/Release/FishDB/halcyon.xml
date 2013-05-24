@@ -422,6 +422,7 @@
     <Zones>
       <Zone>Jugner Forest</Zone>
       <Zone>Ship bound for Selbina (Pirates)</Zone>
+      <Zone>Ship bound for Mhaura (Pirates)</Zone>
       <Zone>Ship bound for Mhaura</Zone>
       <Zone>Ship bound for Selbina</Zone>
       <Zone>Port San d'Oria</Zone>
@@ -841,6 +842,22 @@
     </Zones>
     <Baits>
       <Bait>Robber Rig</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Lack Skill Fish" wanted="No" ID1="240" ID2="36" ID3="5">
+    <Zones>
+      <Zone>Rabao</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Sabiki Rig</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Break Line Fish" wanted="No" ID1="260" ID2="36" ID3="6">
+    <Zones>
+      <Zone>Rabao</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Sabiki Rig</Bait>
     </Baits>
   </Fish>
 </Rod>

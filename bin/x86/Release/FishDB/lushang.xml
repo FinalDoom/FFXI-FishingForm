@@ -109,6 +109,7 @@
       <Zone>Aht Urhgan Whitegate</Zone>
       <Zone>Ship bound for Mhaura</Zone>
       <Zone>Ship bound for Selbina</Zone>
+      <Zone>Ship bound for Mhaura (Pirates)</Zone>
       <Zone>Sea Serpent Grotto</Zone>
     </Zones>
     <Baits>
@@ -131,6 +132,7 @@
   <Fish name="Rusty Subligar(wPRing)" wanted="No" ID1="100" ID2="24" ID3="15" ID4="24">
     <Zones>
       <Zone>Nashmau</Zone>
+      <Zone>Ship bound for Mhaura</Zone>
       <Zone>Ship bound for Selbina (Pirates)</Zone>
     </Zones>
     <Baits>
@@ -884,7 +886,6 @@
     <Zones>
       <Zone>Ship bound for Selbina (Pirates)</Zone>
       <Zone>Ship bound for Mhaura (Pirates)</Zone>
-      <Zone>Ship bound for Mhaura</Zone>
     </Zones>
     <Baits>
       <Bait>Meatball</Bait>
@@ -920,6 +921,7 @@
       <Zone>Qufim Island</Zone>
       <Zone>Ship bound for Selbina</Zone>
       <Zone>Ship bound for Mhaura</Zone>
+      <Zone>Ship bound for Selbina (Pirates)</Zone>
       <Zone>Buburimu Peninsula</Zone>
       <Zone>Manaclipper</Zone>
       <Zone>East Sarutabaruta</Zone>
@@ -957,6 +959,7 @@
     <Zones>
       <Zone>Open sea route to Mhaura</Zone>
       <Zone>Open sea route to Al Zahbi</Zone>
+      <Zone>Ship bound for Selbina (Pirates)</Zone>
       <Zone>Ship bound for Selbina</Zone>
     </Zones>
     <Baits>
@@ -1086,7 +1089,6 @@
   <Fish name="Sea Zombie" wanted="No" ID1="300" ID2="50" ID3="6" ID4="40">
     <Zones>
       <Zone>Ship bound for Selbina (Pirates)</Zone>
-      <Zone>Ship bound for Selbina</Zone>
     </Zones>
     <Baits>
       <Bait>Meatball</Bait>
@@ -1734,7 +1736,7 @@
     <Zones>
       <Zone>Open sea route to Mhaura</Zone>
       <Zone>Open sea route to Al Zahbi</Zone>
-      <Zone>Ship bound for Mhaura</Zone>
+      <Zone>Ship bound for Mhaura (Pirates)</Zone>
     </Zones>
     <Baits>
       <Bait>Meatball</Bait>
@@ -1786,14 +1788,6 @@
     </Zones>
     <Baits>
       <Bait>Robber Rig</Bait>
-    </Baits>
-  </Fish>
-  <Fish name="Break line fish" wanted="No" ID1="140" ID2="37" ID3="9">
-    <Zones>
-      <Zone>Ship bound for Selbina</Zone>
-    </Zones>
-    <Baits>
-      <Bait>Meatball</Bait>
     </Baits>
   </Fish>
   <Fish name="Cheval Salmon" wanted="No" ID1="160" ID2="23" ID3="9">

@@ -237,6 +237,10 @@ noted rod. Some rods do not have any data, so the default value remains.
 Changes
 -------
 
+1.7.0.23
+--------
+- Pirates zone name fix
+
 1.7.0.22
 --------
 - More intelligence when moving items and equipping things

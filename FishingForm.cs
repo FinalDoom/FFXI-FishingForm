@@ -1604,7 +1604,15 @@ namespace Fishing
 
         private string GetZoneName(Zone zone)
         {
-            return FFACE.ParseResources.GetAreaName(zone);
+            if (zone == Zone.Ferry_between_Mhaura__Selbina_Pirates || zone == Zone.Ferry_between_Selbina__Mhaura_Pirates)
+            {
+                string zoneName = FFACE.ParseResources.GetAreaName(zone);
+                return zoneName.EndsWith(" (Pirates)") ? zoneName : zoneName + " (Pirates)";
+            }
+            else
+            {
+                return FFACE.ParseResources.GetAreaName(zone);
+            }
 
         } // @ private string GetPlayerZoneName(Zone zone)
 
