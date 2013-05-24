@@ -311,6 +311,7 @@
       <Bait>Crayfish Ball</Bait>
       <Bait>Sabiki Rig</Bait>
       <Bait>Little Worm</Bait>
+      <Bait>Rogue Rig</Bait>
     </Baits>
   </Fish>
   <Fish name="Pipira" wanted="Yes" ID1="300" ID2="12" ID3="8" ID4="12">
@@ -577,6 +578,8 @@
     <Baits>
       <Bait>Shrimp Lure</Bait>
       <Bait>Sabiki Rig</Bait>
+      <Bait>Robber Rig</Bait>
+      <Bait>Rogue Rig</Bait>
     </Baits>
   </Fish>
   <Fish name="1 Gil" wanted="No" ID1="60" ID2="24" ID3="15" ID4="24">
@@ -2096,6 +2099,7 @@
     </Zones>
     <Baits>
       <Bait>Sinking Minnow</Bait>
+      <Bait>Meatball</Bait>
     </Baits>
   </Fish>
   <Fish name="Mob (Greater Pugil)" wanted="No" ID1="300" ID2="17" ID3="15">
