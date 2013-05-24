@@ -15,4 +15,23 @@
       <Bait>Little Worm</Bait>
     </Baits>
   </Fish>
+  <Fish name="Moat Carp" wanted="No" ID1="200" ID2="24" ID3="12">
+    <Zones>
+      <Zone>West Ronfaure</Zone>
+      <Zone>Northern San d'Oria</Zone>
+      <Zone>Windurst Waters</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Little Worm</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Gold Carp" wanted="No" ID1="300" ID2="27" ID3="12">
+    <Zones>
+      <Zone>Northern San d'Oria</Zone>
+      <Zone>Windurst Waters</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Little Worm</Bait>
+    </Baits>
+  </Fish>
 </Rod>

@@ -96,6 +96,7 @@
       <Zone>Lower Jeuno</Zone>
       <Zone>Selbina</Zone>
       <Zone>Mhaura</Zone>
+      <Zone>Bibiki Bay</Zone>
     </Zones>
     <Baits>
       <Bait>Robber Rig</Bait>
@@ -971,10 +972,12 @@
       <Zone>Beaucedine Glacier</Zone>
       <Zone>Batallia Downs [S]</Zone>
       <Zone>Beaucedine Glacier [S]</Zone>
+      <Zone>Bibiki Bay</Zone>
     </Zones>
     <Baits>
       <Bait>Minnow</Bait>
       <Bait>Slice of Bluetail</Bait>
+      <Bait>Sabiki Rig</Bait>
     </Baits>
   </Fish>
   <Fish name="Bluetail" wanted="No" ID1="260" ID2="24" ID3="6" ID4="12">
@@ -984,6 +987,7 @@
       <Zone>Beaucedine Glacier</Zone>
       <Zone>Qufim Island</Zone>
       <Zone>Batallia Downs [S]</Zone>
+      <Zone>Beaucedine Glacier [S]</Zone>
     </Zones>
     <Baits>
       <Bait>Minnow</Bait>
@@ -1062,6 +1066,7 @@
     <Zones>
       <Zone>Beaucedine Glacier</Zone>
       <Zone>Qufim Island</Zone>
+      <Zone>Beaucedine Glacier [S]</Zone>
     </Zones>
     <Baits>
       <Bait>Minnow</Bait>
@@ -1230,6 +1235,7 @@
       <Zone>Lower Jeuno</Zone>
       <Zone>Selbina</Zone>
       <Zone>Mhaura</Zone>
+      <Zone>Bibiki Bay</Zone>
     </Zones>
     <Baits>
       <Bait>Sabiki Rig</Bait>
@@ -1241,6 +1247,7 @@
       <Zone>Lower Jeuno</Zone>
       <Zone>Selbina</Zone>
       <Zone>Mhaura</Zone>
+      <Zone>Bibiki Bay</Zone>
     </Zones>
     <Baits>
       <Bait>Sabiki Rig</Bait>
@@ -1557,6 +1564,22 @@
     </Zones>
     <Baits>
       <Bait>Sinking Minnow</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Cone Calamary x2" wanted="No" ID1="120" ID2="40" ID3="13">
+    <Zones>
+      <Zone>Bibiki Bay</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Sabiki Rig</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Cone Calamary x3" wanted="No" ID1="140" ID2="40" ID3="14">
+    <Zones>
+      <Zone>Bibiki Bay</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Sabiki Rig</Bait>
     </Baits>
   </Fish>
 </Rod>
