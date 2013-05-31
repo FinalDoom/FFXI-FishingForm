@@ -181,6 +181,7 @@
     </Compile>
     <Compile Include="Fishing\FishSQL.cs" />
     <Compile Include="Fishing\FishStats.cs" />
+    <Compile Include="Fishing\FishUtils.cs" />
     <Compile Include="FlashWindow.cs" />
     <Compile Include="IFishDBStatusDisplay.cs" />
     <Compile Include="ProcessSelector.cs">

@@ -81,7 +81,6 @@ namespace Fishing
         private const string FormatProgramTitleNoChar = "FishingForm v{0}-mC-FD";
         private const string FormatProgramTitleLoggedIn = "FishingForm v{0}-mC-FD  ({1})";
         private const string FormatFishHP = "{0}/{1} [{2}s]";
-        private const string FormatFishNameMultiple = "{0} x{1}";
         private const string GUIChatDetectButtonAdd = "+";
         private const string GUIChatDetectButtonRemove = "-";
         private const string GUIFormatNoCatch = "{0} / {1}";
@@ -346,15 +345,15 @@ namespace Fishing
             Point lowerRight = Settings.Default.WindowLocation;
             lowerRight.Offset(Settings.Default.WindowSize.Width, Settings.Default.WindowSize.Height);
             // Adjust lower right to be on screen
-            if (!ThisPointIsOnOneOfTheConnectedScreens(lowerRight))
+            if (!FishUtils.ThisPointIsOnOneOfTheConnectedScreens(lowerRight))
             {
-                Point offset1 = GetClosestOnScreenOffsetPoint(lowerRight);
+                Point offset1 = FishUtils.GetClosestOnScreenOffsetPoint(lowerRight);
                 location.Offset(offset1);
             }
             // Adjust upper left to be on screen
-            if (!ThisPointIsOnOneOfTheConnectedScreens(location))
+            if (!FishUtils.ThisPointIsOnOneOfTheConnectedScreens(location))
             {
-                Point offset2 = GetClosestOnScreenOffsetPoint(location);
+                Point offset2 = FishUtils.GetClosestOnScreenOffsetPoint(location);
                 location.Offset(offset2);
             }
 
@@ -634,12 +633,12 @@ namespace Fishing
             string bait = tbBaitGear.Text;
             if (string.IsNullOrEmpty(bait))
             {
-                bait = GetBaitName(_FFACE.Item.GetEquippedItemID(EquipSlot.Ammo));
+                bait = FishUtils.GetBaitName(_FFACE.Item.GetEquippedItemID(EquipSlot.Ammo));
             }
             string rod = tbRodGear.Text;
             if (string.IsNullOrEmpty(rod))
             {
-                rod = GetRodName(_FFACE.Item.GetEquippedItemID(EquipSlot.Range));
+                rod = FishUtils.GetRodName(_FFACE.Item.GetEquippedItemID(EquipSlot.Range));
             }
             currentZone = _FFACE.Player.Zone;
 
@@ -647,7 +646,7 @@ namespace Fishing
             {
                 SetBait(bait);
                 SetRod(rod);
-                SetLblZone(GetZoneName(currentZone));
+                SetLblZone(FishUtils.GetZoneName(currentZone));
 
                 return true;
             }
@@ -672,8 +671,8 @@ namespace Fishing
             {
                 return false;
             }
-            string bait = GetBaitName(_FFACE.Item.GetEquippedItemID(EquipSlot.Ammo));
-            string rod = GetRodName(_FFACE.Item.GetEquippedItemID(EquipSlot.Range));
+            string bait = FishUtils.GetBaitName(_FFACE.Item.GetEquippedItemID(EquipSlot.Ammo));
+            string rod = FishUtils.GetRodName(_FFACE.Item.GetEquippedItemID(EquipSlot.Range));
 
             if ((!string.IsNullOrEmpty(rod)) && (!string.IsNullOrEmpty(bait)))
             {
@@ -695,11 +694,11 @@ namespace Fishing
         /// <returns>true if bait and rod equipped at end of function</returns>
         private bool CheckRodAndBait()
         {
-            string strZone = GetZoneName(_FFACE.Player.Zone);
+            string strZone = FishUtils.GetZoneName(_FFACE.Player.Zone);
             string strBait = LastBaitName;
             string strRod = LastRodName;
-            string rod = GetRodName(_FFACE.Item.GetEquippedItemID(EquipSlot.Range));
-            string bait = GetBaitName(_FFACE.Item.GetEquippedItemID(EquipSlot.Ammo));
+            string rod = FishUtils.GetRodName(_FFACE.Item.GetEquippedItemID(EquipSlot.Range));
+            string bait = FishUtils.GetBaitName(_FFACE.Item.GetEquippedItemID(EquipSlot.Ammo));
             string strRodEquipMessage = string.Format(EquipFormatRod, LastRodName);
             string strBaitEquipMessage = string.Format(EquipFormatBait, LastBaitName);
 
@@ -1121,62 +1120,6 @@ namespace Fishing
 		}
 
         /// <summary>
-        /// Get a normalized name for a fish or item fished up.
-        /// </summary>
-        /// <remarks>Be careful modifying this, so that inputs and outputs
-        /// remain consistent. These names are integral to XML arrangement
-        /// and database integrity. These require that <c>Dictionaries</c>.<c>fishDictionary</c>
-        /// is updated with current fish and catchable items, should the
-        /// game be updated as such.</remarks>
-        /// <param name="fish">String to normalize to a standard fish name.
-        /// Generally this is from ingame chat and has characters that need
-        /// to be removed.</param>
-        /// <returns>Normalized fish name</returns>
-        private string GetFishName(string fish)
-        {
-            string name = fish;
-            // Get a better name for the fish
-            foreach (KeyValuePair<string, int> f in Dictionaries.fishDictionary)
-            {
-                if (-1 < fish.IndexOf(f.Key, StringComparison.OrdinalIgnoreCase))
-                {
-                    // Remove punctuation and articles, but don't change fish name if it's only a partial match of one of the words
-                    // At least one of the words must match
-                    List<string> fishNameParts = new List<string>((fish.Split(new char[3] { Resources.SpaceChar, Resources.Period, Resources.Exclamation})).AsEnumerable());
-                    List<string> fishKeyParts = new List<string>((f.Key.Split(new char[1] { Resources.SpaceChar })).AsEnumerable());
-                    bool found = false;
-                    foreach (string p in fishKeyParts)
-                    {
-                        if (fishNameParts.Contains(p, StringComparer.OrdinalIgnoreCase))
-                        {
-                            found = true;
-                            break;
-                        }
-                    }
-                    int test;
-                    if (int.TryParse(fishNameParts[0], out test))
-                    {
-                        string multiple = string.Format(FormatFishNameMultiple, f.Key, test);
-                        if (Dictionaries.fishDictionary.Keys.Contains(multiple))
-                        {
-                            name = multiple;
-                            break;
-                        }
-                    }
-                    if (found)
-                    {
-                        name = f.Key;
-                        break;
-                    }
-                }
-            }
-
-            return name;
-
-        } // @ private string GetFishName(string fish)
-
-
-        /// <summary>
         /// Code reuse function.
         /// </summary>
         /// <param name="isNewFish">true if fish is not previously noted</param>
@@ -1201,7 +1144,7 @@ namespace Fishing
         /// <param name="ID3">fish's third ID</param>
         private void RegisterFish(bool isNewFish, string ID1, string ID2, string ID3)
         {
-            currentFish = GetFishName(currentFish);
+            currentFish = FishUtils.GetFishName(currentFish);
             if (isNewFish && Resources.FishNameUnknown != currentFish)
             {
                 FishDB.AddNewFish(ref currentFish, lblZone.Text, LastBaitName, LastRodName, ID1, ID2, ID3, false, false);
@@ -1492,7 +1435,7 @@ namespace Fishing
                             break;
                         }
                         // Get best guess for the fish name
-                        string name = GetFishName(fishie.name);
+                        string name = FishUtils.GetFishName(fishie.name);
                         if (!Dictionaries.fishDictionary.ContainsKey(name) || _FFACE.Item.GetInventoryItemCount((ushort)Dictionaries.fishDictionary[name]) == 0)
                         {
                             continue;
@@ -1534,7 +1477,7 @@ namespace Fishing
                     foreach (Fishie fishie in lbWanted.Items)
                     {
                         // Get best guess for the fish name
-                        string name = GetFishName(fishie.name);
+                        string name = FishUtils.GetFishName(fishie.name);
                         if (!Dictionaries.fishDictionary.ContainsKey(name) || _FFACE.Item.GetInventoryItemCount((ushort)Dictionaries.fishDictionary[name]) == 0)
                         {
                             continue;
@@ -1657,98 +1600,6 @@ namespace Fishing
         #endregion //// @ Methods_Fishing_Major
 
         #region Methods_Fishing_Minor
-
-        /// <summary>
-        /// Get the name of a bait from its ID.
-        /// </summary>
-        /// <remarks>Requires that <c>Dictionaries</c>.<c>baitDictionary</c>
-        /// be updated with current bait, if the game is ever updated.</remarks>
-        /// <param name="id">ingame bait ID</param>
-        /// <returns>String name of the bait equivalent to passed ID</returns>
-        private string GetBaitName(int id)
-        {
-            string name = string.Empty;
-            foreach (KeyValuePair<string, int> b in Dictionaries.baitDictionary)
-            {
-                if (b.Value == id)
-                {
-                    name = b.Key;
-                    break;
-                }
-            }
-            return name;
-
-        } // @ private string GetBaitName(ushort id)
-
-        /// <summary>
-        /// Get the name of a rod from its ID.
-        /// </summary>
-        /// <remarks>Requires that <c>Dictionaries</c>.<c>rodDictionary</c>
-        /// be updated with current rods, if the game is ever updated.</remarks>
-        /// <param name="id">ingame rod ID</param>
-        /// <returns>String name of the rod equivalent to passed ID</returns>
-        private string GetRodName(int id)
-        {
-            string name = string.Empty;
-            foreach (KeyValuePair<string, int> r in Dictionaries.rodDictionary)
-            {
-                if (r.Value == id)
-                {
-                    name = r.Key;
-                    break;
-                }
-            }
-            return name;
-
-        } // @ private string GetRodName(ushort id)
-
-        /// <summary>
-        /// Get the name of a piece of fishing gear from its ID.
-        /// </summary>
-        /// <remarks>Requires that <c>Dictionaries</c>.<c>gearDictionary</c>
-        /// be updated with current fishing gear, if the game is ever updated.</remarks>
-        /// <param name="id">ingame gear ID</param>
-        /// <returns>String name of the fishing gear equivalent to passed ID</returns>
-        private string GetGearName(int id)
-        {
-            string name = string.Empty;
-            foreach (KeyValuePair<string, int> r in Dictionaries.gearDictionary)
-            {
-                if (r.Value == id)
-                {
-                    name = r.Key;
-                    break;
-                }
-            }
-            return name;
-
-        } // @ private string GetGearName(ushort id)
-
-        /// <summary>
-        /// Get the string name of a zone from its FFACE <c>FFACEToos.Zone</c>.
-        /// </summary>
-        /// <remarks>Gets the name of a zone, resolving it from FFACE,
-        /// which uses the windower resources.xml file. Contains special
-        /// logic for the Selbina-Mhaura ferry, since it has 2 IDs based on
-        /// if there are pirates or not. Windower does not regard the names
-        /// as different, so they must have " (Pirates)" appended here for
-        /// clarity and accuracy. Should other fishable dual-ID zones be
-        /// added, logic should be added here.</remarks>
-        /// <param name="zone">FFACE zone to resolve</param>
-        /// <returns>string representation of passed FFACE zone</returns>
-        private string GetZoneName(Zone zone)
-        {
-            if (zone == Zone.Ferry_between_Mhaura__Selbina_Pirates || zone == Zone.Ferry_between_Selbina__Mhaura_Pirates)
-            {
-                string zoneName = FFACE.ParseResources.GetAreaName(zone);
-                return zoneName.EndsWith(" (Pirates)") ? zoneName : zoneName + " (Pirates)";
-            }
-            else
-            {
-                return FFACE.ParseResources.GetAreaName(zone);
-            }
-
-        } // @ private string GetPlayerZoneName(Zone zone)
 
         /// <summary>
         /// Log a fishing result to <c>FishStats</c>, which will be used
@@ -2102,35 +1953,35 @@ namespace Fishing
         /// </summary>
 		private void GearUp()
 		{
-			if (!string.IsNullOrEmpty(tbBodyGear.Text) && GetGearName(_FFACE.Item.GetEquippedItemID(EquipSlot.Body)) != tbBodyGear.Text)
+			if (!string.IsNullOrEmpty(tbBodyGear.Text) && FishUtils.GetGearName(_FFACE.Item.GetEquippedItemID(EquipSlot.Body)) != tbBodyGear.Text)
 			{
 				_FFACE.Windower.SendString(string.Format(EquipFormatBody, tbBodyGear.Text));
             }
-            if (!string.IsNullOrEmpty(tbHandsGear.Text) && GetGearName(_FFACE.Item.GetEquippedItemID(EquipSlot.Hands)) != tbHandsGear.Text)
+            if (!string.IsNullOrEmpty(tbHandsGear.Text) && FishUtils.GetGearName(_FFACE.Item.GetEquippedItemID(EquipSlot.Hands)) != tbHandsGear.Text)
 			{
 				_FFACE.Windower.SendString(string.Format(EquipFormatHands, tbHandsGear.Text));
             }
-            if (!string.IsNullOrEmpty(tbLegsGear.Text) && GetGearName(_FFACE.Item.GetEquippedItemID(EquipSlot.Legs)) != tbLegsGear.Text)
+            if (!string.IsNullOrEmpty(tbLegsGear.Text) && FishUtils.GetGearName(_FFACE.Item.GetEquippedItemID(EquipSlot.Legs)) != tbLegsGear.Text)
 			{
                 _FFACE.Windower.SendString(string.Format(EquipFormatLegs, tbLegsGear.Text));
             }
-            if (!string.IsNullOrEmpty(tbFeetGear.Text) && GetGearName(_FFACE.Item.GetEquippedItemID(EquipSlot.Feet)) != tbFeetGear.Text)
+            if (!string.IsNullOrEmpty(tbFeetGear.Text) && FishUtils.GetGearName(_FFACE.Item.GetEquippedItemID(EquipSlot.Feet)) != tbFeetGear.Text)
 			{
                 _FFACE.Windower.SendString(string.Format(EquipFormatFeet, tbFeetGear.Text));
             }
-            if (!string.IsNullOrEmpty(tbHeadGear.Text) && GetGearName(_FFACE.Item.GetEquippedItemID(EquipSlot.Head)) != tbHeadGear.Text)
+            if (!string.IsNullOrEmpty(tbHeadGear.Text) && FishUtils.GetGearName(_FFACE.Item.GetEquippedItemID(EquipSlot.Head)) != tbHeadGear.Text)
 			{
                 _FFACE.Windower.SendString(string.Format(EquipFormatHead, tbHeadGear.Text));
             }
-            if (!string.IsNullOrEmpty(tbNeckGear.Text) && GetGearName(_FFACE.Item.GetEquippedItemID(EquipSlot.Neck)) != tbNeckGear.Text)
+            if (!string.IsNullOrEmpty(tbNeckGear.Text) && FishUtils.GetGearName(_FFACE.Item.GetEquippedItemID(EquipSlot.Neck)) != tbNeckGear.Text)
 			{
                 _FFACE.Windower.SendString(string.Format(EquipFormatNeck, tbNeckGear.Text));
             }
-            if (!string.IsNullOrEmpty(tbWaistGear.Text) && GetGearName(_FFACE.Item.GetEquippedItemID(EquipSlot.Waist)) != tbWaistGear.Text)
+            if (!string.IsNullOrEmpty(tbWaistGear.Text) && FishUtils.GetGearName(_FFACE.Item.GetEquippedItemID(EquipSlot.Waist)) != tbWaistGear.Text)
 			{
                 _FFACE.Windower.SendString(string.Format(EquipFormatWaist, tbWaistGear.Text));
 			}
-            if (!string.IsNullOrEmpty(tbLRingGear.Text) && GetGearName(_FFACE.Item.GetEquippedItemID(EquipSlot.RingLeft)) != tbLRingGear.Text)
+            if (!string.IsNullOrEmpty(tbLRingGear.Text) && FishUtils.GetGearName(_FFACE.Item.GetEquippedItemID(EquipSlot.RingLeft)) != tbLRingGear.Text)
 			{
                 _FFACE.Windower.SendString(string.Format(EquipFormatLRing, tbLRingGear.Text));
 				if (tbLRingGear.Text == tbRRingGear.Text)
@@ -2138,7 +1989,7 @@ namespace Fishing
 					Thread.Sleep(500);
 				}
             }
-            if (!string.IsNullOrEmpty(tbRRingGear.Text) && GetGearName(_FFACE.Item.GetEquippedItemID(EquipSlot.RingRight)) != tbRRingGear.Text)
+            if (!string.IsNullOrEmpty(tbRRingGear.Text) && FishUtils.GetGearName(_FFACE.Item.GetEquippedItemID(EquipSlot.RingRight)) != tbRRingGear.Text)
 			{
                 _FFACE.Windower.SendString(string.Format(EquipFormatRRing, tbRRingGear.Text));
             }
@@ -2323,7 +2174,7 @@ namespace Fishing
                     if (!zoned)
                     {
                         // in case the last consumable bait was used after stopping
-                        if (string.IsNullOrEmpty(GetBaitName(_FFACE.Item.GetEquippedItemID(EquipSlot.Ammo))))
+                        if (string.IsNullOrEmpty(FishUtils.GetBaitName(_FFACE.Item.GetEquippedItemID(EquipSlot.Ammo))))
                         {
                             WaitUntil(Status.Standing);
                             DoEquipping(equipMessage, (ushort)Dictionaries.baitDictionary[LastBaitName], EquipSlot.Ammo);
@@ -2858,7 +2709,7 @@ namespace Fishing
                 lblRod.ForeColor = SystemColors.ControlText;
                 lblRod.Text = GUILblBlank;
             }
-            else if (string.IsNullOrEmpty(GetRodName(_FFACE.Item.GetEquippedItemID(EquipSlot.Range))))
+            else if (string.IsNullOrEmpty(FishUtils.GetRodName(_FFACE.Item.GetEquippedItemID(EquipSlot.Range))))
             {
                 lblRod.ForeColor = Color.Red;
                 lblRod.Text = Resources.GUILblRodNone;
@@ -2866,7 +2717,7 @@ namespace Fishing
             else
             {
                 lblRod.ForeColor = SystemColors.ControlText;
-                lblRod.Text = GetRodName(_FFACE.Item.GetEquippedItemID(EquipSlot.Range));
+                lblRod.Text = FishUtils.GetRodName(_FFACE.Item.GetEquippedItemID(EquipSlot.Range));
             }
 
             if (_FFACE == null)
@@ -2874,7 +2725,7 @@ namespace Fishing
                 lblBait.ForeColor = SystemColors.ControlText;
                 lblBait.Text = GUILblBlank;
             }
-            else if (string.IsNullOrEmpty(GetBaitName(_FFACE.Item.GetEquippedItemID(EquipSlot.Ammo))))
+            else if (string.IsNullOrEmpty(FishUtils.GetBaitName(_FFACE.Item.GetEquippedItemID(EquipSlot.Ammo))))
             {
                 lblBait.ForeColor = Color.Red;
                 lblBait.Text = Resources.GUILblBaitNone;
@@ -2882,7 +2733,7 @@ namespace Fishing
             else
             {
                 lblBait.ForeColor = SystemColors.ControlText;
-                lblBait.Text = string.Format(GUIFormatLblBait, GetBaitName(_FFACE.Item.GetEquippedItemID(EquipSlot.Ammo)),
+                lblBait.Text = string.Format(GUIFormatLblBait, FishUtils.GetBaitName(_FFACE.Item.GetEquippedItemID(EquipSlot.Ammo)),
                     _FFACE.Item.GetInventoryItemCount((ushort) _FFACE.Item.GetEquippedItemID(EquipSlot.Ammo)) );
             }
 
@@ -2996,7 +2847,7 @@ namespace Fishing
             lblVanaClock.Text = string.Format(GUIFormatLblVanaClock, vanaNow.Hour, vanaNow.Minute.ToString(FormatTimestampVanaMinute));
             if (_FFACE != null)
             {
-                SetLblZone(GetZoneName(_FFACE.Player.Zone));
+                SetLblZone(FishUtils.GetZoneName(_FFACE.Player.Zone));
             }
         }
 
@@ -3036,70 +2887,6 @@ namespace Fishing
                 btnChatSend.Location = new Point((formWidth - ScaleWidth(233)), -1);
             }
 
-        }
-
-        /// <summary>
-        /// Helper method to check if a point is displayable on a screen.
-        /// </summary>
-        /// <param name="thePoint">Point to check</param>
-        /// <returns>true if the point is on one of the connected screens</returns>
-        public static bool ThisPointIsOnOneOfTheConnectedScreens(Point thePoint)
-        {
-            bool FoundAScreenThatContainsThePoint = false;
-
-            for (int i = 0; i < Screen.AllScreens.Length; i++)
-            {
-                if (Screen.AllScreens[i].Bounds.Contains(thePoint))
-                    FoundAScreenThatContainsThePoint = true;
-            }
-            return FoundAScreenThatContainsThePoint;
-        }
-
-        /// <summary>
-        /// Get the nearest point that is displayable on a screen.
-        /// </summary>
-        /// <param name="target">Point to get a near point for</param>
-        /// <returns>Point nearest to the passed point, displayable on a screen</returns>
-        public static Point GetClosestOnScreenOffsetPoint(Point target)
-        {
-            double smallestDistance = double.NaN;
-            Point smallestOffset = Point.Empty;
-            for (int i = 0; i < Screen.AllScreens.Length; ++i)
-            {
-                Rectangle screenRect = Screen.AllScreens[i].Bounds;
-                int dx = 0;
-                int dy = 0;
-                if (target.X < screenRect.Left)
-                {
-                    dx = screenRect.Left - target.X;
-                }
-                else if (target.X > screenRect.Right)
-                {
-                    dx = screenRect.Right - target.X;
-                }
-                if (target.Y < screenRect.Top)
-                {
-                    dy = screenRect.Top - target.Y;
-                }
-                else if (target.Y > screenRect.Bottom)
-                {
-                    dy = screenRect.Bottom - target.Y;
-                }
-                Point tmpOffset = new Point(dx, dy);
-                double tmpDistance = Math.Pow(dx, 2) + Math.Pow(dy, 2);
-                // Get smallest offset
-                if (smallestOffset == Point.Empty)
-                {
-                    smallestDistance = tmpDistance;
-                    smallestOffset = tmpOffset;
-                }
-                else if (tmpDistance < smallestDistance)
-                {
-                    smallestDistance = tmpDistance;
-                    smallestOffset = tmpOffset;
-                }
-            }
-            return smallestOffset;
         }
 
         #endregion //Methods_Advanced
