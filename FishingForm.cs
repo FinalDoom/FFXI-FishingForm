@@ -18,6 +18,7 @@ namespace Fishing
     {
         #region Constants
 
+        // TODO These constant strings should be put into the settings resource stuff for translation purposes, if that ever happens.
         private static readonly string[] MessageErrorFFACEVersion = {
             "This program uses FFACE v4.0.0.9 or higher!",
             "",
@@ -314,6 +315,10 @@ namespace Fishing
 
         #region Methods_Form_Overrides
 
+        /// <summary>
+        /// Override method used to kep correct component locations when under different
+        /// viewing conditions than standard 96 dpi.
+        /// </summary>
         protected override void ScaleControl(SizeF factor, BoundsSpecified specified)
         {
             base.ScaleControl(factor, specified);
@@ -328,6 +333,9 @@ namespace Fishing
 
         #region Methods_Initialization
 
+        /// <summary>
+        /// Set the location of the window from stored options or from default
+        /// </summary>
         private void RestoreLocation()
         {
             Point location = Settings.Default.WindowLocation;
@@ -353,6 +361,9 @@ namespace Fishing
             this.Location = location;
         }
 
+        /// <summary>
+        /// Threaded function to check database for changes
+        /// </summary>
         private void CheckDatabase()
         {
             try
@@ -412,6 +423,11 @@ namespace Fishing
             }
         }
 
+        /// <summary>
+        /// Choose a pol process to attach FFACE to, automatically or from passed
+        /// character name.
+        /// </summary>
+        /// <param name="characterName">Character name on desired process</param>
 		private void ChooseProcess(string characterName)
 		{
             using (ProcessSelector ChooseProcess = new ProcessSelector())
@@ -523,6 +539,10 @@ namespace Fishing
 
         #region Methods_Fishing_Major
 
+        /// <summary>
+        /// Threaded function that handles fishing loop
+        /// </summary>
+        // TODO This would be where to start/change if implementing a FSM paradigm for the bot
         private void BackgroundFishing()
         {
             while (_FFACE.Player.Zone == currentZone)
@@ -557,6 +577,11 @@ namespace Fishing
 
         } // @ private void BackgroundFishing()
 
+        /// <summary>
+        /// Get a specified bait type from satchel or sack, based on options and
+        /// currently selected bait.
+        /// </summary>
+        /// <param name="bait">Name of the currently selected bait</param>
         private void RetrieveBait(string bait)
         {
             if (cbBaitItemizerItemTools.Checked)
@@ -595,6 +620,11 @@ namespace Fishing
             }
         }
 
+        /// <summary>
+        /// Check if bait and rod are set in options or equipped. Does not alter
+        /// game state (just program state), and stops if either is not equipped.
+        /// </summary>
+        /// <returns>true if rod and bait are set in options or equipped</returns>
         private bool IsRodBaitSet()
         {
             if (_FFACE == null)
@@ -632,6 +662,10 @@ namespace Fishing
             }
         } // @ private bool RodBaitEquipped()
 
+        /// <summary>
+        /// Check if rod and bait are equipped (not if they are set in options).
+        /// </summary>
+        /// <returns>true if rod and bait are equipped</returns>
         private bool IsRodBaitEquipped()
         {
             if (_FFACE == null)
@@ -654,6 +688,11 @@ namespace Fishing
             }
         }
 
+        /// <summary>
+        /// Checks for and equips rod and bait based on what is set in options,
+        /// currently equipped, or previously used during program fishing.
+        /// </summary>
+        /// <returns>true if bait and rod equipped at end of function</returns>
         private bool CheckRodAndBait()
         {
             string strZone = GetZoneName(_FFACE.Player.Zone);
@@ -699,9 +738,13 @@ namespace Fishing
             return true;
         }
 
+        /// <summary>
+        /// Part 3 of threaded fishing loop. Checks sneak, rod and bait
+        /// equip status, ring enchantment status, and casts rod.
+        /// </summary>
         private void Cast()
         {
-            if (IsSneakEnabled())
+            if (cbSneakFishing.Checked)
             {
                 if (!IsStatusEffectActive(StatusEffect.Sneak))
                 {
@@ -743,19 +786,9 @@ namespace Fishing
         }
 
         /// <summary>
-        /// Check if sneak option is enabled in UI
-        /// </summary>
-        /// <returns>True if option is enabled</returns>
-        private bool IsSneakEnabled()
-        {
-            return cbSneakFishing.Checked; 
-        }
-
-        /// <summary>
         /// Check if Sneak status is enabled
         /// </summary>
         /// <returns>True the statuseffect is active</returns>
-
         private static bool IsStatusEffectActive(StatusEffect seffect)
         {
             foreach (var statuseffects in _FFACE.Player.StatusEffects)
@@ -768,13 +801,16 @@ namespace Fishing
 
         /// <summary>
         /// Cancels Status effect (Requires Cancel Plugin to be active)
-        /// </summary>
-        
+        /// </summary> 
         private static void CancelSpell(StatusEffect seffect)
         {
             _FFACE.Windower.SendString(string.Format(CommandCancelStatus, (short)seffect));
         } // @ private void CancelSpell(StatusEffect seffect)
 
+        /// <summary>
+        /// Fight fish down to 0 HP, using FFACE.
+        /// </summary>
+        /// <returns><c>FishResult</c> status noting type of fish caught (or lost)</returns>
         private FishResult FightFish()
         {
             SetStatus(string.Format(Resources.StatusFormatFightingFish, currentFish));
@@ -936,6 +972,13 @@ namespace Fishing
 
         } // @ private FishResult FightFish()
 
+        /// <summary>
+        /// Fakes fighting a fish down to a certain HP, based on options
+        /// set for the type of fish on the line, then releases it.
+        /// </summary>
+        /// <param name="size"><c>FishSize</c> denoting the size of fish on the line</param>
+        /// <returns><c>FishResult</c>.<c>LostCatch</c> if the catch was lost,
+        /// else <c>Released</c></returns>
         private FishResult FightFishFake(FishSize size)
         {
             int max, min;
@@ -965,6 +1008,12 @@ namespace Fishing
 
         } // @ private FishResult FakeFightFish(FishSize size)
 
+        /// <summary>
+        /// Fight fish down to a certain hp.
+        /// </summary>
+        /// <param name="fishFinalHP">final hp to fight to</param>
+        /// <returns><c>FishResult</c>.<c>LostCatch</c> if catch
+        /// is lost, else <c>Success</c></returns>
         private FishResult FightTo(int fishFinalHP)
         {
             int currentFishHP = _FFACE.Fish.HPCurrent;
@@ -1047,6 +1096,10 @@ namespace Fishing
 
         } // @ private FishResult FightTo(int fishFinalHP)
 
+        /// <summary>
+        /// Execute commands when a catch is lost, then wait until
+        /// the character is standing.
+        /// </summary>
 		private void DoLostCatch()
 		{
 			WinClear();
@@ -1067,6 +1120,18 @@ namespace Fishing
 			WaitUntil(Status.Standing);
 		}
 
+        /// <summary>
+        /// Get a normalized name for a fish or item fished up.
+        /// </summary>
+        /// <remarks>Be careful modifying this, so that inputs and outputs
+        /// remain consistent. These names are integral to XML arrangement
+        /// and database integrity. These require that <c>Dictionaries</c>.<c>fishDictionary</c>
+        /// is updated with current fish and catchable items, should the
+        /// game be updated as such.</remarks>
+        /// <param name="fish">String to normalize to a standard fish name.
+        /// Generally this is from ingame chat and has characters that need
+        /// to be removed.</param>
+        /// <returns>Normalized fish name</returns>
         private string GetFishName(string fish)
         {
             string name = fish;
@@ -1110,6 +1175,14 @@ namespace Fishing
 
         } // @ private string GetFishName(string fish)
 
+
+        /// <summary>
+        /// Code reuse function.
+        /// </summary>
+        /// <param name="isNewFish">true if fish is not previously noted</param>
+        /// <param name="ID1">fish's first ID</param>
+        /// <param name="ID2">fish's second ID</param>
+        /// <param name="ID3">fish's third ID</param>
         private void DoFishFighting(bool isNewFish, string ID1, string ID2, string ID3)
         {
             FishResult fishFightResult = FightFish();
@@ -1119,6 +1192,13 @@ namespace Fishing
             LogResult(fishFightResult);
         } // @ private void DoFishFighting(bool isNewFish, string ID1, string ID2, string ID3)
 
+        /// <summary>
+        /// Register a new fish in the DB.
+        /// </summary>
+        /// <param name="isNewFish">true if fish is not previously noted</param>
+        /// <param name="ID1">fish's first ID</param>
+        /// <param name="ID2">fish's second ID</param>
+        /// <param name="ID3">fish's third ID</param>
         private void RegisterFish(bool isNewFish, string ID1, string ID2, string ID3)
         {
             currentFish = GetFishName(currentFish);
@@ -1128,6 +1208,10 @@ namespace Fishing
             }
         }
 
+        /// <summary>
+        /// Part 2 of threaded fish loop. Handles waiting for status to be appropriate,
+        /// casting, checking log, etc.
+        /// </summary>
         private void Fish()
         {
 
@@ -1386,6 +1470,12 @@ namespace Fishing
             WaitUntil(Status.Standing);
         } // @ private void Fish()
 
+        /// <summary>
+        /// Check for full inventory and move fish to sack or satchel
+        /// if appropriate based on set options. Loops through fish in
+        /// wanted list to do so. Alternately executes commands in the
+        /// other category of the options panel.
+        /// </summary>
         private void CheckInventory()
         {
             //move items with itemizer or itemtools or custom script
@@ -1479,6 +1569,12 @@ namespace Fishing
             }
         }
 
+        /// <summary>
+        /// Move as many as possible of a specified item to a specified storage space.
+        /// </summary>
+        /// <param name="command">Command used to move items</param>
+        /// <param name="itemname">Name of item being moved</param>
+        /// <param name="storagearea">Name of storage area being moved to</param>
         private void MoveItems(string command, ref string itemname, ref string storagearea)
         {
             // Look up item ID
@@ -1532,6 +1628,10 @@ namespace Fishing
             }
         }
 
+        /// <summary>
+        /// Release a fish on the line.
+        /// </summary>
+        /// <returns><c>FishResult</c>.<c>Released</c></returns>
         private FishResult Release()
         {
             WinClear();
@@ -1558,6 +1658,13 @@ namespace Fishing
 
         #region Methods_Fishing_Minor
 
+        /// <summary>
+        /// Get the name of a bait from its ID.
+        /// </summary>
+        /// <remarks>Requires that <c>Dictionaries</c>.<c>baitDictionary</c>
+        /// be updated with current bait, if the game is ever updated.</remarks>
+        /// <param name="id">ingame bait ID</param>
+        /// <returns>String name of the bait equivalent to passed ID</returns>
         private string GetBaitName(int id)
         {
             string name = string.Empty;
@@ -1573,6 +1680,13 @@ namespace Fishing
 
         } // @ private string GetBaitName(ushort id)
 
+        /// <summary>
+        /// Get the name of a rod from its ID.
+        /// </summary>
+        /// <remarks>Requires that <c>Dictionaries</c>.<c>rodDictionary</c>
+        /// be updated with current rods, if the game is ever updated.</remarks>
+        /// <param name="id">ingame rod ID</param>
+        /// <returns>String name of the rod equivalent to passed ID</returns>
         private string GetRodName(int id)
         {
             string name = string.Empty;
@@ -1588,6 +1702,13 @@ namespace Fishing
 
         } // @ private string GetRodName(ushort id)
 
+        /// <summary>
+        /// Get the name of a piece of fishing gear from its ID.
+        /// </summary>
+        /// <remarks>Requires that <c>Dictionaries</c>.<c>gearDictionary</c>
+        /// be updated with current fishing gear, if the game is ever updated.</remarks>
+        /// <param name="id">ingame gear ID</param>
+        /// <returns>String name of the fishing gear equivalent to passed ID</returns>
         private string GetGearName(int id)
         {
             string name = string.Empty;
@@ -1603,6 +1724,18 @@ namespace Fishing
 
         } // @ private string GetGearName(ushort id)
 
+        /// <summary>
+        /// Get the string name of a zone from its FFACE <c>FFACEToos.Zone</c>.
+        /// </summary>
+        /// <remarks>Gets the name of a zone, resolving it from FFACE,
+        /// which uses the windower resources.xml file. Contains special
+        /// logic for the Selbina-Mhaura ferry, since it has 2 IDs based on
+        /// if there are pirates or not. Windower does not regard the names
+        /// as different, so they must have " (Pirates)" appended here for
+        /// clarity and accuracy. Should other fishable dual-ID zones be
+        /// added, logic should be added here.</remarks>
+        /// <param name="zone">FFACE zone to resolve</param>
+        /// <returns>string representation of passed FFACE zone</returns>
         private string GetZoneName(Zone zone)
         {
             if (zone == Zone.Ferry_between_Mhaura__Selbina_Pirates || zone == Zone.Ferry_between_Selbina__Mhaura_Pirates)
@@ -1617,6 +1750,12 @@ namespace Fishing
 
         } // @ private string GetPlayerZoneName(Zone zone)
 
+        /// <summary>
+        /// Log a fishing result to <c>FishStats</c>, which will be used
+        /// to update the GUI.
+        /// </summary>
+        /// <remarks>Relies on currentFish</remarks>
+        /// <param name="result">Fishing result to log</param>
         private void LogResult(FishResult result)
         {
             FishStats.totalCastCount++;
@@ -1896,6 +2035,10 @@ namespace Fishing
 
         } // @ private void Reattach()
 
+        /// <summary>
+        /// Quickly checks if attached process is still available
+        /// </summary>
+        /// <returns>true if process is still available</returns>
 		private bool CheckProcess()
 		{
 			if (_Process == null || !_Process.IsAvailable)
@@ -1914,6 +2057,9 @@ namespace Fishing
 			return true;
 		}
 
+        /// <summary>
+        /// Starts fishing background process.
+        /// </summary>
         private void Start()
         {
             LastBaitName = LastRodName = lblZone.Text = string.Empty;
@@ -1951,6 +2097,9 @@ namespace Fishing
 
         } // @ private void Start()
 
+        /// <summary>
+        /// Equips fishing gear selected in options.
+        /// </summary>
 		private void GearUp()
 		{
 			if (!string.IsNullOrEmpty(tbBodyGear.Text) && GetGearName(_FFACE.Item.GetEquippedItemID(EquipSlot.Body)) != tbBodyGear.Text)
@@ -1995,6 +2144,12 @@ namespace Fishing
             }
         } // @ private void GearUp()
 
+        /// <summary>
+        /// Gets the number of "Enchantment" statuses that are
+        /// needed, based on rings set in options and currently
+        /// active statuses.
+        /// </summary>
+        /// <returns>Number of enchantments that are missing/needed</returns>
         private int GetNeededEnchantments()
         {
             int enchantmentsNeeded = 0;
@@ -2016,6 +2171,10 @@ namespace Fishing
             return enchantmentsNeeded;
         }
 
+        /// <summary>
+        /// Cast fishing belt for fishing support or enchantment
+        /// rings if necessary.
+        /// </summary>
 		private void CheckEnchantment() {
 			// Check if fishing support is available and not on (Fisherman's belt)
 			if (cbWaistGear.Enabled && cbWaistGear.Checked)
@@ -2057,6 +2216,11 @@ namespace Fishing
 			}
 		}
 
+        /// <summary>
+        /// Executes final commands when out of bait.
+        /// </summary>
+        /// <param name="message">message to display when commands
+        /// are finished executing</param>
         private void OutOfBait(string message)
         {
             if (cbBaitActionWarp.Checked)
@@ -2080,6 +2244,11 @@ namespace Fishing
             Stop(false, message);
         }
 
+        /// <summary>
+        /// Executes final commands when fatigued.
+        /// </summary>
+        /// <param name="message">message to display when commands
+        /// are finished executing</param>
         private void Fatigued(string message)
         {
             if (cbFatiguedActionWarp.Checked)
@@ -2102,6 +2271,12 @@ namespace Fishing
             Stop(false, message);
         }
 
+        /// <summary>
+        /// Terminates background fishing process and does necessary updates.
+        /// </summary>
+        /// <param name="zoned">true if the reason for stopping is that
+        /// the player changed zones</param>
+        /// <param name="status">Message to display in the status bar after stopping</param>
         private void Stop(bool zoned, string status)
         {
             this.UIThread(delegate
@@ -2182,6 +2357,9 @@ namespace Fishing
 
         #region Methods_ThreadSafe
 
+        /// <summary>
+        /// Clear all wanted and unwanted fish from the list
+        /// </summary>
         private void ClearLists()
         {
             this.UIThread(delegate
@@ -2192,6 +2370,11 @@ namespace Fishing
 
         } // @ private void ClearLists()
 
+        /// <summary>
+        /// Get the upper limit of time to wait when faking large fish
+        /// from the options box.
+        /// </summary>
+        /// <returns>upper time limit</returns>
         private decimal GetFakeLargeHigh()
         {
             decimal ret = decimal.Zero;
@@ -2202,6 +2385,11 @@ namespace Fishing
             return ret;
         } // @ private decimal GetFakeLargeHigh()
 
+        /// <summary>
+        /// Get the lower limit of time to wait when faking large fish
+        /// from the options box.
+        /// </summary>
+        /// <returns>lower time limit</returns>
         private decimal GetFakeLargeLow()
         {
             decimal ret = decimal.Zero;
@@ -2212,6 +2400,11 @@ namespace Fishing
             return ret;
         } // @ private decimal GetFakeLargeLow()
 
+        /// <summary>
+        /// Get the upper limit of time to wait when faking small fish
+        /// from the options box.
+        /// </summary>
+        /// <returns>upper time limit</returns>
         private decimal GetFakeSmallHigh()
         {
             decimal ret = decimal.Zero;
@@ -2222,6 +2415,11 @@ namespace Fishing
             return ret;
         } // @ private decimal GetFakeSmallHigh()
 
+        /// <summary>
+        /// Get the lower limit of time to wait when faking small fish
+        /// from the options box.
+        /// </summary>
+        /// <returns>lower time limit</returns>
         private decimal GetFakeSmallLow()
         {
             decimal ret = decimal.Zero;
@@ -2232,6 +2430,9 @@ namespace Fishing
             return ret;
         } // @ private decimal GetFakeSmallLow()
 
+        /// <summary>
+        /// Increase time waited between casts by one second.
+        /// </summary>
         private void IncreaseCastTime()
         {
             this.UIThread(delegate
@@ -2241,6 +2442,10 @@ namespace Fishing
             });
         } // @ private void IncreaseCastTime()
 
+        /// <summary>
+        /// Populate the wanted and unwanted lists based on current
+        /// rod, bait, and zone.
+        /// </summary>
         private void PopulateLists()
         {
             this.UIThread(delegate
@@ -2265,6 +2470,10 @@ namespace Fishing
             });
         } // @ private void PopulateLists()
 
+        /// <summary>
+        /// Set internal variable with current bait name
+        /// </summary>
+        /// <param name="bait">bait name</param>
         private void SetBait(string bait)
         {
             this.UIThread(delegate
@@ -2273,6 +2482,10 @@ namespace Fishing
             });
         } // @ private void SetBait(string bait)
 
+        /// <summary>
+        /// Set internal variable with current rod name
+        /// </summary>
+        /// <param name="rod">rod name</param>
         private void SetRod(string rod)
         {
             this.UIThread(delegate
@@ -2281,6 +2494,10 @@ namespace Fishing
             });
         } // @ private void SetRod(string rod)
 
+        /// <summary>
+        /// Set internal variable with current zone name
+        /// </summary>
+        /// <param name="zone">zone name</param>
         private void SetLblZone(string zone)
         {
             this.UIThread(delegate
@@ -2289,6 +2506,10 @@ namespace Fishing
             });
         } // @ private void SetLblZone(string zone)
 
+        /// <summary>
+        /// Set no catch label text.
+        /// </summary>
+        /// <param name="releases">Unused, but should be in text</param>
         private void SetNoCatch(int releases)
         {
             this.UIThread(delegate
@@ -2297,6 +2518,10 @@ namespace Fishing
             });
         } // @ private void SetNoCatch(int releases)
 
+        /// <summary>
+        /// Set HP label text
+        /// </summary>
+        /// <param name="text">text to set</param>
         private void SetLblHP(string text)
         {
             this.UIThread(delegate
@@ -2305,6 +2530,10 @@ namespace Fishing
             });
         } // @ private void SetLblHP(string text)
 
+        /// <summary>
+        /// Set progress value (fish HP)
+        /// </summary>
+        /// <param name="pos">value to set progress bar to</param>
         private void SetProgress(int pos)
         {
             this.UIThread(delegate
@@ -2319,6 +2548,10 @@ namespace Fishing
             });
         } // @ private void SetProgress(int pos)
 
+        /// <summary>
+        /// Set maximum value of the progress display
+        /// </summary>
+        /// <param name="pos">maximum value</param>
         private void SetProgressMaxValue(int pos)
         {
             this.UIThread(delegate
@@ -2328,6 +2561,10 @@ namespace Fishing
             });
         } // @ private void SetProgressMaxValue(int pos)
 
+        /// <summary>
+        /// Set status label text
+        /// </summary>
+        /// <param name="str">status string</param>
         private void SetStatus(string str)
         {
             this.UIThread(delegate
@@ -2336,6 +2573,9 @@ namespace Fishing
             });
         } // @ private void SetStatus(string str)
 
+        /// <summary>
+        /// Update chat logs with newest added lines from ingame.
+        /// </summary>
         private void UpdateChat()
         {
             this.UIThread(delegate
@@ -2448,6 +2688,16 @@ namespace Fishing
             });
         }
 
+        /// <summary>
+        /// Code reuse element, handles alerts on new chat.
+        /// </summary>
+        /// <param name="actions"><c>ChatAction</c>s to execute</param>
+        /// <param name="newCount">Count of new lines</param>
+        /// <param name="chatLines">List of recent chat lines</param>
+        /// <param name="testPrefix">Regex to test for new incoming lines</param>
+        /// <param name="stopText">Text to display when stopping the program, if such action is configured</param>
+        /// <param name="tabPage">TabPage to modify title for</param>
+        /// <param name="tabText">Text to put on tabpage, if such action is configured</param>
         private void DoCustomChatActions(int actions, int newCount, List<FFACE.ChatTools.ChatLine> chatLines, Regex testPrefix, string stopText, TabPage tabPage, string tabText)
         {
             // Do any custom say actions
@@ -2478,6 +2728,12 @@ namespace Fishing
             }
         } // @ private void UpdateChat()
 
+        /// <summary>
+        /// Insert chat lines into chat log text boxes.
+        /// </summary>
+        /// <param name="rtb">Chat box to insert into</param>
+        /// <param name="log">List of recent chat lines</param>
+        /// <param name="linesToParse">Count of lines to insert</param>
         private void UpdateChatLogs(RichTextBox rtb, List<FFACE.ChatTools.ChatLine> log, int linesToParse)
         {
             this.UIThread(delegate
@@ -2505,6 +2761,10 @@ namespace Fishing
             });
         } // @ private void UpdateChatLogs(RichTextBox rtb, int linesToParse)
 
+        /// <summary>
+        /// Add a chat line to the DB chat log.
+        /// </summary>
+        /// <param name="line">string to add</param>
         public void UpdateDBLog(string line)
         {
             rtbDB.UIThread(delegate
@@ -2522,6 +2782,9 @@ namespace Fishing
             });
         } // private void UpdateDBLog(string line)
 
+        /// <summary>
+        /// Update the fish stats page
+        /// </summary>
         private void UpdateStats()
         {
             this.UIThread(delegate
@@ -2537,21 +2800,37 @@ namespace Fishing
 
         #region Methods_Advanced
 
+        /// <summary>
+        /// Helper method. Scale a X position coordinate based on recorded scaling factors.
+        /// </summary>
+        /// <param name="width">X coordinate to scale</param>
+        /// <returns>Scaled X coordinate</returns>
         private int ScaleWidth(int width)
         {
             return (int)(width * currentScaleFactor.Width);
         }
 
+        /// <summary>
+        /// Helper method. Scale a Y position coordinate based on recorded scaling factors.
+        /// </summary>
+        /// <param name="width">Y coordinate to scale</param>
+        /// <returns>Scaled Y coordinate</returns>
         private int ScaleHeight(int height)
         {
             return (int)(height * currentScaleFactor.Height);
         }
 
+        /// <summary>
+        /// Flash the window in the taskbar
+        /// </summary>
         private void DoFlashWindow()
         {
             FlashWindow.Flash(this);
         }
 
+        /// <summary>
+        /// Play sounds, flash window, etc. if a GM is detected.
+        /// </summary>
         private void GMDetect()
         {
             if (cbGMdetectAutostop.Checked)
@@ -2567,6 +2846,10 @@ namespace Fishing
             }
         }
 
+        /// <summary>
+        /// Updates the information tab with ingame information, such as
+        /// inventory, rod, bait, time, etc.
+        /// </summary>
         private void UpdateInfo()
         {
             //set rod and bait labels
@@ -2755,6 +3038,11 @@ namespace Fishing
 
         }
 
+        /// <summary>
+        /// Helper method to check if a point is displayable on a screen.
+        /// </summary>
+        /// <param name="thePoint">Point to check</param>
+        /// <returns>true if the point is on one of the connected screens</returns>
         public static bool ThisPointIsOnOneOfTheConnectedScreens(Point thePoint)
         {
             bool FoundAScreenThatContainsThePoint = false;
@@ -2767,6 +3055,11 @@ namespace Fishing
             return FoundAScreenThatContainsThePoint;
         }
 
+        /// <summary>
+        /// Get the nearest point that is displayable on a screen.
+        /// </summary>
+        /// <param name="target">Point to get a near point for</param>
+        /// <returns>Point nearest to the passed point, displayable on a screen</returns>
         public static Point GetClosestOnScreenOffsetPoint(Point target)
         {
             double smallestDistance = double.NaN;

@@ -15,6 +15,16 @@ namespace Fishing
 {
     internal struct SQLFishie
     {
+        /// <summary>
+        /// Class that mimics FishDB's Fishie, but also with optional zone and bait info
+        /// </summary>
+        /// <param name="fishName">Fish name</param>
+        /// <param name="rodId">Rod ID</param>
+        /// <param name="i1">Fish ID 1</param>
+        /// <param name="i2">Fish ID 2</param>
+        /// <param name="i3">Fish ID 3</param>
+        /// <param name="zoneId">Zone ID</param>
+        /// <param name="baitId">Bait ID</param>
         internal SQLFishie(string fishName, int rodId, string i1, string i2, string i3, int? zoneId, int? baitId)
         {
             name = fishName;
@@ -50,6 +60,9 @@ namespace Fishing
         public override string ToString() { return name; }
     }
 
+    /// <summary>
+    /// Class that handles DB interactions
+    /// </summary>
     internal static class FishSQL
     {
         #region Constants
@@ -137,13 +150,18 @@ namespace Fishing
             Initialize();
         }
 
-        //Initialize connection
+        /// <summary>
+        /// Initialize Connection
+        /// </summary>
         private static void Initialize()
         {
             Connection = new MySqlConnection(string.Format(FormatConnection, server, port, database, uid, password));
         }
 
-        //open connection to database
+        /// <summary>
+        /// Open a connection to the database
+        /// </summary>
+        /// <returns>True if connection is open, false otherwise</returns>
         internal static bool OpenConnection()
         {
             if (Connection == null)
@@ -185,7 +203,10 @@ namespace Fishing
             }
         }
 
-        //Close connection
+        /// <summary>
+        /// Close an open connection
+        /// </summary>
+        /// <returns>True if connection was closed, false if some error happened</returns>
         internal static bool CloseConnection()
         {
             try
@@ -207,16 +228,38 @@ namespace Fishing
             }
         }
 
+        /// <summary>
+        /// Connection cleanup for pooled connections.
+        /// </summary>
+        /// <remarks>
+        /// There seems to be some issue with actually closing connections.
+        /// There are an excessively large number of connections that are
+        /// never closed and have to be terminated after a timeout. This
+        /// is likely within the .NET code somewhere, not this program.
+        /// There is probably a way to fix this, but this is the closest
+        /// I've found.
+        /// </remarks>
         public static void CloseAllConnections()
         {
             MySqlConnection.ClearAllPools();
         }
 
+        /// <summary>
+        /// Get the newest modified fish from the db for the passed rod.
+        /// Resolves string name to ID.
+        /// </summary>
+        /// <param name="rod">Rod name to get newest modification time for</param>
+        /// <returns>Newest modification time for passed rod</returns>
         public static DateTime NewestDBModificationTime(string rod)
         {
             return NewestDBModificationTime(Dictionaries.rodDictionary[rod]);
         }
 
+        /// <summary>
+        /// Get the newest modified fish from the db for the passed rod.
+        /// </summary>
+        /// <param name="rodId">Rod id to get newest modification time for</param>
+        /// <returns>Newest modification time for passed rod, or epoch if it's not found.</returns>
         public static DateTime NewestDBModificationTime(int rodId)
         {
                 if (OpenConnection())
@@ -248,6 +291,15 @@ namespace Fishing
                 return new DateTime(1970, 1, 1);
         }
 
+        /// <summary>
+        /// Upload a new fish to the DB.
+        /// </summary>
+        /// <param name="fish">Fish name</param>
+        /// <param name="rod">Rod used</param>
+        /// <param name="ID1">Fish ID 1</param>
+        /// <param name="ID2">Fish ID 2</param>
+        /// <param name="ID3">Fish ID 3</param>
+        /// <returns>True if fish was successfully added</returns>
         public static bool UploadFish(string fish, string rod, string ID1, string ID2, string ID3)
         {
             if (OpenConnection())
@@ -297,6 +349,16 @@ namespace Fishing
             return false;
         }
 
+        /// <summary>
+        /// Register a fish rename with the DB.
+        /// </summary>
+        /// <param name="fish">New fish name</param>
+        /// <param name="oldName">Old fish name</param>
+        /// <param name="rod">Rod name</param>
+        /// <param name="ID1">Fish ID 1</param>
+        /// <param name="ID2">Fish ID 2</param>
+        /// <param name="ID3">Fish ID 3</param>
+        /// <returns>True if fish was successfully renamed</returns>
         public static bool RenameFish(string fish, string oldName, string rod, string ID1, string ID2, string ID3)
         {
             if (OpenConnection())
@@ -339,6 +401,15 @@ namespace Fishing
             return false;
         }
 
+        /// <summary>
+        /// Helper method, gets the ID of a fish in the DB
+        /// </summary>
+        /// <param name="rodId">ID of the rod</param>
+        /// <param name="name">Name of the fish</param>
+        /// <param name="id1">Fish ID 1</param>
+        /// <param name="id2">Fish ID 2</param>
+        /// <param name="id3">Fish ID 3</param>
+        /// <returns>DB ID of the fish</returns>
         private static int GetFishDBId(int rodId, string name, int id1, int id2, int id3)
         {
             using (MySqlCommand cmd = Connection.CreateCommand())
@@ -365,6 +436,23 @@ namespace Fishing
             }
         }
 
+        /// <summary>
+        /// Upload fish, bait used to catch them, and zones.
+        /// </summary>
+        /// <remarks>This is tightly coupled with FishDB and it
+        /// really shouldn't be. At present, however, this is done
+        /// as well as it can be for efficiency purposes, though the
+        /// coupling is undesirable.</remarks>
+        /// <param name="fish">Name of the fish</param>
+        /// <param name="rod">Name of the rod</param>
+        /// <param name="ID1">Fish ID 1</param>
+        /// <param name="ID2">Fish ID 2</param>
+        /// <param name="ID3">Fish ID 3</param>
+        /// <param name="bait">A list of Bait XML nodes to upload</param>
+        /// <param name="zones">A list of Zone XML nodes to upload</param>
+        /// <param name="fishNode">Fish XML node that's being uploaded</param>
+        /// <param name="updatedBait">Pairing of bait and parent nodes to be updated</param>
+        /// <param name="updatedZones">Pairing of zone and parent nodes to be updated</param>
         public static void UploadBaitAndZone(string fish, string rod, string ID1, string ID2, string ID3, List<XmlNode> bait, List<XmlNode> zones, XmlNode fishNode, ref Dictionary<XmlNode, XmlNode> updatedBait, ref Dictionary<XmlNode, XmlNode> updatedZones)
         {
             if (OpenConnection())
@@ -498,11 +586,24 @@ namespace Fishing
             }
         }
 
+        /// <summary>
+        /// Download new fish information from the DB since last download.
+        /// Resolves string rod name.
+        /// </summary>
+        /// <param name="rod">Rod name</param>
+        /// <param name="since">Time to get new fish since</param>
+        /// <returns>List of <c>SQLFishie</c> new fish, baits, and zones</returns>
         public static List<SQLFishie> DownloadNewFish(string rod, DateTime since)
         {
             return DownloadNewFish(Dictionaries.rodDictionary[rod], since);
         }
 
+        /// <summary>
+        /// Download new fish information from the DB since last download.
+        /// </summary>
+        /// <param name="rodId">Rod ID</param>
+        /// <param name="since">Time to get new fish since</param>
+        /// <returns>List of <c>SQLFishie</c> new fish, baits, and zones</returns>
         public static List<SQLFishie> DownloadNewFish(int rodId, DateTime since)
         {
             List<SQLFishie> fishies = new List<SQLFishie>();
@@ -563,11 +664,24 @@ namespace Fishing
             return fishies;
         }
 
+        /// <summary>
+        /// Download all new fish renames from the DB since a passed time.
+        /// Resolves rod name.
+        /// </summary>
+        /// <param name="rod">Rod name</param>
+        /// <param name="since">Time to download renames since</param>
+        /// <returns>A Dictionary of <c>SQLFishie</c> to string name renamed to</returns>
         public static Dictionary<SQLFishie, string> DownloadRenamedFish(string rod, DateTime since)
         {
             return DownloadRenamedFish(Dictionaries.rodDictionary[rod], since);
         }
 
+        /// <summary>
+        /// Download all new fish renames from the DB since a passed time.
+        /// </summary>
+        /// <param name="rodId">Rod ID</param>
+        /// <param name="since">Time to download renames since</param>
+        /// <returns>A Dictionary of <c>SQLFishie</c> to string name renamed to</returns>
         public static Dictionary<SQLFishie, string> DownloadRenamedFish(int rodId, DateTime since)
         {
             Dictionary<SQLFishie, string> fishies = new Dictionary<SQLFishie, string>();
@@ -613,6 +727,10 @@ namespace Fishing
             return fishies;
         }
 
+        /// <summary>
+        /// Check if the program version is current.
+        /// </summary>
+        /// <returns>true if the program version is current.</returns>
         public static bool IsProgramUpdated()
         {
             bool updated = false;
@@ -652,9 +770,10 @@ namespace Fishing
             return updated;
         }
 
-        /**
-         * <note>This is highly coupled with FishDB, perhaps it can be done better.</note>
-         */
+        /// <summary>
+        /// Upload any fish marked as new or renamed.
+        /// </summary>
+        /// <note>This is highly coupled with FishDB, perhaps it can be done better.</note>
         public static void DoUploadFish()
         {
             if (null != StatusDisplay)
@@ -800,6 +919,9 @@ namespace Fishing
             }
         }
 
+        /// <summary>
+        /// Download any new fish and renames.
+        /// </summary>
         public static void DoDownloadFish()
         {
             Dictionary<string, DateTime> updateTimes = new Dictionary<string, DateTime>();
@@ -897,6 +1019,9 @@ namespace Fishing
             }
         }
 
+        /// <summary>
+        /// Threaded method that handles uploads.
+        /// </summary>
         public static void BackgroundUpload()
         {
             if (StatusDisplay != null)
@@ -924,6 +1049,9 @@ namespace Fishing
             }
         }
 
+        /// <summary>
+        /// Method that starts a thread to upload new and renamed fish.
+        /// </summary>
         public static void UploadNewFish()
         {
             Thread uploadThread = new Thread(new ThreadStart(BackgroundUpload));

@@ -2,6 +2,13 @@
 
 namespace Fishing
 {
+    /// <summary>
+    /// Dictionaries of names and IDs used for fishing
+    /// </summary>
+    /// <remarks>This needs to be updated if there are ever
+    /// new fishing items (fish, bait, rods, gear, etc.) added
+    /// to the game, so that they may be reflected in the program.
+    /// </remarks>
     internal class Dictionaries
     {
         #region Constructor
