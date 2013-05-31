@@ -91,6 +91,7 @@
             this.tabDisplayPageOptions = new System.Windows.Forms.TabPage();
             this.tabOptions = new System.Windows.Forms.TabControl();
             this.tabOptionsPageForm = new System.Windows.Forms.TabPage();
+            this.cbMidnightRestart = new System.Windows.Forms.CheckBox();
             this.numSkillCap = new System.Windows.Forms.NumericUpDown();
             this.cbSkillCap = new System.Windows.Forms.CheckBox();
             this.cbTellDetect = new System.Windows.Forms.CheckBox();
@@ -1024,6 +1025,7 @@
             // tabOptionsPageForm
             // 
             this.tabOptionsPageForm.BackColor = System.Drawing.SystemColors.Control;
+            this.tabOptionsPageForm.Controls.Add(this.cbMidnightRestart);
             this.tabOptionsPageForm.Controls.Add(this.numSkillCap);
             this.tabOptionsPageForm.Controls.Add(this.cbSkillCap);
             this.tabOptionsPageForm.Controls.Add(this.cbTellDetect);
@@ -1040,6 +1042,16 @@
             this.tabOptionsPageForm.Size = new System.Drawing.Size(364, 177);
             this.tabOptionsPageForm.TabIndex = 3;
             this.tabOptionsPageForm.Text = "General";
+            // 
+            // cbMidnightRestart
+            // 
+            this.cbMidnightRestart.AutoSize = true;
+            this.cbMidnightRestart.Location = new System.Drawing.Point(7, 67);
+            this.cbMidnightRestart.Name = "cbMidnightRestart";
+            this.cbMidnightRestart.Size = new System.Drawing.Size(114, 17);
+            this.cbMidnightRestart.TabIndex = 13;
+            this.cbMidnightRestart.Text = "Restart at Midnight";
+            this.cbMidnightRestart.UseVisualStyleBackColor = true;
             // 
             // numSkillCap
             // 
@@ -1136,7 +1148,7 @@
             this.gbGeneralFishing.Controls.Add(this.lblMaxNoCatch);
             this.gbGeneralFishing.Controls.Add(this.numCastIntervalHigh);
             this.gbGeneralFishing.Controls.Add(this.trackOpacity);
-            this.gbGeneralFishing.Location = new System.Drawing.Point(3, 61);
+            this.gbGeneralFishing.Location = new System.Drawing.Point(3, 82);
             this.gbGeneralFishing.Name = "gbGeneralFishing";
             this.gbGeneralFishing.Size = new System.Drawing.Size(216, 52);
             this.gbGeneralFishing.TabIndex = 7;
@@ -1290,7 +1302,7 @@
             // 
             // btnSettingsSave
             // 
-            this.btnSettingsSave.Location = new System.Drawing.Point(7, 116);
+            this.btnSettingsSave.Location = new System.Drawing.Point(7, 137);
             this.btnSettingsSave.Name = "btnSettingsSave";
             this.btnSettingsSave.Size = new System.Drawing.Size(92, 22);
             this.btnSettingsSave.TabIndex = 8;
@@ -1300,7 +1312,7 @@
             // 
             // btnSettingsReset
             // 
-            this.btnSettingsReset.Location = new System.Drawing.Point(105, 116);
+            this.btnSettingsReset.Location = new System.Drawing.Point(105, 137);
             this.btnSettingsReset.Name = "btnSettingsReset";
             this.btnSettingsReset.Size = new System.Drawing.Size(92, 22);
             this.btnSettingsReset.TabIndex = 9;
@@ -1373,7 +1385,7 @@
             this.gbGMDetect.Controls.Add(this.cbGMdetectAutostop);
             this.gbGMDetect.Location = new System.Drawing.Point(6, 7);
             this.gbGMDetect.Name = "gbGMDetect";
-            this.gbGMDetect.Size = new System.Drawing.Size(93, 148);
+            this.gbGMDetect.Size = new System.Drawing.Size(93, 146);
             this.gbGMDetect.TabIndex = 0;
             this.gbGMDetect.TabStop = false;
             this.gbGMDetect.Text = "GM Detection";
@@ -2027,7 +2039,7 @@
             this.gbExhaustedBait.Controls.Add(this.cbBaitActionShutdown);
             this.gbExhaustedBait.Location = new System.Drawing.Point(131, 6);
             this.gbExhaustedBait.Name = "gbExhaustedBait";
-            this.gbExhaustedBait.Size = new System.Drawing.Size(119, 165);
+            this.gbExhaustedBait.Size = new System.Drawing.Size(119, 163);
             this.gbExhaustedBait.TabIndex = 3;
             this.gbExhaustedBait.TabStop = false;
             this.gbExhaustedBait.Text = "On Bait Exhausted";
@@ -2157,7 +2169,7 @@
             this.gbOnFatigue.Controls.Add(this.cbFatiguedActionShutdown);
             this.gbOnFatigue.Location = new System.Drawing.Point(256, 6);
             this.gbOnFatigue.Name = "gbOnFatigue";
-            this.gbOnFatigue.Size = new System.Drawing.Size(102, 165);
+            this.gbOnFatigue.Size = new System.Drawing.Size(102, 163);
             this.gbOnFatigue.TabIndex = 2;
             this.gbOnFatigue.TabStop = false;
             this.gbOnFatigue.Text = "On Fatigue Stop";
@@ -2210,7 +2222,7 @@
             this.groupBox1.Controls.Add(this.cbInventoryItemizerItemTools);
             this.groupBox1.Location = new System.Drawing.Point(6, 6);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(119, 165);
+            this.groupBox1.Size = new System.Drawing.Size(119, 163);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "On Full Inventory";
@@ -2668,6 +2680,7 @@
         private System.Windows.Forms.CheckBox cbInventoryItemizerSatchel;
         private System.Windows.Forms.CheckBox cbInventoryItemizerSack;
         private System.Windows.Forms.NumericUpDown numFullactionOtherTime;
+        private System.Windows.Forms.CheckBox cbMidnightRestart;
     }
 }
 

@@ -886,5 +886,17 @@ namespace Fishing.Properties {
                 this["BaitSatchel"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool MidnightRestart {
+            get {
+                return ((bool)(this["MidnightRestart"]));
+            }
+            set {
+                this["MidnightRestart"] = value;
+            }
+        }
     }
 }
