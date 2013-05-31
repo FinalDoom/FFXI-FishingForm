@@ -25,9 +25,9 @@ namespace Fishing
         internal static List<FFACE.ChatTools.ChatLine> sayLog = new List<FFACE.ChatTools.ChatLine>();
 
         /// <summary>
-        /// Grab all new chat lines and put them in the appropriate List<>s, 
-        /// Increase line added counters as chat lines are added to a List<>,
-        /// Keep the List<>s to a maximum size
+        /// Grab all new chat lines and put them in the appropriate Lists, 
+        /// Increase line added counters as chat lines are added to a List,
+        /// Keep the Lists to a maximum size
         /// </summary>
         /// <returns>
         /// How many lines were added at the beginning of the chatLog
@@ -105,6 +105,9 @@ namespace Fishing
 
         } // @ internal static int NewChat()
 
+        /// <summary>
+        /// Clear count of added chat log lines
+        /// </summary>
         internal static void Clear()
         {
             chatLogAdded = 0;
@@ -116,6 +119,11 @@ namespace Fishing
 
         } // @ private static void Clear()
 
+        /// <summary>
+        /// Brighten a color from a chat log color
+        /// </summary>
+        /// <param name="chatLine">Chat line to extract a brightened color from</param>
+        /// <returns>Brightened color</returns>
         internal static Color BrightenColor(FFACE.ChatTools.ChatLine chatLine)
         {
             Color brighterColor = new Color();
@@ -143,6 +151,9 @@ namespace Fishing
 
         } // @ internal static Color BrightenColor(FFACE.ChatTools.ChatLine chatLine)
 
+        /// <summary>
+        /// Remove extra chat lines from log lists
+        /// </summary>
         private static void TrimLogs()
         {
             //keep the logs to a size of 'logMaxLength'
@@ -184,7 +195,11 @@ namespace Fishing
         } // @ private static void TrimLogs()
 
     } // @ internal static class FishChat
-
+    
+    /// <summary>
+    /// Color class to aid in lightening colors,
+    /// converting to and from HSL.
+    /// </summary>
     public static class RGBHSL
     {
         public class HSL
