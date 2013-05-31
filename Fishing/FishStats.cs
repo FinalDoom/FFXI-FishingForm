@@ -39,6 +39,11 @@ namespace Fishing
 
         #region Methods
 
+        /// <summary>
+        /// Add fish to stats dictionary and execute any change event.
+        /// </summary>
+        /// <param name="dictionary">Dictionary to add to</param>
+        /// <param name="fish">fish name to add</param>
         internal static void AddFish(SortedDictionary<string, int> dictionary, string fish)
         {
             if(!dictionary.ContainsKey(fish))
@@ -55,6 +60,9 @@ namespace Fishing
 
         } // @ internal static void AddFish(SortedDictionary<string, int> dictionary, string fish)
 
+        /// <summary>
+        /// Clear the fish stats
+        /// </summary>
         internal static void Clear()
         {
             totalCastCount = 0;
@@ -83,6 +91,13 @@ namespace Fishing
 
         } // @ internal static void Clear()
 
+        /// <summary>
+        /// Get a percentage string from passed values.
+        /// </summary>
+        /// <param name="value">numerator in fractional value</param>
+        /// <param name="total">total/denominator in fractional value</param>
+        /// <param name="places">decimal places to format string to</param>
+        /// <returns>string percentage value</returns>
         private static string GetPercentage(int value, int total, int places)
         {
             decimal percent;
@@ -109,6 +124,10 @@ namespace Fishing
 
         } // @ private static string GetPercentage(int value, int total, int places)
 
+        /// <summary>
+        /// Get a formatted output of all fish stats.
+        /// </summary>
+        /// <returns>Formatted stats string</returns>
         internal static string PrintStats()
         {
             // stats log is built from scratch each time PrintLog() is called 
@@ -170,6 +189,13 @@ namespace Fishing
 
         } // @ internal static string PrintStats()
 
+        /// <summary>
+        /// Create a formatted section for the stats output
+        /// </summary>
+        /// <param name="header">section header</param>
+        /// <param name="count">section count</param>
+        /// <param name="dictionary">dictionary of sub elements</param>
+        /// <returns>Formatted string with section stats</returns>
         private static string StatsSection(string header, int count, SortedDictionary<string, int> dictionary)
         {
             if(dictionary.Count > 0)
@@ -194,61 +220,65 @@ namespace Fishing
 
         } // @ private static string StatsSection(string header, int count, SortedDictionary<string, int> dictionary)
 
-		internal static string getTimeFished()
-		{
-			TimeSpan ts;
-			if (startTicks > 0)
-			{
-				ts = TimeSpan.FromTicks(ticksFished + DateTime.Now.Ticks - startTicks);
-			}
-			else
-			{
-				ts = TimeSpan.FromTicks(ticksFished);
-			}
-			string timeText = "";
-			if (ts.Hours > 0)
-			{
-				timeText = ts.Hours + " hour";
-				if (ts.Hours != 1)
-				{
-					timeText += "s";
-				}
-				if (ts.Minutes > 0)
-				{
-					timeText += ", ";
-				}
-			}
-			if (ts.Minutes > 0)
-			{
-				if (ts.Minutes > 1)
-				{
-					return timeText + ts.Minutes + " minutes";
-				}
-				else
-				{
-					return timeText + ", 1 minute";
-				}
-			}
-			else
-			{
-				if (ts.Hours == 0)
-				{
-					if (ts.Seconds == 1)
-					{
-						return "1 second";
-					}
-					else
-					{
-						return ts.Seconds + " seconds";
-					}
-				}
-				else {
-					return timeText;
-				}
-			}
-		}
+        /// <summary>
+        /// Get a string formatted that displays the amount of time fished.
+        /// </summary>
+        /// <returns>string formatted of amount of time fished</returns>
+        internal static string getTimeFished()
+        {
+            TimeSpan ts;
+            if (startTicks > 0)
+            {
+                ts = TimeSpan.FromTicks(ticksFished + DateTime.Now.Ticks - startTicks);
+            }
+            else
+            {
+                ts = TimeSpan.FromTicks(ticksFished);
+            }
+            string timeText = "";
+            if (ts.Hours > 0)
+            {
+                timeText = ts.Hours + " hour";
+                if (ts.Hours != 1)
+                {
+                    timeText += "s";
+                }
+                if (ts.Minutes > 0)
+                {
+                    timeText += ", ";
+                }
+            }
+            if (ts.Minutes > 0)
+            {
+                timeText += ts.Minutes + " minute";
+                if (ts.Minutes != 1)
+                {
+                    timeText += "s";
+                }
+                if (ts.Hours == 0)
+                {
+                    timeText += ", ";
+                }
+            }
+            if (ts.Hours == 0)
+            {
+                if (ts.Seconds == 1)
+                {
+                    timeText += "1 second";
+                }
+                else
+                {
+                    timeText += ts.Seconds + " seconds";
+                }
+            }
+            return timeText;
+        }
 
-		internal static string getCatchesPerHour()
+        /// <summary>
+        /// Get a string showing the number of catches per hour
+        /// </summary>
+        /// <returns>a string showing the number of catches per hour</returns>
+        internal static string getCatchesPerHour()
 		{
 			TimeSpan ts;
 			if (startTicks > 0)

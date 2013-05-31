@@ -732,4 +732,64 @@
     <value>points.</value>
     <comment>Test for points rather than level up</comment>
   </data>
+  <data name="SQLMessageErrorNoConnection" xml:space="preserve">
+    <value>Could not connect to FishDB MySQL server. Please contact program maintainer.</value>
+  </data>
+  <data name="SQLMessageErrorCouldntConnect" xml:space="preserve">
+    <value>Could not connect to FishDB MySQL server. Error number {0}</value>
+  </data>
+  <data name="SQLMessageWarningCloseConnection" xml:space="preserve">
+    <value>Could not close connection.</value>
+  </data>
+  <data name="SQLMessageErrorNewestModTime" xml:space="preserve">
+    <value>Error getting Newest DB Modification Time</value>
+  </data>
+  <data name="SQLMessageFormatErrorGettingFishID" xml:space="preserve">
+    <value>Error getting fish ID from DB for "{0}"</value>
+  </data>
+  <data name="SQLMessageFormatErrorAddingFish" xml:space="preserve">
+    <value>Error adding new fish "{0}"</value>
+  </data>
+  <data name="SQLMessageFormatErrorRenamingFish" xml:space="preserve">
+    <value>Error renaming fish "{0}" to "{1}"</value>
+  </data>
+  <data name="SQLMessageFormatErrorAddingBaitFish" xml:space="preserve">
+    <value>Error adding bait "{0}" to fish "{1}"</value>
+  </data>
+  <data name="SQLMessageFormatErrorAddingZoneFish" xml:space="preserve">
+    <value>Error adding zone "{0}" to fish "{1}"</value>
+  </data>
+  <data name="SQLMessageFormatErrorGettingNewFishWithIDs" xml:space="preserve">
+    <value>Error getting new fish "{0}" with IDs: {1}, {2}, {3}</value>
+  </data>
+  <data name="SQLMessageFormatErrorGettingRenamedFishWithIDs" xml:space="preserve">
+    <value>Error getting renamed fish "{0}" to "{1}" with IDs: {2}, {3}, {4}</value>
+  </data>
+  <data name="SQLMessageErrorGettingVersion" xml:space="preserve">
+    <value>Error getting program version status.</value>
+  </data>
+  <data name="SQLMessageFormatErrorUploadingFishRod" xml:space="preserve">
+    <value>Error uploading fish "{0}" for {1}.</value>
+  </data>
+  <data name="SQLMessageFormatErrorUploadingBaitZones" xml:space="preserve">
+    <value>Error uploading bait and zones for fish "{0}" for {1}.</value>
+  </data>
+  <data name="SQLMessageFormatErrorUploadingRename" xml:space="preserve">
+    <value>Error uploading rename from "{0}" to "{1}" for {2}.</value>
+  </data>
+  <data name="SQLMessageFormatErrorDownloadingFishRod" xml:space="preserve">
+    <value>Error downloading new fish for {0}</value>
+  </data>
+  <data name="SQLMessageFormatErrorDownloadingRenameRod" xml:space="preserve">
+    <value>Error downloading renames for {0}</value>
+  </data>
+  <data name="SQLMessageUploadStart" xml:space="preserve">
+    <value>Starting upload to DB.</value>
+  </data>
+  <data name="SQLMessageErrorUploading" xml:space="preserve">
+    <value>Error uploading fish</value>
+  </data>
+  <data name="SQLMessageUploadFinished" xml:space="preserve">
+    <value>Upload to DB finished.</value>
+  </data>
 </root>
