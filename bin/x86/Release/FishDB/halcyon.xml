@@ -68,6 +68,7 @@
     <Baits>
       <Bait>Insect Ball</Bait>
       <Bait>Shrimp Lure</Bait>
+      <Bait>Sinking Minnow</Bait>
     </Baits>
   </Fish>
   <Fish name="Mob (Kraken)" wanted="No" ID1="300" ID2="18" ID3="9" ID4="12">
@@ -120,6 +121,8 @@
     <Baits>
       <Bait>Insect Ball</Bait>
       <Bait>Shrimp Lure</Bait>
+      <Bait>Sinking Minnow</Bait>
+      <Bait>Minnow</Bait>
     </Baits>
   </Fish>
   <Fish name="Mob (Thread Leech)" wanted="No" ID1="300" ID2="16" ID3="10" ID4="11">
@@ -129,6 +132,8 @@
     <Baits>
       <Bait>Shrimp Lure</Bait>
       <Bait>Insect Ball</Bait>
+      <Bait>Minnow</Bait>
+      <Bait>Sinking Minnow</Bait>
     </Baits>
   </Fish>
   <Fish name="Copper Ring" wanted="No" ID1="60" ID2="40" ID3="15" ID4="28">
@@ -162,6 +167,7 @@
       <Bait>Shrimp Lure</Bait>
       <Bait>Sabiki Rig</Bait>
       <Bait>Little Worm</Bait>
+      <Bait>Sinking Minnow</Bait>
     </Baits>
   </Fish>
   <Fish name="Rusty Cap" wanted="No" ID1="60" ID2="38" ID3="15" ID4="26">
@@ -173,6 +179,7 @@
       <Bait>Crayfish Ball</Bait>
       <Bait>Shrimp Lure</Bait>
       <Bait>Insect Ball</Bait>
+      <Bait>Sinking Minnow</Bait>
     </Baits>
   </Fish>
   <Fish name="Rusty Leggings" wanted="No" ID1="60" ID2="26" ID3="15" ID4="18">
@@ -189,6 +196,7 @@
       <Zone>Yhoator Jungle</Zone>
       <Zone>West Ronfaure</Zone>
       <Zone>Mhaura</Zone>
+      <Zone>Sauromugue Champaign</Zone>
     </Zones>
     <Baits>
       <Bait>Meatball</Bait>
@@ -199,6 +207,8 @@
       <Bait>Little Worm</Bait>
       <Bait>Sabiki Rig</Bait>
       <Bait>Lugworm</Bait>
+      <Bait>Sinking Minnow</Bait>
+      <Bait>Minnow</Bait>
     </Baits>
   </Fish>
   <Fish name="Rusty Subligar" wanted="No" ID1="60" ID2="22" ID3="15" ID4="15">
@@ -271,11 +281,13 @@
     <Zones>
       <Zone>Jugner Forest</Zone>
       <Zone>Bastok Markets</Zone>
+      <Zone>West Sarutabaruta</Zone>
     </Zones>
     <Baits>
       <Bait>Insect Ball</Bait>
       <Bait>Minnow</Bait>
       <Bait>Little Worm</Bait>
+      <Bait>Sinking Minnow</Bait>
     </Baits>
   </Fish>
   <Fish name="Elshimo Newt" wanted="Yes" ID1="200" ID2="26" ID3="7" ID4="18">
@@ -293,6 +305,8 @@
     <Baits>
       <Bait>Sardine Ball</Bait>
       <Bait>Minnow</Bait>
+      <Bait>Lugworm</Bait>
+      <Bait>Worm Lure</Bait>
     </Baits>
   </Fish>
   <Fish name="Gold Carp" wanted="No" ID1="300" ID2="18" ID3="12" ID4="12">
@@ -303,6 +317,8 @@
       <Zone>Jugner Forest</Zone>
       <Zone>Port San d'Oria</Zone>
       <Zone>Northern San d'Oria</Zone>
+      <Zone>East Ronfaure</Zone>
+      <Zone>Windurst Waters</Zone>
     </Zones>
     <Baits>
       <Bait>Insect Ball</Bait>
@@ -320,6 +336,7 @@
       <Zone>Port San d'Oria</Zone>
       <Zone>Yhoator Jungle</Zone>
       <Zone>Northern San d'Oria</Zone>
+      <Zone>Windurst Waters</Zone>
     </Zones>
     <Baits>
       <Bait>Insect Ball</Bait>
@@ -353,6 +370,7 @@
       <Zone>Manaclipper</Zone>
       <Zone>Bibiki Bay</Zone>
       <Zone>Port Windurst</Zone>
+      <Zone>Mhaura</Zone>
     </Zones>
     <Baits>
       <Bait>Crayfish Ball</Bait>
@@ -361,11 +379,13 @@
       <Bait>Little Worm</Bait>
       <Bait>Insect Ball</Bait>
       <Bait>Sabiki Rig</Bait>
+      <Bait>Lugworm</Bait>
     </Baits>
   </Fish>
   <Fish name="Pipira" wanted="No" ID1="300" ID2="11" ID3="8" ID4="7">
     <Zones>
       <Zone>Windurst Woods</Zone>
+      <Zone>Windurst Walls</Zone>
     </Zones>
     <Baits>
       <Bait>Minnow</Bait>
@@ -389,6 +409,7 @@
       <Zone>Jugner Forest</Zone>
       <Zone>Port San d'Oria</Zone>
       <Zone>Northern San d'Oria</Zone>
+      <Zone>East Ronfaure</Zone>
     </Zones>
     <Baits>
       <Bait>Insect Ball</Bait>
@@ -441,6 +462,8 @@
     <Baits>
       <Bait>Insect Ball</Bait>
       <Bait>Little Worm</Bait>
+      <Bait>Sabiki Rig</Bait>
+      <Bait>Lugworm</Bait>
     </Baits>
   </Fish>
   <Fish name="Greedie" wanted="No" ID1="300" ID2="10" ID3="9">
@@ -468,6 +491,7 @@
     </Zones>
     <Baits>
       <Bait>Sinking Minnow</Bait>
+      <Bait>Fly Lure</Bait>
     </Baits>
   </Fish>
   <Fish name="Shining Trout" wanted="Yes" ID1="240" ID2="16" ID3="7">
@@ -476,6 +500,7 @@
     </Zones>
     <Baits>
       <Bait>Sinking Minnow</Bait>
+      <Bait>Fly Lure</Bait>
     </Baits>
   </Fish>
   <Fish name="Bastore Bream" wanted="Yes" ID1="200" ID2="31" ID3="9">
@@ -486,6 +511,7 @@
     <Baits>
       <Bait>Minnow</Bait>
       <Bait>Shrimp Lure</Bait>
+      <Bait>Crayfish Ball</Bait>
     </Baits>
   </Fish>
   <Fish name="Yellow Globe x2" wanted="Yes" ID1="180" ID2="17" ID3="11">
@@ -502,6 +528,7 @@
     <Zones>
       <Zone>Port Jeuno</Zone>
       <Zone>Beaucedine Glacier</Zone>
+      <Zone>Mhaura</Zone>
     </Zones>
     <Baits>
       <Bait>Sabiki Rig</Bait>
@@ -513,11 +540,15 @@
       <Zone>Beaucedine Glacier</Zone>
       <Zone>Buburimu Peninsula</Zone>
       <Zone>Qufim Island</Zone>
+      <Zone>Mhaura</Zone>
+      <Zone>Sauromugue Champaign</Zone>
     </Zones>
     <Baits>
       <Bait>Sabiki Rig</Bait>
       <Bait>Robber Rig</Bait>
       <Bait>Lugworm</Bait>
+      <Bait>Worm Lure</Bait>
+      <Bait>Crayfish Ball</Bait>
     </Baits>
   </Fish>
   <Fish name="Icefish" wanted="No" ID1="200" ID2="38" ID3="5">
@@ -632,6 +663,9 @@
       <Zone>Selbina</Zone>
       <Zone>Port Windurst</Zone>
       <Zone>Mhaura</Zone>
+      <Zone>Valkurm Dunes</Zone>
+      <Zone>Ship bound for Mhaura (Pirates)</Zone>
+      <Zone>Port Jeuno</Zone>
     </Zones>
     <Baits>
       <Bait>Sabiki Rig</Bait>
@@ -643,6 +677,9 @@
       <Zone>Port Windurst</Zone>
       <Zone>Selbina</Zone>
       <Zone>Mhaura</Zone>
+      <Zone>Valkurm Dunes</Zone>
+      <Zone>Ship bound for Mhaura (Pirates)</Zone>
+      <Zone>Port Jeuno</Zone>
     </Zones>
     <Baits>
       <Bait>Sabiki Rig</Bait>
@@ -653,6 +690,9 @@
       <Zone>Selbina</Zone>
       <Zone>Port Windurst</Zone>
       <Zone>Mhaura</Zone>
+      <Zone>Valkurm Dunes</Zone>
+      <Zone>Ship bound for Mhaura (Pirates)</Zone>
+      <Zone>Port Jeuno</Zone>
     </Zones>
     <Baits>
       <Bait>Sabiki Rig</Bait>
@@ -662,6 +702,8 @@
     <Zones>
       <Zone>Selbina</Zone>
       <Zone>Port Windurst</Zone>
+      <Zone>Valkurm Dunes</Zone>
+      <Zone>Ship bound for Mhaura (Pirates)</Zone>
     </Zones>
     <Baits>
       <Bait>Sabiki Rig</Bait>
@@ -679,6 +721,7 @@
   <Fish name="Quus x2" wanted="No" ID1="260" ID2="12" ID3="9">
     <Zones>
       <Zone>Selbina</Zone>
+      <Zone>Ship bound for Mhaura (Pirates)</Zone>
     </Zones>
     <Baits>
       <Bait>Sabiki Rig</Bait>
@@ -688,6 +731,7 @@
     <Zones>
       <Zone>Selbina</Zone>
       <Zone>Port Windurst</Zone>
+      <Zone>Ship bound for Mhaura (Pirates)</Zone>
     </Zones>
     <Baits>
       <Bait>Sabiki Rig</Bait>
@@ -700,6 +744,8 @@
       <Zone>Ru'Aun Gardens</Zone>
       <Zone>Port San d'Oria</Zone>
       <Zone>West Ronfaure</Zone>
+      <Zone>East Ronfaure</Zone>
+      <Zone>Yhoator Jungle</Zone>
     </Zones>
     <Baits>
       <Bait>Little Worm</Bait>
@@ -714,9 +760,11 @@
   <Fish name="Tiger Cod" wanted="No" ID1="200" ID2="23" ID3="11">
     <Zones>
       <Zone>Qufim Island</Zone>
+      <Zone>Sauromugue Champaign</Zone>
     </Zones>
     <Baits>
       <Bait>Shrimp Lure</Bait>
+      <Bait>Lugworm</Bait>
     </Baits>
   </Fish>
   <Fish name="Sandfish" wanted="No" ID1="220" ID2="36" ID3="5">
@@ -725,6 +773,7 @@
     </Zones>
     <Baits>
       <Bait>Little Worm</Bait>
+      <Bait>Sabiki Rig</Bait>
     </Baits>
   </Fish>
   <Fish name="Hamsi x2" wanted="No" ID1="140" ID2="21" ID3="14">
@@ -749,12 +798,15 @@
     <Zones>
       <Zone>Yhoator Jungle</Zone>
       <Zone>Selbina</Zone>
+      <Zone>Sauromugue Champaign</Zone>
     </Zones>
     <Baits>
       <Bait>Insect Ball</Bait>
       <Bait>Little Worm</Bait>
       <Bait>Lugworm</Bait>
       <Bait>Fly Lure</Bait>
+      <Bait>Worm Lure</Bait>
+      <Bait>Crayfish Ball</Bait>
     </Baits>
   </Fish>
   <Fish name="Rusty Pick" wanted="No" ID1="60" ID2="47" ID3="15">
@@ -764,6 +816,7 @@
     <Baits>
       <Bait>Insect Ball</Bait>
       <Bait>Little Worm</Bait>
+      <Bait>Worm Lure</Bait>
     </Baits>
   </Fish>
   <Fish name="Nebimonite" wanted="No" ID1="120" ID2="30" ID3="11">
@@ -802,6 +855,7 @@
     <Baits>
       <Bait>Insect Ball</Bait>
       <Bait>Little Worm</Bait>
+      <Bait>Worm Lure</Bait>
     </Baits>
   </Fish>
   <Fish name="Mob (_3_)" wanted="No" ID1="300" ID2="17" ID3="9">
@@ -810,6 +864,7 @@
     </Zones>
     <Baits>
       <Bait>Insect Ball</Bait>
+      <Bait>Little Worm</Bait>
     </Baits>
   </Fish>
   <Fish name="Break Rod Fish" wanted="No" ID1="100" ID2="18" ID3="14">
@@ -818,6 +873,7 @@
     </Zones>
     <Baits>
       <Bait>Insect Ball</Bait>
+      <Bait>Little Worm</Bait>
     </Baits>
   </Fish>
   <Fish name="Black Eel" wanted="No" ID1="180" ID2="24" ID3="7">
@@ -831,9 +887,12 @@
   <Fish name="Break Rod Fish" wanted="No" ID1="180" ID2="31" ID3="8">
     <Zones>
       <Zone>Nashmau</Zone>
+      <Zone>Sea Serpent Grotto</Zone>
     </Zones>
     <Baits>
       <Bait>Robber Rig</Bait>
+      <Bait>Shrimp Lure</Bait>
+      <Bait>Crayfish Ball</Bait>
     </Baits>
   </Fish>
   <Fish name="Mercanbaligi" wanted="No" ID1="200" ID2="31" ID3="9">
@@ -842,6 +901,7 @@
     </Zones>
     <Baits>
       <Bait>Robber Rig</Bait>
+      <Bait>Shrimp Lure</Bait>
     </Baits>
   </Fish>
   <Fish name="Lack Skill Fish" wanted="No" ID1="240" ID2="36" ID3="5">
@@ -858,6 +918,79 @@
     </Zones>
     <Baits>
       <Bait>Sabiki Rig</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Lack Skill Fish" wanted="No" ID1="200" ID2="31" ID3="9">
+    <Zones>
+      <Zone>East Sarutabaruta</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Sinking Minnow</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Ogre Eel" wanted="No" ID1="240" ID2="29" ID3="15">
+    <Zones>
+      <Zone>East Sarutabaruta</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Sinking Minnow</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Break Line Fish" wanted="No" ID1="300" ID2="16" ID3="6">
+    <Zones>
+      <Zone>Ship bound for Mhaura (Pirates)</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Shrimp Lure</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Cone Calamary x2" wanted="No" ID1="120" ID2="40" ID3="13">
+    <Zones>
+      <Zone>Ship bound for Mhaura (Pirates)</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Sabiki Rig</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Crystal Bass" wanted="No" ID1="180" ID2="24" ID3="9">
+    <Zones>
+      <Zone>Jugner Forest</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Minnow</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Mob (_4_)" wanted="No" ID1="300" ID2="15" ID3="11">
+    <Zones>
+      <Zone>Sea Serpent Grotto</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Shrimp Lure</Bait>
+      <Bait>Crayfish Ball</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Too Large Fish" wanted="No" ID1="280" ID2="13" ID3="6">
+    <Zones>
+      <Zone>West Sarutabaruta</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Sinking Minnow</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Lack Skill Fish" wanted="No" ID1="240" ID2="33" ID3="7">
+    <Zones>
+      <Zone>Sauromugue Champaign</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Crayfish Ball</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Gold Lobster" wanted="No" ID1="80" ID2="35" ID3="6">
+    <Zones>
+      <Zone>East Sarutabaruta</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Sinking Minnow</Bait>
     </Baits>
   </Fish>
 </Rod>

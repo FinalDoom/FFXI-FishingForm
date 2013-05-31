@@ -142,9 +142,35 @@
   <Fish name="Tricolored Carp" wanted="No" ID1="240" ID2="24" ID3="12">
     <Zones>
       <Zone>Northern San d'Oria</Zone>
+      <Zone>Port San d'Oria</Zone>
     </Zones>
     <Baits>
       <Bait>Little Worm</Bait>
+      <Bait>Insect Ball</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Moat Carp" wanted="No" ID1="180" ID2="20" ID3="10">
+    <Zones>
+      <Zone>Port San d'Oria</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Insect Ball</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Tiger Cod" wanted="No" ID1="180" ID2="29" ID3="9">
+    <Zones>
+      <Zone>Sauromugue Champaign</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Shrimp Lure</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Too Small Fish" wanted="No" ID1="220" ID2="42" ID3="5">
+    <Zones>
+      <Zone>Sauromugue Champaign</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Shrimp Lure</Bait>
     </Baits>
   </Fish>
 </Rod>

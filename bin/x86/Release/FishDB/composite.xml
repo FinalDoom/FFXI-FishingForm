@@ -140,6 +140,7 @@
     </Zones>
     <Baits>
       <Bait>Slice of Bluetail</Bait>
+      <Bait>Sinking Minnow</Bait>
     </Baits>
   </Fish>
   <Fish name="Mob (Ocean Pugil)" wanted="No" ID1="300" ID2="16" ID3="11" ID4="11">
@@ -173,6 +174,7 @@
     </Zones>
     <Baits>
       <Bait>Slice of Bluetail</Bait>
+      <Bait>Sinking Minnow</Bait>
     </Baits>
   </Fish>
   <Fish name="Mob (Sea Pugil)" wanted="No" ID1="300" ID2="16" ID3="15" ID4="11">
@@ -184,6 +186,7 @@
     </Zones>
     <Baits>
       <Bait>Slice of Bluetail</Bait>
+      <Bait>Sinking Minnow</Bait>
     </Baits>
   </Fish>
   <Fish name="Mob (Spring Pugil)" wanted="No" ID1="300" ID2="15" ID3="12" ID4="10">
@@ -277,6 +280,7 @@
       <Bait>Frog Lure</Bait>
       <Bait>Insect Ball</Bait>
       <Bait>Crayfish Ball</Bait>
+      <Bait>Minnow</Bait>
     </Baits>
   </Fish>
   <Fish name="Rusty Cap" wanted="No" ID1="40" ID2="38" ID3="13" ID4="26">
@@ -367,6 +371,7 @@
       <Zone>Ship bound for Selbina (Pirates)</Zone>
       <Zone>Ship bound for Mhaura</Zone>
       <Zone>Ship bound for Mhaura (Pirates)</Zone>
+      <Zone>East Sarutabaruta</Zone>
     </Zones>
     <Baits>
       <Bait>Minnow</Bait>
@@ -521,6 +526,7 @@
     </Zones>
     <Baits>
       <Bait>Minnow</Bait>
+      <Bait>Sinking Minnow</Bait>
     </Baits>
   </Fish>
   <Fish name="Pamtam Kelp" wanted="No" ID1="40" ID2="24" ID3="13" ID4="16">
@@ -679,9 +685,11 @@
   <Fish name="Too small fish" wanted="No" ID1="180" ID2="31" ID3="7">
     <Zones>
       <Zone>Port Windurst</Zone>
+      <Zone>East Sarutabaruta</Zone>
     </Zones>
     <Baits>
       <Bait>Minnow</Bait>
+      <Bait>Sinking Minnow</Bait>
     </Baits>
   </Fish>
   <Fish name="Giant Donko" wanted="Yes" ID1="160" ID2="17" ID3="15">
@@ -737,6 +745,22 @@
     <Zones />
     <Baits>
       <Bait>Robber Rig</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Break Rod Fish" wanted="No" ID1="300" ID2="80" ID3="2">
+    <Zones>
+      <Zone>Ship bound for Selbina</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Sinking Minnow</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Gold Lobster" wanted="No" ID1="60" ID2="35" ID3="4">
+    <Zones>
+      <Zone>East Sarutabaruta</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Sinking Minnow</Bait>
     </Baits>
   </Fish>
 </Rod>

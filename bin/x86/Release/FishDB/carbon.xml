@@ -75,6 +75,8 @@
   <Fish name="Crayfish" wanted="No" ID1="140" ID2="24" ID3="15">
     <Zones>
       <Zone>Port San d'Oria</Zone>
+      <Zone>Windurst Woods</Zone>
+      <Zone>Rabao</Zone>
     </Zones>
     <Baits>
       <Bait>Little Worm</Bait>
@@ -83,9 +85,12 @@
   <Fish name="Moat Carp" wanted="No" ID1="200" ID2="16" ID3="12">
     <Zones>
       <Zone>Port San d'Oria</Zone>
+      <Zone>Windurst Woods</Zone>
+      <Zone>Rabao</Zone>
     </Zones>
     <Baits>
       <Bait>Little Worm</Bait>
+      <Bait>Insect Ball</Bait>
     </Baits>
   </Fish>
   <Fish name="Tricolored Carp" wanted="No" ID1="260" ID2="19" ID3="14">
@@ -99,6 +104,16 @@
   <Fish name="Break Line Fish" wanted="No" ID1="300" ID2="18" ID3="12">
     <Zones>
       <Zone>Port San d'Oria</Zone>
+      <Zone>Windurst Woods</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Little Worm</Bait>
+      <Bait>Insect Ball</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Break Line Fish" wanted="No" ID1="220" ID2="36" ID3="5">
+    <Zones>
+      <Zone>Rabao</Zone>
     </Zones>
     <Baits>
       <Bait>Little Worm</Bait>
