@@ -222,6 +222,7 @@ namespace Fishing
             toolTip.SetToolTip(cbReleaseLarge, "Sets the lower and upper HP% for randomly releasing a large fish.");
             toolTip.SetToolTip(cbReleaseSmall, "Sets the lower and upper HP% for randomly releasing a small fish.");
             toolTip.SetToolTip(lblMaxNoCatch, "Maximum number of no catch casts before stopping.");
+            toolTip.SetToolTip(cbMidnightRestart, "Restart fishing at Japanese midnight.");
             toolTip.SetToolTip(lblNoCatchAtHeader, "Displays how many times you have not caught anything in a row.");
             toolTip.SetToolTip(trackOpacity, "This bar controls the transparency of the dialog between 10% and 99%.");
             toolTip.SetToolTip(cbReaction, "Delay before starting to fight a caught fish.");
@@ -3602,6 +3603,7 @@ namespace Fishing
                 Settings.Default.FakeSmallMax = 75;
                 Settings.Default.FakeSmallMin = 50;
                 Settings.Default.MaxNoCatch = 20;
+                Settings.Default.MidnightRestart = cbMidnightRestart.Checked = false;
                 Settings.Default.ReactionMax = numReactionHigh.Value = 2.0M;
                 Settings.Default.ReactionMin = numReactionLow.Value = 0.5M;
                 Settings.Default.Reaction = cbReaction.Checked = false;
@@ -3699,6 +3701,7 @@ namespace Fishing
                 Settings.Default.FakeSmallMax = numFakeSmallIntervalHigh.Value;
                 Settings.Default.FakeSmallMin = numFakeSmallIntervalLow.Value;
                 Settings.Default.MaxNoCatch = numMaxNoCatch.Value;
+                Settings.Default.MidnightRestart = cbMidnightRestart.Checked;
                 Settings.Default.Reaction = cbReaction.Checked;
                 Settings.Default.ReactionMax = numReactionHigh.Value;
                 Settings.Default.ReactionMin = numReactionLow.Value;
@@ -3797,6 +3800,7 @@ namespace Fishing
             numFakeSmallIntervalHigh.Value = Settings.Default.FakeSmallMax;
             numFakeSmallIntervalLow.Value = Settings.Default.FakeSmallMin;
             numMaxNoCatch.Value = Settings.Default.MaxNoCatch;
+            cbMidnightRestart.Checked = Settings.Default.MidnightRestart;
             cbReaction.Checked = Settings.Default.Reaction;
             numReactionHigh.Value = Settings.Default.ReactionMax;
             numReactionLow.Value = Settings.Default.ReactionMin;
@@ -3964,6 +3968,9 @@ namespace Fishing
 			{
 				// Reset cast wait time
 				btnCastReset_Click(btnCastReset, MouseEventArgs.Empty);
+                // Restart fishing if that option is checked
+			    RestartFishing();
+                // Get a new next midnight
 				japanNextMidnight = GetNextMidnight();
 			}
 
@@ -3971,6 +3978,11 @@ namespace Fishing
 
         } // @ private void timer_Tick
 
+        /// <summary>
+        /// Gets a <c>DateTime</c> corresponding to the next midnight in Japan, for purposes
+        /// of signaling resets of various things that happen in FF.
+        /// </summary>
+        /// <returns><c>DateTime</c> with the next Japanese midnight</returns>
 		private DateTime GetNextMidnight()
 		{
 			DateTime midnight = _FFACE != null ? _FFACE.Timer.ServerTimeUTC : DateTime.UtcNow;
@@ -3978,6 +3990,18 @@ namespace Fishing
 			midnight = new DateTime(midnight.Year, midnight.Month, midnight.Day);
 			return midnight;
 		}
+
+        /// <summary>
+        /// Restart fishing based on checked options and program state
+        /// </summary>
+        private void RestartFishing()
+        {
+            // If option is checked and program is not currently fishing
+            if (cbMidnightRestart.Checked && null == workerThread)
+            {
+                Start();
+            }
+        }
 
         private void timer_DisplayProgressEvent(object sender, ElapsedEventArgs e)
         {
