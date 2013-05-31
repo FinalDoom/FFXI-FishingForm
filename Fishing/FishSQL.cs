@@ -113,28 +113,6 @@ namespace Fishing
         private const string mySqlParamVersionBuild = "build";
         private const string mySqlParamVersionRevision = "revision";
 
-        // Message constants
-        private const string MessageErrorNoConnection = "Could not connect to FishDB MySQL server. Please contact program maintainer.";
-        private const string MessageErrorCouldntConnect = "Could not connect to FishDB MySQL server. Error number ";
-        private const string MessageWarningCloseConnection = "Could not close connection.";
-        private const string MessageErrorNewestModTime = "Error getting Newest DB Modification Time";
-        private const string MessageFormatErrorGettingFishID = "Error getting fish ID from DB for \"{0}\"";
-        private const string MessageFormatErrorAddingFish = "Error adding new fish \"{0}\"";
-        private const string MessageFormatErrorRenamingFish = "Error renaming fish \"{0}\" to \"{1}\"";
-        private const string MessageFormatErrorAddingBaitFish = "Error adding bait \"{0}\" to fish \"{1}\"";
-        private const string MessageFormatErrorAddingZoneFish = "Error adding zone \"{0}\" to fish \"{1}\"";
-        private const string MessageFormatErrorGettingNewFishWithIDs = "Error getting new fish \"{0}\" with IDs: {1}, {2}, {3}";
-        private const string MessageFormatErrorGettingRenamedFishWithIDs = "Error getting renamed fish \"{0}\" to \"{1}\" with IDs: {2}, {3}, {4}";
-        private const string MessageErrorGettingVersion = "Error getting program version status.";
-        private const string MessageFormatErrorUploadingFishRod = "Error uploading fish \"{0}\" for {1}.";
-        private const string MessageFormatErrorUploadingBaitZones = "Error uploading bait and zones for fish \"{0}\" for {1}.";
-        private const string MessageFormatErrorUploadingRename = "Error uploading rename from \"{0}\" to \"{1}\" for {2}.";
-        private const string MessageFormatErrorDownloadingFishRod = "Error downloading new fish for {0}";
-        private const string MessageFormatErrorDownloadingRenameRod = "Error downloading renames for {0}";
-        private const string MessageUploadStart = "Starting upload to DB.";
-        private const string MessageErrorUploading = "Error uploading fish";
-        private const string MessageUploadFinished = "Upload to DB finished.";
-
         // Misc
         private const string ZoneSelbinaPirates = "Selbina (Pirates)";
         private const string ZoneMhauraPirates = "Mhaura (Pirates)";
@@ -185,10 +163,10 @@ namespace Fishing
                     switch (e.Number)
                     {
                         case 0:
-                            message = MessageErrorNoConnection;
+                            message = Resources.SQLMessageErrorNoConnection;
                             break;
                         default:
-                            message = MessageErrorCouldntConnect + e.Number.ToString();
+                            message = string.Format(Resources.SQLMessageErrorCouldntConnect, e.Number);
                             break;
                     }
                     MessageBox.Show(message);
@@ -221,7 +199,7 @@ namespace Fishing
             {
                 if (StatusDisplay != null)
                 {
-                    StatusDisplay.Warning(MessageWarningCloseConnection);
+                    StatusDisplay.Warning(Resources.SQLMessageWarningCloseConnection);
                     StatusDisplay.Info(e.ToString());
                 }
                 return false;
@@ -278,7 +256,7 @@ namespace Fishing
                         {
                             if (StatusDisplay != null)
                             {
-                                StatusDisplay.Error(MessageErrorNewestModTime);
+                                StatusDisplay.Error(Resources.SQLMessageErrorNewestModTime);
                                 StatusDisplay.Info(e.ToString());
                             }
                         }
@@ -338,7 +316,7 @@ namespace Fishing
                             default:
                                 if (StatusDisplay != null)
                                 {
-                                    StatusDisplay.Error(string.Format(MessageFormatErrorAddingFish, fish));
+                                    StatusDisplay.Error(string.Format(Resources.SQLMessageFormatErrorAddingFish, fish));
                                     StatusDisplay.Info(e.ToString());
                                 }
                                 break;
@@ -392,7 +370,7 @@ namespace Fishing
                     {// Don't care
                         if (StatusDisplay != null)
                         {
-                            StatusDisplay.Warning(string.Format(MessageFormatErrorRenamingFish, oldName, fish));
+                            StatusDisplay.Warning(string.Format(Resources.SQLMessageFormatErrorRenamingFish, oldName, fish));
                             StatusDisplay.Info(e.ToString());
                         }
                     }
@@ -428,7 +406,7 @@ namespace Fishing
                 {
                     if (StatusDisplay != null)
                     {
-                        StatusDisplay.Error(string.Format(MessageFormatErrorGettingFishID, name));
+                        StatusDisplay.Error(string.Format(Resources.SQLMessageFormatErrorGettingFishID, name));
                         StatusDisplay.Info(e.ToString());
                     }
                     return -1;
@@ -501,7 +479,7 @@ namespace Fishing
                                     default:
                                         if (StatusDisplay != null)
                                         {
-                                            StatusDisplay.Error(string.Format(MessageFormatErrorAddingBaitFish, b, fish));
+                                            StatusDisplay.Error(string.Format(Resources.SQLMessageFormatErrorAddingBaitFish, b, fish));
                                             StatusDisplay.Info(e.ToString());
                                         }
                                         break;
@@ -571,7 +549,7 @@ namespace Fishing
                                     default:
                                         if (StatusDisplay != null)
                                         {
-                                            StatusDisplay.Error(string.Format(MessageFormatErrorAddingZoneFish, z, fish));
+                                            StatusDisplay.Error(string.Format(Resources.SQLMessageFormatErrorAddingZoneFish, z, fish));
                                             StatusDisplay.Info(e.ToString());
                                         }
                                         break;
@@ -652,7 +630,7 @@ namespace Fishing
                             {
                                 if (StatusDisplay != null)
                                 {
-                                    StatusDisplay.Error(string.Format(MessageFormatErrorGettingNewFishWithIDs, name, id1, id2, id3));
+                                    StatusDisplay.Error(string.Format(Resources.SQLMessageFormatErrorGettingNewFishWithIDs, name, id1, id2, id3));
                                     StatusDisplay.Info(e.ToString());
                                 }
                             }
@@ -714,7 +692,7 @@ namespace Fishing
                             {
                                 if (StatusDisplay != null)
                                 {
-                                    StatusDisplay.Error(string.Format(MessageFormatErrorGettingRenamedFishWithIDs, name, toName, id1, id2, id3));
+                                    StatusDisplay.Error(string.Format(Resources.SQLMessageFormatErrorGettingRenamedFishWithIDs, name, toName, id1, id2, id3));
                                     StatusDisplay.Info(e.ToString());
                                 }
                             }
@@ -761,7 +739,7 @@ namespace Fishing
                     {
                         if (StatusDisplay != null)
                         {
-                            StatusDisplay.Error(MessageErrorGettingVersion);
+                            StatusDisplay.Error(Resources.SQLMessageErrorGettingVersion);
                             StatusDisplay.Info(e.ToString());
                         }
                     }
@@ -826,7 +804,7 @@ namespace Fishing
                         {
                             if (StatusDisplay != null)
                             {
-                                StatusDisplay.Error(string.Format(MessageFormatErrorUploadingFishRod, fish, rod));
+                                StatusDisplay.Error(string.Format(Resources.SQLMessageFormatErrorUploadingFishRod, fish, rod));
                                 StatusDisplay.Info(e.ToString());
                             }
                         }
@@ -852,7 +830,7 @@ namespace Fishing
                         {
                             if (StatusDisplay != null)
                             {
-                                StatusDisplay.Error(string.Format(MessageFormatErrorUploadingBaitZones, fish, rod));
+                                StatusDisplay.Error(string.Format(Resources.SQLMessageFormatErrorUploadingBaitZones, fish, rod));
                                 StatusDisplay.Info(e.ToString());
                             }
                         }
@@ -881,7 +859,7 @@ namespace Fishing
                     {
                         if (StatusDisplay != null)
                         {
-                            StatusDisplay.Error(string.Format(MessageFormatErrorUploadingRename, fish, fishNode.Attributes[FishDB.XMLAttrRename].Value, rod));
+                            StatusDisplay.Error(string.Format(Resources.SQLMessageFormatErrorUploadingRename, fish, fishNode.Attributes[FishDB.XMLAttrRename].Value, rod));
                             StatusDisplay.Info(e.ToString());
                         }
                     }
@@ -971,7 +949,7 @@ namespace Fishing
                     {
                         if (StatusDisplay != null)
                         {
-                            StatusDisplay.Error(string.Format(MessageFormatErrorDownloadingFishRod, rod));
+                            StatusDisplay.Error(string.Format(Resources.SQLMessageFormatErrorDownloadingFishRod, rod));
                             StatusDisplay.Info(e.ToString());
                         }
                     }
@@ -1001,7 +979,7 @@ namespace Fishing
                     {
                         if (StatusDisplay != null)
                         {
-                            StatusDisplay.Error(string.Format(MessageFormatErrorDownloadingRenameRod, rod));
+                            StatusDisplay.Error(string.Format(Resources.SQLMessageFormatErrorDownloadingRenameRod, rod));
                             StatusDisplay.Info(e.ToString());
                         }
                     }
@@ -1026,7 +1004,7 @@ namespace Fishing
         {
             if (StatusDisplay != null)
             {
-                while (!StatusDisplay.StartDBTransaction(MessageUploadStart))
+                while (!StatusDisplay.StartDBTransaction(Resources.SQLMessageUploadStart))
                 {
                     Thread.Sleep(250);
                 }
@@ -1039,13 +1017,13 @@ namespace Fishing
             {
                 if (StatusDisplay != null)
                 {
-                    StatusDisplay.Error(MessageErrorUploading);
+                    StatusDisplay.Error(Resources.SQLMessageErrorUploading);
                     StatusDisplay.Info(e.ToString());
                 }
             }
             if (StatusDisplay != null)
             {
-                StatusDisplay.EndDBTransaction(MessageUploadFinished);
+                StatusDisplay.EndDBTransaction(Resources.SQLMessageUploadFinished);
             }
         }
 
