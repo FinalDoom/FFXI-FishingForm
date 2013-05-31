@@ -681,7 +681,6 @@ namespace Fishing.Properties {
             }
         }
         
-        
         /// <summary>
         ///   Looks up a localized string similar to No rod equipped!.
         /// </summary>
@@ -936,6 +935,186 @@ namespace Fishing.Properties {
             get {
                 object obj = ResourceManager.GetObject("SpaceChar", resourceCulture);
                 return ((char)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Could not connect to FishDB MySQL server. Error number {0}.
+        /// </summary>
+        internal static string SQLMessageErrorCouldntConnect {
+            get {
+                return ResourceManager.GetString("SQLMessageErrorCouldntConnect", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error getting program version status..
+        /// </summary>
+        internal static string SQLMessageErrorGettingVersion {
+            get {
+                return ResourceManager.GetString("SQLMessageErrorGettingVersion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error getting Newest DB Modification Time.
+        /// </summary>
+        internal static string SQLMessageErrorNewestModTime {
+            get {
+                return ResourceManager.GetString("SQLMessageErrorNewestModTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Could not connect to FishDB MySQL server. Please contact program maintainer..
+        /// </summary>
+        internal static string SQLMessageErrorNoConnection {
+            get {
+                return ResourceManager.GetString("SQLMessageErrorNoConnection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error uploading fish.
+        /// </summary>
+        internal static string SQLMessageErrorUploading {
+            get {
+                return ResourceManager.GetString("SQLMessageErrorUploading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error adding bait &quot;{0}&quot; to fish &quot;{1}&quot;.
+        /// </summary>
+        internal static string SQLMessageFormatErrorAddingBaitFish {
+            get {
+                return ResourceManager.GetString("SQLMessageFormatErrorAddingBaitFish", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error adding new fish &quot;{0}&quot;.
+        /// </summary>
+        internal static string SQLMessageFormatErrorAddingFish {
+            get {
+                return ResourceManager.GetString("SQLMessageFormatErrorAddingFish", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error adding zone &quot;{0}&quot; to fish &quot;{1}&quot;.
+        /// </summary>
+        internal static string SQLMessageFormatErrorAddingZoneFish {
+            get {
+                return ResourceManager.GetString("SQLMessageFormatErrorAddingZoneFish", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error downloading new fish for {0}.
+        /// </summary>
+        internal static string SQLMessageFormatErrorDownloadingFishRod {
+            get {
+                return ResourceManager.GetString("SQLMessageFormatErrorDownloadingFishRod", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error downloading renames for {0}.
+        /// </summary>
+        internal static string SQLMessageFormatErrorDownloadingRenameRod {
+            get {
+                return ResourceManager.GetString("SQLMessageFormatErrorDownloadingRenameRod", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error getting fish ID from DB for &quot;{0}&quot;.
+        /// </summary>
+        internal static string SQLMessageFormatErrorGettingFishID {
+            get {
+                return ResourceManager.GetString("SQLMessageFormatErrorGettingFishID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error getting new fish &quot;{0}&quot; with IDs: {1}, {2}, {3}.
+        /// </summary>
+        internal static string SQLMessageFormatErrorGettingNewFishWithIDs {
+            get {
+                return ResourceManager.GetString("SQLMessageFormatErrorGettingNewFishWithIDs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error getting renamed fish &quot;{0}&quot; to &quot;{1}&quot; with IDs: {2}, {3}, {4}.
+        /// </summary>
+        internal static string SQLMessageFormatErrorGettingRenamedFishWithIDs {
+            get {
+                return ResourceManager.GetString("SQLMessageFormatErrorGettingRenamedFishWithIDs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error renaming fish &quot;{0}&quot; to &quot;{1}&quot;.
+        /// </summary>
+        internal static string SQLMessageFormatErrorRenamingFish {
+            get {
+                return ResourceManager.GetString("SQLMessageFormatErrorRenamingFish", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error uploading bait and zones for fish &quot;{0}&quot; for {1}..
+        /// </summary>
+        internal static string SQLMessageFormatErrorUploadingBaitZones {
+            get {
+                return ResourceManager.GetString("SQLMessageFormatErrorUploadingBaitZones", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error uploading fish &quot;{0}&quot; for {1}..
+        /// </summary>
+        internal static string SQLMessageFormatErrorUploadingFishRod {
+            get {
+                return ResourceManager.GetString("SQLMessageFormatErrorUploadingFishRod", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error uploading rename from &quot;{0}&quot; to &quot;{1}&quot; for {2}..
+        /// </summary>
+        internal static string SQLMessageFormatErrorUploadingRename {
+            get {
+                return ResourceManager.GetString("SQLMessageFormatErrorUploadingRename", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Upload to DB finished..
+        /// </summary>
+        internal static string SQLMessageUploadFinished {
+            get {
+                return ResourceManager.GetString("SQLMessageUploadFinished", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Starting upload to DB..
+        /// </summary>
+        internal static string SQLMessageUploadStart {
+            get {
+                return ResourceManager.GetString("SQLMessageUploadStart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Could not close connection..
+        /// </summary>
+        internal static string SQLMessageWarningCloseConnection {
+            get {
+                return ResourceManager.GetString("SQLMessageWarningCloseConnection", resourceCulture);
             }
         }
         
