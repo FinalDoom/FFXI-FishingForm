@@ -20,9 +20,11 @@
       <Zone>West Ronfaure</Zone>
       <Zone>Northern San d'Oria</Zone>
       <Zone>Windurst Waters</Zone>
+      <Zone>Windurst Woods</Zone>
     </Zones>
     <Baits>
       <Bait>Little Worm</Bait>
+      <Bait>Insect Ball</Bait>
     </Baits>
   </Fish>
   <Fish name="Gold Carp" wanted="No" ID1="300" ID2="27" ID3="12">
@@ -32,6 +34,30 @@
     </Zones>
     <Baits>
       <Bait>Little Worm</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Rusty Leggings" wanted="No" ID1="60" ID2="39" ID3="15">
+    <Zones>
+      <Zone>Port Windurst</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Insect Ball</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Bastore Sardine" wanted="No" ID1="140" ID2="31" ID3="13">
+    <Zones>
+      <Zone>Port Windurst</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Lugworm</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Quus" wanted="No" ID1="240" ID2="18" ID3="9">
+    <Zones>
+      <Zone>Port Windurst</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Lugworm</Bait>
     </Baits>
   </Fish>
 </Rod>
