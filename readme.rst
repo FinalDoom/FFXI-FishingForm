@@ -237,6 +237,10 @@ noted rod. Some rods do not have any data, so the default value remains.
 Changes
 -------
 
+1.7.0.24
+--------
+- Option to restart fishing at midnight
+
 1.7.0.23
 --------
 - Pirates zone name fix
