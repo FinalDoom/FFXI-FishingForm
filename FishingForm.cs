@@ -598,22 +598,22 @@ namespace Fishing
                 {
                     return;
                 }
-                bait = string.Format(Resources.FormatQuoteArg, bait);
+                string quotedBait = string.Format(Resources.FormatQuoteArg, bait);
                 if (ItemizerAvailable)
                 {
-                    DoMoveItem(string.Format("/gets {0} {1}", bait, baitLocation), baitLocation, "inventory", (ushort)Dictionaries.baitDictionary[bait]);
+                    DoMoveItem(string.Format("/gets {0} {1}", quotedBait, baitLocation), baitLocation, "inventory", (ushort)Dictionaries.baitDictionary[bait]);
                 }
                 else if (ItemToolsAvailable)
                 {
-                    DoMoveItem(string.Format("/moveitem {0} {1} inventory 99", bait, baitLocation), baitLocation, "inventory", (ushort)Dictionaries.baitDictionary[bait]);
+                    DoMoveItem(string.Format("/moveitem {0} {1} inventory 99", quotedBait, baitLocation), baitLocation, "inventory", (ushort)Dictionaries.baitDictionary[bait]);
                 }
             }
             else if (cbBaitactionOther.Checked && !string.IsNullOrEmpty(tbBaitactionOther.Text))
             {
-                bait = string.Format(Resources.FormatQuoteArg, bait);
+                string quotedBait = string.Format(Resources.FormatQuoteArg, bait);
                 foreach (string command in tbBaitactionOther.Text.Split(new String[] {Resources.Semicolon, Environment.NewLine}, StringSplitOptions.RemoveEmptyEntries))
                 {
-                    _FFACE.Windower.SendString(string.Format(command, bait));
+                    _FFACE.Windower.SendString(string.Format(command, quotedBait));
                     Thread.Sleep((int)(numBaitactionOtherTime.Value * 1000)); //pause to give the game time to execute commands
                 }
             }

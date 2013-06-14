@@ -23,6 +23,7 @@ namespace Fishing
             // ITEMS & QUEST & 0 SKILL
             {"1 Gil", 0},
             {"100 Gil", 0},
+            {"Adoulinian Kelp", 3965},
             {"Arrowwood Log", 688},
             {"Bugbear Mask", 1624},
             {"Copper Ring", 13454},
@@ -46,6 +47,7 @@ namespace Fishing
             // FISH
             // A
             {"Abaia", 5476},
+            //Adoulinian Kelp in items
             {"Ahtapot", 5455},
             {"Alabaligi", 5461},
             {"Armored Pisces", 4316},
@@ -195,6 +197,7 @@ namespace Fishing
             {"Sandfish x3", 4291},
             {"Sazanbaligi", 5459},
             {"Sea Zombie", 4475},
+            {"Sekiryu", 5538},
             {"Senroh Frog", 5993},
             {"Senroh Sardine", 5963},
             {"Shall Shell", 4484},

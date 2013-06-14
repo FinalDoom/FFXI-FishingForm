@@ -69,6 +69,7 @@
       <Bait>Insect Ball</Bait>
       <Bait>Shrimp Lure</Bait>
       <Bait>Sinking Minnow</Bait>
+      <Bait>Minnow</Bait>
     </Baits>
   </Fish>
   <Fish name="Mob (Kraken)" wanted="No" ID1="300" ID2="18" ID3="9" ID4="12">
@@ -168,6 +169,7 @@
       <Bait>Sabiki Rig</Bait>
       <Bait>Little Worm</Bait>
       <Bait>Sinking Minnow</Bait>
+      <Bait>Minnow</Bait>
     </Baits>
   </Fish>
   <Fish name="Rusty Cap" wanted="No" ID1="60" ID2="38" ID3="15" ID4="26">
@@ -180,6 +182,7 @@
       <Bait>Shrimp Lure</Bait>
       <Bait>Insect Ball</Bait>
       <Bait>Sinking Minnow</Bait>
+      <Bait>Minnow</Bait>
     </Baits>
   </Fish>
   <Fish name="Rusty Leggings" wanted="No" ID1="60" ID2="26" ID3="15" ID4="18">
@@ -288,6 +291,7 @@
       <Bait>Minnow</Bait>
       <Bait>Little Worm</Bait>
       <Bait>Sinking Minnow</Bait>
+      <Bait>Worm Lure</Bait>
     </Baits>
   </Fish>
   <Fish name="Elshimo Newt" wanted="Yes" ID1="200" ID2="26" ID3="7" ID4="18">
@@ -473,6 +477,7 @@
     <Baits>
       <Bait>Minnow</Bait>
       <Bait>Lugworm</Bait>
+      <Bait>Worm Lure</Bait>
     </Baits>
   </Fish>
   <Fish name="Black Sole" wanted="No" ID1="240" ID2="33" ID3="7">
@@ -807,6 +812,7 @@
       <Bait>Fly Lure</Bait>
       <Bait>Worm Lure</Bait>
       <Bait>Crayfish Ball</Bait>
+      <Bait>Shrimp Lure</Bait>
     </Baits>
   </Fish>
   <Fish name="Rusty Pick" wanted="No" ID1="60" ID2="47" ID3="15">
@@ -983,6 +989,7 @@
     </Zones>
     <Baits>
       <Bait>Crayfish Ball</Bait>
+      <Bait>Shrimp Lure</Bait>
     </Baits>
   </Fish>
   <Fish name="Gold Lobster" wanted="No" ID1="80" ID2="35" ID3="6">
@@ -991,6 +998,14 @@
     </Zones>
     <Baits>
       <Bait>Sinking Minnow</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Bastore Sweeper" wanted="No" ID1="60" ID2="17" ID3="6">
+    <Zones>
+      <Zone>Batallia Downs [S]</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Sliced Cod</Bait>
     </Baits>
   </Fish>
 </Rod>

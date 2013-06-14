@@ -132,6 +132,7 @@
       <Bait>Dwarf Pugil</Bait>
       <Bait>Trout Ball</Bait>
       <Bait>Sinking Minnow</Bait>
+      <Bait>Slice of Bluetail</Bait>
     </Baits>
   </Fish>
   <Fish name="Mob (Thalassic Pugil)" wanted="No" ID1="300" ID2="15" ID3="12" ID4="7">
@@ -170,6 +171,7 @@
       <Bait>Trout Ball</Bait>
       <Bait>Shrimp Lure</Bait>
       <Bait>Rogue Rig</Bait>
+      <Bait>Slice of Bluetail</Bait>
     </Baits>
   </Fish>
   <Fish name="Ogre Eel" wanted="No" ID1="240" ID2="29" ID3="15" ID4="14">
@@ -239,6 +241,7 @@
       <Zone>The Boyahda Tree</Zone>
       <Zone>Abyssea - Vunkerl</Zone>
       <Zone>Yhoator Jungle</Zone>
+      <Zone>Ceizak Battlegrounds</Zone>
     </Zones>
     <Baits>
       <Bait>Robber Rig</Bait>
@@ -300,6 +303,7 @@
       <Bait>Fly Lure</Bait>
       <Bait>Sliced Cod</Bait>
       <Bait>Rogue Rig</Bait>
+      <Bait>Slice of Bluetail</Bait>
     </Baits>
   </Fish>
   <Fish name="Mob (Bloodsucker)" wanted="No" ID1="300" ID2="18" ID3="10" ID4="9">
@@ -345,11 +349,14 @@
     <Zones>
       <Zone>Vunkerl Inlet [S]</Zone>
       <Zone>Batallia Downs [S]</Zone>
+      <Zone>Abyssea - Vunkerl</Zone>
     </Zones>
     <Baits>
       <Bait>Robber Rig</Bait>
       <Bait>Sinking Minnow</Bait>
       <Bait>Meatball</Bait>
+      <Bait>Slice of Bluetail</Bait>
+      <Bait>Crayfish Ball</Bait>
     </Baits>
   </Fish>
   <Fish name="Quus" wanted="No" ID1="240" ID2="12" ID3="9" ID4="6">
@@ -411,6 +418,7 @@
       <Bait>Minnow</Bait>
       <Bait>Slice of Bluetail</Bait>
       <Bait>Sliced Cod</Bait>
+      <Bait>Peeled Lobster</Bait>
     </Baits>
   </Fish>
   <Fish name="Titanictus" wanted="No" ID1="280" ID2="42" ID3="6" ID4="31">
@@ -464,6 +472,7 @@
       <Bait>Minnow</Bait>
       <Bait>Slice of Bluetail</Bait>
       <Bait>Sliced Cod</Bait>
+      <Bait>Peeled Lobster</Bait>
     </Baits>
   </Fish>
   <Fish name="Mob (Ocean Crab)" wanted="No" ID1="300" ID2="15" ID3="12" ID4="7">
@@ -990,6 +999,8 @@
       <Zone>Ship bound for Selbina</Zone>
       <Zone>Open sea route to Al Zahbi</Zone>
       <Zone>Open sea route to Mhaura</Zone>
+      <Zone>Ship bound for Selbina (Pirates)</Zone>
+      <Zone>Ship bound for Mhaura (Pirates)</Zone>
     </Zones>
     <Baits>
       <Bait>Minnow</Bait>
@@ -1135,6 +1146,8 @@
     <Zones>
       <Zone>Ship bound for Mhaura</Zone>
       <Zone>Ship bound for Selbina</Zone>
+      <Zone>Ship bound for Selbina (Pirates)</Zone>
+      <Zone>Ship bound for Mhaura (Pirates)</Zone>
     </Zones>
     <Baits>
       <Bait>Slice of Bluetail</Bait>
@@ -1169,6 +1182,7 @@
   <Fish name="Gavial Fish" wanted="Yes" ID1="300" ID2="30" ID3="15">
     <Zones>
       <Zone>Western Altepa Desert</Zone>
+      <Zone>North Gustaberg</Zone>
     </Zones>
     <Baits>
       <Bait>Minnow</Bait>
@@ -1371,10 +1385,13 @@
     <Zones>
       <Zone>Ship bound for Selbina</Zone>
       <Zone>Ship bound for Mhaura</Zone>
+      <Zone>Ship bound for Selbina (Pirates)</Zone>
+      <Zone>Ship bound for Mhaura (Pirates)</Zone>
     </Zones>
     <Baits>
       <Bait>Sinking Minnow</Bait>
       <Bait>Minnow</Bait>
+      <Bait>Peeled Lobster</Bait>
     </Baits>
   </Fish>
   <Fish name="Gold Lobster" wanted="No" ID1="80" ID2="35" ID3="6">
@@ -1465,6 +1482,8 @@
       <Bait>Little Worm</Bait>
       <Bait>Sinking Minnow</Bait>
       <Bait>Shrimp Lure</Bait>
+      <Bait>Slice of Bluetail</Bait>
+      <Bait>Dwarf Pugil</Bait>
     </Baits>
   </Fish>
   <Fish name="Mob (Pug Pugil)" wanted="No" ID1="300" ID2="17" ID3="10">
@@ -1503,6 +1522,7 @@
     </Zones>
     <Baits>
       <Bait>Shrimp Lure</Bait>
+      <Bait>Meatball</Bait>
     </Baits>
   </Fish>
   <Fish name="Barnacle" wanted="No" ID1="60" ID2="20" ID3="15">
@@ -1681,6 +1701,22 @@
   <Fish name="Mob (Sentinel Crab)" wanted="No" ID1="300" ID2="19" ID3="15">
     <Zones>
       <Zone>Abyssea - La Theine</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Meatball</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Bloodblotch" wanted="No" ID1="200" ID2="35" ID3="7">
+    <Zones>
+      <Zone>Foret de Hennetiel</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Minnow</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Titanic Sawfish" wanted="No" ID1="300" ID2="58" ID3="7">
+    <Zones>
+      <Zone>Manaclipper</Zone>
     </Zones>
     <Baits>
       <Bait>Meatball</Bait>
