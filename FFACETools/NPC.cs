@@ -117,7 +117,7 @@ namespace FFACETools
             public bool IsRendered (int id)
             {
                 // Read the Render byte from the NPC array
-                byte[] memorybytes = GetRawNPCData(id, 0x104, 1);
+                byte[] memorybytes = GetRawNPCData(id, 0x108, 1);
 
                 if (memorybytes != null)
                     return ((memorybytes[0] & (1 << 2)) != 0);
@@ -165,7 +165,7 @@ namespace FFACETools
             /// </summary>
             public string Name (int id)
             {
-                int size = 20;
+                int size = 24;
                 byte[] buffer = new byte[size];
                 GetNPCName(_InstanceID, id, buffer, ref size);
                 if (size <= 0)
