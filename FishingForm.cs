@@ -246,6 +246,7 @@ namespace Fishing
             toolTip.SetToolTip(cbBaitActionWarp, "Warp when out of bait, unless above command finds bait.");
             toolTip.SetToolTip(cbBaitItemizerSack, "Fetch bait from sack.");
             toolTip.SetToolTip(cbBaitItemizerSatchel, "Fetch bait from satchel.");
+            toolTip.SetToolTip(cbBaitItemizerCase, "Fetch bait from mog case.");
             toolTip.SetToolTip(cbBaitItemizerItemTools, "Enables Itemizer plugin support to automatically grab current bait when none is found in inventory. This will attempt to fetch bait to prevent any warp, logout, or shutdown action.");
             toolTip.SetToolTip(cbBaitactionOther, "Execute below command when out of bait. Wait for the number of seconds to the right. Warp, logout, or shutdown will occur if bait is still not found after executing this command.");
             toolTip.SetToolTip(numBaitactionOtherTime, "Number of seconds to wait for command to execute.");
@@ -260,6 +261,7 @@ namespace Fishing
             toolTip.SetToolTip(cbFullActionStop, "Stop fishing when inventory is full. If disabled, fishing will continue, but no shutdown, logout, or warp will occur.");
             toolTip.SetToolTip(cbInventoryItemizerSack, "Put fish in sack.");
             toolTip.SetToolTip(cbInventoryItemizerSatchel, "Put fish in satchel.");
+            toolTip.SetToolTip(cbInventoryItemizerCase, "Put fish in mog case.");
             toolTip.SetToolTip(cbInventoryItemizerItemTools, "Enables Itemizer plugin support to automatically store fish when inventory is full.");
             toolTip.SetToolTip(cbFullactionOther, "Execute below command when inventory is full. Wait for the number of seconds to the right for each fish in the wanted list.");
             toolTip.SetToolTip(numFullactionOtherTime, "Number of seconds to wait for command to execute.");
@@ -577,7 +579,7 @@ namespace Fishing
         } // @ private void BackgroundFishing()
 
         /// <summary>
-        /// Get a specified bait type from satchel or sack, based on options and
+        /// Get a specified bait type from satchel, sack, or mog case, based on options and
         /// currently selected bait.
         /// </summary>
         /// <param name="bait">Name of the currently selected bait</param>
@@ -593,6 +595,10 @@ namespace Fishing
                 else if (cbBaitItemizerSatchel.Checked && _FFACE.Item.GetSatchelItemCount((ushort)Dictionaries.baitDictionary[bait]) > 0)
                 {
                     baitLocation = "satchel";
+                }
+                else if (cbBaitItemizerCase.Checked && _FFACE.Item.GetCaseItemCount((ushort)Dictionaries.baitDictionary[bait]) > 0)
+                {
+                    baitLocation = "case";
                 }
                 else
                 {
@@ -723,7 +729,7 @@ namespace Fishing
                     PopulateLists();
                 }
             }
-            else  //if IsRodBaitEquipped returns false, most likely out of bait, try to get it from sack/satchel with itemizer/itemtools
+            else  //if IsRodBaitEquipped returns false, most likely out of bait, try to get it from sack/satchel/case with itemizer/itemtools
             { //if that doesn't work, return false
                 RetrieveBait(LastBaitName);
                 DoEquipping(strRodEquipMessage, (ushort)Dictionaries.rodDictionary[LastRodName], EquipSlot.Range);
@@ -1414,7 +1420,7 @@ namespace Fishing
         } // @ private void Fish()
 
         /// <summary>
-        /// Check for full inventory and move fish to sack or satchel
+        /// Check for full inventory and move fish to sack, satchel, or case
         /// if appropriate based on set options. Loops through fish in
         /// wanted list to do so. Alternately executes commands in the
         /// other category of the options panel.
@@ -1430,7 +1436,8 @@ namespace Fishing
                     foreach (Fishie fishie in lbWanted.Items)
                     {
                         if (!(cbInventoryItemizerSack.Checked && _FFACE.Item.SackCount < _FFACE.Item.SackMax) &&
-                            !(cbInventoryItemizerSatchel.Checked && _FFACE.Item.SatchelCount < _FFACE.Item.SatchelMax))
+                            !(cbInventoryItemizerSatchel.Checked && _FFACE.Item.SatchelCount < _FFACE.Item.SatchelMax) &&
+                            !(cbInventoryItemizerCase.Checked && _FFACE.Item.CaseCount < _FFACE.Item.CaseMax))
                         {
                             break;
                         }
@@ -1459,6 +1466,19 @@ namespace Fishing
                             cbInventoryItemizerSatchel.Checked && _FFACE.Item.SatchelCount < _FFACE.Item.SatchelMax)
                         {
                             storagemedium = Resources.CommandPartSatchel;
+                            if (ItemizerAvailable)
+                            {
+                                MoveItems(string.Format("/puts {0} {1}", quoteName, storagemedium), ref name, ref storagemedium);
+                            }
+                            else if (ItemToolsAvailable)
+                            {
+                                MoveItems(string.Format("/moveitem {0} inventory {1} 12", quoteName, storagemedium), ref name, ref storagemedium);
+                            }
+                        }
+                        if (_FFACE.Item.GetInventoryItemCount((ushort)Dictionaries.fishDictionary[name]) > 0 &&
+                            cbInventoryItemizerCase.Checked && _FFACE.Item.CaseCount < _FFACE.Item.CaseMax)
+                        {
+                            storagemedium = Resources.CommandPartCase;
                             if (ItemizerAvailable)
                             {
                                 MoveItems(string.Format("/puts {0} {1}", quoteName, storagemedium), ref name, ref storagemedium);
@@ -1529,7 +1549,7 @@ namespace Fishing
                 {
                     // Get total number of the items you have in inventory.
                     uint inventorycount = _FFACE.Item.GetInventoryItemCount((ushort)tempitemid);
-                    // If we have the item in inventory, move all of them till satchel is full
+                    // If we have the item in inventory, move all of them till sack is full
                     while (( _FFACE.Item.SackCount < _FFACE.Item.SackMax ) && inventorycount > 0)
                     {
                         // Update Status
@@ -1566,6 +1586,29 @@ namespace Fishing
                 else
                 {
                     SetStatus(Resources.StatusInfoFullSatchel);
+					Thread.Sleep(750);
+                }
+            }
+            if (storagearea == Resources.CommandPartCase)
+            {
+                if (tempitemid > 0 && ( _FFACE.Item.CaseCount != _FFACE.Item.CaseMax ))
+                {
+                    // Get total number of the items you have in inventory.
+                    uint inventorycount = _FFACE.Item.GetInventoryItemCount((ushort)tempitemid);
+                    // If we have the item in inventory, move all of them till case is full
+                    while (( _FFACE.Item.CaseCount < _FFACE.Item.CaseMax ) && inventorycount > 0)
+                    {
+                        // Update Status
+                        SetStatus(string.Format(Resources.StatusFormatMoveToCase, itemname, inventorycount));
+                        // Send string to POL
+                        DoMoveItem(command, "inventory", storagearea, (ushort)Dictionaries.fishDictionary[itemname]);
+						inventorycount = _FFACE.Item.GetInventoryItemCount((ushort)tempitemid);
+                    }
+                    SetStatus(string.Format(Resources.StatusFormatMoveCaseFinished, itemname));
+                }
+                else
+                {
+                    SetStatus(Resources.StatusInfoFullCase);
 					Thread.Sleep(750);
                 }
             }
@@ -1740,7 +1783,7 @@ namespace Fishing
         /// <param name="slot">Slot being equipped to</param>
         private void DoEquipping(string equipString, ushort itemID, EquipSlot slot)
         {
-            // Is the item even available? (This doesn't grab from sack or satchel)
+            // Is the item even available? (This doesn't grab from sack, satchel, or case)
             if (_FFACE.Item.GetInventoryItemCount(itemID) > 0)
             {
                 bool equipped = _FFACE.Item.GetEquippedItemID(slot) == itemID;
@@ -1790,6 +1833,8 @@ namespace Fishing
                     return _FFACE.Item.GetSackItemCount(itemID);
                 case "satchel":
                     return _FFACE.Item.GetSatchelItemCount(itemID);
+                case "case":
+                    return _FFACE.Item.GetCaseItemCount(itemID);
                 case "inventory":
                     return _FFACE.Item.GetInventoryItemCount(itemID);
             }
@@ -2830,6 +2875,20 @@ namespace Fishing
             {
                 lblSatchelSpace.Text = GUILblNA;
             }
+            
+
+            if (_FFACE == null)
+            {
+                lblCaseSpace.Text = string.Format(GUIFormatLblInventory, GUILblBlank, GUILblBlank);
+            }
+            else if (_FFACE.Item.CaseCount != -1)
+            {
+                lblCaseSpace.Text = string.Format(GUIFormatLblInventory, _FFACE.Item.CaseCount, _FFACE.Item.CaseMax);
+            }
+            else
+            {
+                lblCaseSpace.Text = GUILblNA;
+            }
 
             if (_FFACE == null)
             {
@@ -3296,7 +3355,7 @@ namespace Fishing
 
         private void cbEnableItemizerItemTools_CheckedChanged(object sender, EventArgs e)
         {
-            cbInventoryItemizerSack.Enabled = cbInventoryItemizerSatchel.Enabled = cbInventoryItemizerItemTools.Checked;
+            cbInventoryItemizerSack.Enabled = cbInventoryItemizerSatchel.Enabled = cbInventoryItemizerCase.Enabled = cbInventoryItemizerItemTools.Checked;
             if (cbInventoryItemizerItemTools.Checked)
             {
                 cbFullactionOther.Checked = false;
@@ -3305,7 +3364,7 @@ namespace Fishing
 
         private void cbBaitItemizerItemTools_CheckedChanged(object sender, EventArgs e)
         {
-            cbBaitItemizerSack.Enabled = cbBaitItemizerSatchel.Enabled = cbBaitItemizerItemTools.Checked;
+            cbBaitItemizerSack.Enabled = cbBaitItemizerSatchel.Enabled = cbBaitItemizerCase.Enabled = cbBaitItemizerItemTools.Checked;
             if (cbBaitItemizerItemTools.Checked)
             {
                 cbBaitactionOther.Checked = false;
@@ -3694,6 +3753,7 @@ namespace Fishing
                 Settings.Default.FullActionItemizer = cbInventoryItemizerItemTools.Checked = false;
                 Settings.Default.FullActionSack = cbInventoryItemizerSack.Checked = false;
                 Settings.Default.FullActionSatchel = cbInventoryItemizerSatchel.Checked = false;
+                Settings.Default.FullActionCase = cbInventoryItemizerCase.Checked = false;
                 Settings.Default.FullActionOtherText = tbFullactionOther.Text = "";
                 Settings.Default.FullActionOtherTime = numFullactionOtherTime.Value = 1.0m;
                 Settings.Default.FullActionOther = cbFullactionOther.Checked = false;
@@ -3726,6 +3786,7 @@ namespace Fishing
                 Settings.Default.BaitItemizer = cbBaitItemizerItemTools.Checked = false;
                 Settings.Default.BaitSack = cbBaitItemizerSack.Checked = false;
                 Settings.Default.BaitSatchel = cbBaitItemizerSatchel.Checked = false;
+                Settings.Default.BaitCase = cbBaitItemizerCase.Checked = false;
                 Settings.Default.BaitOther = cbBaitactionOther.Checked = false;
                 Settings.Default.BaitOtherText = tbBaitactionOther.Text = "";
                 Settings.Default.BaitOtherTime = numBaitactionOtherTime.Value = 1.0m;
@@ -3789,6 +3850,7 @@ namespace Fishing
                 Settings.Default.FullActionItemizer = cbInventoryItemizerItemTools.Checked;
                 Settings.Default.FullActionSack = cbInventoryItemizerSack.Checked;
                 Settings.Default.FullActionSatchel = cbInventoryItemizerSatchel.Checked;
+                Settings.Default.FullActionCase = cbInventoryItemizerCase.Checked;
 				Settings.Default.FullActionOther = cbFullactionOther.Checked;
                 Settings.Default.FullActionOtherTime = numFullactionOtherTime.Value;
                 Settings.Default.FullActionStop = cbFullActionStop.Checked;
@@ -3815,7 +3877,7 @@ namespace Fishing
                 Settings.Default.BaitWarp = cbBaitActionWarp.Checked;
                 Settings.Default.BaitItemizer = cbBaitItemizerItemTools.Checked;
                 Settings.Default.BaitSack = cbBaitItemizerSack.Checked;
-                Settings.Default.BaitSatchel = cbBaitItemizerSatchel.Checked;
+                Settings.Default.BaitCase = cbBaitItemizerCase.Checked;
                 Settings.Default.BaitOther = cbBaitactionOther.Checked;
                 Settings.Default.BaitOtherText = tbBaitactionOther.Text;
                 Settings.Default.BaitOtherTime = numBaitactionOtherTime.Value;
@@ -3889,6 +3951,7 @@ namespace Fishing
             cbInventoryItemizerItemTools.Checked = Settings.Default.FullActionItemizer;
             cbInventoryItemizerSack.Checked = Settings.Default.FullActionSack;
             cbInventoryItemizerSatchel.Checked = Settings.Default.FullActionSatchel;
+            cbInventoryItemizerCase.Checked = Settings.Default.FullActionCase;
 			cbFullactionOther.Checked = Settings.Default.FullActionOther;
             cbFullActionStop.Checked = Settings.Default.FullActionStop;
 			cbFullactionWarp.Checked = Settings.Default.FullActionWarp;
@@ -3915,6 +3978,7 @@ namespace Fishing
             cbBaitItemizerItemTools.Checked = Settings.Default.BaitItemizer;
             cbBaitItemizerSack.Checked = Settings.Default.BaitSack;
             cbBaitItemizerSatchel.Checked = Settings.Default.BaitSatchel;
+            cbBaitItemizerCase.Checked = Settings.Default.BaitCase;
             cbBaitactionOther.Checked = Settings.Default.BaitOther;
             tbBaitactionOther.Text = Settings.Default.BaitOtherText;
             numBaitactionOtherTime.Value = Settings.Default.BaitOtherTime;
