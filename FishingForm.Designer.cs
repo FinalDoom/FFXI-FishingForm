@@ -196,6 +196,10 @@
             this.lblStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblHP = new System.Windows.Forms.ToolStripStatusLabel();
             this.progressBarST = new System.Windows.Forms.ToolStripProgressBar();
+            this.lblCaseSpace = new System.Windows.Forms.Label();
+            this.lblCaseHeader = new System.Windows.Forms.Label();
+            this.cbInventoryItemizerCase = new System.Windows.Forms.CheckBox();
+            this.cbBaitItemizerCase = new System.Windows.Forms.CheckBox();
             this.contextMenuStats.SuspendLayout();
             this.contextMenuListBox.SuspendLayout();
             this.pnlLog.SuspendLayout();
@@ -805,6 +809,8 @@
             // tabDisplayPageInfo
             // 
             this.tabDisplayPageInfo.BackColor = System.Drawing.SystemColors.Control;
+            this.tabDisplayPageInfo.Controls.Add(this.lblCaseSpace);
+            this.tabDisplayPageInfo.Controls.Add(this.lblCaseHeader);
             this.tabDisplayPageInfo.Controls.Add(this.lblEarthTimeHeader);
             this.tabDisplayPageInfo.Controls.Add(this.lblEarthTime);
             this.tabDisplayPageInfo.Controls.Add(this.lblVanaTimeHeader);
@@ -833,7 +839,7 @@
             // 
             this.lblEarthTimeHeader.AutoSize = true;
             this.lblEarthTimeHeader.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblEarthTimeHeader.Location = new System.Drawing.Point(5, 147);
+            this.lblEarthTimeHeader.Location = new System.Drawing.Point(5, 166);
             this.lblEarthTimeHeader.Name = "lblEarthTimeHeader";
             this.lblEarthTimeHeader.Size = new System.Drawing.Size(36, 12);
             this.lblEarthTimeHeader.TabIndex = 15;
@@ -842,7 +848,7 @@
             // lblEarthTime
             // 
             this.lblEarthTime.AutoSize = true;
-            this.lblEarthTime.Location = new System.Drawing.Point(80, 146);
+            this.lblEarthTime.Location = new System.Drawing.Point(80, 165);
             this.lblEarthTime.Name = "lblEarthTime";
             this.lblEarthTime.Size = new System.Drawing.Size(13, 13);
             this.lblEarthTime.TabIndex = 16;
@@ -852,7 +858,7 @@
             // 
             this.lblVanaTimeHeader.AutoSize = true;
             this.lblVanaTimeHeader.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblVanaTimeHeader.Location = new System.Drawing.Point(5, 129);
+            this.lblVanaTimeHeader.Location = new System.Drawing.Point(5, 148);
             this.lblVanaTimeHeader.Name = "lblVanaTimeHeader";
             this.lblVanaTimeHeader.Size = new System.Drawing.Size(56, 12);
             this.lblVanaTimeHeader.TabIndex = 13;
@@ -926,7 +932,7 @@
             // lblVanaTime
             // 
             this.lblVanaTime.AutoSize = true;
-            this.lblVanaTime.Location = new System.Drawing.Point(80, 128);
+            this.lblVanaTime.Location = new System.Drawing.Point(80, 147);
             this.lblVanaTime.Name = "lblVanaTime";
             this.lblVanaTime.Size = new System.Drawing.Size(13, 13);
             this.lblVanaTime.TabIndex = 14;
@@ -989,7 +995,7 @@
             this.gbInfo.Controls.Add(this.lblRod);
             this.gbInfo.Controls.Add(this.lblRodHeader);
             this.gbInfo.Controls.Add(this.lblBaitHeader);
-            this.gbInfo.Location = new System.Drawing.Point(4, 57);
+            this.gbInfo.Location = new System.Drawing.Point(4, 76);
             this.gbInfo.Margin = new System.Windows.Forms.Padding(0);
             this.gbInfo.Name = "gbInfo";
             this.gbInfo.Padding = new System.Windows.Forms.Padding(0);
@@ -1385,7 +1391,7 @@
             this.gbGMDetect.Controls.Add(this.cbGMdetectAutostop);
             this.gbGMDetect.Location = new System.Drawing.Point(6, 7);
             this.gbGMDetect.Name = "gbGMDetect";
-            this.gbGMDetect.Size = new System.Drawing.Size(93, 146);
+            this.gbGMDetect.Size = new System.Drawing.Size(93, 145);
             this.gbGMDetect.TabIndex = 0;
             this.gbGMDetect.TabStop = false;
             this.gbGMDetect.Text = "GM Detection";
@@ -2028,6 +2034,7 @@
             // 
             this.gbExhaustedBait.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
+            this.gbExhaustedBait.Controls.Add(this.cbBaitItemizerCase);
             this.gbExhaustedBait.Controls.Add(this.cbBaitItemizerSatchel);
             this.gbExhaustedBait.Controls.Add(this.cbBaitItemizerSack);
             this.gbExhaustedBait.Controls.Add(this.numBaitactionOtherTime);
@@ -2039,7 +2046,7 @@
             this.gbExhaustedBait.Controls.Add(this.cbBaitActionShutdown);
             this.gbExhaustedBait.Location = new System.Drawing.Point(131, 6);
             this.gbExhaustedBait.Name = "gbExhaustedBait";
-            this.gbExhaustedBait.Size = new System.Drawing.Size(119, 163);
+            this.gbExhaustedBait.Size = new System.Drawing.Size(119, 162);
             this.gbExhaustedBait.TabIndex = 3;
             this.gbExhaustedBait.TabStop = false;
             this.gbExhaustedBait.Text = "On Bait Exhausted";
@@ -2075,7 +2082,7 @@
             0,
             0,
             65536});
-            this.numBaitactionOtherTime.Location = new System.Drawing.Point(67, 52);
+            this.numBaitactionOtherTime.Location = new System.Drawing.Point(67, 70);
             this.numBaitactionOtherTime.Maximum = new decimal(new int[] {
             99,
             0,
@@ -2098,7 +2105,7 @@
             // tbBaitactionOther
             // 
             this.tbBaitactionOther.Enabled = false;
-            this.tbBaitactionOther.Location = new System.Drawing.Point(6, 71);
+            this.tbBaitactionOther.Location = new System.Drawing.Point(6, 89);
             this.tbBaitactionOther.Multiline = true;
             this.tbBaitactionOther.Name = "tbBaitactionOther";
             this.tbBaitactionOther.Size = new System.Drawing.Size(107, 18);
@@ -2109,7 +2116,7 @@
             // cbBaitactionOther
             // 
             this.cbBaitactionOther.AutoSize = true;
-            this.cbBaitactionOther.Location = new System.Drawing.Point(6, 53);
+            this.cbBaitactionOther.Location = new System.Drawing.Point(6, 71);
             this.cbBaitactionOther.Name = "cbBaitactionOther";
             this.cbBaitactionOther.Size = new System.Drawing.Size(52, 17);
             this.cbBaitactionOther.TabIndex = 4;
@@ -2131,7 +2138,7 @@
             // cbBaitActionWarp
             // 
             this.cbBaitActionWarp.AutoSize = true;
-            this.cbBaitActionWarp.Location = new System.Drawing.Point(6, 92);
+            this.cbBaitActionWarp.Location = new System.Drawing.Point(6, 110);
             this.cbBaitActionWarp.Name = "cbBaitActionWarp";
             this.cbBaitActionWarp.Size = new System.Drawing.Size(50, 17);
             this.cbBaitActionWarp.TabIndex = 0;
@@ -2141,7 +2148,7 @@
             // cbBaitActionLogout
             // 
             this.cbBaitActionLogout.AutoSize = true;
-            this.cbBaitActionLogout.Location = new System.Drawing.Point(6, 109);
+            this.cbBaitActionLogout.Location = new System.Drawing.Point(6, 127);
             this.cbBaitActionLogout.Name = "cbBaitActionLogout";
             this.cbBaitActionLogout.Size = new System.Drawing.Size(59, 17);
             this.cbBaitActionLogout.TabIndex = 1;
@@ -2152,7 +2159,7 @@
             // cbBaitActionShutdown
             // 
             this.cbBaitActionShutdown.AutoSize = true;
-            this.cbBaitActionShutdown.Location = new System.Drawing.Point(6, 127);
+            this.cbBaitActionShutdown.Location = new System.Drawing.Point(6, 145);
             this.cbBaitActionShutdown.Name = "cbBaitActionShutdown";
             this.cbBaitActionShutdown.Size = new System.Drawing.Size(74, 17);
             this.cbBaitActionShutdown.TabIndex = 2;
@@ -2169,7 +2176,7 @@
             this.gbOnFatigue.Controls.Add(this.cbFatiguedActionShutdown);
             this.gbOnFatigue.Location = new System.Drawing.Point(256, 6);
             this.gbOnFatigue.Name = "gbOnFatigue";
-            this.gbOnFatigue.Size = new System.Drawing.Size(102, 163);
+            this.gbOnFatigue.Size = new System.Drawing.Size(102, 162);
             this.gbOnFatigue.TabIndex = 2;
             this.gbOnFatigue.TabStop = false;
             this.gbOnFatigue.Text = "On Fatigue Stop";
@@ -2210,6 +2217,7 @@
             // 
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
+            this.groupBox1.Controls.Add(this.cbInventoryItemizerCase);
             this.groupBox1.Controls.Add(this.tbFullactionOther);
             this.groupBox1.Controls.Add(this.cbInventoryItemizerSatchel);
             this.groupBox1.Controls.Add(this.cbInventoryItemizerSack);
@@ -2222,7 +2230,7 @@
             this.groupBox1.Controls.Add(this.cbInventoryItemizerItemTools);
             this.groupBox1.Location = new System.Drawing.Point(6, 6);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(119, 163);
+            this.groupBox1.Size = new System.Drawing.Size(119, 162);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "On Full Inventory";
@@ -2230,7 +2238,7 @@
             // tbFullactionOther
             // 
             this.tbFullactionOther.Enabled = false;
-            this.tbFullactionOther.Location = new System.Drawing.Point(6, 71);
+            this.tbFullactionOther.Location = new System.Drawing.Point(6, 89);
             this.tbFullactionOther.Multiline = true;
             this.tbFullactionOther.Name = "tbFullactionOther";
             this.tbFullactionOther.Size = new System.Drawing.Size(107, 18);
@@ -2269,7 +2277,7 @@
             0,
             0,
             65536});
-            this.numFullactionOtherTime.Location = new System.Drawing.Point(67, 52);
+            this.numFullactionOtherTime.Location = new System.Drawing.Point(67, 70);
             this.numFullactionOtherTime.Maximum = new decimal(new int[] {
             99,
             0,
@@ -2292,18 +2300,18 @@
             // cbFullActionStop
             // 
             this.cbFullActionStop.AutoSize = true;
-            this.cbFullActionStop.Location = new System.Drawing.Point(6, 92);
+            this.cbFullActionStop.Location = new System.Drawing.Point(56, 109);
             this.cbFullActionStop.Name = "cbFullActionStop";
-            this.cbFullActionStop.Size = new System.Drawing.Size(84, 17);
+            this.cbFullActionStop.Size = new System.Drawing.Size(48, 17);
             this.cbFullActionStop.TabIndex = 6;
-            this.cbFullActionStop.Text = "Stop Fishing";
+            this.cbFullActionStop.Text = "Stop";
             this.cbFullActionStop.UseVisualStyleBackColor = true;
             this.cbFullActionStop.CheckedChanged += new System.EventHandler(this.cbFullActionStop_CheckedChanged);
             // 
             // cbFullactionOther
             // 
             this.cbFullactionOther.AutoSize = true;
-            this.cbFullactionOther.Location = new System.Drawing.Point(6, 53);
+            this.cbFullactionOther.Location = new System.Drawing.Point(6, 71);
             this.cbFullactionOther.Name = "cbFullactionOther";
             this.cbFullactionOther.Size = new System.Drawing.Size(52, 17);
             this.cbFullactionOther.TabIndex = 1;
@@ -2420,6 +2428,47 @@
             this.progressBarST.Name = "progressBarST";
             this.progressBarST.Size = new System.Drawing.Size(100, 19);
             this.progressBarST.Click += new System.EventHandler(this.progressBarST_Click);
+            // 
+            // lblCaseSpace
+            // 
+            this.lblCaseSpace.AutoSize = true;
+            this.lblCaseSpace.Location = new System.Drawing.Point(80, 62);
+            this.lblCaseSpace.Name = "lblCaseSpace";
+            this.lblCaseSpace.Size = new System.Drawing.Size(28, 13);
+            this.lblCaseSpace.TabIndex = 18;
+            this.lblCaseSpace.Text = "-- / --";
+            // 
+            // lblCaseHeader
+            // 
+            this.lblCaseHeader.AutoSize = true;
+            this.lblCaseHeader.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCaseHeader.Location = new System.Drawing.Point(5, 62);
+            this.lblCaseHeader.Name = "lblCaseHeader";
+            this.lblCaseHeader.Size = new System.Drawing.Size(60, 12);
+            this.lblCaseHeader.TabIndex = 17;
+            this.lblCaseHeader.Text = "Mog Case:";
+            // 
+            // cbInventoryItemizerCase
+            // 
+            this.cbInventoryItemizerCase.AutoSize = true;
+            this.cbInventoryItemizerCase.Enabled = false;
+            this.cbInventoryItemizerCase.Location = new System.Drawing.Point(6, 53);
+            this.cbInventoryItemizerCase.Name = "cbInventoryItemizerCase";
+            this.cbInventoryItemizerCase.Size = new System.Drawing.Size(74, 17);
+            this.cbInventoryItemizerCase.TabIndex = 13;
+            this.cbInventoryItemizerCase.Text = "Mog Case";
+            this.cbInventoryItemizerCase.UseVisualStyleBackColor = true;
+            // 
+            // cbBaitItemizerCase
+            // 
+            this.cbBaitItemizerCase.AutoSize = true;
+            this.cbBaitItemizerCase.Enabled = false;
+            this.cbBaitItemizerCase.Location = new System.Drawing.Point(6, 53);
+            this.cbBaitItemizerCase.Name = "cbBaitItemizerCase";
+            this.cbBaitItemizerCase.Size = new System.Drawing.Size(74, 17);
+            this.cbBaitItemizerCase.TabIndex = 11;
+            this.cbBaitItemizerCase.Text = "Mog Case";
+            this.cbBaitItemizerCase.UseVisualStyleBackColor = true;
             // 
             // FishingForm
             // 
@@ -2681,6 +2730,10 @@
         private System.Windows.Forms.CheckBox cbInventoryItemizerSack;
         private System.Windows.Forms.NumericUpDown numFullactionOtherTime;
         private System.Windows.Forms.CheckBox cbMidnightRestart;
+        private System.Windows.Forms.Label lblCaseSpace;
+        private System.Windows.Forms.Label lblCaseHeader;
+        private System.Windows.Forms.CheckBox cbBaitItemizerCase;
+        private System.Windows.Forms.CheckBox cbInventoryItemizerCase;
     }
 }
 
