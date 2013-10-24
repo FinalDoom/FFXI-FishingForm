@@ -35,7 +35,11 @@ namespace Fishing
             if (zoneId.HasValue)
             {
                 zone = FFACE.ParseResources.GetAreaName((Zone)zoneId.Value);
-                if (zoneId.Value == 227 || zoneId.Value == 228)
+                if (zone.Equals(String.Empty))
+                {
+                    zone = null;
+                }
+                else if (zoneId.Value == 227 || zoneId.Value == 228)
                 {// This is really silly. Is there not a proper way to do this?
                     zone += " (Pirates)";
                 }

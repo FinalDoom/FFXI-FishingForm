@@ -70,6 +70,8 @@
       <Bait>Shrimp Lure</Bait>
       <Bait>Sinking Minnow</Bait>
       <Bait>Minnow</Bait>
+      <Bait>Robber Rig</Bait>
+      <Bait>Little Worm</Bait>
     </Baits>
   </Fish>
   <Fish name="Mob (Kraken)" wanted="No" ID1="300" ID2="18" ID3="9" ID4="12">
@@ -90,6 +92,9 @@
     <Baits>
       <Bait>Minnow</Bait>
       <Bait>Crayfish Ball</Bait>
+      <Bait>Sabiki Rig</Bait>
+      <Bait>Sinking Minnow</Bait>
+      <Bait>Shrimp Lure</Bait>
     </Baits>
   </Fish>
   <Fish name="Mob (Pirate Pugil)" wanted="No" ID1="300" ID2="18" ID3="9" ID4="12">
@@ -113,6 +118,9 @@
     <Baits>
       <Bait>Minnow</Bait>
       <Bait>Crayfish Ball</Bait>
+      <Bait>Sabiki Rig</Bait>
+      <Bait>Sinking Minnow</Bait>
+      <Bait>Shrimp Lure</Bait>
     </Baits>
   </Fish>
   <Fish name="Mob (Stag Crab)" wanted="No" ID1="300" ID2="16" ID3="14" ID4="11">
@@ -124,6 +132,8 @@
       <Bait>Shrimp Lure</Bait>
       <Bait>Sinking Minnow</Bait>
       <Bait>Minnow</Bait>
+      <Bait>Robber Rig</Bait>
+      <Bait>Little Worm</Bait>
     </Baits>
   </Fish>
   <Fish name="Mob (Thread Leech)" wanted="No" ID1="300" ID2="16" ID3="10" ID4="11">
@@ -135,6 +145,8 @@
       <Bait>Insect Ball</Bait>
       <Bait>Minnow</Bait>
       <Bait>Sinking Minnow</Bait>
+      <Bait>Robber Rig</Bait>
+      <Bait>Little Worm</Bait>
     </Baits>
   </Fish>
   <Fish name="Copper Ring" wanted="No" ID1="60" ID2="40" ID3="15" ID4="28">
@@ -143,33 +155,8 @@
     </Zones>
     <Baits>
       <Bait>Insect Ball</Bait>
-    </Baits>
-  </Fish>
-  <Fish name="Rusty Bucket" wanted="No" ID1="60" ID2="19" ID3="15" ID4="13">
-    <Zones>
-      <Zone>Bastok Markets</Zone>
-      <Zone>Port San D'Oria</Zone>
-      <Zone>West Ronfaure</Zone>
-      <Zone>Port Bastok</Zone>
-      <Zone>Manaclipper</Zone>
-      <Zone>Bibiki Bay</Zone>
-      <Zone>Jugner Forest</Zone>
-      <Zone>Port San d'Oria</Zone>
-      <Zone>Selbina</Zone>
-      <Zone>Yhoator Jungle</Zone>
-    </Zones>
-    <Baits>
-      <Bait>Meatball</Bait>
-      <Bait>Insect Ball</Bait>
-      <Bait>Crayfish Ball</Bait>
-      <Bait>Fly Lure</Bait>
-      <Bait>Worm Lure</Bait>
-      <Bait>Frog Lure</Bait>
-      <Bait>Shrimp Lure</Bait>
-      <Bait>Sabiki Rig</Bait>
       <Bait>Little Worm</Bait>
-      <Bait>Sinking Minnow</Bait>
-      <Bait>Minnow</Bait>
+      <Bait>Shrimp Lure</Bait>
     </Baits>
   </Fish>
   <Fish name="Rusty Cap" wanted="No" ID1="60" ID2="38" ID3="15" ID4="26">
@@ -183,6 +170,7 @@
       <Bait>Insect Ball</Bait>
       <Bait>Sinking Minnow</Bait>
       <Bait>Minnow</Bait>
+      <Bait>Little Worm</Bait>
     </Baits>
   </Fish>
   <Fish name="Rusty Leggings" wanted="No" ID1="60" ID2="26" ID3="15" ID4="18">
@@ -212,6 +200,11 @@
       <Bait>Lugworm</Bait>
       <Bait>Sinking Minnow</Bait>
       <Bait>Minnow</Bait>
+      <Bait>Crayfish Ball</Bait>
+      <Bait>Robber Rig</Bait>
+      <Bait>Sliced Sardine</Bait>
+      <Bait>Rogue Rig</Bait>
+      <Bait>Frog Lure</Bait>
     </Baits>
   </Fish>
   <Fish name="Rusty Subligar" wanted="No" ID1="60" ID2="22" ID3="15" ID4="15">
@@ -220,6 +213,7 @@
     </Zones>
     <Baits>
       <Bait>Crayfish Ball</Bait>
+      <Bait>Shrimp Lure</Bait>
     </Baits>
   </Fish>
   <Fish name="Bibikibo" wanted="No" ID1="80" ID2="22" ID3="14" ID4="15">
@@ -251,6 +245,8 @@
     <Baits>
       <Bait>Minnow</Bait>
       <Bait>Robber Rig</Bait>
+      <Bait>Insect Ball</Bait>
+      <Bait>Rogue Rig</Bait>
     </Baits>
   </Fish>
   <Fish name="Cobalt Jellyfish" wanted="No" ID1="20" ID2="28" ID3="15" ID4="19">
@@ -265,6 +261,12 @@
       <Bait>Fly Lure</Bait>
       <Bait>Worm Lure</Bait>
       <Bait>Sabiki Rig</Bait>
+      <Bait>Slice of Bluetail</Bait>
+      <Bait>Robber Rig</Bait>
+      <Bait>Little Worm</Bait>
+      <Bait>Rogue Rig</Bait>
+      <Bait>Shrimp Lure</Bait>
+      <Bait>Minnow</Bait>
     </Baits>
   </Fish>
   <Fish name="Cone Calamary" wanted="No" ID1="120" ID2="40" ID3="12" ID4="28">
@@ -292,6 +294,8 @@
       <Bait>Little Worm</Bait>
       <Bait>Sinking Minnow</Bait>
       <Bait>Worm Lure</Bait>
+      <Bait>Trout Ball</Bait>
+      <Bait>Robber Rig</Bait>
     </Baits>
   </Fish>
   <Fish name="Elshimo Newt" wanted="Yes" ID1="200" ID2="26" ID3="7" ID4="18">
@@ -300,6 +304,7 @@
     </Zones>
     <Baits>
       <Bait>Frog Lure</Bait>
+      <Bait>Fly Lure</Bait>
     </Baits>
   </Fish>
   <Fish name="Fat Greedie" wanted="Yes" ID1="180" ID2="30" ID3="12" ID4="21">
@@ -328,6 +333,7 @@
       <Bait>Insect Ball</Bait>
       <Bait>Shrimp Lure</Bait>
       <Bait>Little Worm</Bait>
+      <Bait>Robber Rig</Bait>
     </Baits>
   </Fish>
   <Fish name="Moat Carp" wanted="Yes" ID1="200" ID2="16" ID3="12" ID4="11">
@@ -345,6 +351,7 @@
     <Baits>
       <Bait>Insect Ball</Bait>
       <Bait>Little Worm</Bait>
+      <Bait>Robber Rig</Bait>
     </Baits>
   </Fish>
   <Fish name="Moorish Idol" wanted="Yes" ID1="240" ID2="18" ID3="8" ID4="12">
@@ -355,6 +362,7 @@
     <Baits>
       <Bait>Crayfish Ball</Bait>
       <Bait>Worm Lure</Bait>
+      <Bait>Shrimp Lure</Bait>
     </Baits>
   </Fish>
   <Fish name="Noble Lady" wanted="Yes" ID1="220" ID2="30" ID3="9" ID4="21">
@@ -367,6 +375,8 @@
     <Baits>
       <Bait>Minnow</Bait>
       <Bait>Peeled Lobster</Bait>
+      <Bait>Sinking Minnow</Bait>
+      <Bait>Shrimp Lure</Bait>
     </Baits>
   </Fish>
   <Fish name="Pamtam Kelp" wanted="No" ID1="60" ID2="24" ID3="15" ID4="16">
@@ -384,6 +394,11 @@
       <Bait>Insect Ball</Bait>
       <Bait>Sabiki Rig</Bait>
       <Bait>Lugworm</Bait>
+      <Bait>Robber Rig</Bait>
+      <Bait>Sliced Sardine</Bait>
+      <Bait>Rogue Rig</Bait>
+      <Bait>Shrimp Lure</Bait>
+      <Bait>Minnow</Bait>
     </Baits>
   </Fish>
   <Fish name="Pipira" wanted="No" ID1="300" ID2="11" ID3="8" ID4="7">
@@ -393,6 +408,7 @@
     </Zones>
     <Baits>
       <Bait>Minnow</Bait>
+      <Bait>Slice of Carp</Bait>
     </Baits>
   </Fish>
   <Fish name="Shall Shell" wanted="Yes" ID1="60" ID2="27" ID3="15" ID4="18">
@@ -419,6 +435,8 @@
       <Bait>Insect Ball</Bait>
       <Bait>Shrimp Lure</Bait>
       <Bait>Little Worm</Bait>
+      <Bait>Robber Rig</Bait>
+      <Bait>Minnow</Bait>
     </Baits>
   </Fish>
   <Fish name="Vongola Clam" wanted="Yes" ID1="100" ID2="20" ID3="10" ID4="14">
@@ -428,6 +446,7 @@
     </Zones>
     <Baits>
       <Bait>Crayfish Ball</Bait>
+      <Bait>Robber Rig</Bait>
     </Baits>
   </Fish>
   <Fish name="Zafmlug Bass" wanted="No" ID1="160" ID2="27" ID3="8" ID4="18">
@@ -441,6 +460,8 @@
       <Bait>Crayfish Ball</Bait>
       <Bait>Minnow</Bait>
       <Bait>Lugworm</Bait>
+      <Bait>Robber Rig</Bait>
+      <Bait>Sinking Minnow</Bait>
     </Baits>
   </Fish>
   <Fish name="Break line fish" wanted="No" ID1="280" ID2="13" ID3="6" ID4="9">
@@ -456,6 +477,7 @@
       <Bait>Frog Lure</Bait>
       <Bait>Minnow</Bait>
       <Bait>Sinking Minnow</Bait>
+      <Bait>Robber Rig</Bait>
     </Baits>
   </Fish>
   <Fish name="1 Gil" wanted="No" ID1="60" ID2="22" ID3="15" ID4="15">
@@ -468,6 +490,11 @@
       <Bait>Little Worm</Bait>
       <Bait>Sabiki Rig</Bait>
       <Bait>Lugworm</Bait>
+      <Bait>Crayfish Ball</Bait>
+      <Bait>Robber Rig</Bait>
+      <Bait>Sliced Sardine</Bait>
+      <Bait>Shrimp Lure</Bait>
+      <Bait>Minnow</Bait>
     </Baits>
   </Fish>
   <Fish name="Greedie" wanted="No" ID1="300" ID2="10" ID3="9">
@@ -478,6 +505,8 @@
       <Bait>Minnow</Bait>
       <Bait>Lugworm</Bait>
       <Bait>Worm Lure</Bait>
+      <Bait>Robber Rig</Bait>
+      <Bait>Rogue Rig</Bait>
     </Baits>
   </Fish>
   <Fish name="Black Sole" wanted="No" ID1="240" ID2="33" ID3="7">
@@ -506,6 +535,7 @@
     <Baits>
       <Bait>Sinking Minnow</Bait>
       <Bait>Fly Lure</Bait>
+      <Bait>Minnow</Bait>
     </Baits>
   </Fish>
   <Fish name="Bastore Bream" wanted="Yes" ID1="200" ID2="31" ID3="9">
@@ -517,6 +547,8 @@
       <Bait>Minnow</Bait>
       <Bait>Shrimp Lure</Bait>
       <Bait>Crayfish Ball</Bait>
+      <Bait>Sliced Sardine</Bait>
+      <Bait>Sinking Minnow</Bait>
     </Baits>
   </Fish>
   <Fish name="Yellow Globe x2" wanted="Yes" ID1="180" ID2="17" ID3="11">
@@ -527,6 +559,7 @@
     </Zones>
     <Baits>
       <Bait>Sabiki Rig</Bait>
+      <Bait>Sardine Ball</Bait>
     </Baits>
   </Fish>
   <Fish name="Yellow Globe x3" wanted="Yes" ID1="200" ID2="17" ID3="12">
@@ -554,6 +587,7 @@
       <Bait>Lugworm</Bait>
       <Bait>Worm Lure</Bait>
       <Bait>Crayfish Ball</Bait>
+      <Bait>Rogue Rig</Bait>
     </Baits>
   </Fish>
   <Fish name="Icefish" wanted="No" ID1="200" ID2="38" ID3="5">
@@ -571,6 +605,7 @@
     </Zones>
     <Baits>
       <Bait>Shrimp Lure</Bait>
+      <Bait>Lugworm</Bait>
     </Baits>
   </Fish>
   <Fish name="Silver Shark" wanted="Yes" ID1="200" ID2="35" ID3="5">
@@ -596,6 +631,9 @@
     <Baits>
       <Bait>Worm Lure</Bait>
       <Bait>Sabiki Rig</Bait>
+      <Bait>Insect Ball</Bait>
+      <Bait>Sinking Minnow</Bait>
+      <Bait>Minnow</Bait>
     </Baits>
   </Fish>
   <Fish name="Sentinel Crab(2)" wanted="No" ID1="300" ID2="16" ID3="14">
@@ -604,6 +642,7 @@
     </Zones>
     <Baits>
       <Bait>Worm Lure</Bait>
+      <Bait>Insect Ball</Bait>
     </Baits>
   </Fish>
   <Fish name="Sentinel Crab(3)" wanted="No" ID1="300" ID2="22" ID3="14">
@@ -612,6 +651,8 @@
     </Zones>
     <Baits>
       <Bait>Worm Lure</Bait>
+      <Bait>Insect Ball</Bait>
+      <Bait>Sinking Minnow</Bait>
     </Baits>
   </Fish>
   <Fish name="Nahn" wanted="Yes" ID1="300" ID2="26" ID3="7">
@@ -620,6 +661,8 @@
     </Zones>
     <Baits>
       <Bait>Worm Lure</Bait>
+      <Bait>Insect Ball</Bait>
+      <Bait>Minnow</Bait>
     </Baits>
   </Fish>
   <Fish name="Sentinel Crab" wanted="No" ID1="300" ID2="19" ID3="8">
@@ -629,6 +672,7 @@
     <Baits>
       <Bait>Sabiki Rig</Bait>
       <Bait>Worm Lure</Bait>
+      <Bait>Sinking Minnow</Bait>
     </Baits>
   </Fish>
   <Fish name="Sentinel Crab(4)" wanted="No" ID1="300" ID2="16" ID3="10">
@@ -637,6 +681,7 @@
     </Zones>
     <Baits>
       <Bait>Worm Lure</Bait>
+      <Bait>Insect Ball</Bait>
     </Baits>
   </Fish>
   <Fish name="Sentinel Crab(5)" wanted="No" ID1="300" ID2="15" ID3="11">
@@ -645,6 +690,7 @@
     </Zones>
     <Baits>
       <Bait>Worm Lure</Bait>
+      <Bait>Sinking Minnow</Bait>
     </Baits>
   </Fish>
   <Fish name="Sentinel Crab" wanted="No" ID1="300" ID2="17" ID3="9">
@@ -653,6 +699,7 @@
     </Zones>
     <Baits>
       <Bait>Worm Lure</Bait>
+      <Bait>Insect Ball</Bait>
     </Baits>
   </Fish>
   <Fish name="Istiridye" wanted="No" ID1="60" ID2="27" ID3="15">
@@ -661,6 +708,8 @@
     </Zones>
     <Baits>
       <Bait>Robber Rig</Bait>
+      <Bait>Crayfish Ball</Bait>
+      <Bait>Rogue Rig</Bait>
     </Baits>
   </Fish>
   <Fish name="Bastore Sardine" wanted="No" ID1="140" ID2="21" ID3="13">
@@ -675,6 +724,8 @@
     <Baits>
       <Bait>Sabiki Rig</Bait>
       <Bait>Lugworm</Bait>
+      <Bait>Robber Rig</Bait>
+      <Bait>Rogue Rig</Bait>
     </Baits>
   </Fish>
   <Fish name="Bastore Sardine x2" wanted="No" ID1="140" ID2="21" ID3="14">
@@ -701,18 +752,6 @@
     </Zones>
     <Baits>
       <Bait>Sabiki Rig</Bait>
-    </Baits>
-  </Fish>
-  <Fish name="Quus" wanted="No" ID1="240" ID2="12" ID3="9">
-    <Zones>
-      <Zone>Selbina</Zone>
-      <Zone>Port Windurst</Zone>
-      <Zone>Valkurm Dunes</Zone>
-      <Zone>Ship bound for Mhaura (Pirates)</Zone>
-    </Zones>
-    <Baits>
-      <Bait>Sabiki Rig</Bait>
-      <Bait>Lugworm</Bait>
     </Baits>
   </Fish>
   <Fish name="Quus" wanted="No" ID1="260" ID2="12" ID3="9">
@@ -742,20 +781,6 @@
       <Bait>Sabiki Rig</Bait>
     </Baits>
   </Fish>
-  <Fish name="Crayfish" wanted="No" ID1="140" ID2="24" ID3="15">
-    <Zones>
-      <Zone>Windurst Woods</Zone>
-      <Zone>Rabao</Zone>
-      <Zone>Ru'Aun Gardens</Zone>
-      <Zone>Port San d'Oria</Zone>
-      <Zone>West Ronfaure</Zone>
-      <Zone>East Ronfaure</Zone>
-      <Zone>Yhoator Jungle</Zone>
-    </Zones>
-    <Baits>
-      <Bait>Little Worm</Bait>
-    </Baits>
-  </Fish>
   <Fish name="Bastore Sardine" wanted="No" ID1="160" ID2="21" ID3="15">
     <Zones />
     <Baits>
@@ -779,6 +804,7 @@
     <Baits>
       <Bait>Little Worm</Bait>
       <Bait>Sabiki Rig</Bait>
+      <Bait>Insect Ball</Bait>
     </Baits>
   </Fish>
   <Fish name="Hamsi x2" wanted="No" ID1="140" ID2="21" ID3="14">
@@ -798,6 +824,9 @@
       <Zone>Nashmau</Zone>
     </Zones>
     <Zone />
+    <Baits>
+      <Bait>Robber Rig</Bait>
+    </Baits>
   </Fish>
   <Fish name="Break Line Fish" wanted="No" ID1="60" ID2="22" ID3="15">
     <Zones>
@@ -813,6 +842,12 @@
       <Bait>Worm Lure</Bait>
       <Bait>Crayfish Ball</Bait>
       <Bait>Shrimp Lure</Bait>
+      <Bait>Meatball</Bait>
+      <Bait>Robber Rig</Bait>
+      <Bait>Rogue Rig</Bait>
+      <Bait>Sabiki Rig</Bait>
+      <Bait>Frog Lure</Bait>
+      <Bait>Minnow</Bait>
     </Baits>
   </Fish>
   <Fish name="Rusty Pick" wanted="No" ID1="60" ID2="47" ID3="15">
@@ -823,6 +858,7 @@
       <Bait>Insect Ball</Bait>
       <Bait>Little Worm</Bait>
       <Bait>Worm Lure</Bait>
+      <Bait>Rogue Rig</Bait>
     </Baits>
   </Fish>
   <Fish name="Nebimonite" wanted="No" ID1="120" ID2="30" ID3="11">
@@ -834,6 +870,7 @@
     <Baits>
       <Bait>Shrimp Lure</Bait>
       <Bait>Crayfish Ball</Bait>
+      <Bait>Meatball</Bait>
     </Baits>
   </Fish>
   <Fish name="Forest Carp" wanted="No" ID1="240" ID2="11" ID3="6">
@@ -852,6 +889,9 @@
     <Baits>
       <Bait>Insect Ball</Bait>
       <Bait>Little Worm</Bait>
+      <Bait>Rogue Rig</Bait>
+      <Bait>Frog Lure</Bait>
+      <Bait>Fly Lure</Bait>
     </Baits>
   </Fish>
   <Fish name="Mob (_1_)" wanted="No" ID1="300" ID2="16" ID3="14">
@@ -862,6 +902,9 @@
       <Bait>Insect Ball</Bait>
       <Bait>Little Worm</Bait>
       <Bait>Worm Lure</Bait>
+      <Bait>Rogue Rig</Bait>
+      <Bait>Frog Lure</Bait>
+      <Bait>Fly Lure</Bait>
     </Baits>
   </Fish>
   <Fish name="Mob (_3_)" wanted="No" ID1="300" ID2="17" ID3="9">
@@ -871,6 +914,8 @@
     <Baits>
       <Bait>Insect Ball</Bait>
       <Bait>Little Worm</Bait>
+      <Bait>Frog Lure</Bait>
+      <Bait>Fly Lure</Bait>
     </Baits>
   </Fish>
   <Fish name="Break Rod Fish" wanted="No" ID1="100" ID2="18" ID3="14">
@@ -880,6 +925,10 @@
     <Baits>
       <Bait>Insect Ball</Bait>
       <Bait>Little Worm</Bait>
+      <Bait>Slice of Bluetail</Bait>
+      <Bait>Rogue Rig</Bait>
+      <Bait>Frog Lure</Bait>
+      <Bait>Fly Lure</Bait>
     </Baits>
   </Fish>
   <Fish name="Black Eel" wanted="No" ID1="180" ID2="24" ID3="7">
@@ -888,6 +937,7 @@
     </Zones>
     <Baits>
       <Bait>Little Worm</Bait>
+      <Bait>Insect Ball</Bait>
     </Baits>
   </Fish>
   <Fish name="Break Rod Fish" wanted="No" ID1="180" ID2="31" ID3="8">
@@ -899,6 +949,7 @@
       <Bait>Robber Rig</Bait>
       <Bait>Shrimp Lure</Bait>
       <Bait>Crayfish Ball</Bait>
+      <Bait>Rogue Rig</Bait>
     </Baits>
   </Fish>
   <Fish name="Mercanbaligi" wanted="No" ID1="200" ID2="31" ID3="9">
@@ -908,6 +959,10 @@
     <Baits>
       <Bait>Robber Rig</Bait>
       <Bait>Shrimp Lure</Bait>
+      <Bait>Crayfish Ball</Bait>
+      <Bait>Rogue Rig</Bait>
+      <Bait>Sinking Minnow</Bait>
+      <Bait>Minnow</Bait>
     </Baits>
   </Fish>
   <Fish name="Lack Skill Fish" wanted="No" ID1="240" ID2="36" ID3="5">
@@ -932,6 +987,7 @@
     </Zones>
     <Baits>
       <Bait>Sinking Minnow</Bait>
+      <Bait>Minnow</Bait>
     </Baits>
   </Fish>
   <Fish name="Ogre Eel" wanted="No" ID1="240" ID2="29" ID3="15">
@@ -940,6 +996,8 @@
     </Zones>
     <Baits>
       <Bait>Sinking Minnow</Bait>
+      <Bait>Robber Rig</Bait>
+      <Bait>Shrimp Lure</Bait>
     </Baits>
   </Fish>
   <Fish name="Break Line Fish" wanted="No" ID1="300" ID2="16" ID3="6">
@@ -948,6 +1006,8 @@
     </Zones>
     <Baits>
       <Bait>Shrimp Lure</Bait>
+      <Bait>Sinking Minnow</Bait>
+      <Bait>Minnow</Bait>
     </Baits>
   </Fish>
   <Fish name="Cone Calamary x2" wanted="No" ID1="120" ID2="40" ID3="13">
@@ -964,6 +1024,7 @@
     </Zones>
     <Baits>
       <Bait>Minnow</Bait>
+      <Bait>Sinking Minnow</Bait>
     </Baits>
   </Fish>
   <Fish name="Mob (_4_)" wanted="No" ID1="300" ID2="15" ID3="11">
@@ -973,6 +1034,8 @@
     <Baits>
       <Bait>Shrimp Lure</Bait>
       <Bait>Crayfish Ball</Bait>
+      <Bait>Rogue Rig</Bait>
+      <Bait>Minnow</Bait>
     </Baits>
   </Fish>
   <Fish name="Too Large Fish" wanted="No" ID1="280" ID2="13" ID3="6">
@@ -981,6 +1044,8 @@
     </Zones>
     <Baits>
       <Bait>Sinking Minnow</Bait>
+      <Bait>Frog Lure</Bait>
+      <Bait>Minnow</Bait>
     </Baits>
   </Fish>
   <Fish name="Lack Skill Fish" wanted="No" ID1="240" ID2="33" ID3="7">
@@ -1006,6 +1071,404 @@
     </Zones>
     <Baits>
       <Bait>Sliced Cod</Bait>
+      <Bait>Slice of Bluetail</Bait>
+      <Bait>Meatball</Bait>
+      <Bait>Robber Rig</Bait>
+      <Bait>Sinking Minnow</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Denizanasi" wanted="No" ID1="20" ID2="28" ID3="15">
+    <Zones />
+    <Baits>
+      <Bait>Robber Rig</Bait>
+      <Bait>Rogue Rig</Bait>
+      <Bait>Sabiki Rig</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Bastore Sweeper" wanted="No" ID1="60" ID2="18" ID3="6">
+    <Zones />
+    <Baits>
+      <Bait>Little Worm</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="" wanted="No" ID1="60" ID2="19" ID3="15">
+    <Zones>
+      <Zone>Bastok Markets</Zone>
+      <Zone>Port San D'Oria</Zone>
+      <Zone>West Ronfaure</Zone>
+      <Zone>Port Bastok</Zone>
+      <Zone>Manaclipper</Zone>
+      <Zone>Bibiki Bay</Zone>
+      <Zone>Jugner Forest</Zone>
+      <Zone>Port San d'Oria</Zone>
+      <Zone>Selbina</Zone>
+      <Zone>Yhoator Jungle</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Crayfish Ball</Bait>
+      <Bait>Insect Ball</Bait>
+      <Bait>Meatball</Bait>
+      <Bait>Robber Rig</Bait>
+      <Bait>Little Worm</Bait>
+      <Bait>Rogue Rig</Bait>
+      <Bait>Sabiki Rig</Bait>
+      <Bait>Sinking Minnow</Bait>
+      <Bait>Shrimp Lure</Bait>
+      <Bait>Frog Lure</Bait>
+      <Bait>Worm Lure</Bait>
+      <Bait>Fly Lure</Bait>
+      <Bait>Minnow</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Mussel" wanted="No" ID1="60" ID2="21" ID3="14">
+    <Zones />
+    <Baits>
+      <Bait>Robber Rig</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="gaint catfish" wanted="No" ID1="60" ID2="26" ID3="15">
+    <Zones />
+    <Baits>
+      <Bait>Insect Ball</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="rusty bucket" wanted="No" ID1="60" ID2="26" ID3="15">
+    <Zones />
+    <Baits>
+      <Bait>Insect Ball</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="rusty sublur" wanted="No" ID1="60" ID2="26" ID3="15">
+    <Zones />
+    <Baits>
+      <Bait>Insect Ball</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Norg Shell" wanted="No" ID1="60" ID2="31" ID3="15">
+    <Zones />
+    <Baits>
+      <Bait>Crayfish Ball</Bait>
+      <Bait>Rogue Rig</Bait>
+      <Bait>Shrimp Lure</Bait>
+      <Bait>Minnow</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Ripped Cap" wanted="No" ID1="60" ID2="36" ID3="15">
+    <Zones />
+    <Baits>
+      <Bait>Rogue Rig</Bait>
+      <Bait>Sabiki Rig</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Trumpet Shell" wanted="No" ID1="100" ID2="18" ID3="14">
+    <Zones />
+    <Baits>
+      <Bait>Slice of Bluetail</Bait>
+      <Bait>Robber Rig</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Copper Frog" wanted="No" ID1="100" ID2="22" ID3="10">
+    <Zones />
+    <Baits>
+      <Bait>Fly Lure</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Elshimo Frog" wanted="No" ID1="120" ID2="25" ID3="9">
+    <Zones />
+    <Baits>
+      <Bait>Fly Lure</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Red Terrapin" wanted="No" ID1="120" ID2="28" ID3="10">
+    <Zones />
+    <Baits>
+      <Bait>Robber Rig</Bait>
+      <Bait>Frog Lure</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Hamsi" wanted="No" ID1="140" ID2="21" ID3="13">
+    <Zones />
+    <Baits>
+      <Bait>Robber Rig</Bait>
+      <Bait>Sabiki Rig</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Ruddy Seema" wanted="No" ID1="140" ID2="22" ID3="6">
+    <Zones />
+    <Baits>
+      <Bait>Little Worm</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Crayfish" wanted="No" ID1="140" ID2="24" ID3="15" rename="">
+    <Zones>
+      <Zone>Windurst Woods</Zone>
+      <Zone>Rabao</Zone>
+      <Zone>Ru'Aun Gardens</Zone>
+      <Zone>Port San d'Oria</Zone>
+      <Zone>West Ronfaure</Zone>
+      <Zone>East Ronfaure</Zone>
+      <Zone>Yhoator Jungle</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Little Worm</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="red terripin" wanted="No" ID1="140" ID2="24" ID3="15">
+    <Zones />
+    <Baits>
+      <Bait>Slice of Carp</Bait>
+      <Bait>Insect Ball</Bait>
+      <Bait>Robber Rig</Bait>
+      <Bait>Little Worm</Bait>
+      <Bait>Fly Lure</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Ulbukan Lobster" wanted="No" ID1="140" ID2="24" ID3="15">
+    <Zones />
+    <Baits>
+      <Bait>Little Worm</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Lack Skill Fish" wanted="No" ID1="140" ID2="40" ID3="14">
+    <Zones />
+    <Baits>
+      <Bait>Sabiki Rig</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Lungfish" wanted="No" ID1="180" ID2="16" ID3="6">
+    <Zones />
+    <Baits>
+      <Bait>Shrimp Lure</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Yilanbaligi" wanted="No" ID1="180" ID2="24" ID3="7">
+    <Zones />
+    <Baits>
+      <Bait>Trout Ball</Bait>
+      <Bait>Little Worm</Bait>
+      <Bait>Worm Lure</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Break rod fish" wanted="No" ID1="180" ID2="26" ID3="8">
+    <Zones />
+    <Baits>
+      <Bait>Robber Rig</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Crescent Fish" wanted="No" ID1="180" ID2="28" ID3="9">
+    <Zones />
+    <Baits>
+      <Bait>Fly Lure</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Kayabaligi" wanted="No" ID1="180" ID2="30" ID3="9">
+    <Zones />
+    <Baits>
+      <Bait>Little Worm</Bait>
+      <Bait>Sinking Minnow</Bait>
+      <Bait>Worm Lure</Bait>
+      <Bait>Minnow</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Tavnazian Goby" wanted="No" ID1="180" ID2="30" ID3="9">
+    <Zones />
+    <Baits>
+      <Bait>Minnow</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Break Line Fish" wanted="No" ID1="200" ID2="17" ID3="14">
+    <Zones />
+    <Baits>
+      <Bait>Frog Lure</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Coral Butterfly" wanted="No" ID1="200" ID2="26" ID3="7">
+    <Zones />
+    <Baits>
+      <Bait>Worm Lure</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Break Line Fish" wanted="No" ID1="200" ID2="31" ID3="9">
+    <Zones />
+    <Baits>
+      <Bait>Crayfish Ball</Bait>
+      <Bait>Sinking Minnow</Bait>
+      <Bait>Shrimp Lure</Bait>
+      <Bait>Minnow</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Bastore Bream" wanted="No" ID1="200" ID2="34" ID3="9">
+    <Zones />
+    <Baits>
+      <Bait>Little Worm</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Mercanbaligi" wanted="No" ID1="200" ID2="34" ID3="9">
+    <Zones />
+    <Baits>
+      <Bait>Insect Ball</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Break Rod Fish" wanted="No" ID1="220" ID2="17" ID3="11">
+    <Zones />
+    <Baits>
+      <Bait>Shrimp Lure</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Break Line Fish" wanted="No" ID1="220" ID2="24" ID3="5">
+    <Zones />
+    <Baits>
+      <Bait>Meatball</Bait>
+      <Bait>Sinking Minnow</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Lack Skill Fish" wanted="No" ID1="220" ID2="24" ID3="5">
+    <Zones />
+    <Baits>
+      <Bait>Robber Rig</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Icefish x2" wanted="No" ID1="220" ID2="38" ID3="5">
+    <Zones />
+    <Baits>
+      <Bait>Sabiki Rig</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Quus x2" wanted="No" ID1="240" ID2="12" ID3="9">
+    <Zones>
+      <Zone>Selbina</Zone>
+      <Zone>Port Windurst</Zone>
+      <Zone>Valkurm Dunes</Zone>
+      <Zone>Ship bound for Mhaura (Pirates)</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Robber Rig</Bait>
+      <Bait>Lugworm</Bait>
+      <Bait>Rogue Rig</Bait>
+      <Bait>Sabiki Rig</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Phanauet Newt" wanted="No" ID1="240" ID2="13" ID3="12">
+    <Zones />
+    <Baits>
+      <Bait>Fly Lure</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Alabaligi" wanted="No" ID1="240" ID2="16" ID3="7">
+    <Zones />
+    <Baits>
+      <Bait>Trout Ball</Bait>
+      <Bait>Sinking Minnow</Bait>
+      <Bait>Minnow</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Ogre Eel" wanted="No" ID1="240" ID2="31" ID3="15">
+    <Zones />
+    <Baits>
+      <Bait>Little Worm</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Break Line Fish" wanted="No" ID1="240" ID2="33" ID3="7">
+    <Zones />
+    <Baits>
+      <Bait>Shrimp Lure</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Lack Skill Fish" wanted="No" ID1="240" ID2="38" ID3="6">
+    <Zones />
+    <Baits>
+      <Bait>Sabiki Rig</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Gigant Octopus" wanted="No" ID1="260" ID2="18" ID3="3">
+    <Zones />
+    <Baits>
+      <Bait>Robber Rig</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Mob (_12_)" wanted="No" ID1="280" ID2="22" ID3="14">
+    <Zones />
+    <Baits>
+      <Bait>Minnow</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Mob (_9_)" wanted="No" ID1="300" ID2="15" ID3="11">
+    <Zones />
+    <Baits>
+      <Bait>Insect Ball</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Mob (_5_)" wanted="No" ID1="300" ID2="16" ID3="10">
+    <Zones />
+    <Baits>
+      <Bait>Insect Ball</Bait>
+      <Bait>Little Worm</Bait>
+      <Bait>Frog Lure</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Mob (_8_)" wanted="No" ID1="300" ID2="16" ID3="10">
+    <Zones />
+    <Baits>
+      <Bait>Insect Ball</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Mob (_6_)" wanted="No" ID1="300" ID2="16" ID3="11">
+    <Zones />
+    <Baits>
+      <Bait>Insect Ball</Bait>
+      <Bait>Dried Squid</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Mob (_7_)" wanted="No" ID1="300" ID2="16" ID3="14">
+    <Zones />
+    <Baits>
+      <Bait>Insect Ball</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Mob (_11_)" wanted="No" ID1="300" ID2="17" ID3="9">
+    <Zones />
+    <Baits>
+      <Bait>Insect Ball</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Sazanbaligi" wanted="No" ID1="300" ID2="18" ID3="12">
+    <Zones />
+    <Baits>
+      <Bait>Insect Ball</Bait>
+      <Bait>Little Worm</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Mob (_10_)" wanted="No" ID1="300" ID2="19" ID3="8">
+    <Zones />
+    <Baits>
+      <Bait>Insect Ball</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Tiny Goldfish" wanted="No" ID1="300" ID2="22" ID3="2">
+    <Zones />
+    <Baits>
+      <Bait>Insect Ball</Bait>
+      <Bait>Worm Lure</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Break Rod Fish" wanted="No" ID1="300" ID2="30" ID3="4">
+    <Zones />
+    <Baits>
+      <Bait>Minnow</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Break Rod Fish" wanted="No" ID1="300" ID2="36" ID3="4">
+    <Zones />
+    <Baits>
+      <Bait>Trout Ball</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Break Rod Fish" wanted="No" ID1="300" ID2="80" ID3="1">
+    <Zones />
+    <Baits>
+      <Bait>Meatball</Bait>
+      <Bait>Sinking Minnow</Bait>
+      <Bait>Shrimp Lure</Bait>
     </Baits>
   </Fish>
 </Rod>
