@@ -404,6 +404,10 @@ namespace Fishing
             {
                 if(null == fishNode.SelectSingleNode(string.Format(XPathFormatZoneByName, zone)))
                 {
+                    if (null == fishNode[XMLNodeZones])
+                    {
+                        fishNode.AppendChild(xmlDoc.CreateNode(XmlNodeType.Element, XMLNodeZones, xmlDoc.NamespaceURI));
+                    }
                     XmlNode zoneNode = fishNode[XMLNodeZones].AppendChild(xmlDoc.CreateNode(XmlNodeType.Element, XMLNodeZone, xmlDoc.NamespaceURI));
                     zoneNode.InnerText = zone;
                     if (!fromDB)
@@ -417,6 +421,10 @@ namespace Fishing
             {
                 if(null == fishNode.SelectSingleNode(string.Format(XPathFormatBaitByName, bait)))
                 {
+                    if (null == fishNode[XMLNodeBaits])
+                    {
+                        fishNode.AppendChild(xmlDoc.CreateNode(XmlNodeType.Element, XMLNodeBaits, xmlDoc.NamespaceURI));
+                    }
                     XmlNode baitNode = fishNode[XMLNodeBaits].AppendChild(xmlDoc.CreateNode(XmlNodeType.Element, XMLNodeBait, xmlDoc.NamespaceURI));
                     baitNode.InnerText = bait;
                     if (!fromDB)
@@ -445,6 +453,13 @@ namespace Fishing
             XmlDocument xmlDoc = GetFishDB(fish.rod);
             XmlNode oldFishNode = xmlDoc.SelectSingleNode(string.Format(XPathFormatFishByNameAndIDs, newName, fish.ID1, fish.ID2, fish.ID3));
             XmlNode fishNode = xmlDoc.SelectSingleNode(string.Format(XPathFormatFishByNameAndIDs, fish.name, fish.ID1, fish.ID2, fish.ID3));
+
+            // If there is no fish by the name being renamed from, return
+            // TODO log this somehow
+            if (null == fishNode)
+            {
+                return;
+            }
 
             //check if there is already an entry with same ID and name = newName, if there is, merge the 2 entries
             if(null == oldFishNode)
