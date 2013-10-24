@@ -164,11 +164,11 @@
     <comment>Directs program to start when run</comment>
   </data>
   <data name="StatusFormatMoveToSack" xml:space="preserve">
-    <value>Moving {0} to Sack: {1} remaining.</value>
+    <value>Moving {0} to sack: {1} remaining.</value>
     <comment>Status when moving items to sack</comment>
   </data>
   <data name="StatusFormatMoveSackFinished" xml:space="preserve">
-    <value>Finished moving {0} to Sack.</value>
+    <value>Finished moving {0} to sack.</value>
     <comment>Status when done moving items to sack</comment>
   </data>
   <data name="MessageDBSyncStart" xml:space="preserve">
@@ -471,7 +471,7 @@
     <comment>Status when satchel is full</comment>
   </data>
   <data name="StatusFormatMoveToSatchel" xml:space="preserve">
-    <value>Moving {0} to Satchel: {1} remaining.</value>
+    <value>Moving {0} to satchel: {1} remaining.</value>
     <comment>Status when moving items to satchel</comment>
   </data>
   <data name="StatusFormatMoveSatchelFinished" xml:space="preserve">
@@ -791,5 +791,21 @@
   </data>
   <data name="SQLMessageUploadFinished" xml:space="preserve">
     <value>Upload to DB finished.</value>
+  </data>
+  <data name="CommandPartCase" xml:space="preserve">
+    <value>case</value>
+    <comment>part of command for itemizer/itemtools</comment>
+  </data>
+  <data name="StatusFormatMoveCaseFinished" xml:space="preserve">
+    <value>Finished moving {0} to case.</value>
+    <comment>Status when done moving items to case</comment>
+  </data>
+  <data name="StatusInfoFullCase" xml:space="preserve">
+    <value>Case is full.</value>
+    <comment>Status when case is full</comment>
+  </data>
+  <data name="StatusFormatMoveToCase" xml:space="preserve">
+    <value>Moving {0} to case: {1} remaining.</value>
+    <comment>Status when moving items to case</comment>
   </data>
 </root>

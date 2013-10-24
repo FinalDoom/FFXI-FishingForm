@@ -54,6 +54,7 @@ Features
 	- Automatically sync FishDB with cloud database
 	- Syncs silently at application start
 	- Syncs silently after a few new fish are caught
+	- Get bait from and move fish to mog case
 
 - Includes fface (current as of this post)
 - Includes ffacetools (current as of this post)
@@ -71,7 +72,7 @@ Features
 - Fishing statistics tab
     - Shows total casts, time fishing, and catches per hour
     - Shows counts and percentages for catches, releases, and lost fish types
-- Improved information on the Info tab (inventory/satchel/sack, skill, gil, bait count)
+- Improved information on the Info tab (inventory/satchel/sack/case, skill, gil, bait count)
     - Skillups show next to skill level as they occur, including uncertainty and total skillups
 - Kill fish manually by clicking progress bar during fight
 - Option to show fish HP and time left to reel in
@@ -148,7 +149,7 @@ Gear
 Other
 -----
 - Move items when inventory is full using itemizer or ItemTools
-- Grab bait from sack or satchel when out
+- Grab bait from sack, satchel, or mog case when out
 - Stop fishing when inventory is full
 - Warp then optionally log out or shut down when inventory is full, when fatigued, or when out of bait
 
@@ -236,6 +237,12 @@ noted rod. Some rods do not have any data, so the default value remains.
 -------
 Changes
 -------
+
+1.7.1.0
+-------
+- Added mog case as an option for store/fetch procedures
+- Mog case stats show in info window
+- Updated FFACE.dll and FFACETools
 
 1.7.0.25
 --------
