@@ -3877,6 +3877,7 @@ namespace Fishing
                 Settings.Default.BaitWarp = cbBaitActionWarp.Checked;
                 Settings.Default.BaitItemizer = cbBaitItemizerItemTools.Checked;
                 Settings.Default.BaitSack = cbBaitItemizerSack.Checked;
+                Settings.Default.BaitSatchel = cbBaitItemizerSatchel.Checked;
                 Settings.Default.BaitCase = cbBaitItemizerCase.Checked;
                 Settings.Default.BaitOther = cbBaitactionOther.Checked;
                 Settings.Default.BaitOtherText = tbBaitactionOther.Text;
