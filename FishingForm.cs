@@ -291,6 +291,7 @@ namespace Fishing
             databaseInitThread.IsBackground = true;
             databaseInitThread.Start();
 
+
             #endregion //FormElements
         }
         ~FishingForm()
@@ -363,7 +364,8 @@ namespace Fishing
         }
 
         /// <summary>
-        /// Threaded function to check database for changes
+        /// Threaded function to check database for fish info changes and submit updates.
+        /// First checks version, then waits for _FFACE to be populated before doing fish checks.
         /// </summary>
         private void CheckDatabase()
         {
@@ -372,10 +374,6 @@ namespace Fishing
                 if (!FishSQL.OpenConnection())
                 {
                     return;
-                }
-                while (!DBLogger.StartDBTransaction(Resources.MessageDBSyncStart))
-                {
-                    Thread.Sleep(250);
                 }
                 if (!FishSQL.IsProgramUpdated())
                 {
@@ -386,6 +384,15 @@ namespace Fishing
                     }
                 }
 
+                // Make sure _FFACE is populated so we can actually resolve zone names and such
+                while (_FFACE == null)
+                {
+                    Thread.Sleep(1000);
+                }
+                while (!DBLogger.StartDBTransaction(Resources.MessageDBSyncStart))
+                {
+                    Thread.Sleep(250);
+                }
                 try
                 {
                     FishDB.GetUpdates();
@@ -454,7 +461,8 @@ namespace Fishing
 					_Player = null;
                     FileVersionInfo ver = FileVersionInfo.GetVersionInfo(ProgramExeName);
                     this.Text = string.Format(FormatProgramTitleNoChar, ver.FileVersion);
-					_Process = null;
+                    _Process = null;
+                    FFACE.WindowerPath = Resources.PathWindowerResourcesError;
 					return;
 				}
 
@@ -476,19 +484,6 @@ namespace Fishing
                         if (mod.ModuleName.ToLower() == DllNameHook)
                         {
                             FFACE.WindowerPath = Path.Combine(Path.GetDirectoryName(mod.FileName), Resources.PathWindowerResourcesFolder);
-                            break;
-                        }
-                    }
-                    foreach (ProcessModule mod in pol.Modules)
-                    {
-                        if (mod.ModuleName.ToLower() == DllNameItemizer)
-                        {
-                            ItemizerAvailable = true;
-                            break;
-                        }
-                        if (mod.ModuleName.ToLower() == DllNameItemTools)
-                        {
-                            ItemToolsAvailable = true;
                             break;
                         }
                     }

@@ -1119,6 +1119,15 @@ namespace Fishing.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Checking program version..
+        /// </summary>
+        internal static string SQLMessageVersionCheck {
+            get {
+                return ResourceManager.GetString("SQLMessageVersionCheck", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Could not close connection..
         /// </summary>
         internal static string SQLMessageWarningCloseConnection {

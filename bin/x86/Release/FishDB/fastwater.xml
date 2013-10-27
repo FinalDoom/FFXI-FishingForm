@@ -1,0 +1,109 @@
+<Rod name="Fastwater F. Rod">
+  <Fish name="1 Gil" wanted="No" ID1="60" ID2="29" ID3="15">
+    <Zones>
+      <Zone>Port Windurst</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Lugworm</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Pamtam Kelp" wanted="No" ID1="60" ID2="32" ID3="15">
+    <Zones>
+      <Zone>Port Windurst</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Lugworm</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Rusty Leggings" wanted="No" ID1="60" ID2="35" ID3="15">
+    <Zones>
+      <Zone>Port Windurst</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Lugworm</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Bastore Sardine" wanted="No" ID1="140" ID2="28" ID3="13">
+    <Zones>
+      <Zone>Ship bound for Mhaura</Zone>
+      <Zone>Port Windurst</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Lugworm</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Crayfish" wanted="No" ID1="140" ID2="32" ID3="15">
+    <Zones>
+      <Zone>Northern San d'Oria</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Little Worm</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Dark Bass" wanted="No" ID1="180" ID2="31" ID3="9">
+    <Zones>
+      <Zone>Bastok Markets</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Little Worm</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Break Rod Fish" wanted="No" ID1="180" ID2="32" ID3="7">
+    <Zones>
+      <Zone>Bastok Markets</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Little Worm</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Fat Greedie" wanted="No" ID1="180" ID2="40" ID3="12">
+    <Zones>
+      <Zone>Selbina</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Lugworm</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Moat Carp" wanted="No" ID1="200" ID2="21" ID3="12">
+    <Zones>
+      <Zone>Bastok Markets</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Little Worm</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Quus" wanted="No" ID1="240" ID2="16" ID3="9">
+    <Zones>
+      <Zone>Ship bound for Mhaura</Zone>
+      <Zone>Port Windurst</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Lugworm</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Tricolored Carp" wanted="No" ID1="260" ID2="25" ID3="14">
+    <Zones>
+      <Zone>Northern San d'Oria</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Insect Ball</Bait>
+      <Bait>Little Worm</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Greedie" wanted="No" ID1="300" ID2="13" ID3="9">
+    <Zones>
+      <Zone>Selbina</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Lugworm</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Mob (_1_)" wanted="No" ID1="300" ID2="21" ID3="15">
+    <Zones>
+      <Zone>Ship bound for Mhaura</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Lugworm</Bait>
+    </Baits>
+  </Fish>
+</Rod>

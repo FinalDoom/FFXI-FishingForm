@@ -1,0 +1,10 @@
+<Rod name="S.H. Fishing Rod">
+  <Fish name="Moat Carp" wanted="No" ID1="180" ID2="16" ID3="10">
+    <Zones>
+      <Zone>West Ronfaure</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Insect Ball</Bait>
+    </Baits>
+  </Fish>
+</Rod>

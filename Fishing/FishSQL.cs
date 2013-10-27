@@ -718,6 +718,10 @@ namespace Fishing
             bool updated = false;
             if (OpenConnection())
             {
+                if (StatusDisplay != null)
+                {
+                    StatusDisplay.Info(Resources.SQLMessageVersionCheck);
+                }
                 String[] versionInfo = FileVersionInfo.GetVersionInfo(FishingForm.ProgramExeName).FileVersion.Split(new char[1] { Resources.Period });
 
                 using (MySqlCommand cmd = Connection.CreateCommand())

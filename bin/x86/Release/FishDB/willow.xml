@@ -1,30 +1,134 @@
 <Rod name="Willow Fish. Rod">
+  <Fish name="Cobalt Jellyfish" wanted="No" ID1="20" ID2="42" ID3="15">
+    <Zones>
+      <Zone>Port Bastok</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Meatball</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Break Rod Fish" wanted="No" ID1="60" ID2="33" ID3="15">
+    <Zones>
+      <Zone>Bastok Markets</Zone>
+      <Zone>Port Bastok</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Meatball</Bait>
+      <Bait>Shell Bug</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Rusty Leggings" wanted="No" ID1="60" ID2="39" ID3="15">
+    <Zones>
+      <Zone>Bastok Markets</Zone>
+      <Zone>Port Windurst</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Insect Ball</Bait>
+      <Bait>Shell Bug</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Break Rod Fish" wanted="No" ID1="80" ID2="61" ID3="8">
+    <Zones>
+      <Zone>Quicksand Caves</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Meatball</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Cone Calamary" wanted="No" ID1="120" ID2="60" ID3="12">
+    <Zones>
+      <Zone>Ship bound for Mhaura (Pirates)</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Slice of Bluetail</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Bastore Sardine" wanted="No" ID1="140" ID2="31" ID3="13">
+    <Zones>
+      <Zone>Port Windurst</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Lugworm</Bait>
+    </Baits>
+  </Fish>
   <Fish name="Crayfish" wanted="No" ID1="140" ID2="36" ID3="15">
     <Zones>
+      <Zone>Oldton Movalpolos</Zone>
       <Zone>Quicksand Caves</Zone>
     </Zones>
     <Baits>
       <Bait>Little Worm</Bait>
     </Baits>
   </Fish>
-  <Fish name="Tricolored Carp" wanted="No" ID1="260" ID2="28" ID3="14">
+  <Fish name="Blindfish" wanted="No" ID1="180" ID2="27" ID3="8">
     <Zones>
-      <Zone>Northern San d'Oria</Zone>
+      <Zone>Oldton Movalpolos</Zone>
     </Zones>
     <Baits>
       <Bait>Little Worm</Bait>
-      <Bait>Insect Ball</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Break Rod Fish" wanted="No" ID1="180" ID2="36" ID3="7">
+    <Zones>
+      <Zone>Oldton Movalpolos</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Little Worm</Bait>
     </Baits>
   </Fish>
   <Fish name="Moat Carp" wanted="No" ID1="200" ID2="24" ID3="12">
     <Zones>
       <Zone>West Ronfaure</Zone>
       <Zone>Northern San d'Oria</Zone>
+      <Zone>Port San d'Oria</Zone>
       <Zone>Windurst Waters</Zone>
       <Zone>Windurst Woods</Zone>
     </Zones>
     <Baits>
+      <Bait>Insect Ball</Bait>
       <Bait>Little Worm</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Break Line Fish" wanted="No" ID1="200" ID2="52" ID3="5">
+    <Zones>
+      <Zone>Ship bound for Mhaura (Pirates)</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Meatball</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Quus" wanted="No" ID1="240" ID2="18" ID3="9">
+    <Zones>
+      <Zone>Port Windurst</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Lugworm</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Tricolored Carp" wanted="No" ID1="260" ID2="28" ID3="14">
+    <Zones>
+      <Zone>Northern San d'Oria</Zone>
+      <Zone>Port San d'Oria</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Insect Ball</Bait>
+      <Bait>Little Worm</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Break Rod Fish" wanted="No" ID1="260" ID2="33" ID3="6">
+    <Zones>
+      <Zone>Oldton Movalpolos</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Little Worm</Bait>
+      <Bait>Minnow</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Break Line Fish" wanted="No" ID1="300" ID2="27" ID3="12">
+    <Zones>
+      <Zone>Port San d'Oria</Zone>
+    </Zones>
+    <Baits>
       <Bait>Insect Ball</Bait>
     </Baits>
   </Fish>
@@ -37,101 +141,26 @@
       <Bait>Little Worm</Bait>
     </Baits>
   </Fish>
-  <Fish name="Rusty Leggings" wanted="No" ID1="60" ID2="39" ID3="15">
-    <Zones>
-      <Zone>Port Windurst</Zone>
-    </Zones>
-    <Baits>
-      <Bait>Insect Ball</Bait>
-      <Bait>Shell Bug</Bait>
-    </Baits>
-  </Fish>
-  <Fish name="Bastore Sardine" wanted="No" ID1="140" ID2="31" ID3="13">
-    <Zones>
-      <Zone>Port Windurst</Zone>
-    </Zones>
-    <Baits>
-      <Bait>Lugworm</Bait>
-    </Baits>
-  </Fish>
-  <Fish name="Quus" wanted="No" ID1="240" ID2="18" ID3="9">
-    <Zones>
-      <Zone>Port Windurst</Zone>
-    </Zones>
-    <Baits>
-      <Bait>Lugworm</Bait>
-    </Baits>
-  </Fish>
-  <Fish name="Cobalt Jellyfish" wanted="No" ID1="20" ID2="42" ID3="15">
-    <Zones />
-    <Baits>
-      <Bait>Meatball</Bait>
-    </Baits>
-  </Fish>
-  <Fish name="Break Rod Fish" wanted="No" ID1="60" ID2="33" ID3="15">
-    <Zones />
-    <Baits>
-      <Bait>Meatball</Bait>
-      <Bait>Shell Bug</Bait>
-    </Baits>
-  </Fish>
-  <Fish name="Break Rod Fish" wanted="No" ID1="80" ID2="61" ID3="8">
-    <Zones />
-    <Baits>
-      <Bait>Meatball</Bait>
-    </Baits>
-  </Fish>
-  <Fish name="Cone Calamary" wanted="No" ID1="120" ID2="60" ID3="12">
-    <Zones />
-    <Baits>
-      <Bait>Slice of Bluetail</Bait>
-    </Baits>
-  </Fish>
-  <Fish name="Blindfish" wanted="No" ID1="180" ID2="27" ID3="8">
-    <Zones />
-    <Baits>
-      <Bait>Little Worm</Bait>
-    </Baits>
-  </Fish>
-  <Fish name="Break Rod Fish" wanted="No" ID1="180" ID2="36" ID3="7">
-    <Zones />
-    <Baits>
-      <Bait>Little Worm</Bait>
-    </Baits>
-  </Fish>
-  <Fish name="Break Line Fish" wanted="No" ID1="200" ID2="52" ID3="5">
-    <Zones />
-    <Baits>
-      <Bait>Meatball</Bait>
-    </Baits>
-  </Fish>
-  <Fish name="Break Rod Fish" wanted="No" ID1="260" ID2="33" ID3="6">
-    <Zones />
-    <Baits>
-      <Bait>Little Worm</Bait>
-      <Bait>Minnow</Bait>
-    </Baits>
-  </Fish>
-  <Fish name="Break Line Fish" wanted="No" ID1="300" ID2="27" ID3="12">
-    <Zones />
-    <Baits>
-      <Bait>Insect Ball</Bait>
-    </Baits>
-  </Fish>
   <Fish name="Break Rod Fish" wanted="No" ID1="300" ID2="30" ID3="7">
-    <Zones />
+    <Zones>
+      <Zone>Ship bound for Mhaura (Pirates)</Zone>
+    </Zones>
     <Baits>
       <Bait>Slice of Bluetail</Bait>
     </Baits>
   </Fish>
   <Fish name="Break Rod Fish" wanted="No" ID1="300" ID2="58" ID3="4">
-    <Zones />
+    <Zones>
+      <Zone>Ship bound for Mhaura (Pirates)</Zone>
+    </Zones>
     <Baits>
       <Bait>Meatball</Bait>
     </Baits>
   </Fish>
   <Fish name="Break Rod Fish" wanted="No" ID1="300" ID2="120" ID3="2">
-    <Zones />
+    <Zones>
+      <Zone>Ship bound for Mhaura (Pirates)</Zone>
+    </Zones>
     <Baits>
       <Bait>Slice of Bluetail</Bait>
       <Bait>Meatball</Bait>
