@@ -1,0 +1,253 @@
+<Rod name="Bamboo Fish. Rod">
+  <Fish name="Cobalt Jellyfish" wanted="No" ID1="20" ID2="39" ID3="15">
+    <Zones>
+      <Zone>Port Bastok</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Little Worm</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Rusty Bucket" wanted="No" ID1="60" ID2="26" ID3="15">
+    <Zones>
+      <Zone>South Gustaberg</Zone>
+      <Zone>Bastok Markets</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Insect Ball</Bait>
+      <Bait>Little Worm</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Break Rod Fish" wanted="No" ID1="60" ID2="30" ID3="15">
+    <Zones>
+      <Zone>South Gustaberg</Zone>
+      <Zone>Ship bound for Mhaura</Zone>
+      <Zone>Bastok Markets</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Crayfish Ball</Bait>
+      <Bait>Insect Ball</Bait>
+      <Bait>Little Worm</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Rusty Leggings" wanted="No" ID1="60" ID2="36" ID3="15">
+    <Zones>
+      <Zone>South Gustaberg</Zone>
+      <Zone>Bastok Markets</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Insect Ball</Bait>
+      <Bait>Little Worm</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Rusty Cap" wanted="No" ID1="60" ID2="53" ID3="15">
+    <Zones>
+      <Zone>South Gustaberg</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Little Worm</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Copper Ring" wanted="No" ID1="60" ID2="56" ID3="15">
+    <Zones>
+      <Zone>Bastok Markets</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Insect Ball</Bait>
+      <Bait>Little Worm</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Break Line Fish" wanted="No" ID1="120" ID2="42" ID3="11">
+    <Zones>
+      <Zone>Ship bound for Mhaura</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Crayfish Ball</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Bastore Sardine" wanted="No" ID1="140" ID2="29" ID3="13">
+    <Zones>
+      <Zone>Port Windurst</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Lugworm</Bait>
+      <Bait>Sabiki Rig</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Bastore Sardine x2" wanted="No" ID1="140" ID2="29" ID3="14">
+    <Zones>
+      <Zone>Port Windurst</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Sabiki Rig</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Crayfish" wanted="No" ID1="140" ID2="33" ID3="15">
+    <Zones>
+      <Zone>Windurst Waters</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Little Worm</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Cheval Salmon" wanted="No" ID1="160" ID2="29" ID3="9">
+    <Zones>
+      <Zone>East Ronfaure</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Fly Lure</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Bastore Sardine x3" wanted="No" ID1="160" ID2="29" ID3="15">
+    <Zones>
+      <Zone>Port Windurst</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Sabiki Rig</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Break Rod Fish" wanted="No" ID1="160" ID2="37" ID3="8">
+    <Zones>
+      <Zone>Selbina</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Lugworm</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Dark Bass" wanted="No" ID1="180" ID2="32" ID3="9">
+    <Zones>
+      <Zone>Bastok Markets</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Insect Ball</Bait>
+      <Bait>Little Worm</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Break Line Fish" wanted="No" ID1="180" ID2="33" ID3="7">
+    <Zones>
+      <Zone>Bastok Markets</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Little Worm</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Break Line Fish" wanted="No" ID1="180" ID2="42" ID3="12">
+    <Zones>
+      <Zone>Selbina</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Lugworm</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Moat Carp" wanted="No" ID1="200" ID2="22" ID3="12">
+    <Zones>
+      <Zone>West Ronfaure</Zone>
+      <Zone>Northern San d'Oria</Zone>
+      <Zone>Port San d'Oria</Zone>
+      <Zone>Bastok Markets</Zone>
+      <Zone>Windurst Waters</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Insect Ball</Bait>
+      <Bait>Little Worm</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Quus" wanted="No" ID1="240" ID2="16" ID3="9">
+    <Zones>
+      <Zone>Port Windurst</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Lugworm</Bait>
+      <Bait>Sabiki Rig</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Shining Trout" wanted="No" ID1="240" ID2="22" ID3="7">
+    <Zones>
+      <Zone>East Ronfaure</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Fly Lure</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Quus x2" wanted="No" ID1="260" ID2="16" ID3="9">
+    <Zones>
+      <Zone>Port Windurst</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Sabiki Rig</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Break Line Fish" wanted="No" ID1="260" ID2="26" ID3="14">
+    <Zones>
+      <Zone>Port San d'Oria</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Insect Ball</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Tricolored Carp" wanted="No" ID1="260" ID2="26" ID3="14">
+    <Zones>
+      <Zone>Northern San d'Oria</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Little Worm</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Greedie" wanted="No" ID1="280" ID2="13" ID3="7">
+    <Zones>
+      <Zone>Selbina</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Lugworm</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Break Rod Fish" wanted="No" ID1="280" ID2="16" ID3="10">
+    <Zones>
+      <Zone>Port Windurst</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Sabiki Rig</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Greedie" wanted="No" ID1="300" ID2="14" ID3="9">
+    <Zones>
+      <Zone>Selbina</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Lugworm</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Sand Crab" wanted="No" ID1="300" ID2="21" ID3="12">
+    <Zones>
+      <Zone>South Gustaberg</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Little Worm</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Break Rod Fish" wanted="No" ID1="300" ID2="25" ID3="12">
+    <Zones>
+      <Zone>Port San d'Oria</Zone>
+      <Zone>Windurst Waters</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Insect Ball</Bait>
+      <Bait>Little Worm</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Gold Carp" wanted="No" ID1="300" ID2="25" ID3="12">
+    <Zones>
+      <Zone>Windurst Waters</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Little Worm</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Moat Carp" wanted="No" ID1="300" ID2="25" ID3="12">
+    <Zones>
+      <Zone>Northern San d'Oria</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Little Worm</Bait>
+    </Baits>
+  </Fish>
+</Rod>

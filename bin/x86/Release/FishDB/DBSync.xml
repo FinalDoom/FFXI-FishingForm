@@ -1,32 +1,14 @@
 <Updates>
-  <Update host="server=ec2-54-235-92-8.compute-1.amazonaws.com;port=3308;database=FishDB;User Id=FishClient" dbver="1.7.0.7">
-    <Rod name="Ebisu Fishing Rod" db="6/5/2013 1:12:33 AM" xml="5/6/2013 1:19:15 AM" />
-    <Rod name="Lu Shang's F. Rod" db="6/4/2013 8:31:35 AM" xml="5/3/2013 5:59:14 AM" />
-    <Rod name="Bamboo Fish. Rod" db="5/25/2013 5:22:14 PM" xml="5/3/2013 5:59:14 AM" />
-    <Rod name="Carbon Fish. Rod" db="5/27/2013 7:21:39 PM" xml="5/3/2013 5:59:14 AM" />
-    <Rod name="Clothespole" db="5/14/2013 10:31:31 PM" xml="5/3/2013 5:59:14 AM" />
-    <Rod name="Comp. Fishing Rod" db="5/29/2013 8:06:20 PM" xml="5/3/2013 5:59:14 AM" />
-    <Rod name="Fastwater F. Rod" db="5/26/2013 9:48:58 PM" xml="5/3/2013 5:59:14 AM" />
-    <Rod name="Glass Fiber F. Rod" db="1/1/1970 12:00:01 AM" xml="5/3/2013 5:59:14 AM" />
-    <Rod name="Halcyon Rod" db="6/3/2013 7:11:28 AM" xml="5/3/2013 5:59:14 AM" />
-    <Rod name="Hume Fishing Rod" db="5/28/2013 2:42:23 PM" xml="5/3/2013 5:59:14 AM" />
-    <Rod name="Mithran Fish. Rod" db="5/27/2013 11:38:59 AM" xml="5/3/2013 5:59:14 AM" />
-    <Rod name="S.H. Fishing Rod" db="1/1/1970 12:00:01 AM" xml="5/3/2013 5:59:14 AM" />
-    <Rod name="Tarutaru F. Rod" db="5/22/2013 2:11:52 AM" xml="5/3/2013 5:59:14 AM" />
-    <Rod name="Willow Fish. Rod" db="5/29/2013 2:29:04 AM" xml="5/3/2013 5:59:14 AM" />
-    <Rod name="Yew Fishing Rod" db="5/27/2013 10:42:10 PM" xml="5/3/2013 5:59:14 AM" />
-    <Rod name="MMM Fishing Rod" db="5/14/2013 10:31:31 PM" xml="5/3/2013 5:59:14 AM" />
-  </Update>
   <Update host="server=ec2-54-235-92-8.compute-1.amazonaws.com;port=3308;database=FishDB;user id=FishClient">
-    <Rod name="Ebisu Fishing Rod" db="10/23/2013 4:23:08 PM" xml="1/1/1970 12:00:01 AM" />
-    <Rod name="Lu Shang's F. Rod" db="10/21/2013 2:42:43 PM" xml="1/1/1970 12:00:01 AM" />
+    <Rod name="Ebisu Fishing Rod" db="10/26/2013 3:32:40 PM" xml="1/1/1970 12:00:01 AM" />
+    <Rod name="Lu Shang's F. Rod" db="10/27/2013 1:56:16 AM" xml="1/1/1970 12:00:01 AM" />
     <Rod name="Bamboo Fish. Rod" db="7/7/2013 6:37:24 PM" xml="1/1/1970 12:00:01 AM" />
     <Rod name="Carbon Fish. Rod" db="6/28/2013 7:18:49 PM" xml="1/1/1970 12:00:01 AM" />
     <Rod name="Clothespole" db="10/20/2013 4:10:59 AM" xml="1/1/1970 12:00:01 AM" />
     <Rod name="Comp. Fishing Rod" db="10/20/2013 11:47:12 PM" xml="1/1/1970 12:00:01 AM" />
     <Rod name="Fastwater F. Rod" db="6/6/2013 7:56:20 PM" xml="1/1/1970 12:00:01 AM" />
     <Rod name="Glass Fiber F. Rod" db="10/3/2013 11:32:26 PM" xml="1/1/1970 12:00:01 AM" />
-    <Rod name="Halcyon Rod" db="10/19/2013 2:43:50 AM" xml="1/1/1970 12:00:01 AM" />
+    <Rod name="Halcyon Rod" db="10/26/2013 9:16:03 AM" xml="1/1/1970 12:00:01 AM" />
     <Rod name="Hume Fishing Rod" db="10/3/2013 10:58:23 PM" xml="1/1/1970 12:00:01 AM" />
     <Rod name="Mithran Fish. Rod" db="10/13/2013 5:14:46 PM" xml="1/1/1970 12:00:01 AM" />
     <Rod name="S.H. Fishing Rod" db="6/9/2013 2:14:23 AM" xml="1/1/1970 12:00:01 AM" />

@@ -808,4 +808,8 @@
     <value>Moving {0} to case: {1} remaining.</value>
     <comment>Status when moving items to case</comment>
   </data>
+  <data name="SQLMessageVersionCheck" xml:space="preserve">
+    <value>Checking program version.</value>
+    <comment>Message when doing program version check</comment>
+  </data>
 </root>

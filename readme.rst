@@ -30,6 +30,11 @@ Version control is done using Mercurial (try TortoiseHG_), and issue tracking
 uses bitbucket's built-in JIRA-like system. The "official" site for downloading
 the most recent version is `the bitbucket`_ or at `the FFEvo download page`_.
 
+For Ashita users, make sure you download the most recent
+Windower resources xml package and put it in the same directory
+as FishingForm.exe, as with most other programs. You should have
+areas.xml etc. in a folder called resources in the program directory.
+
 .. _guide here: http://www.howtogeek.com/howto/windows-vista/make-user-account-control-uac-stop-blacking-out-the-screen-in-windows-vista/
 
 .. IMPORTANT:: **Windows Vista+ Notice**
@@ -237,6 +242,10 @@ noted rod. Some rods do not have any data, so the default value remains.
 -------
 Changes
 -------
+
+1.7.1.2
+-------
+- Fix for DB syncing--FFACE must be initialized first; It has to have access to the resources .xml files
 
 1.7.1.1
 -------
