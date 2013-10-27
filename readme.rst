@@ -238,6 +238,10 @@ noted rod. Some rods do not have any data, so the default value remains.
 Changes
 -------
 
+1.7.1.1
+-------
+- Fix for itemizer->bait->satchel saving option not working
+
 1.7.1.0
 -------
 - Added mog case as an option for store/fetch procedures
