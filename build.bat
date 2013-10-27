@@ -1,11 +1,11 @@
 @ECHO OFF
 
 REM These are path variables, if your system has things in a different place
-REM Please ensure SIGCHECK has no spaces in it. DOS style short paths may be useful.
 
-SET NETLOC=C:\Windows\Microsoft.NET\Framework\v3.5
-SET SIGCHECK=D:\PROGRA~2\SigCheck
-SET ZIP7=D:\Program Files\7-Zip
+REM This is some stupid crap to get DOS short paths for no spaces in the stuff
+FOR %%A IN ("%WINDIR%\Microsoft.NET\Framework\v3.5") DO SET NETLOC=%%~sA
+FOR %%A IN ("%PROGRAMFILES(X86)%\SigCheck") DO SET SIGCHECK=%%~sA
+FOR %%A IN ("%PROGRAMFILES%\7-Zip") DO SET ZIP7=%%~sA
 
 REM Check parameters, if those happen
 
