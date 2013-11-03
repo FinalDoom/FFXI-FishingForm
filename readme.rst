@@ -243,6 +243,10 @@ noted rod. Some rods do not have any data, so the default value remains.
 Changes
 -------
 
+1.7.1.3
+-------
+- Fix: show fish HP [time] option now restores from save
+
 1.7.1.2
 -------
 - Fix for DB syncing--FFACE must be initialized first; It has to have access to the resources .xml files
