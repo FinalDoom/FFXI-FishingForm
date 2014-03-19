@@ -555,6 +555,7 @@ namespace FFACETools
                 // 0 is gil, rest is 1-80
                 if (IsSet(location, InventoryType.Inventory) && ( ( index < 0 ) || ( index > 80 ) ))
                     throw new ArgumentOutOfRangeException(INVENTORY_RANGE);
+                    //FIX: Index of sack/satchel/case can be 0
                 else if (!IsSet(location, InventoryType.Inventory) && ( ( index < 1 ) || ( index > 80 ) ))
                     throw new ArgumentOutOfRangeException(OTHERBAG_RANGE);
             }
@@ -705,6 +706,11 @@ namespace FFACETools
                     func = FFACE.GetSafeItem;
                     location = InventoryType.Safe;
                 }
+                else if (IsSet(location, InventoryType.Case))
+                {
+                    func = FFACE.GetCaseItem;
+                    location = InventoryType.Case;
+                }
                 else if (IsSet(location, InventoryType.Satchel))
                 {
                     func = FFACE.GetSatchelItem;
@@ -719,11 +725,6 @@ namespace FFACETools
                 {
                     func = FFACE.GetTempItem;
                     location = InventoryType.Temp;
-                }
-                else if (IsSet(location, InventoryType.Case))
-                {
-                    func = FFACE.GetCaseItem;
-                    location = InventoryType.Case;
                 }
 
                 if (func == null)
@@ -759,6 +760,7 @@ namespace FFACETools
                     bool inventory = IsSet(location, InventoryType.Inventory),
                             locker = IsSet(location, InventoryType.Locker),
                             sack = IsSet(location, InventoryType.Sack),
+							_case = IsSet(location, InventoryType.Case),
                             safe = IsSet(location, InventoryType.Safe),
                             satchel = IsSet(location, InventoryType.Satchel),
                             storage = IsSet(location, InventoryType.Storage),
@@ -792,6 +794,12 @@ namespace FFACETools
                         if (sack)
                         {
                             item = GetItem(i, InventoryType.Sack);
+                            if (( item != null ) && ( item.ID == iD ))
+                                retList.Add(item);
+                        }
+						if (_case)
+                        {
+                            item = GetItem(i, InventoryType.Case);
                             if (( item != null ) && ( item.ID == iD ))
                                 retList.Add(item);
                         }
