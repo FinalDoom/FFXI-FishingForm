@@ -812,4 +812,11 @@
     <value>Checking program version.</value>
     <comment>Message when doing program version check</comment>
   </data>
+  <data name="SQLMessageErrorGettingVersionMessage" xml:space="preserve">
+    <value>Error getting new version message.</value>
+  </data>
+  <data name="SQLMessageVersionMessageCheck" xml:space="preserve">
+    <value>Checking for version update message.</value>
+    <comment>Message from developer in DB.</comment>
+  </data>
 </root>
