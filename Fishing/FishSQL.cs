@@ -96,7 +96,8 @@ namespace Fishing
         private const string MySQLCommandAddFishZone = "CALL add_fish_zone (@fishID, @zoneID)";
         private const string MySQLCommandGetNewFishSince = "CALL get_new_fish (@rodID, @time)";
         private const string MySQLCommandGetRenamedFishSince = "CALL get_renamed_fish (@rodID, @time)";
-        private const string MySQLCommandIsVersionCurrent = "Call is_current_version (@major, @minor, @build, @revision)";
+        private const string MySQLCommandIsVersionCurrent = "CALL is_current_version (@major, @minor, @build, @revision)";
+        private const string MySQLCommandVersionVersionMessage = "CALL get_version_message";
 
         // MySQL Params
         private const string MySQLParamRodID = "rodID";
@@ -116,6 +117,7 @@ namespace Fishing
         private const string MySQLParamVersionMinor = "minor";
         private const string mySqlParamVersionBuild = "build";
         private const string mySqlParamVersionRevision = "revision";
+        private const string mySqlParamVersionMessage = "Message";
 
         // Misc
         private const string ZoneSelbinaPirates = "Selbina (Pirates)";
@@ -754,6 +756,45 @@ namespace Fishing
                 }
             }
             return updated;
+        }
+
+        /// <summary>
+        /// Get message from DB/Program Maintainer about the version update (if any)
+        /// </summary>
+        public static string GetVersionMessage()
+        {
+            if (OpenConnection())
+            {
+                if (StatusDisplay != null)
+                {
+                    StatusDisplay.Info(Resources.SQLMessageVersionMessageCheck);
+                }
+
+                using (MySqlCommand cmd = Connection.CreateCommand())
+                {
+                    cmd.CommandText = MySQLCommandVersionVersionMessage;
+
+                    try
+                    {
+                        using (MySqlDataReader rdr = cmd.ExecuteReader())
+                        {
+                            while (rdr.Read())
+                            {
+                                return rdr.GetString(mySqlParamVersionMessage);
+                            }
+                        }
+                    }
+                    catch (MySqlException e)
+                    {
+                        if (StatusDisplay != null)
+                        {
+                            StatusDisplay.Error(Resources.SQLMessageErrorGettingVersionMessage);
+                            StatusDisplay.Info(e.ToString());
+                        }
+                    }
+                }
+            }
+            return string.Empty;
         }
 
         /// <summary>

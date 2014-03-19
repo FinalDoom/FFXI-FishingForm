@@ -243,6 +243,11 @@ noted rod. Some rods do not have any data, so the default value remains.
 Changes
 -------
 
+1.7.1.4
+-------
+- Fix: Updated status IDs in FFACETools stuff, FFACE update.
+- Feature: Can deliver custom message when there's a new version, through DB
+
 1.7.1.3
 -------
 - Fix: show fish HP [time] option now restores from save

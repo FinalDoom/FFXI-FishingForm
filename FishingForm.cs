@@ -377,8 +377,14 @@ namespace Fishing
                 }
                 if (!FishSQL.IsProgramUpdated())
                 {
-                    MessageBox.Show(string.Join(Environment.NewLine, MessageVersionUpdate));
-                    foreach (string s in MessageVersionUpdate)
+                    string message = FishSQL.GetVersionMessage();
+                    string[] messageArray = MessageVersionUpdate;
+                    if (!string.IsNullOrEmpty(message))
+                    {
+                        messageArray = MessageVersionUpdate.Concat(new string[] { "", message }).ToArray();
+                    }
+                    MessageBox.Show(string.Join(Environment.NewLine, messageArray));
+                    foreach (string s in messageArray)
                     {
                         UpdateDBLog(s);
                     }
