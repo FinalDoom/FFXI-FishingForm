@@ -2855,12 +2855,12 @@
         private System.Windows.Forms.Label lblCaseHeader;
         private System.Windows.Forms.CheckBox cbBaitItemizerCase;
         private System.Windows.Forms.CheckBox cbInventoryItemizerCase;
-        private System.Windows.Forms.TabPage tabChatPageDebug;
-        private System.Windows.Forms.RichTextBox rtbDebug;
         private System.Windows.Forms.ContextMenuStrip contextMenuChatBoxes;
         private System.Windows.Forms.ToolStripMenuItem saveLogToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveAllLogsToolStripMenuItem;
 #if DEBUG
+        private System.Windows.Forms.TabPage tabChatPageDebug;
+        private System.Windows.Forms.RichTextBox rtbDebug;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparatorChatBoxes;
         private System.Windows.Forms.ToolStripMenuItem showDebugToolStripMenuItem;
 #endif
