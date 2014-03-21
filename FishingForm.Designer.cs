@@ -71,6 +71,8 @@
             this.rtbDB = new System.Windows.Forms.RichTextBox();
             this.tabDisplayPageStats = new System.Windows.Forms.TabPage();
             this.tabDisplayPageInfo = new System.Windows.Forms.TabPage();
+            this.lblCaseSpace = new System.Windows.Forms.Label();
+            this.lblCaseHeader = new System.Windows.Forms.Label();
             this.lblEarthTimeHeader = new System.Windows.Forms.Label();
             this.lblEarthTime = new System.Windows.Forms.Label();
             this.lblVanaTimeHeader = new System.Windows.Forms.Label();
@@ -164,6 +166,7 @@
             this.cbWaistGear = new System.Windows.Forms.CheckBox();
             this.tabOptionsPageAdvanced = new System.Windows.Forms.TabPage();
             this.gbExhaustedBait = new System.Windows.Forms.GroupBox();
+            this.cbBaitItemizerCase = new System.Windows.Forms.CheckBox();
             this.cbBaitItemizerSatchel = new System.Windows.Forms.CheckBox();
             this.cbBaitItemizerSack = new System.Windows.Forms.CheckBox();
             this.numBaitactionOtherTime = new System.Windows.Forms.NumericUpDown();
@@ -178,6 +181,7 @@
             this.cbFatiguedActionLogout = new System.Windows.Forms.CheckBox();
             this.cbFatiguedActionShutdown = new System.Windows.Forms.CheckBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.cbInventoryItemizerCase = new System.Windows.Forms.CheckBox();
             this.tbFullactionOther = new System.Windows.Forms.TextBox();
             this.cbInventoryItemizerSatchel = new System.Windows.Forms.CheckBox();
             this.cbInventoryItemizerSack = new System.Windows.Forms.CheckBox();
@@ -188,6 +192,10 @@
             this.cbFullactionLogout = new System.Windows.Forms.CheckBox();
             this.cbFullactionWarp = new System.Windows.Forms.CheckBox();
             this.cbInventoryItemizerItemTools = new System.Windows.Forms.CheckBox();
+#if DEBUG
+            this.tabChatPageDebug = new System.Windows.Forms.TabPage();
+            this.rtbDebug = new System.Windows.Forms.RichTextBox();
+#endif
             this.timer = new System.Windows.Forms.Timer(this.components);
             this.statusStripMain = new System.Windows.Forms.StatusStrip();
             this.lblVanaDay = new System.Windows.Forms.ToolStripStatusLabel();
@@ -196,10 +204,18 @@
             this.lblStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblHP = new System.Windows.Forms.ToolStripStatusLabel();
             this.progressBarST = new System.Windows.Forms.ToolStripProgressBar();
-            this.lblCaseSpace = new System.Windows.Forms.Label();
-            this.lblCaseHeader = new System.Windows.Forms.Label();
-            this.cbInventoryItemizerCase = new System.Windows.Forms.CheckBox();
-            this.cbBaitItemizerCase = new System.Windows.Forms.CheckBox();
+            this.contextMenuChatBoxes = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.saveSelectedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveLogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveAllLogsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+#if DEBUG
+            this.toolStripSeparatorChatBoxes = new System.Windows.Forms.ToolStripSeparator();
+            this.showDebugToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+#endif
+            this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
+#if TEST
+            this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+#endif
             this.contextMenuStats.SuspendLayout();
             this.contextMenuListBox.SuspendLayout();
             this.pnlLog.SuspendLayout();
@@ -246,7 +262,11 @@
             this.gbOnFatigue.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numFullactionOtherTime)).BeginInit();
+#if DEBUG
+            this.tabChatPageDebug.SuspendLayout();
+#endif
             this.statusStripMain.SuspendLayout();
+            this.contextMenuChatBoxes.SuspendLayout();
             this.SuspendLayout();
             // 
             // tbChangeName
@@ -633,6 +653,7 @@
             this.rtbChat.TabStop = false;
             this.rtbChat.Text = "";
             this.rtbChat.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.rtbChat_LinkClicked);
+            this.rtbChat.MouseDown += new System.Windows.Forms.MouseEventHandler(this.rtbChatBox_MouseDown);
             // 
             // tabChatPageFishing
             // 
@@ -659,6 +680,7 @@
             this.rtbFish.TabIndex = 1;
             this.rtbFish.TabStop = false;
             this.rtbFish.Text = "";
+            this.rtbFish.MouseDown += new System.Windows.Forms.MouseEventHandler(this.rtbChatBox_MouseDown);
             // 
             // tabChatPageTell
             // 
@@ -686,6 +708,7 @@
             this.rtbTell.TabStop = false;
             this.rtbTell.Text = "";
             this.rtbTell.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.rtbTell_LinkClicked);
+            this.rtbTell.MouseDown += new System.Windows.Forms.MouseEventHandler(this.rtbChatBox_MouseDown);
             // 
             // tabChatPageParty
             // 
@@ -712,6 +735,7 @@
             this.rtbParty.TabIndex = 1;
             this.rtbParty.Text = "";
             this.rtbParty.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.rtbParty_LinkClicked);
+            this.rtbParty.MouseDown += new System.Windows.Forms.MouseEventHandler(this.rtbChatBox_MouseDown);
             // 
             // tabChatPageLS
             // 
@@ -739,6 +763,7 @@
             this.rtbShell.TabStop = false;
             this.rtbShell.Text = "";
             this.rtbShell.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.rtbShell_LinkClicked);
+            this.rtbShell.MouseDown += new System.Windows.Forms.MouseEventHandler(this.rtbChatBox_MouseDown);
             // 
             // tabChatPageSay
             // 
@@ -766,6 +791,7 @@
             this.rtbSay.TabStop = false;
             this.rtbSay.Text = "";
             this.rtbSay.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.rtbSay_LinkClicked);
+            this.rtbSay.MouseDown += new System.Windows.Forms.MouseEventHandler(this.rtbChatBox_MouseDown);
             // 
             // tabChatPageDB
             // 
@@ -793,6 +819,7 @@
             this.rtbDB.TabStop = false;
             this.rtbDB.Text = "";
             this.rtbDB.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.rtbDB_LinkClicked);
+            this.rtbDB.MouseDown += new System.Windows.Forms.MouseEventHandler(this.rtbChatBox_MouseDown);
             // 
             // tabDisplayPageStats
             // 
@@ -834,6 +861,25 @@
             this.tabDisplayPageInfo.Size = new System.Drawing.Size(372, 202);
             this.tabDisplayPageInfo.TabIndex = 1;
             this.tabDisplayPageInfo.Text = "Info";
+            // 
+            // lblCaseSpace
+            // 
+            this.lblCaseSpace.AutoSize = true;
+            this.lblCaseSpace.Location = new System.Drawing.Point(80, 62);
+            this.lblCaseSpace.Name = "lblCaseSpace";
+            this.lblCaseSpace.Size = new System.Drawing.Size(28, 13);
+            this.lblCaseSpace.TabIndex = 18;
+            this.lblCaseSpace.Text = "-- / --";
+            // 
+            // lblCaseHeader
+            // 
+            this.lblCaseHeader.AutoSize = true;
+            this.lblCaseHeader.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCaseHeader.Location = new System.Drawing.Point(5, 62);
+            this.lblCaseHeader.Name = "lblCaseHeader";
+            this.lblCaseHeader.Size = new System.Drawing.Size(60, 12);
+            this.lblCaseHeader.TabIndex = 17;
+            this.lblCaseHeader.Text = "Mog Case:";
             // 
             // lblEarthTimeHeader
             // 
@@ -2051,6 +2097,17 @@
             this.gbExhaustedBait.TabStop = false;
             this.gbExhaustedBait.Text = "On Bait Exhausted";
             // 
+            // cbBaitItemizerCase
+            // 
+            this.cbBaitItemizerCase.AutoSize = true;
+            this.cbBaitItemizerCase.Enabled = false;
+            this.cbBaitItemizerCase.Location = new System.Drawing.Point(6, 53);
+            this.cbBaitItemizerCase.Name = "cbBaitItemizerCase";
+            this.cbBaitItemizerCase.Size = new System.Drawing.Size(74, 17);
+            this.cbBaitItemizerCase.TabIndex = 11;
+            this.cbBaitItemizerCase.Text = "Mog Case";
+            this.cbBaitItemizerCase.UseVisualStyleBackColor = true;
+            // 
             // cbBaitItemizerSatchel
             // 
             this.cbBaitItemizerSatchel.AutoSize = true;
@@ -2235,6 +2292,17 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "On Full Inventory";
             // 
+            // cbInventoryItemizerCase
+            // 
+            this.cbInventoryItemizerCase.AutoSize = true;
+            this.cbInventoryItemizerCase.Enabled = false;
+            this.cbInventoryItemizerCase.Location = new System.Drawing.Point(6, 53);
+            this.cbInventoryItemizerCase.Name = "cbInventoryItemizerCase";
+            this.cbInventoryItemizerCase.Size = new System.Drawing.Size(74, 17);
+            this.cbInventoryItemizerCase.TabIndex = 13;
+            this.cbInventoryItemizerCase.Text = "Mog Case";
+            this.cbInventoryItemizerCase.UseVisualStyleBackColor = true;
+            // 
             // tbFullactionOther
             // 
             this.tbFullactionOther.Enabled = false;
@@ -2361,6 +2429,36 @@
             this.cbInventoryItemizerItemTools.Text = "Itemizer/ItemTools";
             this.cbInventoryItemizerItemTools.UseVisualStyleBackColor = false;
             this.cbInventoryItemizerItemTools.CheckedChanged += new System.EventHandler(this.cbEnableItemizerItemTools_CheckedChanged);
+#if DEBUG
+            // 
+            // tabChatPageDebug
+            // 
+            this.tabChatPageDebug.Controls.Add(this.rtbDebug);
+            this.tabChatPageDebug.Location = new System.Drawing.Point(4, 21);
+            this.tabChatPageDebug.Name = "tabChatPageDebug";
+            this.tabChatPageDebug.Size = new System.Drawing.Size(367, 147);
+            this.tabChatPageDebug.TabIndex = 6;
+            this.tabChatPageDebug.Text = "Debug";
+            this.tabChatPageDebug.UseVisualStyleBackColor = true;
+            // 
+            // rtbDebug
+            // 
+            this.rtbDebug.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(23)))), ((int)(((byte)(23)))), ((int)(((byte)(23)))));
+            this.rtbDebug.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.rtbDebug.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.rtbDebug.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rtbDebug.ForeColor = System.Drawing.Color.White;
+            this.rtbDebug.Location = new System.Drawing.Point(0, 0);
+            this.rtbDebug.Margin = new System.Windows.Forms.Padding(0);
+            this.rtbDebug.Name = "rtbDebug";
+            this.rtbDebug.ReadOnly = true;
+            this.rtbDebug.Size = new System.Drawing.Size(367, 147);
+            this.rtbDebug.TabIndex = 1;
+            this.rtbDebug.TabStop = false;
+            this.rtbDebug.Text = "";
+            this.rtbDebug.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.rtbDebug_LinkClicked);
+            this.rtbDebug.MouseDown += new System.Windows.Forms.MouseEventHandler(this.rtbChatBox_MouseDown);
+#endif
             // 
             // timer
             // 
@@ -2429,46 +2527,65 @@
             this.progressBarST.Size = new System.Drawing.Size(100, 19);
             this.progressBarST.Click += new System.EventHandler(this.progressBarST_Click);
             // 
-            // lblCaseSpace
+            // contextMenuChatBoxes
             // 
-            this.lblCaseSpace.AutoSize = true;
-            this.lblCaseSpace.Location = new System.Drawing.Point(80, 62);
-            this.lblCaseSpace.Name = "lblCaseSpace";
-            this.lblCaseSpace.Size = new System.Drawing.Size(28, 13);
-            this.lblCaseSpace.TabIndex = 18;
-            this.lblCaseSpace.Text = "-- / --";
+            this.contextMenuChatBoxes.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.saveSelectedToolStripMenuItem,
+            this.saveLogToolStripMenuItem,
+            this.saveAllLogsToolStripMenuItem,
+#if DEBUG
+            this.toolStripSeparatorChatBoxes,
+            this.showDebugToolStripMenuItem,
+#endif
+#if TEST
+            this.testToolStripMenuItem
+#endif
+            });
+            this.contextMenuChatBoxes.Name = "contextMenuChatBoxes";
+            this.contextMenuChatBoxes.Size = new System.Drawing.Size(153, 142);
             // 
-            // lblCaseHeader
+            // saveSelectedToolStripMenuItem
             // 
-            this.lblCaseHeader.AutoSize = true;
-            this.lblCaseHeader.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCaseHeader.Location = new System.Drawing.Point(5, 62);
-            this.lblCaseHeader.Name = "lblCaseHeader";
-            this.lblCaseHeader.Size = new System.Drawing.Size(60, 12);
-            this.lblCaseHeader.TabIndex = 17;
-            this.lblCaseHeader.Text = "Mog Case:";
+            this.saveSelectedToolStripMenuItem.Name = "saveSelectedToolStripMenuItem";
+            this.saveSelectedToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.saveSelectedToolStripMenuItem.Text = "Save Selected";
             // 
-            // cbInventoryItemizerCase
+            // saveLogToolStripMenuItem
             // 
-            this.cbInventoryItemizerCase.AutoSize = true;
-            this.cbInventoryItemizerCase.Enabled = false;
-            this.cbInventoryItemizerCase.Location = new System.Drawing.Point(6, 53);
-            this.cbInventoryItemizerCase.Name = "cbInventoryItemizerCase";
-            this.cbInventoryItemizerCase.Size = new System.Drawing.Size(74, 17);
-            this.cbInventoryItemizerCase.TabIndex = 13;
-            this.cbInventoryItemizerCase.Text = "Mog Case";
-            this.cbInventoryItemizerCase.UseVisualStyleBackColor = true;
+            this.saveLogToolStripMenuItem.Name = "saveLogToolStripMenuItem";
+            this.saveLogToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.saveLogToolStripMenuItem.Text = "Save Log";
+            this.saveLogToolStripMenuItem.Click += new System.EventHandler(this.saveLogToolStripMenuItem_Click);
             // 
-            // cbBaitItemizerCase
+            // saveAllLogsToolStripMenuItem
             // 
-            this.cbBaitItemizerCase.AutoSize = true;
-            this.cbBaitItemizerCase.Enabled = false;
-            this.cbBaitItemizerCase.Location = new System.Drawing.Point(6, 53);
-            this.cbBaitItemizerCase.Name = "cbBaitItemizerCase";
-            this.cbBaitItemizerCase.Size = new System.Drawing.Size(74, 17);
-            this.cbBaitItemizerCase.TabIndex = 11;
-            this.cbBaitItemizerCase.Text = "Mog Case";
-            this.cbBaitItemizerCase.UseVisualStyleBackColor = true;
+            this.saveAllLogsToolStripMenuItem.Name = "saveAllLogsToolStripMenuItem";
+            this.saveAllLogsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.saveAllLogsToolStripMenuItem.Text = "Save All Logs";
+            this.saveAllLogsToolStripMenuItem.Click += new System.EventHandler(this.saveAllLogsToolStripMenuItem_Click);
+#if DEBUG
+            // 
+            // toolStripSeparatorChatBoxes
+            // 
+            this.toolStripSeparatorChatBoxes.Name = "toolStripSeparatorChatBoxes";
+            this.toolStripSeparatorChatBoxes.Size = new System.Drawing.Size(149, 6);
+            // 
+            // showDebugToolStripMenuItem
+            // 
+            this.showDebugToolStripMenuItem.Name = "showDebugToolStripMenuItem";
+            this.showDebugToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.showDebugToolStripMenuItem.Text = "Show Debug";
+            this.showDebugToolStripMenuItem.Click += new System.EventHandler(this.showDebugToolStripMenuItem_Click);
+#endif
+#if TEST
+            // 
+            // testToolStripMenuItem
+            // 
+            this.testToolStripMenuItem.Name = "testToolStripMenuItem";
+            this.testToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.testToolStripMenuItem.Text = "Test";
+            this.testToolStripMenuItem.Click += new System.EventHandler(this.testToolStripMenuItem_Click);
+#endif
             // 
             // FishingForm
             // 
@@ -2550,8 +2667,12 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numFullactionOtherTime)).EndInit();
+#if DEBUG
+            this.tabChatPageDebug.ResumeLayout(false);
+#endif
             this.statusStripMain.ResumeLayout(false);
             this.statusStripMain.PerformLayout();
+            this.contextMenuChatBoxes.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -2734,6 +2855,20 @@
         private System.Windows.Forms.Label lblCaseHeader;
         private System.Windows.Forms.CheckBox cbBaitItemizerCase;
         private System.Windows.Forms.CheckBox cbInventoryItemizerCase;
+        private System.Windows.Forms.TabPage tabChatPageDebug;
+        private System.Windows.Forms.RichTextBox rtbDebug;
+        private System.Windows.Forms.ContextMenuStrip contextMenuChatBoxes;
+        private System.Windows.Forms.ToolStripMenuItem saveLogToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem saveAllLogsToolStripMenuItem;
+#if DEBUG
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparatorChatBoxes;
+        private System.Windows.Forms.ToolStripMenuItem showDebugToolStripMenuItem;
+#endif
+#if TEST
+        private System.Windows.Forms.ToolStripMenuItem testToolStripMenuItem;
+#endif
+        private System.Windows.Forms.ToolStripMenuItem saveSelectedToolStripMenuItem;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog;
     }
 }
 
