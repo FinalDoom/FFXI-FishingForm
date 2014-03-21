@@ -4340,10 +4340,9 @@ namespace Fishing
             }
 #endif
 
-            MessageBox.Show(this, "Choose a base filename",
-                "Log names will be appended. eg." + Environment.NewLine + "" +
+            MessageBox.Show(this, "Log names will be appended. eg." + Environment.NewLine + "" +
                 "FF.rtf will result in FFLog.rtf, FFFish.rtf, FFTell.rtf, etc.",
-                MessageBoxButtons.OK, MessageBoxIcon.Information);
+                "Choose a base filename", MessageBoxButtons.OK, MessageBoxIcon.Information);
             saveFileDialog.Filter = "Rich Text Format|*.rtf|Plain UTF-8 Text|*.txt";
             saveFileDialog.DefaultExt = "rtf";
             saveFileDialog.Title = "Save Logs";
