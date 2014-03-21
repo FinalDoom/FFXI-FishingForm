@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
@@ -75,7 +76,7 @@ namespace Fishing
         private const string EquipFormatWaist = "/equip waist \"{0}\"";
         private const string EquipFormatLRing = "/equip ring1 \"{0}\"";
         private const string EquipFormatRRing = "/equip ring2 \"{0}\"";
-        private const string FormatTimestampDB = "[hh:mm:ss] ";
+        private const string FormatLogTimestamp = "[hh:mm:ss] ";
         private const string FormatTimestampVanaMinute = "00";
         private const string FormatTimestampEarthTime = "MMM. d, yyyy h:mm:ss tt";
         private const string FormatProgramTitleNoChar = "FishingForm v{0}-mC-FD";
@@ -119,6 +120,7 @@ namespace Fishing
         private static Thread workerThread;
         private static SizeF currentScaleFactor = new SizeF(1f, 1f);
         private static FishingFormDBLogger DBLogger;
+        private static DebugLogger DebugLog;
         private static bool ItemizerAvailable = false;
         private static bool ItemToolsAvailable = false;
 
@@ -211,6 +213,8 @@ namespace Fishing
 
             timer.Enabled = true;
 
+            #region ToolTips
+
             toolTip.SetToolTip(btnRefreshLists, "Refreshes the Wanted / Unwanted lists from your database, based on currently equipped rod / bait / zone." + Environment.NewLine + "If there are no entries after pressing this button, your database has no entries for the current combination.");
             toolTip.SetToolTip(btnCastReset, "Reset cast wait to 3.0/3.5. This is a quick reset if you become fatigued and rezone.");
             toolTip.SetToolTip(btnResize, "Resize chat log to fill dialog, click again to restore (will automatically restore if fishing terminates).");
@@ -270,6 +274,10 @@ namespace Fishing
             toolTip.SetToolTip(cbSkillCap, "Stop when skill reaches specified level.");
             toolTip.SetToolTip(cbChatDetect, "Uncheck to disable all chat detectors set below.");
 
+            #endregion //ToolTips
+
+            #region Gear
+
             tbBaitGear.Items.AddRange(Dictionaries.baitList.ToArray());
             tbRodGear.Items.AddRange(Dictionaries.rodList.ToArray());
             tbBodyGear.Items.AddRange(Dictionaries.gearList.GetRange(Dictionaries.bodyIndex, Dictionaries.bodyCount).ToArray());
@@ -282,8 +290,41 @@ namespace Fishing
             tbLRingGear.Items.AddRange(Dictionaries.gearList.GetRange(Dictionaries.ringsIndex, Dictionaries.ringsCount).ToArray());
             tbRRingGear.Items.AddRange(Dictionaries.gearList.GetRange(Dictionaries.ringsIndex, Dictionaries.ringsCount).ToArray());
 
+            #endregion //Gear
+            
             FishDB.OnChanged += new FishDB.DBChanged(PopulateLists);
             FishStats.OnChanged += new FishStats.FishStatsChanged(UpdateStats);
+
+            #region DebugLogging
+
+            DebugLog = new DebugLogger((string message, Color color) => 
+#if DEBUG
+                rtbDebug.UIThread(() =>
+            {
+                try
+                {
+                    rtbDebug.SelectionStart = rtbDebug.Text.Length;
+                    rtbDebug.SelectionColor = Color.SlateBlue;
+                    rtbDebug.SelectedText = DateTime.Now.ToString(FormatLogTimestamp);
+                    rtbDebug.SelectionColor = color;
+                    rtbDebug.SelectedText = message + Environment.NewLine;
+                    rtbDebug.SelectionStart = rtbDebug.Text.Length - 1;
+                    rtbDebug.ScrollToCaret();
+                }
+                catch (ArgumentOutOfRangeException)
+                {
+                }
+            })
+#else
+            { }
+#endif
+            );
+
+            #endregion //DebugLogging
+
+            #endregion //FormElements
+
+            #region Database
 
             DBLogger = new FishingFormDBLogger(this);
             FishSQL.StatusDisplay = DBLogger;
@@ -291,8 +332,8 @@ namespace Fishing
             databaseInitThread.IsBackground = true;
             databaseInitThread.Start();
 
+            #endregion //Database
 
-            #endregion //FormElements
         }
         ~FishingForm()
         {
@@ -2670,7 +2711,7 @@ namespace Fishing
                 {
                     rtbDB.SelectionStart = rtbDB.Text.Length;
                     rtbDB.SelectionColor = Color.SlateBlue;
-                    rtbDB.SelectedText = DateTime.Now.ToString(FormatTimestampDB);
+                    rtbDB.SelectedText = DateTime.Now.ToString(FormatLogTimestamp);
                     rtbDB.SelectionColor = Color.White;
                     rtbDB.SelectedText = line + Environment.NewLine;
                     rtbDB.SelectionStart = rtbDB.Text.Length - 1;
@@ -3690,6 +3731,13 @@ namespace Fishing
             Process.Start(e.LinkText);
         }
 
+#if DEBUG
+        private void rtbDebug_LinkClicked(object sender, LinkClickedEventArgs e)
+        {
+            Process.Start(e.LinkText);
+        }
+#endif
+
         private void btnRefreshLists_Click(object sender, EventArgs e)
         {
             if (IsRodBaitSet())
@@ -4245,6 +4293,212 @@ namespace Fishing
         }
 
         #endregion //Events_Wanted/UnwantedLists
+
+        #region Events_ChatLogs
+
+        private void rtbChatBox_MouseDown(object sender, MouseEventArgs e)
+        {
+            RichTextBox rtb = (RichTextBox) sender;
+            saveSelectedToolStripMenuItem.Visible = rtb.SelectionLength > 0;
+            
+            if (MouseButtons.Right == e.Button)
+            {
+                rtb.ContextMenuStrip = contextMenuChatBoxes;
+            }
+        }
+
+        private void saveLogToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ToolStripMenuItem tsi = (ToolStripMenuItem) sender;
+            ContextMenuStrip cms = (ContextMenuStrip) tsi.Owner;
+            RichTextBox rtb = (RichTextBox) cms.SourceControl;
+
+            saveFileDialog.Filter = "Rich Text Format|*.rtf|Plain UTF-8 Text|*.txt";
+            saveFileDialog.DefaultExt = "rtf";
+            saveFileDialog.Title = "Save " + ((TabPage) rtb.Parent).Text + " Log";
+
+            if (saveFileDialog.ShowDialog() == DialogResult.OK && saveFileDialog.FileName.Length > 0)
+            {
+                saveLog(rtb, saveFileDialog.FileName);
+            }
+        }
+
+        private void saveAllLogsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            List<RichTextBox> rtbs = new List<RichTextBox> {
+                rtbChat,
+                rtbFish,
+                rtbTell,
+                rtbParty,
+                rtbShell,
+                rtbSay
+            };
+#if DEBUG
+            if (showDebugToolStripMenuItem.Checked)
+            {
+                rtbs.Add(rtbDebug);
+            }
+#endif
+
+            MessageBox.Show(this, "Choose a base filename",
+                "Log names will be appended. eg." + Environment.NewLine + "" +
+                "FF.rtf will result in FFLog.rtf, FFFish.rtf, FFTell.rtf, etc.",
+                MessageBoxButtons.OK, MessageBoxIcon.Information);
+            saveFileDialog.Filter = "Rich Text Format|*.rtf|Plain UTF-8 Text|*.txt";
+            saveFileDialog.DefaultExt = "rtf";
+            saveFileDialog.Title = "Save Logs";
+
+            if (saveFileDialog.ShowDialog() == DialogResult.OK && saveFileDialog.FileName.Length > 0)
+            {
+                string baseName = Path.GetDirectoryName(saveFileDialog.FileName) + Path.DirectorySeparatorChar + Path.GetFileNameWithoutExtension(saveFileDialog.FileName);
+                string extName = Path.GetExtension(saveFileDialog.FileName);
+                foreach (RichTextBox rtb in rtbs)
+                {
+                    DBLogger.Info(baseName + ((TabPage)rtb.Parent).Text + extName);
+                    saveLog(rtb, baseName + ((TabPage)rtb.Parent).Text + extName);
+                }
+            }
+        }
+
+        private void saveLog(RichTextBox rtb, string fileName)
+        {
+            if (Path.GetExtension(fileName) == ".rtf")
+            {
+                rtb.SaveFile(fileName, RichTextBoxStreamType.RichText);
+            }
+            else if (Path.GetExtension(fileName) == ".txt")
+            {
+                rtb.SaveFile(fileName, RichTextBoxStreamType.UnicodePlainText);
+            }
+        }
+
+#if DEBUG
+        private void showDebugToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            showDebugToolStripMenuItem.Checked = !showDebugToolStripMenuItem.Checked;
+            if (showDebugToolStripMenuItem.Checked)
+            {
+                this.tabChat.Controls.Add(this.tabChatPageDebug);
+            }
+            else
+            {
+                if (this.tabChat.SelectedTab == this.tabChatPageDebug)
+                {
+                    this.tabChat.SelectedTab = this.tabChatPageDB;
+                }
+                this.tabChat.Container.Remove(this.tabChatPageDebug);
+            }
+        }
+#endif
+#if TEST
+
+        private string stupidIpsum()
+        {
+            var words = new[]
+            {
+                "lorem", "ipsum", "dolor", "sit", "amet", "consectetuer",
+                "adipiscing", "elit", "sed", "diam", "nonummy", "nibh", "euismod",
+                "tincidunt", "ut", "laoreet", "dolore", "magna", "aliquam", "erat"
+            };
+
+            int numSentences = rnd.Next(2 - 1)
+                               + 1 + 1;
+            int numWords = rnd.Next(10 - 1) + 1 + 1;
+
+            string result = string.Empty;
+
+            for (int p = 0; p < 1; p++)
+            {
+                for (int s = 0; s < numSentences; s++)
+                {
+                    for (int w = 0; w < numWords; w++)
+                    {
+                        if (w > 0)
+                        {
+                            result += " ";
+                        }
+                        result += words[rnd.Next(words.Length)];
+                    }
+                    result += ". ";
+                }
+            }
+            return result;
+        }
+
+        private void testToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            int j = 0;
+            KnownColor[] colorNames = (KnownColor[])Enum.GetValues(typeof(KnownColor));
+            foreach (ChatMode type in new ChatMode[]
+            {
+                ChatMode.FishObtained, ChatMode.FishResult,
+                ChatMode.SentParty, ChatMode.RcvdParty, ChatMode.SentSay, ChatMode.RcvdSay, ChatMode.SentLinkShell,
+                ChatMode.RcvdLinkShell, ChatMode.SentTell, ChatMode.RcvdTell
+            })
+            {
+                foreach (int i in Enumerable.Range(0, 4))
+                {
+                    FFACE.ChatTools.ChatLine cl = new FFACE.ChatTools.ChatLine();
+                    cl.Text = stupidIpsum(); 
+                    KnownColor randomColorName = colorNames[rnd.Next(colorNames.Length)];
+                    cl.Color = Color.FromKnownColor(randomColorName);
+                    cl.Now = DateTime.Now.AddSeconds(j * 4 + i).ToString(FormatLogTimestamp);
+                    cl.Type = type;
+                    FishChat.chatLog.Insert(0, cl);
+                    FishChat.chatLogAdded++;
+
+                    switch (cl.Type)
+                    {
+                        case ChatMode.FishObtained:
+                        case ChatMode.FishResult:
+                            FishChat.fishLog.Insert(0, cl);
+                            FishChat.fishLogAdded++;
+                            break;
+                        case ChatMode.SentParty:
+                        case ChatMode.RcvdParty:
+                            FishChat.partyLog.Insert(0, cl);
+                            FishChat.partyLogAdded++;
+                            break;
+                        case ChatMode.SentSay:
+                        case ChatMode.RcvdSay:
+                            FishChat.sayLog.Insert(0, cl);
+                            FishChat.sayLogAdded++;
+                            break;
+                        case ChatMode.SentLinkShell:
+                        case ChatMode.RcvdLinkShell:
+                            FishChat.shellLog.Insert(0, cl);
+                            FishChat.shellLogAdded++;
+                            break;
+                        case ChatMode.SentTell:
+                        case ChatMode.RcvdTell:
+                            FishChat.tellLog.Insert(0, cl);
+                            FishChat.tellLogAdded++;
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                ++j;
+            }
+                
+            UpdateChatLogs(rtbChat, FishChat.chatLog, FishChat.chatLogAdded);
+            UpdateChatLogs(rtbFish, FishChat.fishLog, FishChat.fishLogAdded);
+            UpdateChatLogs(rtbTell, FishChat.tellLog, FishChat.tellLogAdded);
+            UpdateChatLogs(rtbParty, FishChat.partyLog, FishChat.partyLogAdded);
+            UpdateChatLogs(rtbShell, FishChat.shellLog, FishChat.shellLogAdded);
+            UpdateChatLogs(rtbSay, FishChat.sayLog, FishChat.sayLogAdded);
+
+            DBLogger.Info(stupidIpsum());
+            DBLogger.Info(stupidIpsum());
+            DBLogger.Warning(stupidIpsum());
+            DBLogger.Warning(stupidIpsum());
+            DBLogger.Error(stupidIpsum());
+            DBLogger.Error(stupidIpsum());
+        }
+
+#endif
+
+        #endregion //Events_ChatLogs
 
         #endregion //Events
 
