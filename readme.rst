@@ -60,6 +60,7 @@ Features
 	- Syncs silently at application start
 	- Syncs silently after a few new fish are caught
 	- Get bait from and move fish to mog case
+	- Save chat or fishing logs (or all of them)
 
 - Includes fface (current as of this post)
 - Includes ffacetools (current as of this post)
@@ -242,6 +243,11 @@ noted rod. Some rods do not have any data, so the default value remains.
 -------
 Changes
 -------
+
+1.7.1.5
+-------
+- Fix: Fishing status is correct now, hopefully program isn't broken
+- Feature: Can now right click and save logs
 
 1.7.1.4
 -------
