@@ -608,6 +608,7 @@
             this.tabChat.Controls.Add(this.tabChatPageLS);
             this.tabChat.Controls.Add(this.tabChatPageSay);
             this.tabChat.Controls.Add(this.tabChatPageDB);
+            this.tabChat.Controls.Add(this.tabChatPageDebug);
             this.tabChat.Location = new System.Drawing.Point(0, 22);
             this.tabChat.Margin = new System.Windows.Forms.Padding(0);
             this.tabChat.Multiline = true;
@@ -2838,15 +2839,11 @@
         private System.Windows.Forms.ContextMenuStrip contextMenuChatBoxes;
         private System.Windows.Forms.ToolStripMenuItem saveLogToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveAllLogsToolStripMenuItem;
-#if DEBUG
         private System.Windows.Forms.TabPage tabChatPageDebug;
         private System.Windows.Forms.RichTextBox rtbDebug;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparatorChatBoxes;
         private System.Windows.Forms.ToolStripMenuItem showDebugToolStripMenuItem;
-#endif
-#if TEST
         private System.Windows.Forms.ToolStripMenuItem testToolStripMenuItem;
-#endif
         private System.Windows.Forms.ToolStripMenuItem saveSelectedToolStripMenuItem;
         private System.Windows.Forms.SaveFileDialog saveFileDialog;
     }
