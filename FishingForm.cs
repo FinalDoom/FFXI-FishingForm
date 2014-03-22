@@ -4391,37 +4391,24 @@ namespace Fishing
 #endif
 #if TEST
 
-        private string stupidIpsum()
+        private readonly List<string> fishWords = new List<string>();  
+        private readonly string[] fishPhrases =
         {
-            var words = new[]
+            "Found a {0}!", "Caught seventy billion {0}!!!", "Dropped a {0}.",
+            "Hey, I got a {0}, want it?", "{0}が有ります。", "私は{0}見た", "{0}～すごいいね～",
+            "{0}が食べ物ですか？"
+        };
+
+        private string fishyIpsum()
+        {
+            if (fishWords.Count == 0)
             {
-                "lorem", "ipsum", "dolor", "sit", "amet", "consectetuer",
-                "adipiscing", "elit", "sed", "diam", "nonummy", "nibh", "euismod",
-                "tincidunt", "ut", "laoreet", "dolore", "magna", "aliquam", "erat"
-            };
-
-            int numSentences = rnd.Next(2 - 1)
-                               + 1 + 1;
-            int numWords = rnd.Next(10 - 1) + 1 + 1;
-
-            string result = string.Empty;
-
-            for (int p = 0; p < 1; p++)
-            {
-                for (int s = 0; s < numSentences; s++)
-                {
-                    for (int w = 0; w < numWords; w++)
-                    {
-                        if (w > 0)
-                        {
-                            result += " ";
-                        }
-                        result += words[rnd.Next(words.Length)];
-                    }
-                    result += ". ";
-                }
+                // Initialize From the FishDic Dictionaries
+                fishWords.AddRange(Dictionaries.baitDictionary.Keys);
+                fishWords.AddRange(Dictionaries.fishDictionary.Keys);
             }
-            return result;
+
+            return string.Format(fishPhrases[rnd.Next(fishPhrases.Length)], fishWords[rnd.Next(fishWords.Count)]);
         }
 
         private void testToolStripMenuItem_Click(object sender, EventArgs e)
@@ -4438,7 +4425,7 @@ namespace Fishing
                 foreach (int i in Enumerable.Range(0, 4))
                 {
                     FFACE.ChatTools.ChatLine cl = new FFACE.ChatTools.ChatLine();
-                    cl.Text = stupidIpsum(); 
+                    cl.Text = fishyIpsum(); 
                     KnownColor randomColorName = colorNames[rnd.Next(colorNames.Length)];
                     cl.Color = Color.FromKnownColor(randomColorName);
                     cl.Now = DateTime.Now.AddSeconds(j * 4 + i).ToString(FormatLogTimestamp);
@@ -4487,12 +4474,12 @@ namespace Fishing
             UpdateChatLogs(rtbShell, FishChat.shellLog, FishChat.shellLogAdded);
             UpdateChatLogs(rtbSay, FishChat.sayLog, FishChat.sayLogAdded);
 
-            DBLogger.Info(stupidIpsum());
-            DBLogger.Info(stupidIpsum());
-            DBLogger.Warning(stupidIpsum());
-            DBLogger.Warning(stupidIpsum());
-            DBLogger.Error(stupidIpsum());
-            DBLogger.Error(stupidIpsum());
+            DBLogger.Info(fishyIpsum());
+            DBLogger.Info(fishyIpsum());
+            DBLogger.Warning(fishyIpsum());
+            DBLogger.Warning(fishyIpsum());
+            DBLogger.Error(fishyIpsum());
+            DBLogger.Error(fishyIpsum());
         }
 
 #endif
