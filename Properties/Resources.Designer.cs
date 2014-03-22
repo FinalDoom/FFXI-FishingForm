@@ -348,6 +348,51 @@ namespace Fishing.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Done!.
+        /// </summary>
+        internal static string DBSyncMessageDone {
+            get {
+                return ResourceManager.GetString("DBSyncMessageDone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Downloading {0}:.
+        /// </summary>
+        internal static string DBSyncMessageFormatDownloading {
+            get {
+                return ResourceManager.GetString("DBSyncMessageFormatDownloading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Renaming {0} to {1}.
+        /// </summary>
+        internal static string DBSyncMessageFormatRenaming {
+            get {
+                return ResourceManager.GetString("DBSyncMessageFormatRenaming", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Uploading {0}:.
+        /// </summary>
+        internal static string DBSyncMessageFormatUploading {
+            get {
+                return ResourceManager.GetString("DBSyncMessageFormatUploading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Starting Sync....
+        /// </summary>
+        internal static string DBSyncMessageStart {
+            get {
+                return ResourceManager.GetString("DBSyncMessageStart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Char similar to !.
         /// </summary>
         internal static char Exclamation {
@@ -655,6 +700,15 @@ namespace Fishing.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} / {1} ({2} released).
+        /// </summary>
+        internal static string GUIFormatNoCatch {
+            get {
+                return ResourceManager.GetString("GUIFormatNoCatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Save {0} Log.
         /// </summary>
         internal static string GUIFormatSaveLog {
@@ -696,6 +750,15 @@ namespace Fishing.Properties {
         internal static string GUISaveLogs {
             get {
                 return ResourceManager.GetString("GUISaveLogs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Choose a Base Filename.
+        /// </summary>
+        internal static string GUISaveLogsTitle {
+            get {
+                return ResourceManager.GetString("GUISaveLogsTitle", resourceCulture);
             }
         }
         
@@ -810,6 +873,33 @@ namespace Fishing.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ERROR: {0}.
+        /// </summary>
+        internal static string MessageFormatError {
+            get {
+                return ResourceManager.GetString("MessageFormatError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Info: {0}.
+        /// </summary>
+        internal static string MessageFormatInfo {
+            get {
+                return ResourceManager.GetString("MessageFormatInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to WARNING: {0}.
+        /// </summary>
+        internal static string MessageFormatWarning {
+            get {
+                return ResourceManager.GetString("MessageFormatWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Do you really want to reset the settings?.
         /// </summary>
         internal static string MessageSettingsReset {
@@ -830,9 +920,9 @@ namespace Fishing.Properties {
         /// <summary>
         ///   Looks up a localized string similar to FishingForm Error.
         /// </summary>
-        internal static string MessageTitleError {
+        internal static string MessageTitleFishingFormError {
             get {
-                return ResourceManager.GetString("MessageTitleError", resourceCulture);
+                return ResourceManager.GetString("MessageTitleFishingFormError", resourceCulture);
             }
         }
         
@@ -860,6 +950,33 @@ namespace Fishing.Properties {
         internal static string MessageTitleSettingsSave {
             get {
                 return ResourceManager.GetString("MessageTitleSettingsSave", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ERROR.
+        /// </summary>
+        internal static string MessageTitleSyncFormError {
+            get {
+                return ResourceManager.GetString("MessageTitleSyncFormError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Info.
+        /// </summary>
+        internal static string MessageTitleSyncFormInfo {
+            get {
+                return ResourceManager.GetString("MessageTitleSyncFormInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to WARNING.
+        /// </summary>
+        internal static string MessageTitleSyncFormWarning {
+            get {
+                return ResourceManager.GetString("MessageTitleSyncFormWarning", resourceCulture);
             }
         }
         

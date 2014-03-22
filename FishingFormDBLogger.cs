@@ -1,18 +1,10 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Linq;
-using System.Text;
-using System.Threading;
-
-namespace Fishing
+﻿namespace Fishing
 {
     internal class FishingFormDBLogger : IFishDBStatusDisplay
     {
         private const int SpamThreshold = 10;
 
-        private FishingForm form;
+        private readonly FishingForm form;
         private bool InTransaction = false;
         private int uploadFish;
         private int uploadingFish = 0;
@@ -20,7 +12,6 @@ namespace Fishing
         private string currentRod = string.Empty;
         private int downloadFish;
         private int downloadingFish = 0;
-        private string currentFish = string.Empty;
 
         public FishingFormDBLogger(FishingForm f)
         {

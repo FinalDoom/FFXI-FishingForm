@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Media;
@@ -56,7 +56,7 @@ namespace Fishing
         };
 
         // These constants should never change--Don't use for language dependent strings
-        private static readonly char[] ExtensionSeparator = new char[] {'.'};
+        private static readonly char[] ExtensionSeparator = {'.'};
 
         private const string DllNameFFACE = "FFACE.dll";
         private const string DllNameHook = "hook.dll";
@@ -104,7 +104,6 @@ namespace Fishing
         private const string FormatFishHP = "{0}/{1} [{2}s]";
         private const string GUIChatDetectButtonAdd = "+";
         private const string GUIChatDetectButtonRemove = "-";
-        private const string GUIFormatNoCatch = "{0} / {1}";
         private const string GUILblBlank = "--";
         private const string GUIFormatLblBait = "{0} [{1}]";
         private const string GUIFormatLblSkillDecimal = " (.{0})";
@@ -213,7 +212,7 @@ namespace Fishing
 
         #region Constructor/Destructor
 
-        internal FishingForm(string[] arglist)
+        internal FishingForm(IEnumerable<string> arglist)
         {
             InitializeComponent();
 
@@ -226,7 +225,7 @@ namespace Fishing
 
             if (args.Count > 1)
             {
-                if (args[1].ToLower() == Resources.ArgumentStart) { btnStart_Click(btnStart, MouseEventArgs.Empty); }
+                if (args[1].ToLower() == Resources.ArgumentStart) { btnStart_Click(btnStart, EventArgs.Empty); }
             }
 
             #region FormElements
@@ -348,8 +347,7 @@ namespace Fishing
 
             DBLogger = new FishingFormDBLogger(this);
             FishSQL.StatusDisplay = DBLogger;
-            Thread databaseInitThread = new Thread(new ThreadStart(CheckDatabase));
-            databaseInitThread.IsBackground = true;
+            Thread databaseInitThread = new Thread(new ThreadStart(CheckDatabase)) {IsBackground = true};
             databaseInitThread.Start();
 
             #endregion //Database
@@ -505,7 +503,7 @@ namespace Fishing
         /// <param name="characterName">Character name on desired process</param>
 		private void ChooseProcess(string characterName)
 		{
-            using (ProcessSelector ChooseProcess = new ProcessSelector())
+            using (ProcessSelector chooseProcess = new ProcessSelector())
             {
                 if (characterName != null && characterName != Resources.ArgumentNoArgs)
                 {
@@ -513,16 +511,16 @@ namespace Fishing
                     {
                         if (Process.GetProcessesByName(ProcessPOLName)[i].MainWindowTitle == characterName)
                         {
-                            ChooseProcess.ThisProcess = new ProcessSelector.POLProcess(Process.GetProcessesByName(ProcessPOLName)[i].Id, Process.GetProcessesByName(ProcessPOLName)[i].MainWindowTitle);
+                            chooseProcess.ThisProcess = new ProcessSelector.POLProcess(Process.GetProcessesByName(ProcessPOLName)[i].Id, Process.GetProcessesByName(ProcessPOLName)[i].MainWindowTitle);
                             break;
                         }
                     }
                 }
-                if (!ChooseProcess.error && null == ChooseProcess.ThisProcess)
+                if (!chooseProcess.error && null == chooseProcess.ThisProcess)
                 {
-                    ChooseProcess.ShowDialog();
+                    chooseProcess.ShowDialog();
                 }
-				if (null == ChooseProcess.ThisProcess)
+				if (null == chooseProcess.ThisProcess)
 				{
 					_FFACE = null;
 					_Player = null;
@@ -535,17 +533,17 @@ namespace Fishing
 
                 try   //if you can't create an instance, there's probably no FFACE.dll, or an old FFACE version
                 {
-                    _FFACE = new FFACE(ChooseProcess.ThisProcess.POLID);
+                    _FFACE = new FFACE(chooseProcess.ThisProcess.POLID);
                     _Player = new FFACE.PlayerTools(_FFACE._InstanceID);
                     playerChatLinkshell = new Regex(string.Format(RegexFormatChatLinkshell, _Player.Name));
                     playerChatParty = new Regex(string.Format(RegexFormatChatParty, _Player.Name));
                     playerChatSay = new Regex(string.Format(RegexFormatChatSay, _Player.Name));
                     FileVersionInfo ver = FileVersionInfo.GetVersionInfo(ProgramExeName);
-                    this.Text = string.Format(FormatProgramTitleLoggedIn, ver.FileVersion, ChooseProcess.ThisProcess.POLName);
+                    this.Text = string.Format(FormatProgramTitleLoggedIn, ver.FileVersion, chooseProcess.ThisProcess.POLName);
 
                     //windower path
                     //_FFACE = new FFACE((int)PID);
-                    Process pol = Process.GetProcessById((int)ChooseProcess.ThisProcess.POLID);
+                    Process pol = Process.GetProcessById(chooseProcess.ThisProcess.POLID);
                     foreach (ProcessModule mod in pol.Modules)
                     {
                         if (mod.ModuleName.ToLower() == DllNameHook)
@@ -577,21 +575,21 @@ namespace Fishing
                 {
                     if (File.Exists(Path.Combine(Application.StartupPath, DllNameFFACE)))
                     {
-                        MessageBox.Show(Resources.MessageErrorAdministratorNeeded, Resources.MessageTitleError);
+                        MessageBox.Show(Resources.MessageErrorAdministratorNeeded, Resources.MessageTitleFishingFormError);
                     }
                     else
                     {
-                        MessageBox.Show(Resources.MessageErrorFFACEMissing, Resources.MessageTitleError);
+                        MessageBox.Show(Resources.MessageErrorFFACEMissing, Resources.MessageTitleFishingFormError);
                     }
                     Environment.Exit(0);
                 }
                 catch (EntryPointNotFoundException)   //occurs when 'CreateInstance' entry point in FFACE.dll cannot be found
                 {
-                    MessageBox.Show(string.Join(Environment.NewLine, MessageErrorFFACEVersion), Resources.MessageTitleError);
+                    MessageBox.Show(string.Join(Environment.NewLine, MessageErrorFFACEVersion), Resources.MessageTitleFishingFormError);
                     Environment.Exit(0);
                 }
 
-                _Process = ChooseProcess.ThisProcess;  //store instanced property for possible need to Reattach()
+                _Process = chooseProcess.ThisProcess;  //store instanced property for possible need to Reattach()
 
             }
 		}
@@ -858,12 +856,7 @@ namespace Fishing
         /// <returns>True the statuseffect is active</returns>
         private static bool IsStatusEffectActive(StatusEffect seffect)
         {
-            foreach (var statuseffects in _FFACE.Player.StatusEffects)
-            {
-                if (statuseffects == seffect)
-                    return true;
-            }
-            return false;
+            return _FFACE.Player.StatusEffects.Any(statuseffects => statuseffects == seffect);
         } // @ private bool IsSneakActive()
 
         /// <summary>
@@ -908,7 +901,6 @@ namespace Fishing
             string strQuest = string.Format(Resources.ChatFormatQuestBox, strPlayerName);
             string strInvFull = string.Format(Resources.ChatFormatInventoryFull, strPlayerName);
             bool foundMatch = false;
-            bool caughtmonster = false;
 
             while (false == foundMatch)
             {
@@ -931,7 +923,6 @@ namespace Fishing
                             strNewFish = Resources.FishNameMonster;
                             result = FishResult.Monster;
                             foundMatch = true;
-                            caughtmonster = true;
                             break;
                         }
 
@@ -1020,14 +1011,6 @@ namespace Fishing
                     }
                 }
                 Thread.Sleep(100);
-            }
-
-            // [Fix] Stop on no bait or caught a monster
-            if (caughtmonster)
-            {
-                // TODO What is/was this clause for?
-                caughtmonster = false;
-                //Stop(false, "Monster Caught!!!");
             }
 
             if (Resources.FishNameUnknown == currentFish)
@@ -1354,9 +1337,9 @@ namespace Fishing
                 {
                     bool isNewFish;
                     FFACE.FishTools.FishID currentID = _FFACE.Fish.ID;
-                    string ID1 = currentID.ID1.ToString();
-                    string ID2 = currentID.ID2.ToString();
-                    string ID3 = currentID.ID3.ToString();
+                    string ID1 = currentID.ID1.ToString(CultureInfo.InvariantCulture);
+                    string ID2 = currentID.ID2.ToString(CultureInfo.InvariantCulture);
+                    string ID3 = currentID.ID3.ToString(CultureInfo.InvariantCulture);
                     bool fishAccepted = FishDB.FishAccepted(out currentFish, out isNewFish, cbCatchUnknown.Checked, LastRodName, lblZone.Text, LastBaitName, ID1, ID2, ID3);
 
                     SetNoCatch(consecutiveNoCatchCount = 0);
@@ -1966,7 +1949,7 @@ namespace Fishing
         /// Releases the current instance of FFACETools,
         /// then reattaches to the originally chosen PID.
         /// </summary>
-        public void Reattach()
+        private void Reattach()
         {
             bool wasFishing = Resources.GUIButtonStop == btnStart.Text;
 
@@ -2045,8 +2028,7 @@ namespace Fishing
                 CheckEnchantment();
 
                 ts = new ThreadStart(BackgroundFishing);
-                workerThread = new Thread(ts);
-                workerThread.IsBackground = true;
+                workerThread = new Thread(ts) {IsBackground = true};
                 workerThread.Start();
 
                 btnStart.Text = Resources.GUIButtonStop;
@@ -2472,7 +2454,7 @@ namespace Fishing
         {
             this.UIThread(delegate
             {
-                lblNoCatchAt.Text = string.Format(GUIFormatNoCatch, consecutiveNoCatchCount, numMaxNoCatch.Value);
+                lblNoCatchAt.Text = string.Format(Resources.GUIFormatNoCatch, consecutiveNoCatchCount, numMaxNoCatch.Value, releases);
             });
         } // @ private void SetNoCatch(int releases)
 
@@ -2661,10 +2643,9 @@ namespace Fishing
             // Do any custom say actions
             if (cbChatDetect.Checked && actions > 0)
             {
-                string testLine;
                 for (int i = newCount - 1; i >= 0; --i)
                 {
-                    testLine = chatLines[i].Text;
+                    string testLine = chatLines[i].Text;
                     if (testPrefix.IsMatch(testLine))
                     {
                         if ((actions & (int)ChatAction.Stop) == (int)ChatAction.Stop)
@@ -2771,7 +2752,7 @@ namespace Fishing
         /// <summary>
         /// Helper method. Scale a Y position coordinate based on recorded scaling factors.
         /// </summary>
-        /// <param name="width">Y coordinate to scale</param>
+        /// <param name="height">Y coordinate to scale</param>
         /// <returns>Scaled Y coordinate</returns>
         private int ScaleHeight(int height)
         {
@@ -3018,11 +2999,10 @@ namespace Fishing
 
         #region Events_Chat
 
-        private const int bufferSize = 20;
-        private const string GUISaveLogsTitle = "Choose a base filename";
+        private const int BufferSize = 20;
         private static int bufferPosition = 0;
         private static Regex allSpaces = new Regex(RegexAllSpaces);
-        private static List<string> chatBuffer = new List<string>(bufferSize);
+        private static List<string> chatBuffer = new List<string>(BufferSize);
 
         private void btnChatSend_Click(object sender, EventArgs e)
         {
@@ -3031,16 +3011,16 @@ namespace Fishing
                 SetStatus(Resources.StatusInfoNoProcess);
                 return;
             }
-            if ((0 < tbChat.Text.Length) && (!tbChat.Text.Equals(allSpaces)))
+            if ((0 < tbChat.Text.Length) && (!allSpaces.IsMatch(tbChat.Text)))
             {
                 _FFACE.Windower.SendString(tbChat.Text);
                 chatBuffer.Insert(0, tbChat.Text);
                 bufferPosition = 0;
                 tbChat.Clear();
 
-                if (chatBuffer.Count > bufferSize)
+                if (chatBuffer.Count > BufferSize)
                 {
-                    chatBuffer.RemoveRange(bufferSize, (chatBuffer.Count - bufferSize));
+                    chatBuffer.RemoveRange(BufferSize, (chatBuffer.Count - BufferSize));
                     chatBuffer.TrimExcess();
                 }
             }
@@ -3056,7 +3036,7 @@ namespace Fishing
                     switch (bufferPosition)
                     {
                         case 0:
-                            if ((0 < tbChat.Text.Length) && (!tbChat.Text.Equals(allSpaces)))
+                            if ((0 < tbChat.Text.Length) && (!allSpaces.IsMatch(tbChat.Text)))
                             {
                                 chatBuffer.Insert(0, tbChat.Text);
                                 tbChat.Text = chatBuffer[(bufferPosition + 1)];
@@ -3068,14 +3048,14 @@ namespace Fishing
                                 bufferPosition++;
                             }
 
-                            if (chatBuffer.Count > bufferSize)
+                            if (chatBuffer.Count > BufferSize)
                             {
-                                chatBuffer.RemoveRange(bufferSize, (chatBuffer.Count - bufferSize));
+                                chatBuffer.RemoveRange(BufferSize, (chatBuffer.Count - BufferSize));
                                 chatBuffer.TrimExcess();
                             }
 
                             break;
-                        case (bufferSize - 1):
+                        case (BufferSize - 1):
                             break;
                         default:
                             tbChat.Text = chatBuffer[bufferPosition];
@@ -3618,8 +3598,6 @@ namespace Fishing
             partyActions = 0;
             shellActions = 0;
             sayActions = 0;
-            string type;
-            string action;
             ChatAction tmpAction = 0;
             for (int i = 0; i < chatDetectBtnChatRemoveList.Count; ++i)
             {
@@ -3627,12 +3605,12 @@ namespace Fishing
                 {
                     continue;
                 }
-                type = chatDetectCmbChatTypeList[i].SelectedItem.ToString();
+                string type = chatDetectCmbChatTypeList[i].SelectedItem.ToString();
                 if (chatDetectCmbChatActionList[i].SelectedItem == null)
                 {
                     continue;
                 }
-                action = chatDetectCmbChatActionList[i].SelectedItem.ToString();
+                string action = chatDetectCmbChatActionList[i].SelectedItem.ToString();
                 if (action.Equals(Resources.GUIChatDetectActionStop))
                 {
                     tmpAction = ChatAction.Stop;
@@ -3785,10 +3763,8 @@ namespace Fishing
 
         private void btnSettingsReset_Click(object sender, EventArgs e)
         {
-            string message = Resources.MessageSettingsReset;
-            string caption = Resources.MessageTitleSettingsReset;
-            MessageBoxButtons buttons = MessageBoxButtons.YesNo;
-            DialogResult result = MessageBox.Show(message, caption, buttons);
+            DialogResult result = MessageBox.Show(Resources.MessageSettingsReset,
+                Resources.MessageTitleSettingsReset, MessageBoxButtons.YesNo);
 
             if (DialogResult.Yes == result)
             {
@@ -3876,10 +3852,7 @@ namespace Fishing
                     btnChatDetectAdd_Remove_click(chatDetectBtnChatRemoveList[0], MouseEventArgs.Empty);
                 }
 
-                if (null != Settings.Default.WindowSize)
-                {
-                    this.Size = Settings.Default.WindowSize = new Size(540, 255);
-                }
+                this.Size = Settings.Default.WindowSize = new Size(540, 255);
 
                 SetNoCatch((int)Settings.Default.MaxNoCatch);
                 this.TopMost = true;
@@ -3889,10 +3862,8 @@ namespace Fishing
 
         private void btnSettingsSave_Click(object sender, EventArgs e)
         {
-            string message = Resources.MessageSettingsSave;
-            string caption = Resources.MessageTitleSettingsSave;
-            MessageBoxButtons buttons = MessageBoxButtons.YesNo;
-            DialogResult result = MessageBox.Show(message, caption, buttons);
+            DialogResult result = MessageBox.Show(Resources.MessageSettingsSave,
+                Resources.MessageTitleSettingsSave, MessageBoxButtons.YesNo);
 
             if (DialogResult.Yes == result)
             {
@@ -4084,10 +4055,7 @@ namespace Fishing
                 this.TopMost = false;
             }
 
-            if (null != Settings.Default.WindowSize)
-            {
-                this.Size = Settings.Default.WindowSize;
-            }
+            this.Size = Settings.Default.WindowSize;
 
             RestoreLocation();
 
@@ -4130,40 +4098,43 @@ namespace Fishing
 
                 // calculate the difference between server time and 
                 // 1/1/1970 00:00:00 unix time -> "Vana'Diel time in seconds"
-                long timeInSeconds = ((long)baseTime + 92514960) * 25;
+                long timeInSeconds = (baseTime + 92514960) * 25;
 
                 // how many days
-                decimal dayOfYear = Math.Floor((decimal)(timeInSeconds / (decimal)86400));
+                decimal dayOfYear = Math.Floor((decimal)timeInSeconds / 86400M);
 
-                vanaNow = new FFACETools.FFACE.TimerTools.VanaTime();
-                vanaNow.DayType = (Weekday)(dayOfYear % 8);
-                vanaNow.Day = (byte)((dayOfYear % 30) + 1);
-                vanaNow.Month = (byte)(((dayOfYear % 360) / 30) + 1);
-                vanaNow.Year = (short)(dayOfYear / 360);
-                vanaNow.Hour = (byte)((timeInSeconds / 3600) % 24);
-                vanaNow.Minute = (byte)((timeInSeconds / 60) % 60);
+                // This uses a lot of M (decimal) and L (long) instead of casts
+                // Usually, types don't matter, but it does for decimals and their operators
+                // The (possibly better, but longer/more cluttered) alternative is things like decimal.Remainder
+                vanaNow = new FFACE.TimerTools.VanaTime();
+                vanaNow.DayType = (Weekday)(dayOfYear % 8M);
+                vanaNow.Day = (byte)((dayOfYear % 30M) + 1M);
+                vanaNow.Month = (byte)(((dayOfYear % 360M) / 30M) + 1M);
+                vanaNow.Year = (short)(dayOfYear / 360M);
+                vanaNow.Hour = (byte)((timeInSeconds / 3600L) % 24L);
+                vanaNow.Minute = (byte)((timeInSeconds / 60L) % 60L);
                 // can't floor on a long, so need to shrink it first
-                vanaNow.Second = (byte)((timeInSeconds - (System.Math.Floor((decimal)(timeInSeconds / 60)) * 60)));
+                vanaNow.Second = (byte)((timeInSeconds - Math.Floor(timeInSeconds / 60M) * 60M));
 
                 // calculate moon phase/percent
-                decimal moonPhase = (dayOfYear + (decimal)26) % 84;
+                decimal moonPhase = (dayOfYear + 26M) % 84M;
 
                 // calculate moon percent
-                decimal moonPercent = (((42 - moonPhase) * 100) / 42);
+                decimal moonPercent = (((42M - moonPhase) * 100M) / 42M);
                 if (0 > moonPercent)
                     moonPercent = Math.Abs(moonPercent);
 
                 // get final moon percent
-                vanaNow.MoonPercent = (byte)Math.Floor((moonPercent + (decimal)0.5));
+                vanaNow.MoonPercent = (byte)Math.Floor(moonPercent + 0.5M);
 
                 // get final moon phase
                 if (38 <= moonPhase)
                 {
-                    vanaNow.MoonPhase = (MoonPhase)Math.Floor((moonPhase - (decimal)38) / (decimal)7);
+                    vanaNow.MoonPhase = (MoonPhase)Math.Floor((moonPhase - 38M) / 7M);
                 }
                 else
                 {
-                    vanaNow.MoonPhase = (MoonPhase)Math.Floor((moonPhase + (decimal)46) / (decimal)7);
+                    vanaNow.MoonPhase = (MoonPhase)Math.Floor((moonPhase + 46M) / 7M);
                 }
             }
 
@@ -4229,7 +4200,7 @@ namespace Fishing
 
         #region Events_Wanted/UnwantedLists
 
-        ListBox selectedListBox;
+        private ListBox selectedListBox;
 
         private void changeNameToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -4363,7 +4334,7 @@ namespace Fishing
 #endif
 
             MessageBox.Show(this, string.Join(Environment.NewLine, MessageSaveLogs),
-                GUISaveLogsTitle, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                Resources.GUISaveLogsTitle, MessageBoxButtons.OK, MessageBoxIcon.Information);
             saveFileDialog.Filter = string.Format(GUIFormatSaveTypes, Resources.GUISaveRichText, ExtensionRichText,
                 Resources.GUISaveUTF8Text, ExtensionUTF8Text);
             saveFileDialog.DefaultExt = ExtensionRichText;
@@ -4383,15 +4354,18 @@ namespace Fishing
 
         private void saveLog(RichTextBox rtb, string fileName)
         {
-            switch (Path.GetExtension(fileName).TrimStart(ExtensionSeparator))
+            string ext = Path.GetExtension(fileName);
+            if (ext == null)
+            {
+                return;
+            }
+            switch (ext.TrimStart(ExtensionSeparator))
             {
                 case ExtensionRichText:
                     rtb.SaveFile(fileName, RichTextBoxStreamType.RichText);
                     break;
                 case ExtensionUTF8Text:
                     rtb.SaveFile(fileName, RichTextBoxStreamType.UnicodePlainText);
-                    break;
-                default:
                     break;
             }
         }
@@ -4402,13 +4376,13 @@ namespace Fishing
             showDebugToolStripMenuItem.Checked = !showDebugToolStripMenuItem.Checked;
             if (showDebugToolStripMenuItem.Checked)
             {
-                this.tabChat.Controls.Add(this.tabChatPageDebug);
+                tabChat.Controls.Add(tabChatPageDebug);
             }
             else
             {
-                if (this.tabChat.SelectedTab == this.tabChatPageDebug)
+                if (tabChat.SelectedTab == tabChatPageDebug)
                 {
-                    this.tabChat.SelectedTab = this.tabChatPageDB;
+                    tabChat.SelectedTab = tabChatPageDB;
                 }
                 tabChat.Controls.Remove(tabChatPageDebug);
             }
@@ -4424,7 +4398,7 @@ namespace Fishing
             "{0}が食べ物ですか？"
         };
 
-        private string fishyIpsum()
+        private string FishyIpsum()
         {
             if (fishWords.Count == 0)
             {
@@ -4450,7 +4424,7 @@ namespace Fishing
                 foreach (int i in Enumerable.Range(0, 4))
                 {
                     FFACE.ChatTools.ChatLine cl = new FFACE.ChatTools.ChatLine();
-                    cl.Text = fishyIpsum(); 
+                    cl.Text = FishyIpsum(); 
                     KnownColor randomColorName = colorNames[rnd.Next(colorNames.Length)];
                     cl.Color = Color.FromKnownColor(randomColorName);
                     cl.Now = DateTime.Now.AddSeconds(j * 4 + i).ToString(FormatLogTimestamp);
@@ -4485,8 +4459,6 @@ namespace Fishing
                             FishChat.tellLog.Insert(0, cl);
                             FishChat.tellLogAdded++;
                             break;
-                        default:
-                            break;
                     }
                 }
                 ++j;
@@ -4499,12 +4471,12 @@ namespace Fishing
             UpdateChatLogs(rtbShell, FishChat.shellLog, FishChat.shellLogAdded);
             UpdateChatLogs(rtbSay, FishChat.sayLog, FishChat.sayLogAdded);
 
-            DBLogger.Info(fishyIpsum());
-            DBLogger.Info(fishyIpsum());
-            DBLogger.Warning(fishyIpsum());
-            DBLogger.Warning(fishyIpsum());
-            DBLogger.Error(fishyIpsum());
-            DBLogger.Error(fishyIpsum());
+            DBLogger.Info(FishyIpsum());
+            DBLogger.Info(FishyIpsum());
+            DBLogger.Warning(FishyIpsum());
+            DBLogger.Warning(FishyIpsum());
+            DBLogger.Error(FishyIpsum());
+            DBLogger.Error(FishyIpsum());
         }
 
 #endif

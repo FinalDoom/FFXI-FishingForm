@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using FFACETools;
 using Fishing.Properties;
@@ -41,17 +40,9 @@ namespace Fishing
                 {
                     // Remove punctuation and articles, but don't change fish name if it's only a partial match of one of the words
                     // At least one of the words must match
-                    List<string> fishNameParts = new List<string>((fish.Split(new char[3] { Resources.SpaceChar, Resources.Period, Resources.Exclamation })).AsEnumerable());
-                    List<string> fishKeyParts = new List<string>((f.Key.Split(new char[1] { Resources.SpaceChar })).AsEnumerable());
-                    bool found = false;
-                    foreach (string p in fishKeyParts)
-                    {
-                        if (fishNameParts.Contains(p, StringComparer.OrdinalIgnoreCase))
-                        {
-                            found = true;
-                            break;
-                        }
-                    }
+                    List<string> fishNameParts = new List<string>((fish.Split(new char[] { Resources.SpaceChar, Resources.Period, Resources.Exclamation })).AsEnumerable());
+                    List<string> fishKeyParts = new List<string>((f.Key.Split(new char[] { Resources.SpaceChar })).AsEnumerable());
+                    bool found = fishKeyParts.Any(p => fishNameParts.Contains(p, StringComparer.OrdinalIgnoreCase));
                     int test;
                     if (Int32.TryParse(fishNameParts[0], out test))
                     {

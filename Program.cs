@@ -40,18 +40,11 @@ namespace Fishing {
             }
             try
             {
-                if (null != form)
-                {
-                    Application.Run(form);
-                }
-                else
-                {
-                    Application.Run(new FishingForm(args));
-                }
+                Application.Run(form ?? new FishingForm(args));
             }
             catch(Exception e)
             {
-                MessageBox.Show(e.Message + Environment.NewLine + Environment.NewLine + e.StackTrace, Resources.MessageTitleError, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(e.Message + Environment.NewLine + Environment.NewLine + e.StackTrace, Resources.MessageTitleFishingFormError, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

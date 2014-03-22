@@ -203,7 +203,7 @@
     <value>Windower path could not be found</value>
     <comment>Unresolvable path for when windower not found</comment>
   </data>
-  <data name="MessageTitleError" xml:space="preserve">
+  <data name="MessageTitleFishingFormError" xml:space="preserve">
     <value>FishingForm Error</value>
     <comment>Title of messageboxes for errors</comment>
   </data>
@@ -826,5 +826,46 @@
   <data name="GUISaveUTF8Text" xml:space="preserve">
     <value>Plain UTF-8 Text</value>
     <comment>Save dialog file type description</comment>
+  </data>
+  <data name="GUIFormatNoCatch" xml:space="preserve">
+    <value>{0} / {1} ({2} released)</value>
+    <comment>Status line on no catch/release</comment>
+  </data>
+  <data name="GUISaveLogsTitle" xml:space="preserve">
+    <value>Choose a Base Filename</value>
+    <comment>Title for save all logs dialog</comment>
+  </data>
+  <data name="MessageFormatError" xml:space="preserve">
+    <value>ERROR: {0}</value>
+  </data>
+  <data name="DBSyncMessageDone" xml:space="preserve">
+    <value>Done!</value>
+  </data>
+  <data name="DBSyncMessageFormatDownloading" xml:space="preserve">
+    <value>Downloading {0}:</value>
+  </data>
+  <data name="DBSyncMessageFormatRenaming" xml:space="preserve">
+    <value>Renaming {0} to {1}</value>
+  </data>
+  <data name="DBSyncMessageFormatUploading" xml:space="preserve">
+    <value>Uploading {0}:</value>
+  </data>
+  <data name="DBSyncMessageStart" xml:space="preserve">
+    <value>Starting Sync...</value>
+  </data>
+  <data name="MessageFormatInfo" xml:space="preserve">
+    <value>Info: {0}</value>
+  </data>
+  <data name="MessageFormatWarning" xml:space="preserve">
+    <value>WARNING: {0}</value>
+  </data>
+  <data name="MessageTitleSyncFormError" xml:space="preserve">
+    <value>ERROR</value>
+  </data>
+  <data name="MessageTitleSyncFormInfo" xml:space="preserve">
+    <value>Info</value>
+  </data>
+  <data name="MessageTitleSyncFormWarning" xml:space="preserve">
+    <value>WARNING</value>
   </data>
 </root>
