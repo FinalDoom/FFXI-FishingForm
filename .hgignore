@@ -4,3 +4,6 @@ obj\/.*
 \..*\.swp
 .*\.zip
 .*\.suo
+.*\.svn/.*
+syntax: glob
+FFACETools/Binary/
