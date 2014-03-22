@@ -7,6 +7,9 @@ using Fishing.Properties;
 
 namespace Fishing
 {
+    /// <summary>
+    /// Helper class that holds a fish's name, rod, and IDs
+    /// </summary>
     internal struct Fishie
     {
         internal Fishie(string fishName, string rodName, string i1, string i2, string i3)
@@ -23,6 +26,9 @@ namespace Fishing
 
     } // @ internal struct Fishie
 
+    /// <summary>
+    /// Helper class that holds DB and XML update times
+    /// </summary>
     internal struct DBUpdate
     {
         internal DBUpdate(string dbTime, string xmlTime)
@@ -137,6 +143,10 @@ namespace Fishing
 
         #region Methods_DBRelated
 
+        /// <summary>
+        /// Returns an XML Document that holds update times
+        /// </summary>
+        /// <returns>Update time XML document</returns>
         private static XmlDocument GetUpdatesDB()
         {
             if (null != ChangeDB)
@@ -173,6 +183,14 @@ namespace Fishing
             return ChangeDB;
         }
 
+        /// <summary>
+        /// Checks if recorded DB version is high enough, using
+        /// constant defined above. If not, the DB can be considered
+        /// invalid and redownloaded/uploaded. It is associated with
+        /// the program version.
+        /// </summary>
+        /// <param name="ver">version string to compare</param>
+        /// <returns>True if the version is acceptable</returns>
         internal static bool IsDBVersionAcceptable(string ver)
         {
             string[] verSplit = ver.Split(new char[1] { Resources.Period });
@@ -191,6 +209,10 @@ namespace Fishing
             return false;
         }
 
+        /// <summary>
+        /// Get DB Updates node based on SQL connection string
+        /// </summary>
+        /// <returns>an XML node with update information</returns>
         internal static XmlNode GetUpdatesNode()
         {
             if (null != UpdateNode)
@@ -219,6 +241,10 @@ namespace Fishing
             return updateNode;
         }
 
+        /// <summary>
+        /// Get <c>DBUpdate</c> update times for each rod.
+        /// </summary>
+        /// <returns>A dictionary of rod name to <c>DBUpdate</c></returns>
         internal static Dictionary<string, DBUpdate> GetUpdates()
         {
             XmlDocument upDoc = GetUpdatesDB();
@@ -257,6 +283,10 @@ namespace Fishing
             return UpdatesByRod;
         }
 
+        /// <summary>
+        /// Record that the XML for specified rod was updated
+        /// </summary>
+        /// <param name="rod">updated rod name</param>
         internal static void XmlUpdated(string rod)
         {
             if (!UpdatesByRod.ContainsKey(rod))
@@ -268,6 +298,12 @@ namespace Fishing
             rodNode.Attributes[XMLAttrXMLTime].Value = UpdatesByRod[rod].xmlDate.ToString();
         }
 
+        /// <summary>
+        /// Record that the DB for specified rod was updated,
+        /// at time specified by the database.
+        /// </summary>
+        /// <param name="rod">updated rod name</param>
+        /// <param name="time">DB returned update time</param>
         internal static void DBUpdated(string rod, DateTime time)
         {
             if (!UpdatesByRod.ContainsKey(rod))
@@ -280,11 +316,19 @@ namespace Fishing
             FishDBChanged(rod);
         }
 
+        /// <summary>
+        /// Record DB update times in file
+        /// </summary>
         internal static void UpdatesDBChanged()
         {
             GetUpdatesDB().Save(DBSyncFile);
         }
 
+        /// <summary>
+        /// Helper method to mark all fish as new and
+        /// fully populate the DB. Developer use only,
+        /// please.
+        /// </summary>
         internal static void MarkAllFishNew()
         {
             if (DialogResult.Yes == MessageBox.Show(string.Join(Environment.NewLine, MessageMarkAllNew), Resources.MessageTitleWarning, MessageBoxButtons.YesNo))
@@ -302,6 +346,19 @@ namespace Fishing
 
         #endregion //DBRelated
 
+        /// <summary>
+        /// Add a new fish to the FishDB.
+        /// </summary>
+        /// <param name="fish">Fish name</param>
+        /// <param name="zone">Zone name</param>
+        /// <param name="bait">Bait name</param>
+        /// <param name="rod">Rod name</param>
+        /// <param name="ID1">Fish ID 1</param>
+        /// <param name="ID2">Fish ID 2</param>
+        /// <param name="ID3">Fish ID 3</param>
+        /// <param name="wanted">true if the fish should appear in the wanted list</param>
+        /// <param name="fromDB">true if the new fish is from the DB. This overrides
+        /// saving the XML files, due to issues from repeated saves.</param>
         internal static void AddNewFish(ref string fish, string zone, string bait, string rod, string ID1, string ID2, string ID3, bool wanted, bool fromDB)
         {
             XmlDocument xmlDoc = GetFishDB(rod);
@@ -340,13 +397,17 @@ namespace Fishing
                 }
 
                 fishNode.AppendChild(xmlDoc.CreateNode(XmlNodeType.Element, XMLNodeZones, xmlDoc.NamespaceURI));
-                fishNode.AppendChild(xmlDoc.CreateNode(XmlNodeType.Element, XMLNodeZone, xmlDoc.NamespaceURI));
+                fishNode.AppendChild(xmlDoc.CreateNode(XmlNodeType.Element, XMLNodeBaits, xmlDoc.NamespaceURI));
             }
 
             if(null != zone)
             {
                 if(null == fishNode.SelectSingleNode(string.Format(XPathFormatZoneByName, zone)))
                 {
+                    if (null == fishNode[XMLNodeZones])
+                    {
+                        fishNode.AppendChild(xmlDoc.CreateNode(XmlNodeType.Element, XMLNodeZones, xmlDoc.NamespaceURI));
+                    }
                     XmlNode zoneNode = fishNode[XMLNodeZones].AppendChild(xmlDoc.CreateNode(XmlNodeType.Element, XMLNodeZone, xmlDoc.NamespaceURI));
                     zoneNode.InnerText = zone;
                     if (!fromDB)
@@ -360,6 +421,10 @@ namespace Fishing
             {
                 if(null == fishNode.SelectSingleNode(string.Format(XPathFormatBaitByName, bait)))
                 {
+                    if (null == fishNode[XMLNodeBaits])
+                    {
+                        fishNode.AppendChild(xmlDoc.CreateNode(XmlNodeType.Element, XMLNodeBaits, xmlDoc.NamespaceURI));
+                    }
                     XmlNode baitNode = fishNode[XMLNodeBaits].AppendChild(xmlDoc.CreateNode(XmlNodeType.Element, XMLNodeBait, xmlDoc.NamespaceURI));
                     baitNode.InnerText = bait;
                     if (!fromDB)
@@ -376,11 +441,25 @@ namespace Fishing
 
         } // @ internal static void AddNewFish(ref string fish, string zone, string bait, string rod, string ID1, string ID2, string ID3, string ID4, bool wanted)
 
+        /// <summary>
+        /// Rename a fish.
+        /// </summary>
+        /// <param name="fish">Old fish name</param>
+        /// <param name="newName">New fish name</param>
+        /// <param name="fromDB">true if the rename is from the DB. This overrides
+        /// saving the XML files, due to issues from repeated saves.</param>
         internal static void ChangeName(Fishie fish, string newName, bool fromDB)
         {
             XmlDocument xmlDoc = GetFishDB(fish.rod);
             XmlNode oldFishNode = xmlDoc.SelectSingleNode(string.Format(XPathFormatFishByNameAndIDs, newName, fish.ID1, fish.ID2, fish.ID3));
             XmlNode fishNode = xmlDoc.SelectSingleNode(string.Format(XPathFormatFishByNameAndIDs, fish.name, fish.ID1, fish.ID2, fish.ID3));
+
+            // If there is no fish by the name being renamed from, return
+            // TODO log this somehow
+            if (null == fishNode)
+            {
+                return;
+            }
 
             //check if there is already an entry with same ID and name = newName, if there is, merge the 2 entries
             if(null == oldFishNode)
@@ -435,6 +514,12 @@ namespace Fishing
 
         } // @ internal static void ChangeName(Fishie fish, string newName)
 
+        /// <summary>
+        /// Set a fish as renamed in the XML, for tracking
+        /// what needs to be uploaded to the DB.
+        /// </summary>
+        /// <param name="oldName">Old name of the fish</param>
+        /// <param name="fishNode">Corresponding XML fish node</param>
         internal static void SetRenamed(string oldName, XmlNode fishNode)
         {
             if (fishNode.Attributes[XMLAttrRename] == null)
@@ -444,7 +529,16 @@ namespace Fishing
             fishNode.Attributes[XMLAttrRename].Value = oldName;
             DBRenamedFish.Add(fishNode);
         }
-
+        
+        /// <summary>
+        /// Set a fish, bait, or zone as new in the XML, for tracking
+        /// what needs to be uploaded to the DB.
+        /// </summary>
+        /// <param name="rod">Rod name</param>
+        /// <param name="fishNode">Corresponding XML fish node, could be
+        /// the node being updated, or the bait or zone's parent fish node.
+        /// Used for tracking fish nodes to be uploaded.</param>
+        /// <param name="newNode">Node to mark as new</param>
         internal static void SetNew(string rod, XmlNode fishNode, XmlNode newNode)
         {
             if (newNode.Attributes[XMLAttrNew] == null)
@@ -455,6 +549,10 @@ namespace Fishing
             }
         }
 
+        /// <summary>
+        /// Unset rename attribute on a fish node
+        /// </summary>
+        /// <param name="fishNode">Node to be updated</param>
         internal static void UnsetRename(XmlNode fishNode)
         {
             if (fishNode.Attributes[XMLAttrRename] != null)
@@ -464,6 +562,13 @@ namespace Fishing
             }
         }
 
+        /// <summary>
+        /// Unset new attribute on a fish, bait, or zone node
+        /// </summary>
+        /// <param name="fishNode">Corresponding XML fish node, could be
+        /// the node being updated, or the bait or zone's parent fish node.
+        /// Used for tracking fish nodes to be uploaded.</param>
+        /// <param name="newNode">Node to unmark as new</param>
         internal static void UnsetNew(XmlNode fishNode, XmlNode newNode)
         {
             if (newNode.Attributes[XMLAttrNew] != null)
@@ -473,6 +578,19 @@ namespace Fishing
             }
         }
 
+        /// <summary>
+        /// Check if a fish is accepted for catching.
+        /// </summary>
+        /// <param name="name">Name of the fish</param>
+        /// <param name="isNew">true if the fish is new</param>
+        /// <param name="fishUnknown">true if the fish is unknown</param>
+        /// <param name="rod">name of the rod</param>
+        /// <param name="zone">name of the zone</param>
+        /// <param name="bait">name of the bait</param>
+        /// <param name="ID1">Fish ID 1</param>
+        /// <param name="ID2">Fish ID 2</param>
+        /// <param name="ID3">Fish ID 3</param>
+        /// <returns>true if the fish is accepted for catching</returns>
         internal static bool FishAccepted(out string name, out bool isNew, bool fishUnknown, string rod, string zone, string bait, string ID1, string ID2, string ID3)
         {
             XmlDocument xmlDoc = GetFishDB(rod);
@@ -504,6 +622,11 @@ namespace Fishing
 
         } // @ internal static bool FishAccepted(out string name, out bool isNew, bool fishUnknown, string rod, string zone, string bait, string ID1, string ID2, string ID3, string ID4)
 
+        /// <summary>
+        /// Get a fish DB file name for a rod
+        /// </summary>
+        /// <param name="rod">rod name</param>
+        /// <returns>DB file name</returns>
         private static string GetFileName(string rod)
         {
             switch(rod)
@@ -546,6 +669,11 @@ namespace Fishing
 
         } // @ private static string GetFileName(string rod)
 
+        /// <summary>
+        /// Get XML document of a fish DB by rod name
+        /// </summary>
+        /// <param name="rod">the rod name</param>
+        /// <returns><c>XmlDocument</c> for the fish DB</returns>
         private static XmlDocument GetFishDB(string rod)
         {
             if(!DBByRod.ContainsKey(rod))
@@ -601,6 +729,14 @@ namespace Fishing
 
         } // @ private static XmlDocument GetFishDB(string rod)
 
+        /// <summary>
+        /// Get all fishes in an XML fish DB that are wanted or unwanted for a rod, zone, and bait
+        /// </summary>
+        /// <param name="rod">the rod name</param>
+        /// <param name="zone">the zone name</param>
+        /// <param name="bait">the bait name</param>
+        /// <param name="wanted">true to select wanted fish, false for unwanted fish</param>
+        /// <returns>array of <c>Fishie</c> that match the conditions passed</returns>
         internal static Fishie[] GetFishes(string rod, string zone, string bait, bool wanted)
         {
             XmlDocument xmlDoc = GetFishDB(rod);
@@ -618,6 +754,10 @@ namespace Fishing
 
         } // @ internal static Fishie[] GetFishes(string rod, string zone, string bait, bool wanted)
 
+        /// <summary>
+        /// Toggle if a fish is wanted or unwanted and record the change in the XML DBs
+        /// </summary>
+        /// <param name="fish">Fish to toggle</param>
         internal static void ToggleWanted(Fishie fish)
         {
             XmlDocument xmlDoc = GetFishDB(fish.rod);
@@ -635,6 +775,11 @@ namespace Fishing
         internal delegate void DBChanged();
         internal static event DBChanged OnChanged;
 
+        /// <summary>
+        /// Notify of DB change for a rod. Records changes to file and
+        /// executes any events attached.
+        /// </summary>
+        /// <param name="rod">Rod name of database that has been changed</param>
         private static void FishDBChanged(string rod)
         {
             DBByRod[rod].Save(GetFileName(rod));

@@ -1,21 +1,23 @@
 @ECHO OFF
 
 REM These are path variables, if your system has things in a different place
-REM Please ensure SIGCHECK has no spaces in it. DOS style short paths may be useful.
 
-SET NETLOC=C:\Windows\Microsoft.NET\Framework\v3.5
-SET SIGCHECK=D:\PROGRA~2\SigCheck
-SET ZIP7=D:\Program Files\7-Zip
+REM This is some stupid crap to get DOS short paths for no spaces in the stuff
+FOR %%A IN ("%WINDIR%\Microsoft.NET\Framework\v3.5") DO SET NETLOC=%%~sA
+FOR %%A IN ("%PROGRAMFILES(X86)%\SigCheck") DO SET SIGCHECK=%%~sA
+FOR %%A IN ("%PROGRAMFILES%\7-Zip") DO SET ZIP7=%%~sA
 
 REM Check parameters, if those happen
 
 SET HELPPARAMS=-H HELP /H /HELP
 SET DEPLOYPARAMS=/D /DEPLOY -D DEPLOY
+SET BUILDPARAMS=/B /BUILD -B BUILD
 FOR %%A IN (%*) DO (
 	FOR %%H IN (%HELPPARAMS%) DO (
 		IF /I "%%A"=="%%H" (
 			ECHO This script is used to build FishingForm. Options:
 			ECHO %HELPPARAMS% -- Display this message and exit
+			ECHO %BUILDPARAMS% -- Skip deploy and just do building
 			ECHO %DEPLOYPARAMS% -- Skip building and just make deploy files
 			PAUSE
 			EXIT /B
@@ -24,6 +26,11 @@ FOR %%A IN (%*) DO (
 	FOR %%D IN (%DEPLOYPARAMS%) DO (
 		IF /I "%%A"=="%%D" (
 			SET DEPLOY=1
+		)
+	)
+	FOR %%B IN (%BUILDPARAMS%) DO (
+		IF /I "%%A"=="%%B" (
+			SET BUILD=1
 		)
 	)
 )
@@ -37,13 +44,15 @@ IF NOT DEFINED DEPLOY (
 		ECHO %NETLOC%\MSBuild.exe not found. Please ensure proper build files exist or run %~f0 deploy
 	)
 )
-IF NOT EXIST "%SIGCHECK%\sigcheck.exe" (
-	SET MISSING=1
-	ECHO %SIGCHECK%\sigcheck.exe not found. Please download from microsoft site--google it--and adjust paths.
-)
-IF NOT EXIST "%ZIP7%\7z.exe" (
-	SET MISSING=1
-	ECHO %ZIP7%\7z.exe not found. Please ensure it or another zip creation program is installed and adjust paths.
+IF NOT DEFINED BUILD (
+	IF NOT EXIST "%SIGCHECK%\sigcheck.exe" (
+		SET MISSING=1
+		ECHO %SIGCHECK%\sigcheck.exe not found. Please download from microsoft site--google it--and adjust paths.
+	)
+	IF NOT EXIST "%ZIP7%\7z.exe" (
+		SET MISSING=1
+		ECHO %ZIP7%\7z.exe not found. Please ensure it or another zip creation program is installed and adjust paths.
+	)
 )
 IF DEFINED MISSING (
 	ECHO.
@@ -62,6 +71,10 @@ IF NOT DEFINED DEPLOY (
 	ECHO.
 
 	PAUSE
+)
+
+IF DEFINED BUILD (
+	EXIT /B
 )
 
 ECHO.

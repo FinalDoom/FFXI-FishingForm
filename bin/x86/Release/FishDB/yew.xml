@@ -1,0 +1,111 @@
+<Rod name="Yew Fishing Rod">
+  <Fish name="Bastore Sardine" wanted="No" ID1="140" ID2="30" ID3="13">
+    <Zones>
+      <Zone>Port Windurst</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Sabiki Rig</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Bastore Sardine x2" wanted="No" ID1="140" ID2="30" ID3="14">
+    <Zones>
+      <Zone>Port Windurst</Zone>
+      <Zone>Port Jeuno</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Sabiki Rig</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Crayfish" wanted="No" ID1="140" ID2="34" ID3="15">
+    <Zones>
+      <Zone>Port San d'Oria</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Little Worm</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Bastore Sardine x3" wanted="No" ID1="160" ID2="30" ID3="15">
+    <Zones>
+      <Zone>Port Windurst</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Sabiki Rig</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Yellow Globe" wanted="No" ID1="180" ID2="24" ID3="10">
+    <Zones>
+      <Zone>Port Jeuno</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Sabiki Rig</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Break Line Fish" wanted="No" ID1="180" ID2="24" ID3="11">
+    <Zones>
+      <Zone>Port Jeuno</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Sabiki Rig</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Moat Carp" wanted="No" ID1="200" ID2="23" ID3="12">
+    <Zones>
+      <Zone>West Ronfaure</Zone>
+      <Zone>Yhoator Jungle</Zone>
+      <Zone>Port San d'Oria</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Insect Ball</Bait>
+      <Bait>Little Worm</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Forest Carp" wanted="No" ID1="240" ID2="15" ID3="6">
+    <Zones>
+      <Zone>Yhoator Jungle</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Insect Ball</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Quus" wanted="No" ID1="240" ID2="17" ID3="9">
+    <Zones>
+      <Zone>Port Windurst</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Sabiki Rig</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Break Line Fish" wanted="No" ID1="260" ID2="27" ID3="14">
+    <Zones>
+      <Zone>North Gustaberg</Zone>
+      <Zone>Port San d'Oria</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Little Worm</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Tricolored Carp" wanted="No" ID1="260" ID2="27" ID3="14">
+    <Zones>
+      <Zone>Northern San d'Oria</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Little Worm</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Break Rod Fish" wanted="No" ID1="280" ID2="17" ID3="10">
+    <Zones>
+      <Zone>Port Windurst</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Sabiki Rig</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Break Rod Fish" wanted="No" ID1="300" ID2="26" ID3="12">
+    <Zones>
+      <Zone>North Gustaberg</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Little Worm</Bait>
+    </Baits>
+  </Fish>
+</Rod>

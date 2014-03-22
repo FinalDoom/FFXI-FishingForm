@@ -106,7 +106,7 @@ namespace Fishing
             downloadFish = fish;
             if (fish > 0)
             {
-                PostMessage(string.Format("Downloading {0} fish caught with {1}.", fish, currentRod));
+                PostMessage(string.Format("Downloading {0} fish and fish data caught with {1}.", fish, currentRod));
             }
             if (downloadFish >= SpamThreshold)
             { // Prevent spam hanging the GUI

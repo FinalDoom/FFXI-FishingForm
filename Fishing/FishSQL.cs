@@ -15,6 +15,16 @@ namespace Fishing
 {
     internal struct SQLFishie
     {
+        /// <summary>
+        /// Class that mimics FishDB's Fishie, but also with optional zone and bait info
+        /// </summary>
+        /// <param name="fishName">Fish name</param>
+        /// <param name="rodId">Rod ID</param>
+        /// <param name="i1">Fish ID 1</param>
+        /// <param name="i2">Fish ID 2</param>
+        /// <param name="i3">Fish ID 3</param>
+        /// <param name="zoneId">Zone ID</param>
+        /// <param name="baitId">Bait ID</param>
         internal SQLFishie(string fishName, int rodId, string i1, string i2, string i3, int? zoneId, int? baitId)
         {
             name = fishName;
@@ -25,7 +35,11 @@ namespace Fishing
             if (zoneId.HasValue)
             {
                 zone = FFACE.ParseResources.GetAreaName((Zone)zoneId.Value);
-                if (zoneId.Value == 227 || zoneId.Value == 228)
+                if (zone.Equals(String.Empty))
+                {
+                    zone = null;
+                }
+                else if (zoneId.Value == 227 || zoneId.Value == 228)
                 {// This is really silly. Is there not a proper way to do this?
                     zone += " (Pirates)";
                 }
@@ -50,6 +64,9 @@ namespace Fishing
         public override string ToString() { return name; }
     }
 
+    /// <summary>
+    /// Class that handles DB interactions
+    /// </summary>
     internal static class FishSQL
     {
         #region Constants
@@ -79,7 +96,8 @@ namespace Fishing
         private const string MySQLCommandAddFishZone = "CALL add_fish_zone (@fishID, @zoneID)";
         private const string MySQLCommandGetNewFishSince = "CALL get_new_fish (@rodID, @time)";
         private const string MySQLCommandGetRenamedFishSince = "CALL get_renamed_fish (@rodID, @time)";
-        private const string MySQLCommandIsVersionCurrent = "Call is_current_version (@major, @minor, @build, @revision)";
+        private const string MySQLCommandIsVersionCurrent = "CALL is_current_version (@major, @minor, @build, @revision)";
+        private const string MySQLCommandVersionVersionMessage = "CALL get_version_message";
 
         // MySQL Params
         private const string MySQLParamRodID = "rodID";
@@ -99,28 +117,7 @@ namespace Fishing
         private const string MySQLParamVersionMinor = "minor";
         private const string mySqlParamVersionBuild = "build";
         private const string mySqlParamVersionRevision = "revision";
-
-        // Message constants
-        private const string MessageErrorNoConnection = "Could not connect to FishDB MySQL server. Please contact program maintainer.";
-        private const string MessageErrorCouldntConnect = "Could not connect to FishDB MySQL server. Error number ";
-        private const string MessageWarningCloseConnection = "Could not close connection.";
-        private const string MessageErrorNewestModTime = "Error getting Newest DB Modification Time";
-        private const string MessageFormatErrorGettingFishID = "Error getting fish ID from DB for \"{0}\"";
-        private const string MessageFormatErrorAddingFish = "Error adding new fish \"{0}\"";
-        private const string MessageFormatErrorRenamingFish = "Error renaming fish \"{0}\" to \"{1}\"";
-        private const string MessageFormatErrorAddingBaitFish = "Error adding bait \"{0}\" to fish \"{1}\"";
-        private const string MessageFormatErrorAddingZoneFish = "Error adding zone \"{0}\" to fish \"{1}\"";
-        private const string MessageFormatErrorGettingNewFishWithIDs = "Error getting new fish \"{0}\" with IDs: {1}, {2}, {3}";
-        private const string MessageFormatErrorGettingRenamedFishWithIDs = "Error getting renamed fish \"{0}\" to \"{1}\" with IDs: {2}, {3}, {4}";
-        private const string MessageErrorGettingVersion = "Error getting program version status.";
-        private const string MessageFormatErrorUploadingFishRod = "Error uploading fish \"{0}\" for {1}.";
-        private const string MessageFormatErrorUploadingBaitZones = "Error uploading bait and zones for fish \"{0}\" for {1}.";
-        private const string MessageFormatErrorUploadingRename = "Error uploading rename from \"{0}\" to \"{1}\" for {2}.";
-        private const string MessageFormatErrorDownloadingFishRod = "Error downloading new fish for {0}";
-        private const string MessageFormatErrorDownloadingRenameRod = "Error downloading renames for {0}";
-        private const string MessageUploadStart = "Starting upload to DB.";
-        private const string MessageErrorUploading = "Error uploading fish";
-        private const string MessageUploadFinished = "Upload to DB finished.";
+        private const string mySqlParamVersionMessage = "Message";
 
         // Misc
         private const string ZoneSelbinaPirates = "Selbina (Pirates)";
@@ -137,13 +134,18 @@ namespace Fishing
             Initialize();
         }
 
-        //Initialize connection
+        /// <summary>
+        /// Initialize Connection
+        /// </summary>
         private static void Initialize()
         {
             Connection = new MySqlConnection(string.Format(FormatConnection, server, port, database, uid, password));
         }
 
-        //open connection to database
+        /// <summary>
+        /// Open a connection to the database
+        /// </summary>
+        /// <returns>True if connection is open, false otherwise</returns>
         internal static bool OpenConnection()
         {
             if (Connection == null)
@@ -167,10 +169,10 @@ namespace Fishing
                     switch (e.Number)
                     {
                         case 0:
-                            message = MessageErrorNoConnection;
+                            message = Resources.SQLMessageErrorNoConnection;
                             break;
                         default:
-                            message = MessageErrorCouldntConnect + e.Number.ToString();
+                            message = string.Format(Resources.SQLMessageErrorCouldntConnect, e.Number);
                             break;
                     }
                     MessageBox.Show(message);
@@ -185,7 +187,10 @@ namespace Fishing
             }
         }
 
-        //Close connection
+        /// <summary>
+        /// Close an open connection
+        /// </summary>
+        /// <returns>True if connection was closed, false if some error happened</returns>
         internal static bool CloseConnection()
         {
             try
@@ -200,23 +205,45 @@ namespace Fishing
             {
                 if (StatusDisplay != null)
                 {
-                    StatusDisplay.Warning(MessageWarningCloseConnection);
+                    StatusDisplay.Warning(Resources.SQLMessageWarningCloseConnection);
                     StatusDisplay.Info(e.ToString());
                 }
                 return false;
             }
         }
 
+        /// <summary>
+        /// Connection cleanup for pooled connections.
+        /// </summary>
+        /// <remarks>
+        /// There seems to be some issue with actually closing connections.
+        /// There are an excessively large number of connections that are
+        /// never closed and have to be terminated after a timeout. This
+        /// is likely within the .NET code somewhere, not this program.
+        /// There is probably a way to fix this, but this is the closest
+        /// I've found.
+        /// </remarks>
         public static void CloseAllConnections()
         {
             MySqlConnection.ClearAllPools();
         }
 
+        /// <summary>
+        /// Get the newest modified fish from the db for the passed rod.
+        /// Resolves string name to ID.
+        /// </summary>
+        /// <param name="rod">Rod name to get newest modification time for</param>
+        /// <returns>Newest modification time for passed rod</returns>
         public static DateTime NewestDBModificationTime(string rod)
         {
             return NewestDBModificationTime(Dictionaries.rodDictionary[rod]);
         }
 
+        /// <summary>
+        /// Get the newest modified fish from the db for the passed rod.
+        /// </summary>
+        /// <param name="rodId">Rod id to get newest modification time for</param>
+        /// <returns>Newest modification time for passed rod, or epoch if it's not found.</returns>
         public static DateTime NewestDBModificationTime(int rodId)
         {
                 if (OpenConnection())
@@ -235,7 +262,7 @@ namespace Fishing
                         {
                             if (StatusDisplay != null)
                             {
-                                StatusDisplay.Error(MessageErrorNewestModTime);
+                                StatusDisplay.Error(Resources.SQLMessageErrorNewestModTime);
                                 StatusDisplay.Info(e.ToString());
                             }
                         }
@@ -248,6 +275,15 @@ namespace Fishing
                 return new DateTime(1970, 1, 1);
         }
 
+        /// <summary>
+        /// Upload a new fish to the DB.
+        /// </summary>
+        /// <param name="fish">Fish name</param>
+        /// <param name="rod">Rod used</param>
+        /// <param name="ID1">Fish ID 1</param>
+        /// <param name="ID2">Fish ID 2</param>
+        /// <param name="ID3">Fish ID 3</param>
+        /// <returns>True if fish was successfully added</returns>
         public static bool UploadFish(string fish, string rod, string ID1, string ID2, string ID3)
         {
             if (OpenConnection())
@@ -286,7 +322,7 @@ namespace Fishing
                             default:
                                 if (StatusDisplay != null)
                                 {
-                                    StatusDisplay.Error(string.Format(MessageFormatErrorAddingFish, fish));
+                                    StatusDisplay.Error(string.Format(Resources.SQLMessageFormatErrorAddingFish, fish));
                                     StatusDisplay.Info(e.ToString());
                                 }
                                 break;
@@ -297,6 +333,16 @@ namespace Fishing
             return false;
         }
 
+        /// <summary>
+        /// Register a fish rename with the DB.
+        /// </summary>
+        /// <param name="fish">New fish name</param>
+        /// <param name="oldName">Old fish name</param>
+        /// <param name="rod">Rod name</param>
+        /// <param name="ID1">Fish ID 1</param>
+        /// <param name="ID2">Fish ID 2</param>
+        /// <param name="ID3">Fish ID 3</param>
+        /// <returns>True if fish was successfully renamed</returns>
         public static bool RenameFish(string fish, string oldName, string rod, string ID1, string ID2, string ID3)
         {
             if (OpenConnection())
@@ -330,7 +376,7 @@ namespace Fishing
                     {// Don't care
                         if (StatusDisplay != null)
                         {
-                            StatusDisplay.Warning(string.Format(MessageFormatErrorRenamingFish, oldName, fish));
+                            StatusDisplay.Warning(string.Format(Resources.SQLMessageFormatErrorRenamingFish, oldName, fish));
                             StatusDisplay.Info(e.ToString());
                         }
                     }
@@ -339,6 +385,15 @@ namespace Fishing
             return false;
         }
 
+        /// <summary>
+        /// Helper method, gets the ID of a fish in the DB
+        /// </summary>
+        /// <param name="rodId">ID of the rod</param>
+        /// <param name="name">Name of the fish</param>
+        /// <param name="id1">Fish ID 1</param>
+        /// <param name="id2">Fish ID 2</param>
+        /// <param name="id3">Fish ID 3</param>
+        /// <returns>DB ID of the fish</returns>
         private static int GetFishDBId(int rodId, string name, int id1, int id2, int id3)
         {
             using (MySqlCommand cmd = Connection.CreateCommand())
@@ -357,7 +412,7 @@ namespace Fishing
                 {
                     if (StatusDisplay != null)
                     {
-                        StatusDisplay.Error(string.Format(MessageFormatErrorGettingFishID, name));
+                        StatusDisplay.Error(string.Format(Resources.SQLMessageFormatErrorGettingFishID, name));
                         StatusDisplay.Info(e.ToString());
                     }
                     return -1;
@@ -365,6 +420,23 @@ namespace Fishing
             }
         }
 
+        /// <summary>
+        /// Upload fish, bait used to catch them, and zones.
+        /// </summary>
+        /// <remarks>This is tightly coupled with FishDB and it
+        /// really shouldn't be. At present, however, this is done
+        /// as well as it can be for efficiency purposes, though the
+        /// coupling is undesirable.</remarks>
+        /// <param name="fish">Name of the fish</param>
+        /// <param name="rod">Name of the rod</param>
+        /// <param name="ID1">Fish ID 1</param>
+        /// <param name="ID2">Fish ID 2</param>
+        /// <param name="ID3">Fish ID 3</param>
+        /// <param name="bait">A list of Bait XML nodes to upload</param>
+        /// <param name="zones">A list of Zone XML nodes to upload</param>
+        /// <param name="fishNode">Fish XML node that's being uploaded</param>
+        /// <param name="updatedBait">Pairing of bait and parent nodes to be updated</param>
+        /// <param name="updatedZones">Pairing of zone and parent nodes to be updated</param>
         public static void UploadBaitAndZone(string fish, string rod, string ID1, string ID2, string ID3, List<XmlNode> bait, List<XmlNode> zones, XmlNode fishNode, ref Dictionary<XmlNode, XmlNode> updatedBait, ref Dictionary<XmlNode, XmlNode> updatedZones)
         {
             if (OpenConnection())
@@ -413,7 +485,7 @@ namespace Fishing
                                     default:
                                         if (StatusDisplay != null)
                                         {
-                                            StatusDisplay.Error(string.Format(MessageFormatErrorAddingBaitFish, b, fish));
+                                            StatusDisplay.Error(string.Format(Resources.SQLMessageFormatErrorAddingBaitFish, b, fish));
                                             StatusDisplay.Info(e.ToString());
                                         }
                                         break;
@@ -483,7 +555,7 @@ namespace Fishing
                                     default:
                                         if (StatusDisplay != null)
                                         {
-                                            StatusDisplay.Error(string.Format(MessageFormatErrorAddingZoneFish, z, fish));
+                                            StatusDisplay.Error(string.Format(Resources.SQLMessageFormatErrorAddingZoneFish, z, fish));
                                             StatusDisplay.Info(e.ToString());
                                         }
                                         break;
@@ -498,11 +570,24 @@ namespace Fishing
             }
         }
 
+        /// <summary>
+        /// Download new fish information from the DB since last download.
+        /// Resolves string rod name.
+        /// </summary>
+        /// <param name="rod">Rod name</param>
+        /// <param name="since">Time to get new fish since</param>
+        /// <returns>List of <c>SQLFishie</c> new fish, baits, and zones</returns>
         public static List<SQLFishie> DownloadNewFish(string rod, DateTime since)
         {
             return DownloadNewFish(Dictionaries.rodDictionary[rod], since);
         }
 
+        /// <summary>
+        /// Download new fish information from the DB since last download.
+        /// </summary>
+        /// <param name="rodId">Rod ID</param>
+        /// <param name="since">Time to get new fish since</param>
+        /// <returns>List of <c>SQLFishie</c> new fish, baits, and zones</returns>
         public static List<SQLFishie> DownloadNewFish(int rodId, DateTime since)
         {
             List<SQLFishie> fishies = new List<SQLFishie>();
@@ -551,7 +636,7 @@ namespace Fishing
                             {
                                 if (StatusDisplay != null)
                                 {
-                                    StatusDisplay.Error(string.Format(MessageFormatErrorGettingNewFishWithIDs, name, id1, id2, id3));
+                                    StatusDisplay.Error(string.Format(Resources.SQLMessageFormatErrorGettingNewFishWithIDs, name, id1, id2, id3));
                                     StatusDisplay.Info(e.ToString());
                                 }
                             }
@@ -563,11 +648,24 @@ namespace Fishing
             return fishies;
         }
 
+        /// <summary>
+        /// Download all new fish renames from the DB since a passed time.
+        /// Resolves rod name.
+        /// </summary>
+        /// <param name="rod">Rod name</param>
+        /// <param name="since">Time to download renames since</param>
+        /// <returns>A Dictionary of <c>SQLFishie</c> to string name renamed to</returns>
         public static Dictionary<SQLFishie, string> DownloadRenamedFish(string rod, DateTime since)
         {
             return DownloadRenamedFish(Dictionaries.rodDictionary[rod], since);
         }
 
+        /// <summary>
+        /// Download all new fish renames from the DB since a passed time.
+        /// </summary>
+        /// <param name="rodId">Rod ID</param>
+        /// <param name="since">Time to download renames since</param>
+        /// <returns>A Dictionary of <c>SQLFishie</c> to string name renamed to</returns>
         public static Dictionary<SQLFishie, string> DownloadRenamedFish(int rodId, DateTime since)
         {
             Dictionary<SQLFishie, string> fishies = new Dictionary<SQLFishie, string>();
@@ -600,7 +698,7 @@ namespace Fishing
                             {
                                 if (StatusDisplay != null)
                                 {
-                                    StatusDisplay.Error(string.Format(MessageFormatErrorGettingRenamedFishWithIDs, name, toName, id1, id2, id3));
+                                    StatusDisplay.Error(string.Format(Resources.SQLMessageFormatErrorGettingRenamedFishWithIDs, name, toName, id1, id2, id3));
                                     StatusDisplay.Info(e.ToString());
                                 }
                             }
@@ -613,11 +711,19 @@ namespace Fishing
             return fishies;
         }
 
+        /// <summary>
+        /// Check if the program version is current.
+        /// </summary>
+        /// <returns>true if the program version is current.</returns>
         public static bool IsProgramUpdated()
         {
             bool updated = false;
             if (OpenConnection())
             {
+                if (StatusDisplay != null)
+                {
+                    StatusDisplay.Info(Resources.SQLMessageVersionCheck);
+                }
                 String[] versionInfo = FileVersionInfo.GetVersionInfo(FishingForm.ProgramExeName).FileVersion.Split(new char[1] { Resources.Period });
 
                 using (MySqlCommand cmd = Connection.CreateCommand())
@@ -643,7 +749,7 @@ namespace Fishing
                     {
                         if (StatusDisplay != null)
                         {
-                            StatusDisplay.Error(MessageErrorGettingVersion);
+                            StatusDisplay.Error(Resources.SQLMessageErrorGettingVersion);
                             StatusDisplay.Info(e.ToString());
                         }
                     }
@@ -652,9 +758,49 @@ namespace Fishing
             return updated;
         }
 
-        /**
-         * <note>This is highly coupled with FishDB, perhaps it can be done better.</note>
-         */
+        /// <summary>
+        /// Get message from DB/Program Maintainer about the version update (if any)
+        /// </summary>
+        public static string GetVersionMessage()
+        {
+            if (OpenConnection())
+            {
+                if (StatusDisplay != null)
+                {
+                    StatusDisplay.Info(Resources.SQLMessageVersionMessageCheck);
+                }
+
+                using (MySqlCommand cmd = Connection.CreateCommand())
+                {
+                    cmd.CommandText = MySQLCommandVersionVersionMessage;
+
+                    try
+                    {
+                        using (MySqlDataReader rdr = cmd.ExecuteReader())
+                        {
+                            while (rdr.Read())
+                            {
+                                return rdr.GetString(mySqlParamVersionMessage);
+                            }
+                        }
+                    }
+                    catch (MySqlException e)
+                    {
+                        if (StatusDisplay != null)
+                        {
+                            StatusDisplay.Error(Resources.SQLMessageErrorGettingVersionMessage);
+                            StatusDisplay.Info(e.ToString());
+                        }
+                    }
+                }
+            }
+            return string.Empty;
+        }
+
+        /// <summary>
+        /// Upload any fish marked as new or renamed.
+        /// </summary>
+        /// <note>This is highly coupled with FishDB, perhaps it can be done better.</note>
         public static void DoUploadFish()
         {
             if (null != StatusDisplay)
@@ -707,7 +853,7 @@ namespace Fishing
                         {
                             if (StatusDisplay != null)
                             {
-                                StatusDisplay.Error(string.Format(MessageFormatErrorUploadingFishRod, fish, rod));
+                                StatusDisplay.Error(string.Format(Resources.SQLMessageFormatErrorUploadingFishRod, fish, rod));
                                 StatusDisplay.Info(e.ToString());
                             }
                         }
@@ -733,7 +879,7 @@ namespace Fishing
                         {
                             if (StatusDisplay != null)
                             {
-                                StatusDisplay.Error(string.Format(MessageFormatErrorUploadingBaitZones, fish, rod));
+                                StatusDisplay.Error(string.Format(Resources.SQLMessageFormatErrorUploadingBaitZones, fish, rod));
                                 StatusDisplay.Info(e.ToString());
                             }
                         }
@@ -762,7 +908,7 @@ namespace Fishing
                     {
                         if (StatusDisplay != null)
                         {
-                            StatusDisplay.Error(string.Format(MessageFormatErrorUploadingRename, fish, fishNode.Attributes[FishDB.XMLAttrRename].Value, rod));
+                            StatusDisplay.Error(string.Format(Resources.SQLMessageFormatErrorUploadingRename, fish, fishNode.Attributes[FishDB.XMLAttrRename].Value, rod));
                             StatusDisplay.Info(e.ToString());
                         }
                     }
@@ -800,6 +946,9 @@ namespace Fishing
             }
         }
 
+        /// <summary>
+        /// Download any new fish and renames.
+        /// </summary>
         public static void DoDownloadFish()
         {
             Dictionary<string, DateTime> updateTimes = new Dictionary<string, DateTime>();
@@ -833,9 +982,13 @@ namespace Fishing
                                 {
                                     StatusDisplay.SetFishBaitOrZone(name, fish.bait);
                                 }
-                                else
+                                else if (null == fish.bait)
                                 {
                                     StatusDisplay.SetFishBaitOrZone(name, fish.zone);
+                                }
+                                else
+                                {
+                                    StatusDisplay.SetFishBaitOrZone(name, string.Format("{0} using {1}", fish.zone, fish.bait));
                                 }
                             }
                             FishDB.AddNewFish(ref name, fish.zone, fish.bait, fish.rod, fish.ID1, fish.ID2, fish.ID3, false, true);
@@ -845,7 +998,7 @@ namespace Fishing
                     {
                         if (StatusDisplay != null)
                         {
-                            StatusDisplay.Error(string.Format(MessageFormatErrorDownloadingFishRod, rod));
+                            StatusDisplay.Error(string.Format(Resources.SQLMessageFormatErrorDownloadingFishRod, rod));
                             StatusDisplay.Info(e.ToString());
                         }
                     }
@@ -875,7 +1028,7 @@ namespace Fishing
                     {
                         if (StatusDisplay != null)
                         {
-                            StatusDisplay.Error(string.Format(MessageFormatErrorDownloadingRenameRod, rod));
+                            StatusDisplay.Error(string.Format(Resources.SQLMessageFormatErrorDownloadingRenameRod, rod));
                             StatusDisplay.Info(e.ToString());
                         }
                     }
@@ -893,11 +1046,14 @@ namespace Fishing
             }
         }
 
+        /// <summary>
+        /// Threaded method that handles uploads.
+        /// </summary>
         public static void BackgroundUpload()
         {
             if (StatusDisplay != null)
             {
-                while (!StatusDisplay.StartDBTransaction(MessageUploadStart))
+                while (!StatusDisplay.StartDBTransaction(Resources.SQLMessageUploadStart))
                 {
                     Thread.Sleep(250);
                 }
@@ -910,16 +1066,19 @@ namespace Fishing
             {
                 if (StatusDisplay != null)
                 {
-                    StatusDisplay.Error(MessageErrorUploading);
+                    StatusDisplay.Error(Resources.SQLMessageErrorUploading);
                     StatusDisplay.Info(e.ToString());
                 }
             }
             if (StatusDisplay != null)
             {
-                StatusDisplay.EndDBTransaction(MessageUploadFinished);
+                StatusDisplay.EndDBTransaction(Resources.SQLMessageUploadFinished);
             }
         }
 
+        /// <summary>
+        /// Method that starts a thread to upload new and renamed fish.
+        /// </summary>
         public static void UploadNewFish()
         {
             Thread uploadThread = new Thread(new ThreadStart(BackgroundUpload));

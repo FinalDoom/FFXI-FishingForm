@@ -30,6 +30,11 @@ Version control is done using Mercurial (try TortoiseHG_), and issue tracking
 uses bitbucket's built-in JIRA-like system. The "official" site for downloading
 the most recent version is `the bitbucket`_ or at `the FFEvo download page`_.
 
+For Ashita users, make sure you download the most recent
+Windower resources xml package and put it in the same directory
+as FishingForm.exe, as with most other programs. You should have
+areas.xml etc. in a folder called resources in the program directory.
+
 .. _guide here: http://www.howtogeek.com/howto/windows-vista/make-user-account-control-uac-stop-blacking-out-the-screen-in-windows-vista/
 
 .. IMPORTANT:: **Windows Vista+ Notice**
@@ -54,6 +59,8 @@ Features
 	- Automatically sync FishDB with cloud database
 	- Syncs silently at application start
 	- Syncs silently after a few new fish are caught
+	- Get bait from and move fish to mog case
+	- Save chat or fishing logs (or all of them)
 
 - Includes fface (current as of this post)
 - Includes ffacetools (current as of this post)
@@ -71,7 +78,7 @@ Features
 - Fishing statistics tab
     - Shows total casts, time fishing, and catches per hour
     - Shows counts and percentages for catches, releases, and lost fish types
-- Improved information on the Info tab (inventory/satchel/sack, skill, gil, bait count)
+- Improved information on the Info tab (inventory/satchel/sack/case, skill, gil, bait count)
     - Skillups show next to skill level as they occur, including uncertainty and total skillups
 - Kill fish manually by clicking progress bar during fight
 - Option to show fish HP and time left to reel in
@@ -148,7 +155,7 @@ Gear
 Other
 -----
 - Move items when inventory is full using itemizer or ItemTools
-- Grab bait from sack or satchel when out
+- Grab bait from sack, satchel, or mog case when out
 - Stop fishing when inventory is full
 - Warp then optionally log out or shut down when inventory is full, when fatigued, or when out of bait
 
@@ -236,6 +243,67 @@ noted rod. Some rods do not have any data, so the default value remains.
 -------
 Changes
 -------
+
+1.7.1.5
+-------
+- Fix: Fishing status is correct now, hopefully program isn't broken
+- Feature: Can now right click and save logs
+
+1.7.1.4
+-------
+- Fix: Updated status IDs in FFACETools stuff, FFACE update.
+- Feature: Can deliver custom message when there's a new version, through DB
+
+1.7.1.3
+-------
+- Fix: show fish HP [time] option now restores from save
+
+1.7.1.2
+-------
+- Fix for DB syncing--FFACE must be initialized first; It has to have access to the resources .xml files
+
+1.7.1.1
+-------
+- Fix for itemizer->bait->satchel saving option not working
+
+1.7.1.0
+-------
+- Added mog case as an option for store/fetch procedures
+- Mog case stats show in info window
+- Updated FFACE.dll and FFACETools
+
+1.7.0.25
+--------
+- Bait fetch bug fix
+
+1.7.0.24
+--------
+- Option to restart fishing at midnight
+
+1.7.0.23
+--------
+- Pirates zone name fix
+
+1.7.0.22
+--------
+- More intelligence when moving items and equipping things
+- Minor fixes
+
+1.7.0.21
+--------
+- Misspelling fix
+
+1.7.0.20
+--------
+- Bug fixes
+
+1.7.0.19
+--------
+- Automatic bait/fish handling when out of bait or full inventory: auto get/put from/to sack/satchel
+
+1.7.0.18
+--------
+- New database
 
 1.7.0.17
 --------
