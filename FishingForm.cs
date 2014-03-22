@@ -4410,7 +4410,7 @@ namespace Fishing
                 {
                     this.tabChat.SelectedTab = this.tabChatPageDB;
                 }
-                this.tabChat.Container.Remove(this.tabChatPageDebug);
+                tabChat.Controls.Remove(tabChatPageDebug);
             }
         }
 #endif
