@@ -139,7 +139,7 @@ namespace Fishing
         private static Thread workerThread;
         private static SizeF currentScaleFactor = new SizeF(1f, 1f);
         private static FishingFormDBLogger DBLogger;
-        private static DebugLogger DebugLog;
+        private static ILogger DebugLog;
         private static bool ItemizerAvailable = false;
         private static bool ItemToolsAvailable = false;
 
@@ -320,18 +320,21 @@ namespace Fishing
 #if DEBUG
                 rtbDebug.UIThread(() =>
             {
-                try
+                if (!string.IsNullOrEmpty(message))
                 {
-                    rtbDebug.SelectionStart = rtbDebug.Text.Length;
-                    rtbDebug.SelectionColor = Color.SlateBlue;
-                    rtbDebug.SelectedText = DateTime.Now.ToString(FormatLogTimestamp);
-                    rtbDebug.SelectionColor = color;
-                    rtbDebug.SelectedText = message + Environment.NewLine;
-                    rtbDebug.SelectionStart = rtbDebug.Text.Length - 1;
-                    rtbDebug.ScrollToCaret();
-                }
-                catch (ArgumentOutOfRangeException)
-                {
+                    try
+                    {
+                        rtbDebug.SelectionStart = rtbDebug.Text.Length;
+                        rtbDebug.SelectionColor = Color.SlateBlue;
+                        rtbDebug.SelectedText = DateTime.Now.ToString(FormatLogTimestamp);
+                        rtbDebug.SelectionColor = FishChat.BrightenColor(color);
+                        rtbDebug.SelectedText = message + Environment.NewLine;
+                        rtbDebug.SelectionStart = rtbDebug.Text.Length - 1;
+                        rtbDebug.ScrollToCaret();
+                    }
+                    catch (ArgumentOutOfRangeException)
+                    {
+                    }
                 }
             })
 #else
@@ -345,12 +348,50 @@ namespace Fishing
 
             #region Database
 
-            DBLogger = new FishingFormDBLogger(this);
+            DBLogger = new FishingFormDBLogger((string message, Color color) => rtbDB.UIThread(() =>
+            {
+                if (!string.IsNullOrEmpty(message))
+                {
+                    try
+                    {
+                        rtbDB.SelectionStart = rtbDB.Text.Length;
+                        rtbDB.SelectionColor = Color.SlateBlue;
+                        rtbDB.SelectedText = DateTime.Now.ToString(FormatLogTimestamp);
+                        rtbDB.SelectionColor = FishChat.BrightenColor(color);
+                        rtbDB.SelectedText = message + Environment.NewLine;
+                        rtbDB.SelectionStart = rtbDB.Text.Length - 1;
+                        rtbDB.ScrollToCaret();
+                    }
+                    catch (ArgumentOutOfRangeException)
+                    {
+                    }
+                }
+            }));
             FishSQL.StatusDisplay = DBLogger;
             Thread databaseInitThread = new Thread(new ThreadStart(CheckDatabase)) {IsBackground = true};
             databaseInitThread.Start();
 
             #endregion //Database
+
+            #region Debug
+
+            tabChat.Controls.Remove(tabChatPageDebug);
+#if DEBUG || TEST
+            showDebugToolStripMenuItem.Visible = true;
+#else
+            showDebugToolStripMenuItem.Visible = false;
+#endif
+#if DEBUG
+            toolStripSeparatorChatBoxes.Visible = true;
+#else
+            toolStripSeparatorChatBoxes.Visible = false;
+#endif
+#if TEST
+            toolStripSeparatorChatBoxes.Visible = true;
+#else
+            testToolStripMenuItem.Visible = false;
+#endif
+            #endregion //Debug
 
         }
         ~FishingForm()
@@ -443,10 +484,7 @@ namespace Fishing
                         messageArray = MessageVersionUpdate.Concat(new string[] { string.Empty, message }).ToArray();
                     }
                     MessageBox.Show(string.Join(Environment.NewLine, messageArray));
-                    foreach (string s in messageArray)
-                    {
-                        UpdateDBLog(s);
-                    }
+                    DBLogger.Info(string.Join(Environment.NewLine, messageArray));
                 }
 
                 // Make sure _FFACE is populated so we can actually resolve zone names and such
@@ -2701,27 +2739,6 @@ namespace Fishing
         } // @ private void UpdateChatLogs(RichTextBox rtb, int linesToParse)
 
         /// <summary>
-        /// Add a chat line to the DB chat log.
-        /// </summary>
-        /// <param name="line">string to add</param>
-        public void UpdateDBLog(string line)
-        {
-            rtbDB.UIThread(delegate
-            {
-                if (!string.IsNullOrEmpty(line))
-                {
-                    rtbDB.SelectionStart = rtbDB.Text.Length;
-                    rtbDB.SelectionColor = Color.SlateBlue;
-                    rtbDB.SelectedText = DateTime.Now.ToString(FormatLogTimestamp);
-                    rtbDB.SelectionColor = Color.White;
-                    rtbDB.SelectedText = line + Environment.NewLine;
-                    rtbDB.SelectionStart = rtbDB.Text.Length - 1;
-                    rtbDB.ScrollToCaret();
-                }
-            });
-        } // private void UpdateDBLog(string line)
-
-        /// <summary>
         /// Update the fish stats page
         /// </summary>
         private void UpdateStats()
@@ -3730,12 +3747,10 @@ namespace Fishing
             Process.Start(e.LinkText);
         }
 
-#if DEBUG
         private void rtbDebug_LinkClicked(object sender, LinkClickedEventArgs e)
         {
             Process.Start(e.LinkText);
         }
-#endif
 
         private void btnRefreshLists_Click(object sender, EventArgs e)
         {
@@ -4370,9 +4385,9 @@ namespace Fishing
             }
         }
 
-#if DEBUG
         private void showDebugToolStripMenuItem_Click(object sender, EventArgs e)
         {
+#if DEBUG
             showDebugToolStripMenuItem.Checked = !showDebugToolStripMenuItem.Checked;
             if (showDebugToolStripMenuItem.Checked)
             {
@@ -4386,8 +4401,8 @@ namespace Fishing
                 }
                 tabChat.Controls.Remove(tabChatPageDebug);
             }
-        }
 #endif
+        }
 #if TEST
 
         private readonly List<string> fishWords = new List<string>();  
@@ -4409,9 +4424,10 @@ namespace Fishing
 
             return string.Format(fishPhrases[rnd.Next(fishPhrases.Length)], fishWords[rnd.Next(fishWords.Count)]);
         }
-
+#endif
         private void testToolStripMenuItem_Click(object sender, EventArgs e)
         {
+#if TEST
             int j = 0;
             KnownColor[] colorNames = (KnownColor[])Enum.GetValues(typeof(KnownColor));
             foreach (ChatMode type in new ChatMode[]
@@ -4477,9 +4493,8 @@ namespace Fishing
             DBLogger.Warning(FishyIpsum());
             DBLogger.Error(FishyIpsum());
             DBLogger.Error(FishyIpsum());
-        }
-
 #endif
+        }
 
         #endregion //Events_ChatLogs
 

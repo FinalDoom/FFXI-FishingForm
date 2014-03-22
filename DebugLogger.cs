@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Drawing;
+using System.Runtime.CompilerServices;
 using Fishing.Properties;
 
 namespace Fishing
 {
-    class DebugLogger
+    class DebugLogger : ILogger
     {
         private readonly Action<string, Color> Log;
 
@@ -27,6 +29,15 @@ namespace Fishing
         {
             Log(message, Color.White);
         }
+
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        public string GetCurrentMethod()
+        {
+            StackTrace st = new StackTrace();
+            StackFrame sf = st.GetFrame(1);
+
+            return sf.GetMethod().Name;
+        }
 #else
         public void Error(string message)
         {
@@ -38,6 +49,10 @@ namespace Fishing
 
         public void Info(string message)
         {
+        }
+
+        public static string GetCurrentMethod() {
+            return string.Empty;
         }
 #endif
     }
