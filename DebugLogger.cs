@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
+using Fishing.Properties;
 
 namespace Fishing
 {
@@ -17,12 +15,12 @@ namespace Fishing
 #if DEBUG
         public void Error(string message)
         {
-            Log(string.Format("ERROR: {0}", message), Color.Red);
+            Log(string.Format(Resources.MessageFormatError, message), Color.Red);
         }
 
         public void Warning(string message)
         {
-            Log(string.Format("WARNING: {0}", message), Color.Yellow);
+            Log(string.Format(Resources.MessageFormatWarning, message), Color.Yellow);
         }
 
         public void Info(string message)

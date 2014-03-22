@@ -9,16 +9,14 @@ namespace Fishing
     /// new fishing items (fish, bait, rods, gear, etc.) added
     /// to the game, so that they may be reflected in the program.
     /// </remarks>
-    internal class Dictionaries
+    internal static class Dictionaries
     {
         #region Constructor
-        private Dictionaries()
-        {
-        }
+
         #endregion //Constructor
 
         #region FishDictionary
-        public static Dictionary<string, int> fishDictionary = new Dictionary<string, int>()
+        public static readonly Dictionary<string, int> fishDictionary = new Dictionary<string, int>
         {
             // ITEMS & QUEST & 0 SKILL
             {"1 Gil", 0},
@@ -241,7 +239,7 @@ namespace Fishing
         #endregion
 
         #region RodDictionary
-        public static Dictionary<string, int> rodDictionary = new Dictionary<string, int>()
+        public static readonly Dictionary<string, int> rodDictionary = new Dictionary<string, int>
         {
             {"Ebisu Fishing Rod", 17011},
             {"Lu Shang's F. Rod", 17386},
@@ -260,11 +258,11 @@ namespace Fishing
             {"Yew Fishing Rod", 17390},
             {"MMM Fishing Rod", 19319}
         };
-        public static List<string> rodList = new List<string>(rodDictionary.Keys);
+        public static readonly List<string> rodList = new List<string>(rodDictionary.Keys);
         #endregion
 
         #region GearDictionary
-        public static Dictionary<string, int> gearDictionary = new Dictionary<string, int>()
+        public static readonly Dictionary<string, int> gearDictionary = new Dictionary<string, int>
         {
             // Body
             {"Angler's Tunica", 13809},
@@ -311,29 +309,29 @@ namespace Fishing
             {"Safehold Earring", 16048},
             {"Selbina Earring", 16043}
         };
-        public static List<string> gearList = new List<string>(gearDictionary.Keys);
-        public static int bodyIndex = 0;
-        public static int bodyCount = 4;
-        public static int handsIndex = bodyIndex + bodyCount;
-        public static int handsCount = 2;
-        public static int legsIndex = handsIndex + handsCount;
-        public static int legsCount = 2;
-        public static int feetIndex = legsIndex + legsCount;
-        public static int feetCount = 3;
-        public static int headIndex = feetIndex + feetCount;
-        public static int headCount = 1;
-        public static int neckIndex = headIndex + headCount;
-        public static int neckCount = 1;
-        public static int waistIndex = neckIndex + neckCount;
-        public static int waistCount = 2;
-        public static int ringsIndex = waistIndex + waistCount;
-        public static int ringsCount = 7;
-        public static int earringsIndex = ringsIndex + ringsCount;
-        public static int earringsCount = 11;
+        public static readonly List<string> gearList = new List<string>(gearDictionary.Keys);
+        public const int bodyIndex = 0;
+        public const int bodyCount = 4;
+        public static readonly int handsIndex = bodyIndex + bodyCount;
+        public const int handsCount = 2;
+        public static readonly int legsIndex = handsIndex + handsCount;
+        public const int legsCount = 2;
+        public static readonly int feetIndex = legsIndex + legsCount;
+        public const int feetCount = 3;
+        public static readonly int headIndex = feetIndex + feetCount;
+        public const int headCount = 1;
+        public static readonly int neckIndex = headIndex + headCount;
+        public const int neckCount = 1;
+        public static readonly int waistIndex = neckIndex + neckCount;
+        public const int waistCount = 2;
+        public static readonly int ringsIndex = waistIndex + waistCount;
+        public const int ringsCount = 7;
+        public static readonly int earringsIndex = ringsIndex + ringsCount;
+        public const int earringsCount = 11;
         #endregion
 
         #region BaitDictionary
-        public static Dictionary<string, int> baitDictionary = new Dictionary<string, int>()
+        public static readonly Dictionary<string, int> baitDictionary = new Dictionary<string, int>
         {
             //LURES
             {"Fly Lure", 17405},
@@ -371,7 +369,7 @@ namespace Fishing
             {"Sliced Sardine", 17392},
             {"Trout Ball", 16999}
         };
-        public static List<string> baitList = new List<string>(baitDictionary.Keys);
+        public static readonly List<string> baitList = new List<string>(baitDictionary.Keys);
         #endregion
     }
 }

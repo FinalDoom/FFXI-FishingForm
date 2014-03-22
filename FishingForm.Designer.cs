@@ -192,10 +192,8 @@
             this.cbFullactionLogout = new System.Windows.Forms.CheckBox();
             this.cbFullactionWarp = new System.Windows.Forms.CheckBox();
             this.cbInventoryItemizerItemTools = new System.Windows.Forms.CheckBox();
-#if DEBUG
             this.tabChatPageDebug = new System.Windows.Forms.TabPage();
             this.rtbDebug = new System.Windows.Forms.RichTextBox();
-#endif
             this.timer = new System.Windows.Forms.Timer(this.components);
             this.statusStripMain = new System.Windows.Forms.StatusStrip();
             this.lblVanaDay = new System.Windows.Forms.ToolStripStatusLabel();
@@ -208,14 +206,10 @@
             this.saveSelectedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveLogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveAllLogsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-#if DEBUG
             this.toolStripSeparatorChatBoxes = new System.Windows.Forms.ToolStripSeparator();
             this.showDebugToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-#endif
-            this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
-#if TEST
             this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-#endif
+            this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.contextMenuStats.SuspendLayout();
             this.contextMenuListBox.SuspendLayout();
             this.pnlLog.SuspendLayout();
@@ -262,9 +256,7 @@
             this.gbOnFatigue.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numFullactionOtherTime)).BeginInit();
-#if DEBUG
             this.tabChatPageDebug.SuspendLayout();
-#endif
             this.statusStripMain.SuspendLayout();
             this.contextMenuChatBoxes.SuspendLayout();
             this.SuspendLayout();
@@ -1239,6 +1231,7 @@
             0,
             0,
             0});
+            this.numMaxNoCatch.ValueChanged += new System.EventHandler(this.numMaxNoCatch_ValueChanged);
             // 
             // btnCastReset
             // 
@@ -1437,7 +1430,7 @@
             this.gbGMDetect.Controls.Add(this.cbGMdetectAutostop);
             this.gbGMDetect.Location = new System.Drawing.Point(6, 7);
             this.gbGMDetect.Name = "gbGMDetect";
-            this.gbGMDetect.Size = new System.Drawing.Size(93, 145);
+            this.gbGMDetect.Size = new System.Drawing.Size(93, 144);
             this.gbGMDetect.TabIndex = 0;
             this.gbGMDetect.TabStop = false;
             this.gbGMDetect.Text = "GM Detection";
@@ -2092,7 +2085,7 @@
             this.gbExhaustedBait.Controls.Add(this.cbBaitActionShutdown);
             this.gbExhaustedBait.Location = new System.Drawing.Point(131, 6);
             this.gbExhaustedBait.Name = "gbExhaustedBait";
-            this.gbExhaustedBait.Size = new System.Drawing.Size(119, 162);
+            this.gbExhaustedBait.Size = new System.Drawing.Size(119, 161);
             this.gbExhaustedBait.TabIndex = 3;
             this.gbExhaustedBait.TabStop = false;
             this.gbExhaustedBait.Text = "On Bait Exhausted";
@@ -2233,7 +2226,7 @@
             this.gbOnFatigue.Controls.Add(this.cbFatiguedActionShutdown);
             this.gbOnFatigue.Location = new System.Drawing.Point(256, 6);
             this.gbOnFatigue.Name = "gbOnFatigue";
-            this.gbOnFatigue.Size = new System.Drawing.Size(102, 162);
+            this.gbOnFatigue.Size = new System.Drawing.Size(102, 161);
             this.gbOnFatigue.TabIndex = 2;
             this.gbOnFatigue.TabStop = false;
             this.gbOnFatigue.Text = "On Fatigue Stop";
@@ -2287,7 +2280,7 @@
             this.groupBox1.Controls.Add(this.cbInventoryItemizerItemTools);
             this.groupBox1.Location = new System.Drawing.Point(6, 6);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(119, 162);
+            this.groupBox1.Size = new System.Drawing.Size(119, 161);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "On Full Inventory";
@@ -2429,7 +2422,6 @@
             this.cbInventoryItemizerItemTools.Text = "Itemizer/ItemTools";
             this.cbInventoryItemizerItemTools.UseVisualStyleBackColor = false;
             this.cbInventoryItemizerItemTools.CheckedChanged += new System.EventHandler(this.cbEnableItemizerItemTools_CheckedChanged);
-#if DEBUG
             // 
             // tabChatPageDebug
             // 
@@ -2458,7 +2450,6 @@
             this.rtbDebug.Text = "";
             this.rtbDebug.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.rtbDebug_LinkClicked);
             this.rtbDebug.MouseDown += new System.Windows.Forms.MouseEventHandler(this.rtbChatBox_MouseDown);
-#endif
             // 
             // timer
             // 
@@ -2533,59 +2524,50 @@
             this.saveSelectedToolStripMenuItem,
             this.saveLogToolStripMenuItem,
             this.saveAllLogsToolStripMenuItem,
-#if DEBUG
             this.toolStripSeparatorChatBoxes,
             this.showDebugToolStripMenuItem,
-#endif
-#if TEST
-            this.testToolStripMenuItem
-#endif
-            });
+            this.testToolStripMenuItem});
             this.contextMenuChatBoxes.Name = "contextMenuChatBoxes";
-            this.contextMenuChatBoxes.Size = new System.Drawing.Size(153, 142);
+            this.contextMenuChatBoxes.Size = new System.Drawing.Size(146, 120);
             // 
             // saveSelectedToolStripMenuItem
             // 
             this.saveSelectedToolStripMenuItem.Name = "saveSelectedToolStripMenuItem";
-            this.saveSelectedToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.saveSelectedToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
             this.saveSelectedToolStripMenuItem.Text = "Save Selected";
             // 
             // saveLogToolStripMenuItem
             // 
             this.saveLogToolStripMenuItem.Name = "saveLogToolStripMenuItem";
-            this.saveLogToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.saveLogToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
             this.saveLogToolStripMenuItem.Text = "Save Log";
             this.saveLogToolStripMenuItem.Click += new System.EventHandler(this.saveLogToolStripMenuItem_Click);
             // 
             // saveAllLogsToolStripMenuItem
             // 
             this.saveAllLogsToolStripMenuItem.Name = "saveAllLogsToolStripMenuItem";
-            this.saveAllLogsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.saveAllLogsToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
             this.saveAllLogsToolStripMenuItem.Text = "Save All Logs";
             this.saveAllLogsToolStripMenuItem.Click += new System.EventHandler(this.saveAllLogsToolStripMenuItem_Click);
-#if DEBUG
             // 
             // toolStripSeparatorChatBoxes
             // 
             this.toolStripSeparatorChatBoxes.Name = "toolStripSeparatorChatBoxes";
-            this.toolStripSeparatorChatBoxes.Size = new System.Drawing.Size(149, 6);
+            this.toolStripSeparatorChatBoxes.Size = new System.Drawing.Size(142, 6);
             // 
             // showDebugToolStripMenuItem
             // 
             this.showDebugToolStripMenuItem.Name = "showDebugToolStripMenuItem";
-            this.showDebugToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.showDebugToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
             this.showDebugToolStripMenuItem.Text = "Show Debug";
             this.showDebugToolStripMenuItem.Click += new System.EventHandler(this.showDebugToolStripMenuItem_Click);
-#endif
-#if TEST
             // 
             // testToolStripMenuItem
             // 
             this.testToolStripMenuItem.Name = "testToolStripMenuItem";
-            this.testToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.testToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
             this.testToolStripMenuItem.Text = "Test";
             this.testToolStripMenuItem.Click += new System.EventHandler(this.testToolStripMenuItem_Click);
-#endif
             // 
             // FishingForm
             // 
@@ -2667,9 +2649,7 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numFullactionOtherTime)).EndInit();
-#if DEBUG
             this.tabChatPageDebug.ResumeLayout(false);
-#endif
             this.statusStripMain.ResumeLayout(false);
             this.statusStripMain.PerformLayout();
             this.contextMenuChatBoxes.ResumeLayout(false);

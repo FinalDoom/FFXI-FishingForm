@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Windows.Forms;
 using System.Xml;
@@ -21,7 +22,8 @@ namespace Fishing
             ID3 = i3;
         }
 
-        internal string name, rod, ID1, ID2, ID3;
+        internal readonly string name;
+        internal string rod, ID1, ID2, ID3;
         public override string ToString() { return name; }
 
     } // @ internal struct Fishie
@@ -162,7 +164,7 @@ namespace Fishing
                     Directory.CreateDirectory(dbFolder);
                 }
 
-                using (TextWriter writer = new StreamWriter(System.IO.File.Create(DBSyncFile)))
+                using (TextWriter writer = new StreamWriter(File.Create(DBSyncFile)))
                 {
 
                     try
@@ -193,8 +195,8 @@ namespace Fishing
         /// <returns>True if the version is acceptable</returns>
         internal static bool IsDBVersionAcceptable(string ver)
         {
-            string[] verSplit = ver.Split(new char[1] { Resources.Period });
-            string[] dbMin = dbMinVersion.Split(new char[1] { Resources.Period });
+            string[] verSplit = ver.Split(new char[] { Resources.Period });
+            string[] dbMin = dbMinVersion.Split(new char[] { Resources.Period });
             for (int i = 0; i < verSplit.Length; ++i)
             {
                 if (int.Parse(verSplit[i]) > int.Parse(dbMin[i]))
@@ -262,8 +264,8 @@ namespace Fishing
                         XmlAttribute dbTime = rodNode.Attributes.Append(upDoc.CreateAttribute(XMLAttrDbTime));
                         XmlAttribute xmlTime = rodNode.Attributes.Append(upDoc.CreateAttribute(XMLAttrXMLTime));
                         rodName.Value = rod;
-                        dbTime.Value = (new DateTime(1970, 1, 1, 0, 0, 1)).ToString();
-                        xmlTime.Value = (new DateTime(1970, 1, 1, 0, 0, 1)).ToString();
+                        dbTime.Value = (new DateTime(1970, 1, 1, 0, 0, 1)).ToString(CultureInfo.InvariantCulture);
+                        xmlTime.Value = (new DateTime(1970, 1, 1, 0, 0, 1)).ToString(CultureInfo.InvariantCulture);
                         changed = true;
                     }
                     UpdatesByRod[rod] = new DBUpdate(rodNode.Attributes[XMLAttrDbTime].Value, rodNode.Attributes[XMLAttrXMLTime].Value);
@@ -295,7 +297,7 @@ namespace Fishing
             }
             UpdatesByRod[rod].XmlUpdated();
             XmlNode rodNode = GetUpdatesNode().SelectSingleNode(string.Format(XPathFormatRodByName, rod));
-            rodNode.Attributes[XMLAttrXMLTime].Value = UpdatesByRod[rod].xmlDate.ToString();
+            rodNode.Attributes[XMLAttrXMLTime].Value = UpdatesByRod[rod].xmlDate.ToString(CultureInfo.InvariantCulture);
         }
 
         /// <summary>
@@ -312,7 +314,7 @@ namespace Fishing
             }
             UpdatesByRod[rod].XmlUpdated(time);
             XmlNode rodNode = GetUpdatesNode().SelectSingleNode(string.Format(XPathFormatRodByName, rod));
-            rodNode.Attributes[XMLAttrDbTime].Value = time.ToString();
+            rodNode.Attributes[XMLAttrDbTime].Value = time.ToString(CultureInfo.InvariantCulture);
             FishDBChanged(rod);
         }
 
@@ -689,12 +691,12 @@ namespace Fishing
                         Directory.CreateDirectory(dbFolder);
                     }
 
-                    using (TextWriter writer = new StreamWriter(System.IO.File.Create(fishDBFile)))
+                    using (TextWriter writer = new StreamWriter(File.Create(fishDBFile)))
                     {
 
                         try
                         {
-                            writer.WriteLine(string.Format(XMLFormatRod, rod));
+                            writer.WriteLine(XMLFormatRod, rod);
                             writer.Flush();
                         }
                         finally
@@ -737,7 +739,7 @@ namespace Fishing
         /// <param name="bait">the bait name</param>
         /// <param name="wanted">true to select wanted fish, false for unwanted fish</param>
         /// <returns>array of <c>Fishie</c> that match the conditions passed</returns>
-        internal static Fishie[] GetFishes(string rod, string zone, string bait, bool wanted)
+        internal static IEnumerable<Fishie> GetFishes(string rod, string zone, string bait, bool wanted)
         {
             XmlDocument xmlDoc = GetFishDB(rod);
             string xpathQuery = string.Format(XPathFormatFishByZoneBaitAndWanted, zone, bait, wanted ? Resources.Yes : Resources.No);
