@@ -135,7 +135,6 @@ namespace Fishing
 
         private static ProcessSelector.POLProcess _Process { get; set; }
         private static Random rnd = new Random();
-        private static ThreadStart ts;
         private static Thread workerThread;
         private static SizeF currentScaleFactor = new SizeF(1f, 1f);
         private static FishingFormDBLogger DBLogger;
@@ -211,7 +210,7 @@ namespace Fishing
         #endregion //Members
 
         #region Constructor/Destructor
-
+        
         internal FishingForm(IEnumerable<string> arglist)
         {
             InitializeComponent();
@@ -318,7 +317,7 @@ namespace Fishing
 
             DebugLog = new DebugLogger((string message, Color color) => 
 #if DEBUG
-                rtbDebug.UIThread(() =>
+                rtbDebug.UIThread(delegate
             {
                 if (!string.IsNullOrEmpty(message))
                 {
@@ -342,13 +341,15 @@ namespace Fishing
 #endif
             );
 
+            Thread.CurrentThread.Name = "UIThread";
+
             #endregion //DebugLogging
 
             #endregion //FormElements
 
             #region Database
 
-            DBLogger = new FishingFormDBLogger((string message, Color color) => rtbDB.UIThread(() =>
+            DBLogger = new FishingFormDBLogger((string message, Color color) => rtbDB.UIThread(delegate
             {
                 if (!string.IsNullOrEmpty(message))
                 {
@@ -368,7 +369,11 @@ namespace Fishing
                 }
             }));
             FishSQL.StatusDisplay = DBLogger;
-            Thread databaseInitThread = new Thread(new ThreadStart(CheckDatabase)) {IsBackground = true};
+            Thread databaseInitThread = new Thread(new ThreadStart(CheckDatabase))
+            {
+                IsBackground = true,
+                Name = "DatabaseInitThread"
+            };
             databaseInitThread.Start();
 
             #endregion //Database
@@ -2065,8 +2070,11 @@ namespace Fishing
                 PopulateLists();
                 CheckEnchantment();
 
-                ts = new ThreadStart(BackgroundFishing);
-                workerThread = new Thread(ts) {IsBackground = true};
+                workerThread = new Thread(new ThreadStart(BackgroundFishing))
+                {
+                    IsBackground = true,
+                    Name = "WorkerThread"
+                };
                 workerThread.Start();
 
                 btnStart.Text = Resources.GUIButtonStop;

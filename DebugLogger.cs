@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Drawing;
 using System.Runtime.CompilerServices;
+using System.Threading;
 using Fishing.Properties;
 
 namespace Fishing
@@ -31,12 +32,17 @@ namespace Fishing
         }
 
         [MethodImpl(MethodImplOptions.NoInlining)]
-        public string GetCurrentMethod()
+        public static string GetCurrentMethod()
         {
             StackTrace st = new StackTrace();
             StackFrame sf = st.GetFrame(1);
 
             return sf.GetMethod().Name;
+        }
+
+        public static string GetCurrentThread()
+        {
+            return Thread.CurrentThread.Name;
         }
 #else
         public void Error(string message)
