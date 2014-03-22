@@ -3508,6 +3508,7 @@ namespace Fishing
             cbIgnoreSmallFish.Checked = Settings.Default.IgnoreSmallFish;
             cbIgnoreLargeFish.Checked = Settings.Default.IgnoreLargeFish;
             cbTellDetect.Checked = Settings.Default.TellDetect;
+			cbFishHP.Checked = Settings.Default.ShowFishHP;
             cbInventoryItemizerItemTools.Checked = Settings.Default.ItemizerItemTools;
             cbSneakFishing.Checked = Settings.Default.SneakFishing;
 
