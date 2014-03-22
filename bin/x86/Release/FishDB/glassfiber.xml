@@ -1,0 +1,56 @@
+<Rod name="Glass Fiber F. Rod">
+  <Fish name="Rusty Leggings" wanted="No" ID1="60" ID2="26" ID3="15">
+    <Zones>
+      <Zone>Port San d'Oria</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Insect Ball</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Moat Carp" wanted="No" ID1="200" ID2="16" ID3="12">
+    <Zones>
+      <Zone>Northern San d'Oria</Zone>
+      <Zone>Port San d'Oria</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Insect Ball</Bait>
+      <Bait>Little Worm</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Tricolored Carp" wanted="No" ID1="260" ID2="19" ID3="14">
+    <Zones>
+      <Zone>Northern San d'Oria</Zone>
+      <Zone>Port San d'Oria</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Insect Ball</Bait>
+      <Bait>Shrimp Lure</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Break Line Fish" wanted="No" ID1="300" ID2="18" ID3="12">
+    <Zones>
+      <Zone>Port San d'Oria</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Insect Ball</Bait>
+      <Bait>Little Worm</Bait>
+      <Bait>Shrimp Lure</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Break Rod Fish" wanted="No" ID1="300" ID2="18" ID3="12">
+    <Zones>
+      <Zone>Northern San d'Oria</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Insect Ball</Bait>
+    </Baits>
+  </Fish>
+  <Fish name="Lack Skill Fish" wanted="No" ID1="300" ID2="18" ID3="12">
+    <Zones>
+      <Zone>Windurst Woods</Zone>
+    </Zones>
+    <Baits>
+      <Bait>Shrimp Lure</Bait>
+    </Baits>
+  </Fish>
+</Rod>

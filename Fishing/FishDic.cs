@@ -2,6 +2,13 @@
 
 namespace Fishing
 {
+    /// <summary>
+    /// Dictionaries of names and IDs used for fishing
+    /// </summary>
+    /// <remarks>This needs to be updated if there are ever
+    /// new fishing items (fish, bait, rods, gear, etc.) added
+    /// to the game, so that they may be reflected in the program.
+    /// </remarks>
     internal class Dictionaries
     {
         #region Constructor
@@ -16,6 +23,7 @@ namespace Fishing
             // ITEMS & QUEST & 0 SKILL
             {"1 Gil", 0},
             {"100 Gil", 0},
+            {"Adoulinian Kelp", 3965},
             {"Arrowwood Log", 688},
             {"Bugbear Mask", 1624},
             {"Copper Ring", 13454},
@@ -39,9 +47,10 @@ namespace Fishing
             // FISH
             // A
             {"Abaia", 5476},
+            //Adoulinian Kelp in items
             {"Ahtapot", 5455},
             {"Alabaligi", 5461},
-            {"Armored Picses", 4316},
+            {"Armored Pisces", 4316},
             {"Aurora Bass", 5818},
             // B
             {"Barnacle", 5954},
@@ -58,9 +67,11 @@ namespace Fishing
             {"Black Bubble-Eye", 4311},
             {"Black Eel", 4429},
             {"Black Ghost", 5138},
+            {"Black Prawn", 5948},
             {"Black Sole", 4384},
             {"Bladefish", 4471},
             {"Blindfish", 4313},
+            {"Bloodblotch", 5951},
             {"Blowfish", 5812},
             {"Bluetail", 4399},
             {"Brass Loach", 5469},
@@ -74,6 +85,8 @@ namespace Fishing
             {"Cone Calamary", 5128},
             {"Cone Calamary x2", 5128},
             {"Cone Calamary x3", 5128},
+            {"Contortacle", 5962},
+            {"Contortopus", 5961},
             {"Copper Frog", 4515},
             {"Coral Butterfly", 4580},
             {"Crayfish", 4472},
@@ -85,6 +98,7 @@ namespace Fishing
             {"Denizanasi", 5447},
             {"Dil", 5457},
             {"Dorado Gar", 5813},
+            {"Dragonfish", 5959},
             // E
             {"Elshimo Frog", 4290},
             {"Elshimo Newt", 4579},
@@ -141,6 +155,8 @@ namespace Fishing
             {"Lionhead", 4312},
             {"Lungfish", 4315},
             // M
+            {"Mackerel", 5950},
+            {"Malicious Perch", 5995},
             {"Matsya", 5468},
             {"Megalodon", 5467},
             {"Mercanbaligi", 5454},
@@ -173,6 +189,7 @@ namespace Fishing
             {"Red Bubble-Eye", 5446},
             {"Red Terrapin", 4402},
             {"Rhinochimera", 5135},
+            {"Ruddy Seema", 5952},
             {"Ryugu Titan", 4305},
             // S
             {"Sandfish", 4291},
@@ -180,6 +197,9 @@ namespace Fishing
             {"Sandfish x3", 4291},
             {"Sazanbaligi", 5459},
             {"Sea Zombie", 4475},
+            {"Sekiryu", 5538},
+            {"Senroh Frog", 5993},
+            {"Senroh Sardine", 5963},
             {"Shall Shell", 4484},
             {"Shen", 5997},
             {"Shining Trout", 4354},
@@ -203,6 +223,7 @@ namespace Fishing
             {"Turnabaligi", 5137},
             // Tropical Clam can't be fished up
             // U
+            {"Ulbukan Lobster", 5960},
             {"Uskumru", 5452},
             // V
             {"Veydal Wrasse", 5141},

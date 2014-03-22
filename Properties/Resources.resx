@@ -164,11 +164,11 @@
     <comment>Directs program to start when run</comment>
   </data>
   <data name="StatusFormatMoveToSack" xml:space="preserve">
-    <value>Moving {0} to Sack: {1} remaining.</value>
+    <value>Moving {0} to sack: {1} remaining.</value>
     <comment>Status when moving items to sack</comment>
   </data>
   <data name="StatusFormatMoveSackFinished" xml:space="preserve">
-    <value>Finished moving {0} to Sack.</value>
+    <value>Finished moving {0} to sack.</value>
     <comment>Status when done moving items to sack</comment>
   </data>
   <data name="MessageDBSyncStart" xml:space="preserve">
@@ -471,7 +471,7 @@
     <comment>Status when satchel is full</comment>
   </data>
   <data name="StatusFormatMoveToSatchel" xml:space="preserve">
-    <value>Moving {0} to Satchel: {1} remaining.</value>
+    <value>Moving {0} to satchel: {1} remaining.</value>
     <comment>Status when moving items to satchel</comment>
   </data>
   <data name="StatusFormatMoveSatchelFinished" xml:space="preserve">
@@ -731,5 +731,92 @@
   <data name="TestChatFishingSkillPoints" xml:space="preserve">
     <value>points.</value>
     <comment>Test for points rather than level up</comment>
+  </data>
+  <data name="SQLMessageErrorNoConnection" xml:space="preserve">
+    <value>Could not connect to FishDB MySQL server. Please contact program maintainer.</value>
+  </data>
+  <data name="SQLMessageErrorCouldntConnect" xml:space="preserve">
+    <value>Could not connect to FishDB MySQL server. Error number {0}</value>
+  </data>
+  <data name="SQLMessageWarningCloseConnection" xml:space="preserve">
+    <value>Could not close connection.</value>
+  </data>
+  <data name="SQLMessageErrorNewestModTime" xml:space="preserve">
+    <value>Error getting Newest DB Modification Time</value>
+  </data>
+  <data name="SQLMessageFormatErrorGettingFishID" xml:space="preserve">
+    <value>Error getting fish ID from DB for "{0}"</value>
+  </data>
+  <data name="SQLMessageFormatErrorAddingFish" xml:space="preserve">
+    <value>Error adding new fish "{0}"</value>
+  </data>
+  <data name="SQLMessageFormatErrorRenamingFish" xml:space="preserve">
+    <value>Error renaming fish "{0}" to "{1}"</value>
+  </data>
+  <data name="SQLMessageFormatErrorAddingBaitFish" xml:space="preserve">
+    <value>Error adding bait "{0}" to fish "{1}"</value>
+  </data>
+  <data name="SQLMessageFormatErrorAddingZoneFish" xml:space="preserve">
+    <value>Error adding zone "{0}" to fish "{1}"</value>
+  </data>
+  <data name="SQLMessageFormatErrorGettingNewFishWithIDs" xml:space="preserve">
+    <value>Error getting new fish "{0}" with IDs: {1}, {2}, {3}</value>
+  </data>
+  <data name="SQLMessageFormatErrorGettingRenamedFishWithIDs" xml:space="preserve">
+    <value>Error getting renamed fish "{0}" to "{1}" with IDs: {2}, {3}, {4}</value>
+  </data>
+  <data name="SQLMessageErrorGettingVersion" xml:space="preserve">
+    <value>Error getting program version status.</value>
+  </data>
+  <data name="SQLMessageFormatErrorUploadingFishRod" xml:space="preserve">
+    <value>Error uploading fish "{0}" for {1}.</value>
+  </data>
+  <data name="SQLMessageFormatErrorUploadingBaitZones" xml:space="preserve">
+    <value>Error uploading bait and zones for fish "{0}" for {1}.</value>
+  </data>
+  <data name="SQLMessageFormatErrorUploadingRename" xml:space="preserve">
+    <value>Error uploading rename from "{0}" to "{1}" for {2}.</value>
+  </data>
+  <data name="SQLMessageFormatErrorDownloadingFishRod" xml:space="preserve">
+    <value>Error downloading new fish for {0}</value>
+  </data>
+  <data name="SQLMessageFormatErrorDownloadingRenameRod" xml:space="preserve">
+    <value>Error downloading renames for {0}</value>
+  </data>
+  <data name="SQLMessageUploadStart" xml:space="preserve">
+    <value>Starting upload to DB.</value>
+  </data>
+  <data name="SQLMessageErrorUploading" xml:space="preserve">
+    <value>Error uploading fish</value>
+  </data>
+  <data name="SQLMessageUploadFinished" xml:space="preserve">
+    <value>Upload to DB finished.</value>
+  </data>
+  <data name="CommandPartCase" xml:space="preserve">
+    <value>case</value>
+    <comment>part of command for itemizer/itemtools</comment>
+  </data>
+  <data name="StatusFormatMoveCaseFinished" xml:space="preserve">
+    <value>Finished moving {0} to case.</value>
+    <comment>Status when done moving items to case</comment>
+  </data>
+  <data name="StatusInfoFullCase" xml:space="preserve">
+    <value>Case is full.</value>
+    <comment>Status when case is full</comment>
+  </data>
+  <data name="StatusFormatMoveToCase" xml:space="preserve">
+    <value>Moving {0} to case: {1} remaining.</value>
+    <comment>Status when moving items to case</comment>
+  </data>
+  <data name="SQLMessageVersionCheck" xml:space="preserve">
+    <value>Checking program version.</value>
+    <comment>Message when doing program version check</comment>
+  </data>
+  <data name="SQLMessageErrorGettingVersionMessage" xml:space="preserve">
+    <value>Error getting new version message.</value>
+  </data>
+  <data name="SQLMessageVersionMessageCheck" xml:space="preserve">
+    <value>Checking for version update message.</value>
+    <comment>Message from developer in DB.</comment>
   </data>
 </root>

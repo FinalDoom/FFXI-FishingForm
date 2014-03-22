@@ -1,3 +1,15 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
 	<s:String x:Key="/Default/CodeInspection/Highlighting/AnalysisEnabled/@EntryValue">SOLUTION</s:String>
-	<s:Boolean x:Key="/Default/Environment/SearchAndNavigation/MergeOccurences/@EntryValue">False</s:Boolean></wpf:ResourceDictionary>
+	
+	<s:Boolean x:Key="/Default/Housekeeping/UnitTestingMru/UnitTestSessionPersistentData/=9F55F00AFA4E419CB50C98A4327BC00E/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/Housekeeping/UnitTestingMru/UnitTestSessionPersistentData/=9F55F00AFA4E419CB50C98A4327BC00E/Name/@EntryValue">Session #2</s:String>
+	<s:String x:Key="/Default/Housekeeping/UnitTestingMru/UnitTestSessionPersistentData/=9F55F00AFA4E419CB50C98A4327BC00E/XmlSerializedElements/@EntryValue">&lt;Session&gt;&lt;Elements&gt;&lt;UnitTestElement Provider="nUnit" Id="Fishing.FishingFormTest" type="NUnitTestFixtureElement" Project="E85A7A9A-92ED-46F1-84E0-738E91354E23" /&gt;&lt;UnitTestElement Provider="nUnit" Id="Fishing.FishingFormTest.TestGetFishName" ParentId="Fishing.FishingFormTest" type="NUnitTestElement" TypeName="Fishing.FishingFormTest" MethodName="TestGetFishName" Project="E85A7A9A-92ED-46F1-84E0-738E91354E23" /&gt;&lt;UnitTestElement Provider="nUnit" Id="Fishing.FishingFormTest.TestZoneResolution" ParentId="Fishing.FishingFormTest" type="NUnitTestElement" TypeName="Fishing.FishingFormTest" MethodName="TestZoneResolution" Project="E85A7A9A-92ED-46F1-84E0-738E91354E23" /&gt;&lt;/Elements&gt;&lt;/Session&gt;</s:String>
+	
+	
+	
+	
+	
+	
+	
+	
+	</wpf:ResourceDictionary>

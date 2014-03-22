@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("FishingForm")]
+[assembly: AssemblyTitle("FishingForm.Test")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("FD")]
-[assembly: AssemblyProduct("FishingForm")]
-[assembly: AssemblyCopyright("Copyright © FinalDoom 2014")]
+[assembly: AssemblyProduct("FishingForm.Test")]
+[assembly: AssemblyCopyright("Copyright © FinalDoom 2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("de0f7bcd-5ab6-437b-a11c-dbed52151a14")]
+[assembly: Guid("66950489-6f9e-414c-ac97-5ad63d6b89d2")]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.7")]
-[assembly: AssemblyFileVersion("1.7.1.5")]
+[assembly: AssemblyVersion("1.0.0.0")]
+[assembly: AssemblyFileVersion("1.0.0.0")]
