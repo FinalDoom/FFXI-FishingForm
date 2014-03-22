@@ -268,33 +268,6 @@ namespace Fishing.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to case.
-        /// </summary>
-        internal static string CommandPartCase {
-            get {
-                return ResourceManager.GetString("CommandPartCase", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to sack.
-        /// </summary>
-        internal static string CommandPartSack {
-            get {
-                return ResourceManager.GetString("CommandPartSack", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to satchel.
-        /// </summary>
-        internal static string CommandPartSatchel {
-            get {
-                return ResourceManager.GetString("CommandPartSatchel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap d_dark {
@@ -682,6 +655,24 @@ namespace Fishing.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Save {0} Log.
+        /// </summary>
+        internal static string GUIFormatSaveLog {
+            get {
+                return ResourceManager.GetString("GUIFormatSaveLog", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0}/{1}/{2}, {3}, {4}:{5}, {6} Moon ({7}%).
+        /// </summary>
+        internal static string GUIFormatVanaTime {
+            get {
+                return ResourceManager.GetString("GUIFormatVanaTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No bait equipped!.
         /// </summary>
         internal static string GUILblBaitNone {
@@ -696,6 +687,33 @@ namespace Fishing.Properties {
         internal static string GUILblRodNone {
             get {
                 return ResourceManager.GetString("GUILblRodNone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save Logs.
+        /// </summary>
+        internal static string GUISaveLogs {
+            get {
+                return ResourceManager.GetString("GUISaveLogs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rich Text Format.
+        /// </summary>
+        internal static string GUISaveRichText {
+            get {
+                return ResourceManager.GetString("GUISaveRichText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Plain UTF-8 Text.
+        /// </summary>
+        internal static string GUISaveUTF8Text {
+            get {
+                return ResourceManager.GetString("GUISaveUTF8Text", resourceCulture);
             }
         }
         
