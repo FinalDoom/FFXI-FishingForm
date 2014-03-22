@@ -48,6 +48,16 @@ namespace Fishing
             "You may also enter several commands, separated by semicolons or newlines. Fishing will attempt to resume after the number of seconds indicated in the number box to the right."
         };
 
+        private static readonly string[] MessageSaveLogs =
+        {
+            "Log names will be appended. eg.",
+            "",
+            "FF.rtf will result in FFLog.rtf, FFFish.rtf, FFTell.rtf, etc."
+        };
+
+        // These constants should never change--Don't use for language dependent strings
+        private static readonly char[] ExtensionSeparator = new char[] {'.'};
+
         private const string DllNameFFACE = "FFACE.dll";
         private const string DllNameHook = "hook.dll";
         private const string DllNameItemizer = "itemizer.dll";
@@ -60,8 +70,16 @@ namespace Fishing
         private const string CommandChatReply = "/t <r> ";
         private const string CommandChatTell = "/t ";
         private const string CommandFish = "/fish";
+        private const string CommandFormatItemizerGetStack = "/gets {0} {1}";
+        private const string CommandFormatItemtoolsGetStack = "/moveitem {0} {1} inventory 99";
+        private const string CommandFormatItemizerPutStack = "/puts {0} {1}";
+        private const string CommandFormatItemtoolsPutStack = "/moveitem {0} inventory {1} 12";
         private const string CommandFormatItemMe = "/item \"{0}\" <me>";
-        private const string CommandCancelStatus = "//cancel {0}";
+        private const string CommandFormatCancelStatus = "//cancel {0}";
+        private const string CommandPartCase = "case";
+        private const string CommandPartInventory = "inventory";
+        private const string CommandPartSack = "sack";
+        private const string CommandPartSatchel = "satchel";
         private const string CommandWarp = "/ma \"Warp\" <me>";
         private const string CommandLogout = "/logout";
         private const string CommandShutdown = "/shutdown";
@@ -76,6 +94,8 @@ namespace Fishing
         private const string EquipFormatWaist = "/equip waist \"{0}\"";
         private const string EquipFormatLRing = "/equip ring1 \"{0}\"";
         private const string EquipFormatRRing = "/equip ring2 \"{0}\"";
+        private const string ExtensionRichText = "rtf";
+        private const string ExtensionUTF8Text = "txt";
         private const string FormatLogTimestamp = "[hh:mm:ss] ";
         private const string FormatTimestampVanaMinute = "00";
         private const string FormatTimestampEarthTime = "MMM. d, yyyy h:mm:ss tt";
@@ -87,7 +107,6 @@ namespace Fishing
         private const string GUIFormatNoCatch = "{0} / {1}";
         private const string GUILblBlank = "--";
         private const string GUIFormatLblBait = "{0} [{1}]";
-        private const string GUIFormatVanaTime = "{0}/{1}/{2}, {3}, {4}:{5}, {6} Moon ({7}%)";
         private const string GUIFormatLblSkillDecimal = " (.{0})";
         private const string GUIFormatLblSkillDecimalRange = " (.{0} - .{1})";
         private const string GUILblNA = "N/A";
@@ -96,6 +115,7 @@ namespace Fishing
         private const string GUIFormatLblVanaClock = "{0}:{1}";
         private const string GUIButtonResizeBig = ">";
         private const string GUIButtonResizeSmall = "<";
+        private const string GUIFormatSaveTypes = "{0}|*.{1}|{2}|*.{3}";
         private const string ProcessPOLName = "pol";
         internal const string ProgramExeName = "Fishing.exe";
         private const string RegexAllSpaces = @"^[\s]+$";
@@ -422,7 +442,7 @@ namespace Fishing
                     string[] messageArray = MessageVersionUpdate;
                     if (!string.IsNullOrEmpty(message))
                     {
-                        messageArray = MessageVersionUpdate.Concat(new string[] { "", message }).ToArray();
+                        messageArray = MessageVersionUpdate.Concat(new string[] { string.Empty, message }).ToArray();
                     }
                     MessageBox.Show(string.Join(Environment.NewLine, messageArray));
                     foreach (string s in messageArray)
@@ -632,15 +652,15 @@ namespace Fishing
                 string baitLocation;
                 if (cbBaitItemizerSack.Checked && _FFACE.Item.GetSackItemCount((ushort)Dictionaries.baitDictionary[bait]) > 0)
                 {
-                    baitLocation = "sack";
+                    baitLocation = CommandPartSack;
                 }
                 else if (cbBaitItemizerSatchel.Checked && _FFACE.Item.GetSatchelItemCount((ushort)Dictionaries.baitDictionary[bait]) > 0)
                 {
-                    baitLocation = "satchel";
+                    baitLocation = CommandPartSatchel;
                 }
                 else if (cbBaitItemizerCase.Checked && _FFACE.Item.GetCaseItemCount((ushort)Dictionaries.baitDictionary[bait]) > 0)
                 {
-                    baitLocation = "case";
+                    baitLocation = CommandPartCase;
                 }
                 else
                 {
@@ -649,11 +669,11 @@ namespace Fishing
                 string quotedBait = string.Format(Resources.FormatQuoteArg, bait);
                 if (ItemizerAvailable)
                 {
-                    DoMoveItem(string.Format("/gets {0} {1}", quotedBait, baitLocation), baitLocation, "inventory", (ushort)Dictionaries.baitDictionary[bait]);
+                    DoMoveItem(string.Format(CommandFormatItemizerGetStack, quotedBait, baitLocation), baitLocation, CommandPartInventory, (ushort)Dictionaries.baitDictionary[bait]);
                 }
                 else if (ItemToolsAvailable)
                 {
-                    DoMoveItem(string.Format("/moveitem {0} {1} inventory 99", quotedBait, baitLocation), baitLocation, "inventory", (ushort)Dictionaries.baitDictionary[bait]);
+                    DoMoveItem(string.Format(CommandFormatItemtoolsGetStack, quotedBait, baitLocation), baitLocation, CommandPartInventory, (ushort)Dictionaries.baitDictionary[bait]);
                 }
             }
             else if (cbBaitactionOther.Checked && !string.IsNullOrEmpty(tbBaitactionOther.Text))
@@ -851,7 +871,7 @@ namespace Fishing
         /// </summary> 
         private static void CancelSpell(StatusEffect seffect)
         {
-            _FFACE.Windower.SendString(string.Format(CommandCancelStatus, (short)seffect));
+            _FFACE.Windower.SendString(string.Format(CommandFormatCancelStatus, (short)seffect));
         } // @ private void CancelSpell(StatusEffect seffect)
 
         /// <summary>
@@ -1494,40 +1514,40 @@ namespace Fishing
                         if (_FFACE.Item.GetInventoryItemCount((ushort)Dictionaries.fishDictionary[name]) > 0 &&
                             cbInventoryItemizerSack.Checked && _FFACE.Item.SackCount < _FFACE.Item.SackMax)
                         {
-                            storagemedium = Resources.CommandPartSack;
+                            storagemedium = CommandPartSack;
                             if (ItemizerAvailable)
                             {
-                                MoveItems(string.Format("/puts {0} {1}", quoteName, storagemedium), ref name, ref storagemedium);
+                                MoveItems(string.Format(CommandFormatItemizerPutStack, quoteName, storagemedium), ref name, ref storagemedium);
                             }
                             else if (ItemToolsAvailable)
                             {
-                                MoveItems(string.Format("/moveitem {0} inventory {1} 12", quoteName, storagemedium), ref name, ref storagemedium);
+                                MoveItems(string.Format(CommandFormatItemtoolsPutStack, quoteName, storagemedium), ref name, ref storagemedium);
                             }
                         }
                         if (_FFACE.Item.GetInventoryItemCount((ushort)Dictionaries.fishDictionary[name]) > 0 &&
                             cbInventoryItemizerSatchel.Checked && _FFACE.Item.SatchelCount < _FFACE.Item.SatchelMax)
                         {
-                            storagemedium = Resources.CommandPartSatchel;
+                            storagemedium = CommandPartSatchel;
                             if (ItemizerAvailable)
                             {
-                                MoveItems(string.Format("/puts {0} {1}", quoteName, storagemedium), ref name, ref storagemedium);
+                                MoveItems(string.Format(CommandFormatItemizerPutStack, quoteName, storagemedium), ref name, ref storagemedium);
                             }
                             else if (ItemToolsAvailable)
                             {
-                                MoveItems(string.Format("/moveitem {0} inventory {1} 12", quoteName, storagemedium), ref name, ref storagemedium);
+                                MoveItems(string.Format(CommandFormatItemtoolsPutStack, quoteName, storagemedium), ref name, ref storagemedium);
                             }
                         }
                         if (_FFACE.Item.GetInventoryItemCount((ushort)Dictionaries.fishDictionary[name]) > 0 &&
                             cbInventoryItemizerCase.Checked && _FFACE.Item.CaseCount < _FFACE.Item.CaseMax)
                         {
-                            storagemedium = Resources.CommandPartCase;
+                            storagemedium = CommandPartCase;
                             if (ItemizerAvailable)
                             {
-                                MoveItems(string.Format("/puts {0} {1}", quoteName, storagemedium), ref name, ref storagemedium);
+                                MoveItems(string.Format(CommandFormatItemizerPutStack, quoteName, storagemedium), ref name, ref storagemedium);
                             }
                             else if (ItemToolsAvailable)
                             {
-                                MoveItems(string.Format("/moveitem {0} inventory {1} 12", quoteName, storagemedium), ref name, ref storagemedium);
+                                MoveItems(string.Format(CommandFormatItemtoolsPutStack, quoteName, storagemedium), ref name, ref storagemedium);
                             }
                         }
                     }
@@ -1584,7 +1604,7 @@ namespace Fishing
         {
             // Look up item ID
             int tempitemid = FFACE.ParseResources.GetItemId(itemname);
-            if (storagearea == Resources.CommandPartSack)
+            if (storagearea == CommandPartSack)
             {
                 // If we find the itemid and the sack is not full move item to sack
                 if (tempitemid > 0 && ( _FFACE.Item.SackCount != _FFACE.Item.SackMax ))
@@ -1597,7 +1617,7 @@ namespace Fishing
                         // Update Status
                         SetStatus(string.Format(Resources.StatusFormatMoveToSack, itemname, inventorycount));
                         // Send string to POL
-                        DoMoveItem(command, "inventory", storagearea, (ushort)Dictionaries.fishDictionary[itemname]);
+                        DoMoveItem(command, CommandPartInventory, storagearea, (ushort)Dictionaries.fishDictionary[itemname]);
 						inventorycount = _FFACE.Item.GetInventoryItemCount((ushort)tempitemid);
                     }
                     SetStatus(string.Format(Resources.StatusFormatMoveSackFinished, itemname));
@@ -1608,7 +1628,7 @@ namespace Fishing
 					Thread.Sleep(750);
                 }
             }
-            if (storagearea == Resources.CommandPartSatchel)
+            if (storagearea == CommandPartSatchel)
             {
                 if (tempitemid > 0 && ( _FFACE.Item.SatchelCount != _FFACE.Item.SatchelMax ))
                 {
@@ -1620,7 +1640,7 @@ namespace Fishing
                         // Update Status
                         SetStatus(string.Format(Resources.StatusFormatMoveToSatchel, itemname, inventorycount));
                         // Send string to POL
-                        DoMoveItem(command, "inventory", storagearea, (ushort)Dictionaries.fishDictionary[itemname]);
+                        DoMoveItem(command, CommandPartInventory, storagearea, (ushort)Dictionaries.fishDictionary[itemname]);
 						inventorycount = _FFACE.Item.GetInventoryItemCount((ushort)tempitemid);
                     }
                     SetStatus(string.Format(Resources.StatusFormatMoveSatchelFinished, itemname));
@@ -1631,7 +1651,7 @@ namespace Fishing
 					Thread.Sleep(750);
                 }
             }
-            if (storagearea == Resources.CommandPartCase)
+            if (storagearea == CommandPartCase)
             {
                 if (tempitemid > 0 && ( _FFACE.Item.CaseCount != _FFACE.Item.CaseMax ))
                 {
@@ -1643,7 +1663,7 @@ namespace Fishing
                         // Update Status
                         SetStatus(string.Format(Resources.StatusFormatMoveToCase, itemname, inventorycount));
                         // Send string to POL
-                        DoMoveItem(command, "inventory", storagearea, (ushort)Dictionaries.fishDictionary[itemname]);
+                        DoMoveItem(command, CommandPartInventory, storagearea, (ushort)Dictionaries.fishDictionary[itemname]);
 						inventorycount = _FFACE.Item.GetInventoryItemCount((ushort)tempitemid);
                     }
                     SetStatus(string.Format(Resources.StatusFormatMoveCaseFinished, itemname));
@@ -1871,13 +1891,13 @@ namespace Fishing
         {
             switch (location)
             {
-                case "sack":
+                case CommandPartSack:
                     return _FFACE.Item.GetSackItemCount(itemID);
-                case "satchel":
+                case CommandPartSatchel:
                     return _FFACE.Item.GetSatchelItemCount(itemID);
-                case "case":
+                case CommandPartCase:
                     return _FFACE.Item.GetCaseItemCount(itemID);
-                case "inventory":
+                case CommandPartInventory:
                     return _FFACE.Item.GetInventoryItemCount(itemID);
             }
             return 0;
@@ -2862,7 +2882,7 @@ namespace Fishing
             }
 
             // the rest
-            lblVanaTime.Text = string.Format(GUIFormatVanaTime, vanaNow.Month, vanaNow.Day, vanaNow.Year, vanaNow.DayType, vanaNow.Hour, vanaNow.Minute.ToString(FormatTimestampVanaMinute), vanaNow.GetMoonPhaseName(vanaNow.MoonPhase), vanaNow.MoonPercent);
+            lblVanaTime.Text = string.Format(Resources.GUIFormatVanaTime, vanaNow.Month, vanaNow.Day, vanaNow.Year, vanaNow.DayType, vanaNow.Hour, vanaNow.Minute.ToString(FormatTimestampVanaMinute), vanaNow.GetMoonPhaseName(vanaNow.MoonPhase), vanaNow.MoonPercent);
             lblEarthTime.Text = DateTime.Now.ToString(FormatTimestampEarthTime);
 			string skillS = _FFACE == null ? GUILblBlank : Math.Max(_FFACE.Player.GetCraftDetails(Craft.Fishing).Level, skillLevel).ToString();
 			if (_FFACE != null && (skillDecimalMin > 0 || skillDecimalMax > 0))
@@ -2999,6 +3019,7 @@ namespace Fishing
         #region Events_Chat
 
         private const int bufferSize = 20;
+        private const string GUISaveLogsTitle = "Choose a base filename";
         private static int bufferPosition = 0;
         private static Regex allSpaces = new Regex(RegexAllSpaces);
         private static List<string> chatBuffer = new List<string>(bufferSize);
@@ -4184,7 +4205,7 @@ namespace Fishing
             midnight = midnight.AddHours(9).AddDays(1);
 			midnight = new DateTime(midnight.Year, midnight.Month, midnight.Day);
 			return midnight;
-		}
+		} // @ private DateTime GetNextMidnight
 
         /// <summary>
         /// Restart fishing based on checked options and program state
@@ -4196,7 +4217,7 @@ namespace Fishing
             {
                 Start();
             }
-        }
+        } // @ private void RestartFishing
 
         private void timer_DisplayProgressEvent(object sender, ElapsedEventArgs e)
         {
@@ -4313,9 +4334,10 @@ namespace Fishing
             ContextMenuStrip cms = (ContextMenuStrip) tsi.Owner;
             RichTextBox rtb = (RichTextBox) cms.SourceControl;
 
-            saveFileDialog.Filter = "Rich Text Format|*.rtf|Plain UTF-8 Text|*.txt";
-            saveFileDialog.DefaultExt = "rtf";
-            saveFileDialog.Title = "Save " + ((TabPage) rtb.Parent).Text + " Log";
+            saveFileDialog.Filter = string.Format(GUIFormatSaveTypes, Resources.GUISaveRichText, ExtensionRichText,
+                Resources.GUISaveUTF8Text, ExtensionUTF8Text);
+            saveFileDialog.DefaultExt = ExtensionRichText;
+            saveFileDialog.Title = string.Format(Resources.GUIFormatSaveLog, ((TabPage)rtb.Parent).Text);
 
             if (saveFileDialog.ShowDialog() == DialogResult.OK && saveFileDialog.FileName.Length > 0)
             {
@@ -4340,12 +4362,12 @@ namespace Fishing
             }
 #endif
 
-            MessageBox.Show(this, "Log names will be appended. eg." + Environment.NewLine + "" +
-                "FF.rtf will result in FFLog.rtf, FFFish.rtf, FFTell.rtf, etc.",
-                "Choose a base filename", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            saveFileDialog.Filter = "Rich Text Format|*.rtf|Plain UTF-8 Text|*.txt";
-            saveFileDialog.DefaultExt = "rtf";
-            saveFileDialog.Title = "Save Logs";
+            MessageBox.Show(this, string.Join(Environment.NewLine, MessageSaveLogs),
+                GUISaveLogsTitle, MessageBoxButtons.OK, MessageBoxIcon.Information);
+            saveFileDialog.Filter = string.Format(GUIFormatSaveTypes, Resources.GUISaveRichText, ExtensionRichText,
+                Resources.GUISaveUTF8Text, ExtensionUTF8Text);
+            saveFileDialog.DefaultExt = ExtensionRichText;
+            saveFileDialog.Title = Resources.GUISaveLogs;
 
             if (saveFileDialog.ShowDialog() == DialogResult.OK && saveFileDialog.FileName.Length > 0)
             {
@@ -4361,13 +4383,16 @@ namespace Fishing
 
         private void saveLog(RichTextBox rtb, string fileName)
         {
-            if (Path.GetExtension(fileName) == ".rtf")
+            switch (Path.GetExtension(fileName).TrimStart(ExtensionSeparator))
             {
-                rtb.SaveFile(fileName, RichTextBoxStreamType.RichText);
-            }
-            else if (Path.GetExtension(fileName) == ".txt")
-            {
-                rtb.SaveFile(fileName, RichTextBoxStreamType.UnicodePlainText);
+                case ExtensionRichText:
+                    rtb.SaveFile(fileName, RichTextBoxStreamType.RichText);
+                    break;
+                case ExtensionUTF8Text:
+                    rtb.SaveFile(fileName, RichTextBoxStreamType.UnicodePlainText);
+                    break;
+                default:
+                    break;
             }
         }
 
