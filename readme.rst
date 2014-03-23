@@ -244,6 +244,10 @@ noted rod. Some rods do not have any data, so the default value remains.
 Changes
 -------
 
+1.7.1.5
+-------
+- New: Downloadable DEBUG version that has enableable debug log with lots of info
+
 1.6.7.50
 --------
 - Import more useful fixes, including new FFACETools Status enum

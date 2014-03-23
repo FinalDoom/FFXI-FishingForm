@@ -65,6 +65,7 @@ IF NOT DEFINED DEPLOY (
 	ECHO Building Project
 
 	%NETLOC%\MSBuild.exe /property:Configuration=Release;Platform=x86 FishingForm.csproj
+	%NETLOC%\MSBuild.exe /property:Configuration=Debug;Platform=x86 FishingForm.csproj
 
 	ECHO.
 	ECHO Build Complete
@@ -110,26 +111,40 @@ COPY bin\x86\Release\*.dll deploy
 COPY bin\x86\Release\FishDB\* deploy\FishDB
 COPY bin\x86\Release\*.wav deploy
 
-DEL FishingForm_v%filever%_mC-FD_(with_source).zip
 DEL FishingForm_mC-FD_(with_source).zip
-DEL FishingForm_v%filever%_mC-FD.zip
+DEL FishingForm_v%filever%_mC-FD_(with_source).zip
 DEL FishingForm_mC-FD.zip
+DEL FishingForm_v%filever%_mC-FD.zip
+DEL FishingForm_mC-FD_DEBUG.zip
+DEL FishingForm_v%filever%_mC-FD_DEBUG.zip
 
 CD deploy
 
-"%ZIP7%\7z" a ..\FishingForm_v%filever%_mC-FD_(with_source).zip -mx9 -tzip *
 "%ZIP7%\7z" a ..\FishingForm_mC-FD_(with_source).zip -mx9 -tzip *
-"%ZIP7%\7z" a ..\FishingForm_v%filever%_mC-FD.zip -mx9 -tzip -x!source\ *
+COPY ..\FishingForm_mC-FD_(with_source).zip ..\FishingForm_v%filever%_mC-FD_(with_source).zip
 "%ZIP7%\7z" a ..\FishingForm_mC-FD.zip -mx9 -tzip -x!source\ *
+COPY ..\FishingForm_mC-FD.zip ..\FishingForm_v%filever%_mC-FD.zip
 
-CD ..\
+MKDIR Debug
+
+COPY ..\bin\x86\Debug\*.exe Debug
+COPY ..\bin\x86\Debug\*.pdb Debug
+
+CD Debug
+
+"%ZIP7%\7z" a ..\..\FishingForm_mC-FD_DEBUG.zip -mx9 -tzip *
+COPY ..\..\FishingForm_mC-FD_DEBUG.zip ..\..\FishingForm_v%filever%_mC-FD_DEBUG.zip
+
+CD ..\..\
 
 ECHO.
 ECHO Deployable Archives Created:
-ECHO FishingForm_v%filever%_mC-FD_(with_source).zip
 ECHO FishingForm_mC-FD_(with_source).zip
-ECHO FishingForm_v%filever%_mC-FD.zip
+ECHO FishingForm_v%filever%_mC-FD_(with_source).zip
 ECHO FishingForm_mC-FD.zip
+ECHO FishingForm_v%filever%_mC-FD.zip
+ECHO FishingForm_mC-FD_DEBUG.zip
+ECHO FishingForm_v%filever%_mC-FD_DEBUG.zip
 ECHO.
 
 PAUSE
