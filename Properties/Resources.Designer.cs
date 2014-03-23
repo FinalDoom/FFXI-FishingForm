@@ -855,6 +855,15 @@ namespace Fishing.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ERROR: .
+        /// </summary>
+        internal static string MessageError {
+            get {
+                return ResourceManager.GetString("MessageError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please run FishingForm.exe as an Administrator..
         /// </summary>
         internal static string MessageErrorAdministratorNeeded {
@@ -896,6 +905,15 @@ namespace Fishing.Properties {
         internal static string MessageFormatWarning {
             get {
                 return ResourceManager.GetString("MessageFormatWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Info: .
+        /// </summary>
+        internal static string MessageInfo {
+            get {
+                return ResourceManager.GetString("MessageInfo", resourceCulture);
             }
         }
         
@@ -986,6 +1004,15 @@ namespace Fishing.Properties {
         internal static string MessageTitleWarning {
             get {
                 return ResourceManager.GetString("MessageTitleWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to WARNING: .
+        /// </summary>
+        internal static string MessageWarning {
+            get {
+                return ResourceManager.GetString("MessageWarning", resourceCulture);
             }
         }
         

@@ -202,33 +202,33 @@ namespace Fishing
             });
         }
 
-        public void Error(string message)
+        public void Error(string message, params object[] args)
         {
             this.UIThread(delegate
             {
-                lblRod.Text = string.Format(Resources.MessageFormatError, message);
+                lblRod.Text = Resources.MessageError + string.Format(message, args);
                 lblFish.Text = string.Empty;
                 MessageBox.Show(message, Resources.MessageTitleSyncFormError);
                 Thread.Sleep(500);
             });
         }
 
-        public void Warning(string message)
+        public void Warning(string message, params object[] args)
         {
             this.UIThread(delegate
             {
-                lblRod.Text = string.Format(Resources.MessageFormatWarning, message);
+                lblRod.Text = Resources.MessageWarning + string.Format(message, args);
                 lblFish.Text = string.Empty;
                 MessageBox.Show(message, Resources.MessageTitleSyncFormWarning);
                 Thread.Sleep(500);
             });
         }
 
-        public void Info(string message)
+        public void Info(string message, params object[] args)
         {
             this.UIThread(delegate
             {
-                lblRod.Text = string.Format(Resources.MessageFormatInfo, message);
+                lblRod.Text = Resources.MessageInfo + string.Format(message, args);
                 lblFish.Text = string.Empty;
                 MessageBox.Show(message, Resources.MessageTitleSyncFormInfo);
                 Thread.Sleep(500);
