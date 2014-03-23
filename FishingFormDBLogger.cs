@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Drawing;
+using Fishing.Properties;
 
 namespace Fishing
 {
-    internal class FishingFormDBLogger : IFishDBStatusDisplay, ILogger
+    internal class FishingFormDBLogger : Logger, IFishDBStatusDisplay
     {
         private const int SpamThreshold = 10;
+        // TODO extract strings
 
-        private readonly Action<string, Color> Log;
         private bool InTransaction = false;
         private int uploadFish;
         private int uploadingFish = 0;
@@ -16,9 +17,8 @@ namespace Fishing
         private int downloadFish;
         private int downloadingFish = 0;
 
-        public FishingFormDBLogger(Action<string, Color> logFunc)
+        public FishingFormDBLogger(Action<string, Color> logFunc) : base(logFunc)
         {
-            Log = logFunc;
         }
 
         public bool StartDBTransaction(string message)
@@ -42,7 +42,7 @@ namespace Fishing
         {
             if (fish > 0)
             {
-                Info(string.Format("Uploading {0} fish.", fish));
+                Info("Uploading {0} fish.", fish);
             }
             uploadFish = fish;
             if (uploadFish >= SpamThreshold)
@@ -57,7 +57,7 @@ namespace Fishing
             if (uploadFish < SpamThreshold)
             { // Prevent spam hanging the GUI
                 uploadingFish++;
-                Info(string.Format("{0}: \"{1}\" caught with {2}.", uploadingFish, fish, rod));
+                Info("{0}: \"{1}\" caught with {2}.", uploadingFish, fish, rod);
             }
         }
 
@@ -66,7 +66,7 @@ namespace Fishing
             if (uploadFish < SpamThreshold)
             { // Prevent spam hanging the GUI
                 uploadingFish++;
-                Info(string.Format("{0}: \"{1}\" renamed to \"{2}\". ({3})", uploadingFish, oldName, newName, rod));
+                Info("{0}: \"{1}\" renamed to \"{2}\". ({3})", uploadingFish, oldName, newName, rod);
             }
         }
 
@@ -74,7 +74,7 @@ namespace Fishing
         {
             if (rods > 0)
             {
-                Info(string.Format("Downloading {0} rods' data.", rods));
+                Info("Downloading {0} rods' data.", rods);
             }
             downloadingFish = 0;
         }
@@ -83,7 +83,7 @@ namespace Fishing
         {
             downloadingRod++;
             currentRod = rod;
-            Info(string.Format("Getting information for {0} (#{1}).", rod, downloadingRod));
+            Info("Getting information for {0} (#{1}).", rod, downloadingRod);
         }
 
         public void SetDownloadRodFish(int fish)
@@ -92,7 +92,7 @@ namespace Fishing
             downloadFish = fish;
             if (fish > 0)
             {
-                Info(string.Format("Downloading {0} fish and fish data caught with {1}.", fish, currentRod));
+                Info("Downloading {0} fish and fish data caught with {1}.", fish, currentRod);
             }
             if (downloadFish >= SpamThreshold)
             { // Prevent spam hanging the GUI
@@ -106,7 +106,7 @@ namespace Fishing
             downloadFish = fish;
             if (fish > 0)
             {
-                Info(string.Format("Downloading {0} renames (caught with {1}).", fish, currentRod));
+                Info("Downloading {0} renames (caught with {1}).", fish, currentRod);
             }
             if (downloadFish >= SpamThreshold)
             { // Prevent spam hanging the GUI
@@ -119,7 +119,7 @@ namespace Fishing
             if (downloadFish < SpamThreshold)
             { // Prevent spam hanging the GUI
                 downloadingFish++;
-                Info(string.Format("{0}: got \"{1}\".", downloadingFish, fish));
+                Info("{0}: got \"{1}\".", downloadingFish, fish);
             }
         }
 
@@ -128,7 +128,7 @@ namespace Fishing
             if (downloadFish < SpamThreshold)
             { // Prevent spam hanging the GUI
                 downloadingFish++;
-                Info(string.Format("{0}: got \"{1}\" and renamed to \"{2}\".", downloadingFish, oldName, newName));
+                Info("{0}: got \"{1}\" and renamed to \"{2}\".", downloadingFish, oldName, newName);
             }
         }
 
@@ -136,23 +136,18 @@ namespace Fishing
         {
             if ((downloadFish == 0 && uploadFish < SpamThreshold) || (downloadFish != 0 && downloadFish < SpamThreshold))
             { // Prevent spam hanging the GUI
-                Info(string.Format("Adding \"{0}\" to \"{1}\".", baitOrZone, fish));
+                Info("Adding \"{0}\" to \"{1}\".", baitOrZone, fish);
             }
         }
 
-        public void Error(string message)
+        public override void Error(string message, params object[] args)
         {
-            Log(string.Format("ERROR: {0}", message), Color.Red);
+            Log(Resources.MessageError + string.Format(message, args), Color.Red);
         }
 
-        public void Warning(string message)
+        public override void Warning(string message, params object[] args)
         {
-            Log(string.Format("WARNING: {0}", message), Color.Yellow);
-        }
-
-        public void Info(string message)
-        {
-            Log(message, Color.White);
+            Log(Resources.MessageWarning + string.Format(message, args), Color.Yellow);
         }
     }
 }

@@ -4,31 +4,24 @@ using System.Drawing;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using Fishing.Properties;
+using JetBrains.Annotations;
 
 namespace Fishing
 {
-    class DebugLogger : ILogger
+    class DebugLogger : Logger
     {
-        private readonly Action<string, Color> Log;
-
-        public DebugLogger(Action<string, Color> logFunc)
+        public DebugLogger(Action<string, Color> logFunc) : base(logFunc)
         {
-            Log = logFunc;
         }
 #if DEBUG
-        public void Error(string message)
+        public override void Error(string message, params object[] args)
         {
-            Log(string.Format(Resources.MessageFormatError, message), Color.Red);
+            Log(Resources.MessageError + string.Format(message, args), Color.Red);
         }
 
-        public void Warning(string message)
+        public override void Warning(string message, params object[] args)
         {
-            Log(string.Format(Resources.MessageFormatWarning, message), Color.Yellow);
-        }
-
-        public void Info(string message)
-        {
-            Log(message, Color.White);
+            Log(Resources.MessageWarning + string.Format(message, args), Color.Yellow);
         }
 
         [MethodImpl(MethodImplOptions.NoInlining)]
@@ -37,7 +30,7 @@ namespace Fishing
             StackTrace st = new StackTrace();
             StackFrame sf = st.GetFrame(1);
 
-            return sf.GetMethod().Name;
+            return string.Format("{0}:{1}:{2}", sf.GetFileName(), sf.GetFileLineNumber(), sf.GetMethod().Name);
         }
 
         public static string GetCurrentThread()
@@ -45,19 +38,24 @@ namespace Fishing
             return Thread.CurrentThread.Name;
         }
 #else
-        public void Error(string message)
+        public override void Error(string message, params object[] args)
         {
         }
 
-        public void Warning(string message)
+        public override void Warning(string message, params object[] args)
         {
         }
 
-        public void Info(string message)
+        public override void Info(string message, params object[] args)
         {
         }
 
         public static string GetCurrentMethod() {
+            return string.Empty;
+        }
+
+        public static string GetCurrentThread()
+        {
             return string.Empty;
         }
 #endif

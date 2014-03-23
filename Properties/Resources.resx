@@ -868,4 +868,13 @@
   <data name="MessageTitleSyncFormWarning" xml:space="preserve">
     <value>WARNING</value>
   </data>
+  <data name="MessageError" xml:space="preserve">
+    <value>ERROR: </value>
+  </data>
+  <data name="MessageInfo" xml:space="preserve">
+    <value>Info: </value>
+  </data>
+  <data name="MessageWarning" xml:space="preserve">
+    <value>WARNING: </value>
+  </data>
 </root>
