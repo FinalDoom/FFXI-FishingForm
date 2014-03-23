@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Windows.Forms;
 using FFACETools;
 
 namespace Fishing
@@ -76,8 +75,6 @@ namespace Fishing
                             tellLog.Insert(0, currentLine);
                             tellLogAdded++;
                             break;
-                        default:
-                            break;
                     }
 
 					try
@@ -126,25 +123,31 @@ namespace Fishing
         /// <returns>Brightened color</returns>
         internal static Color BrightenColor(FFACE.ChatTools.ChatLine chatLine)
         {
+            return BrightenColor(chatLine.Color);
+        }
+
+        internal static Color BrightenColor(Color chatLineColor)
+        {
+
             Color brighterColor = new Color();
             //how many steps away can the colors be away from each other to be close enough to grayscale
             //this variable's value is subjective, and chosen by the programmer
             int steps = 3;
             //tolerance = 256 colors / 64 in-game 'step' choices * steps
-            int tolerance = 256 / 64 * steps;
-            int closeEnoughRG = Math.Abs(chatLine.Color.R - chatLine.Color.G);
-            int closeEnoughGB = Math.Abs(chatLine.Color.G - chatLine.Color.B);
-            int closeEnoughRB = Math.Abs(chatLine.Color.R - chatLine.Color.B);
+            int tolerance = 256/64*steps;
+            int closeEnoughRG = Math.Abs(chatLineColor.R - chatLineColor.G);
+            int closeEnoughGB = Math.Abs(chatLineColor.G - chatLineColor.B);
+            int closeEnoughRB = Math.Abs(chatLineColor.R - chatLineColor.B);
 
-            if((closeEnoughRG <= tolerance) && (closeEnoughGB <= tolerance) && (closeEnoughRB <= tolerance))
+            if ((closeEnoughRG <= tolerance) && (closeEnoughGB <= tolerance) && (closeEnoughRB <= tolerance))
             {
                 //greatly brighten white and gray text
-                brighterColor = RGBHSL.ModifyBrightness(chatLine.Color, 1.85);
+                brighterColor = RGBHSL.ModifyBrightness(chatLineColor, 1.85);
             }
             else
             {
                 //only slighty brighten color text
-                brighterColor = RGBHSL.ModifyBrightness(chatLine.Color, 1.25);
+                brighterColor = RGBHSL.ModifyBrightness(chatLineColor, 1.25);
             }
 
             return brighterColor;

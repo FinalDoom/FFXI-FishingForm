@@ -71,6 +71,7 @@
             this.MinimumSize = new System.Drawing.Size(370, 111);
             this.Name = "FishingDBSyncForm";
             this.Text = "Syncing FishDB to Database";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.ResumeLayout(false);
             this.PerformLayout();
 

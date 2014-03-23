@@ -4,7 +4,7 @@ using System;
 
 namespace Fishing
 {
-    internal class FishStats
+    internal static class FishStats
     {
         #region Members
 
@@ -134,7 +134,7 @@ namespace Fishing
             StringBuilder stats = new StringBuilder();
 
             stats.AppendLine(@"{\rtf1\ansi\deff0{\fonttbl{\f0\fswiss Microsoft Sans Serif;}}{\colortbl;}\uc1\pard\f0\fs14");
-            stats.AppendLine(@"\b Total casts:  " + totalCastCount.ToString() + @"\b0\par");
+            stats.AppendLine(@"\b Total casts:  " + totalCastCount + @"\b0\par");
 
 			if(ticksFished > 0 || startTicks > 0)
 			{
@@ -143,7 +143,7 @@ namespace Fishing
 			}
             if(noCatchCount > 0)
             {
-                stats.AppendLine(@"\b No catch  ( " + noCatchCount.ToString() + " / " + 
+                stats.AppendLine(@"\b No catch  ( " + noCatchCount + " / " + 
                             GetPercentage(noCatchCount, totalCastCount, 1) + @"% )\b0\par\par");
             }
             if(caughtCount > 0)
@@ -180,7 +180,7 @@ namespace Fishing
             }
             if(monsterCount > 0)
             {
-                stats.AppendLine("Monster  ( " + monsterCount.ToString() + " / " + GetPercentage(monsterCount, totalCastCount, 1) + "% )");
+                stats.AppendLine("Monster  ( " + monsterCount + " / " + GetPercentage(monsterCount, totalCastCount, 1) + "% )");
             }
 
             stats.AppendLine(@"}");
@@ -207,7 +207,7 @@ namespace Fishing
 
                 foreach (KeyValuePair<string, int> fishStats in dictionary)
                 {
-                    string items = "   " + fishStats.Key + " : " + fishStats.Value.ToString();
+                    string items = "   " + fishStats.Key + " : " + fishStats.Value;
                     statsSection.AppendLine(items + @"\par");
                 }
 

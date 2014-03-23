@@ -268,33 +268,6 @@ namespace Fishing.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to case.
-        /// </summary>
-        internal static string CommandPartCase {
-            get {
-                return ResourceManager.GetString("CommandPartCase", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to sack.
-        /// </summary>
-        internal static string CommandPartSack {
-            get {
-                return ResourceManager.GetString("CommandPartSack", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to satchel.
-        /// </summary>
-        internal static string CommandPartSatchel {
-            get {
-                return ResourceManager.GetString("CommandPartSatchel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap d_dark {
@@ -371,6 +344,51 @@ namespace Fishing.Properties {
             get {
                 object obj = ResourceManager.GetObject("d_wind", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Done!.
+        /// </summary>
+        internal static string DBSyncMessageDone {
+            get {
+                return ResourceManager.GetString("DBSyncMessageDone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Downloading {0}:.
+        /// </summary>
+        internal static string DBSyncMessageFormatDownloading {
+            get {
+                return ResourceManager.GetString("DBSyncMessageFormatDownloading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Renaming {0} to {1}.
+        /// </summary>
+        internal static string DBSyncMessageFormatRenaming {
+            get {
+                return ResourceManager.GetString("DBSyncMessageFormatRenaming", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Uploading {0}:.
+        /// </summary>
+        internal static string DBSyncMessageFormatUploading {
+            get {
+                return ResourceManager.GetString("DBSyncMessageFormatUploading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Starting Sync....
+        /// </summary>
+        internal static string DBSyncMessageStart {
+            get {
+                return ResourceManager.GetString("DBSyncMessageStart", resourceCulture);
             }
         }
         
@@ -682,6 +700,33 @@ namespace Fishing.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} / {1} ({2} released).
+        /// </summary>
+        internal static string GUIFormatNoCatch {
+            get {
+                return ResourceManager.GetString("GUIFormatNoCatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save {0} Log.
+        /// </summary>
+        internal static string GUIFormatSaveLog {
+            get {
+                return ResourceManager.GetString("GUIFormatSaveLog", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0}/{1}/{2}, {3}, {4}:{5}, {6} Moon ({7}%).
+        /// </summary>
+        internal static string GUIFormatVanaTime {
+            get {
+                return ResourceManager.GetString("GUIFormatVanaTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No bait equipped!.
         /// </summary>
         internal static string GUILblBaitNone {
@@ -696,6 +741,42 @@ namespace Fishing.Properties {
         internal static string GUILblRodNone {
             get {
                 return ResourceManager.GetString("GUILblRodNone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save Logs.
+        /// </summary>
+        internal static string GUISaveLogs {
+            get {
+                return ResourceManager.GetString("GUISaveLogs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Choose a Base Filename.
+        /// </summary>
+        internal static string GUISaveLogsTitle {
+            get {
+                return ResourceManager.GetString("GUISaveLogsTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rich Text Format.
+        /// </summary>
+        internal static string GUISaveRichText {
+            get {
+                return ResourceManager.GetString("GUISaveRichText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Plain UTF-8 Text.
+        /// </summary>
+        internal static string GUISaveUTF8Text {
+            get {
+                return ResourceManager.GetString("GUISaveUTF8Text", resourceCulture);
             }
         }
         
@@ -774,6 +855,15 @@ namespace Fishing.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ERROR: .
+        /// </summary>
+        internal static string MessageError {
+            get {
+                return ResourceManager.GetString("MessageError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please run FishingForm.exe as an Administrator..
         /// </summary>
         internal static string MessageErrorAdministratorNeeded {
@@ -788,6 +878,42 @@ namespace Fishing.Properties {
         internal static string MessageErrorFFACEMissing {
             get {
                 return ResourceManager.GetString("MessageErrorFFACEMissing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ERROR: {0}.
+        /// </summary>
+        internal static string MessageFormatError {
+            get {
+                return ResourceManager.GetString("MessageFormatError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Info: {0}.
+        /// </summary>
+        internal static string MessageFormatInfo {
+            get {
+                return ResourceManager.GetString("MessageFormatInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to WARNING: {0}.
+        /// </summary>
+        internal static string MessageFormatWarning {
+            get {
+                return ResourceManager.GetString("MessageFormatWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Info: .
+        /// </summary>
+        internal static string MessageInfo {
+            get {
+                return ResourceManager.GetString("MessageInfo", resourceCulture);
             }
         }
         
@@ -812,9 +938,9 @@ namespace Fishing.Properties {
         /// <summary>
         ///   Looks up a localized string similar to FishingForm Error.
         /// </summary>
-        internal static string MessageTitleError {
+        internal static string MessageTitleFishingFormError {
             get {
-                return ResourceManager.GetString("MessageTitleError", resourceCulture);
+                return ResourceManager.GetString("MessageTitleFishingFormError", resourceCulture);
             }
         }
         
@@ -846,11 +972,47 @@ namespace Fishing.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ERROR.
+        /// </summary>
+        internal static string MessageTitleSyncFormError {
+            get {
+                return ResourceManager.GetString("MessageTitleSyncFormError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Info.
+        /// </summary>
+        internal static string MessageTitleSyncFormInfo {
+            get {
+                return ResourceManager.GetString("MessageTitleSyncFormInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to WARNING.
+        /// </summary>
+        internal static string MessageTitleSyncFormWarning {
+            get {
+                return ResourceManager.GetString("MessageTitleSyncFormWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to WARNING.
         /// </summary>
         internal static string MessageTitleWarning {
             get {
                 return ResourceManager.GetString("MessageTitleWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to WARNING: .
+        /// </summary>
+        internal static string MessageWarning {
+            get {
+                return ResourceManager.GetString("MessageWarning", resourceCulture);
             }
         }
         
