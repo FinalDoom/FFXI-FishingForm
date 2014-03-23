@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using Fishing.Properties;
@@ -27,10 +28,11 @@ namespace Fishing
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static string GetCurrentMethod()
         {
-            StackTrace st = new StackTrace();
-            StackFrame sf = st.GetFrame(1);
+            StackTrace st = new StackTrace(1, true);
+            StackFrame sf = st.GetFrame(0);
+            string filename = Path.GetFileName(sf.GetFileName());
 
-            return string.Format("{0}:{1}:{2}", sf.GetFileName(), sf.GetFileLineNumber(), sf.GetMethod().Name);
+            return string.Format("{0}:{1}:{2}", filename, sf.GetFileLineNumber(), sf.GetMethod().Name);
         }
 
         public static string GetCurrentThread()
