@@ -5,5 +5,6 @@ obj\/.*
 .*\.zip
 .*\.suo
 .*\.svn/.*
+packages\/.*
 syntax: glob
 FFACETools/Binary/
