@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using Fishing.Properties;
 using MySql.Data.MySqlClient;
 using System.Windows.Forms;
@@ -723,7 +724,7 @@ namespace Fishing
                 {
                     StatusDisplay.Info(Resources.SQLMessageVersionCheck);
                 }
-                String[] versionInfo = FileVersionInfo.GetVersionInfo(FishingForm.ProgramExeName).FileVersion.Split(new char[] { Resources.Period });
+                String[] versionInfo = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion.Split(new char[] { Resources.Period });
 
                 using (MySqlCommand cmd = Connection.CreateCommand())
                 {
