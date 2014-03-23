@@ -2654,7 +2654,7 @@ namespace Fishing
                         if ((actions & (int)ChatAction.Note) == (int)ChatAction.Note)
                         {
                             tabPage.Text = tabText;
-                            statusStripMain.BackColor = chatLines[0].Color;
+                            statusStripMain.BackColor = chatLines[i].Color;
                         }
                         if ((actions & (int)ChatAction.Flash) == (int)ChatAction.Flash)
                         {
