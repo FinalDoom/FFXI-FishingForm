@@ -61,6 +61,10 @@ Features
 	- Syncs silently after a few new fish are caught
 	- Get bait from and move fish to mog case
 	- Save chat or fishing logs (or all of them)
+    - DEBUG version with special debug log if you're having unsolvable problems
+        - Just download the DEBUG.zip and overwrite your current exe. Make sure you keep the .pdb file.
+        - Right click on the chat logs and select "Show Debug"
+        - Make sure to save the log and attach it to any issues you make in bitbucket or link to it in FFEvo comments.
 
 - Includes fface (current as of this post)
 - Includes ffacetools (current as of this post)
