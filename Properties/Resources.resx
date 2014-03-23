@@ -203,7 +203,7 @@
     <value>Windower path could not be found</value>
     <comment>Unresolvable path for when windower not found</comment>
   </data>
-  <data name="MessageTitleError" xml:space="preserve">
+  <data name="MessageTitleFishingFormError" xml:space="preserve">
     <value>FishingForm Error</value>
     <comment>Title of messageboxes for errors</comment>
   </data>
@@ -445,14 +445,6 @@
   <data name="QuoteMark" xml:space="preserve">
     <value>"</value>
     <comment>Utility quote mark</comment>
-  </data>
-  <data name="CommandPartSatchel" xml:space="preserve">
-    <value>satchel</value>
-    <comment>part of ocmmand for itemizer/itemtools</comment>
-  </data>
-  <data name="CommandPartSack" xml:space="preserve">
-    <value>sack</value>
-    <comment>part of command for itemizer/itemtools</comment>
   </data>
   <data name="Space" xml:space="preserve">
     <value> </value>
@@ -792,10 +784,6 @@
   <data name="SQLMessageUploadFinished" xml:space="preserve">
     <value>Upload to DB finished.</value>
   </data>
-  <data name="CommandPartCase" xml:space="preserve">
-    <value>case</value>
-    <comment>part of command for itemizer/itemtools</comment>
-  </data>
   <data name="StatusFormatMoveCaseFinished" xml:space="preserve">
     <value>Finished moving {0} to case.</value>
     <comment>Status when done moving items to case</comment>
@@ -818,5 +806,75 @@
   <data name="SQLMessageVersionMessageCheck" xml:space="preserve">
     <value>Checking for version update message.</value>
     <comment>Message from developer in DB.</comment>
+  </data>
+  <data name="GUIFormatSaveLog" xml:space="preserve">
+    <value>Save {0} Log</value>
+    <comment>Title for saving one log</comment>
+  </data>
+  <data name="GUIFormatVanaTime" xml:space="preserve">
+    <value>{0}/{1}/{2}, {3}, {4}:{5}, {6} Moon ({7}%)</value>
+    <comment>Format string for vanatime line</comment>
+  </data>
+  <data name="GUISaveLogs" xml:space="preserve">
+    <value>Save Logs</value>
+    <comment>Title for saving all logs</comment>
+  </data>
+  <data name="GUISaveRichText" xml:space="preserve">
+    <value>Rich Text Format</value>
+    <comment>Save dialog file type description</comment>
+  </data>
+  <data name="GUISaveUTF8Text" xml:space="preserve">
+    <value>Plain UTF-8 Text</value>
+    <comment>Save dialog file type description</comment>
+  </data>
+  <data name="GUIFormatNoCatch" xml:space="preserve">
+    <value>{0} / {1} ({2} released)</value>
+    <comment>Status line on no catch/release</comment>
+  </data>
+  <data name="GUISaveLogsTitle" xml:space="preserve">
+    <value>Choose a Base Filename</value>
+    <comment>Title for save all logs dialog</comment>
+  </data>
+  <data name="MessageFormatError" xml:space="preserve">
+    <value>ERROR: {0}</value>
+  </data>
+  <data name="DBSyncMessageDone" xml:space="preserve">
+    <value>Done!</value>
+  </data>
+  <data name="DBSyncMessageFormatDownloading" xml:space="preserve">
+    <value>Downloading {0}:</value>
+  </data>
+  <data name="DBSyncMessageFormatRenaming" xml:space="preserve">
+    <value>Renaming {0} to {1}</value>
+  </data>
+  <data name="DBSyncMessageFormatUploading" xml:space="preserve">
+    <value>Uploading {0}:</value>
+  </data>
+  <data name="DBSyncMessageStart" xml:space="preserve">
+    <value>Starting Sync...</value>
+  </data>
+  <data name="MessageFormatInfo" xml:space="preserve">
+    <value>Info: {0}</value>
+  </data>
+  <data name="MessageFormatWarning" xml:space="preserve">
+    <value>WARNING: {0}</value>
+  </data>
+  <data name="MessageTitleSyncFormError" xml:space="preserve">
+    <value>ERROR</value>
+  </data>
+  <data name="MessageTitleSyncFormInfo" xml:space="preserve">
+    <value>Info</value>
+  </data>
+  <data name="MessageTitleSyncFormWarning" xml:space="preserve">
+    <value>WARNING</value>
+  </data>
+  <data name="MessageError" xml:space="preserve">
+    <value>ERROR: </value>
+  </data>
+  <data name="MessageInfo" xml:space="preserve">
+    <value>Info: </value>
+  </data>
+  <data name="MessageWarning" xml:space="preserve">
+    <value>WARNING: </value>
   </data>
 </root>

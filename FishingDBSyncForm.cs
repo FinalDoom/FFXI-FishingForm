@@ -1,17 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Windows.Forms;
+using Fishing.Properties;
 
 namespace Fishing
 {
     internal partial class FishingDBSyncForm : Form, IFishDBStatusDisplay
     {
+        private const string MessageFormatFishBaitOrZone = "{0} - {1}";
+
         // 50% upload 50% download
         // Rods or fish divide that half evenly
         // Fish divide rods further (in download)
@@ -55,7 +52,7 @@ namespace Fishing
 
             try
             {
-                StartDBTransaction("Starting Sync...");
+                StartDBTransaction(Resources.DBSyncMessageStart);
                 FishDB.MarkAllFishNew();
                 FishDB.GetUpdates();
                 FishSQL.BackgroundUpload();
@@ -65,7 +62,7 @@ namespace Fishing
             {
                 Error(e.ToString());
             }
-            EndDBTransaction("Done!");
+            EndDBTransaction(Resources.DBSyncMessageDone);
         }
 
         public bool StartDBTransaction(string message)
@@ -100,7 +97,7 @@ namespace Fishing
         {
             this.UIThread(delegate
             {
-                lblRod.Text = string.Format("Uploading {0}:", rod);
+                lblRod.Text = string.Format(Resources.DBSyncMessageFormatUploading, rod);
                 lblFish.Text = fish;
                 uploadingFish++;
                 ProgressUpdate();
@@ -111,8 +108,8 @@ namespace Fishing
         {
             this.UIThread(delegate
             {
-                lblRod.Text = string.Format("Uploading {0}:", rod);
-                lblFish.Text = string.Format("Renaming {0} to {1}", fromName, toName);
+                lblRod.Text = string.Format(Resources.DBSyncMessageFormatUploading, rod);
+                lblFish.Text = string.Format(Resources.DBSyncMessageFormatRenaming, fromName, toName);
                 uploadingFish++;
                 ProgressUpdate();
             });
@@ -140,7 +137,7 @@ namespace Fishing
         {
             this.UIThread(delegate
             {
-                lblRod.Text = string.Format("Downloading {0}:", rod);
+                lblRod.Text = string.Format(Resources.DBSyncMessageFormatDownloading, rod);
                 downloadingRod++;
                 ProgressUpdate();
             });
@@ -160,7 +157,7 @@ namespace Fishing
         {
             this.UIThread(delegate
             {
-                lblFish.Text = string.Format("Renaming {0} to {1}", fromName, toName);
+                lblFish.Text = string.Format(Resources.DBSyncMessageFormatRenaming, fromName, toName);
                 renamingFish++;
                 ProgressUpdate();
             });
@@ -170,7 +167,7 @@ namespace Fishing
         {
             this.UIThread(delegate
             {
-                lblFish.Text = string.Format("{0} - {1}", fish, baitOrZone);
+                lblFish.Text = string.Format(MessageFormatFishBaitOrZone, fish, baitOrZone);
             });
         }
 
@@ -205,35 +202,35 @@ namespace Fishing
             });
         }
 
-        public void Error(string message)
+        public void Error(string message, params object[] args)
         {
             this.UIThread(delegate
             {
-                lblRod.Text = string.Format("ERROR: {0}", message);
+                lblRod.Text = Resources.MessageError + string.Format(message, args);
                 lblFish.Text = string.Empty;
-                MessageBox.Show(message, "ERROR");
+                MessageBox.Show(message, Resources.MessageTitleSyncFormError);
                 Thread.Sleep(500);
             });
         }
 
-        public void Warning(string message)
+        public void Warning(string message, params object[] args)
         {
             this.UIThread(delegate
             {
-                lblRod.Text = string.Format("WARNING: {0}", message);
+                lblRod.Text = Resources.MessageWarning + string.Format(message, args);
                 lblFish.Text = string.Empty;
-                MessageBox.Show(message, "WARNING");
+                MessageBox.Show(message, Resources.MessageTitleSyncFormWarning);
                 Thread.Sleep(500);
             });
         }
 
-        public void Info(string message)
+        public void Info(string message, params object[] args)
         {
             this.UIThread(delegate
             {
-                lblRod.Text = string.Format("Info: {0}", message);
+                lblRod.Text = Resources.MessageInfo + string.Format(message, args);
                 lblFish.Text = string.Empty;
-                MessageBox.Show(message, "Info");
+                MessageBox.Show(message, Resources.MessageTitleSyncFormInfo);
                 Thread.Sleep(500);
             });
         }

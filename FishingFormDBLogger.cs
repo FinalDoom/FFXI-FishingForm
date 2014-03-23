@@ -1,18 +1,14 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Linq;
-using System.Text;
-using System.Threading;
+using System.Drawing;
+using Fishing.Properties;
 
 namespace Fishing
 {
-    internal class FishingFormDBLogger : IFishDBStatusDisplay
+    internal class FishingFormDBLogger : Logger, IFishDBStatusDisplay
     {
         private const int SpamThreshold = 10;
+        // TODO extract strings
 
-        private FishingForm form;
         private bool InTransaction = false;
         private int uploadFish;
         private int uploadingFish = 0;
@@ -20,19 +16,9 @@ namespace Fishing
         private string currentRod = string.Empty;
         private int downloadFish;
         private int downloadingFish = 0;
-        private string currentFish = string.Empty;
 
-        public FishingFormDBLogger(FishingForm f)
+        public FishingFormDBLogger(Action<string, Color> logFunc) : base(logFunc)
         {
-            form = f;
-        }
-
-        private void PostMessage(string message)
-        {
-            if (null != form && !string.IsNullOrEmpty(message))
-            {
-                form.UpdateDBLog(message);
-            }
         }
 
         public bool StartDBTransaction(string message)
@@ -42,13 +28,13 @@ namespace Fishing
                 return false;
             }
             InTransaction = true;
-            PostMessage(message);
+            Info(message);
             return true;
         }
 
         public void EndDBTransaction(string message)
         {
-            PostMessage(message);
+            Info(message);
             InTransaction = false;
         }
 
@@ -56,12 +42,12 @@ namespace Fishing
         {
             if (fish > 0)
             {
-                PostMessage(string.Format("Uploading {0} fish.", fish));
+                Info("Uploading {0} fish.", fish);
             }
             uploadFish = fish;
             if (uploadFish >= SpamThreshold)
             {
-                PostMessage("Too many fish uploading to list individually.");
+                Info("Too many fish uploading to list individually.");
             }
             uploadingFish = 0;
         }
@@ -71,7 +57,7 @@ namespace Fishing
             if (uploadFish < SpamThreshold)
             { // Prevent spam hanging the GUI
                 uploadingFish++;
-                PostMessage(string.Format("{0}: \"{1}\" caught with {2}.", uploadingFish, fish, rod));
+                Info("{0}: \"{1}\" caught with {2}.", uploadingFish, fish, rod);
             }
         }
 
@@ -80,7 +66,7 @@ namespace Fishing
             if (uploadFish < SpamThreshold)
             { // Prevent spam hanging the GUI
                 uploadingFish++;
-                PostMessage(string.Format("{0}: \"{1}\" renamed to \"{2}\". ({3})", uploadingFish, oldName, newName, rod));
+                Info("{0}: \"{1}\" renamed to \"{2}\". ({3})", uploadingFish, oldName, newName, rod);
             }
         }
 
@@ -88,7 +74,7 @@ namespace Fishing
         {
             if (rods > 0)
             {
-                PostMessage(string.Format("Downloading {0} rods' data.", rods));
+                Info("Downloading {0} rods' data.", rods);
             }
             downloadingFish = 0;
         }
@@ -97,7 +83,7 @@ namespace Fishing
         {
             downloadingRod++;
             currentRod = rod;
-            PostMessage(string.Format("Getting information for {0} (#{1}).", rod, downloadingRod));
+            Info("Getting information for {0} (#{1}).", rod, downloadingRod);
         }
 
         public void SetDownloadRodFish(int fish)
@@ -106,11 +92,11 @@ namespace Fishing
             downloadFish = fish;
             if (fish > 0)
             {
-                PostMessage(string.Format("Downloading {0} fish and fish data caught with {1}.", fish, currentRod));
+                Info("Downloading {0} fish and fish data caught with {1}.", fish, currentRod);
             }
             if (downloadFish >= SpamThreshold)
             { // Prevent spam hanging the GUI
-                PostMessage("Too many fish downloading to list individually.");
+                Info("Too many fish downloading to list individually.");
             }
         }
 
@@ -120,11 +106,11 @@ namespace Fishing
             downloadFish = fish;
             if (fish > 0)
             {
-                PostMessage(string.Format("Downloading {0} renames (caught with {1}).", fish, currentRod));
+                Info("Downloading {0} renames (caught with {1}).", fish, currentRod);
             }
             if (downloadFish >= SpamThreshold)
             { // Prevent spam hanging the GUI
-                PostMessage("Too many renames downloading to list individually.");
+                Info("Too many renames downloading to list individually.");
             }
         }
 
@@ -133,7 +119,7 @@ namespace Fishing
             if (downloadFish < SpamThreshold)
             { // Prevent spam hanging the GUI
                 downloadingFish++;
-                PostMessage(string.Format("{0}: got \"{1}\".", downloadingFish, fish));
+                Info("{0}: got \"{1}\".", downloadingFish, fish);
             }
         }
 
@@ -142,7 +128,7 @@ namespace Fishing
             if (downloadFish < SpamThreshold)
             { // Prevent spam hanging the GUI
                 downloadingFish++;
-                PostMessage(string.Format("{0}: got \"{1}\" and renamed to \"{2}\".", downloadingFish, oldName, newName));
+                Info("{0}: got \"{1}\" and renamed to \"{2}\".", downloadingFish, oldName, newName);
             }
         }
 
@@ -150,23 +136,18 @@ namespace Fishing
         {
             if ((downloadFish == 0 && uploadFish < SpamThreshold) || (downloadFish != 0 && downloadFish < SpamThreshold))
             { // Prevent spam hanging the GUI
-                PostMessage(string.Format("Adding \"{0}\" to \"{1}\".", baitOrZone, fish));
+                Info("Adding \"{0}\" to \"{1}\".", baitOrZone, fish);
             }
         }
 
-        public void Error(string message)
+        public override void Error(string message, params object[] args)
         {
-            PostMessage(string.Format("ERROR: {0}", message));
+            Log(Resources.MessageError + string.Format(message, args), Color.Red);
         }
 
-        public void Warning(string message)
+        public override void Warning(string message, params object[] args)
         {
-            PostMessage(string.Format("WARNING: {0}", message));
-        }
-
-        public void Info(string message)
-        {
-            PostMessage(message);
+            Log(Resources.MessageWarning + string.Format(message, args), Color.Yellow);
         }
     }
 }

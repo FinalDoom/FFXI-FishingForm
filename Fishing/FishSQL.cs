@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Fishing.Properties;
 using MySql.Data.MySqlClient;
 using System.Windows.Forms;
@@ -60,7 +59,7 @@ namespace Fishing
 
         public Fishie ToFishDBFishie() { return new Fishie(name, rod, ID1, ID2, ID3); }
 
-        internal string name, rod, ID1, ID2, ID3, zone, bait;
+        internal readonly string name, rod, ID1, ID2, ID3, zone, bait;
         public override string ToString() { return name; }
     }
 
@@ -437,7 +436,7 @@ namespace Fishing
         /// <param name="fishNode">Fish XML node that's being uploaded</param>
         /// <param name="updatedBait">Pairing of bait and parent nodes to be updated</param>
         /// <param name="updatedZones">Pairing of zone and parent nodes to be updated</param>
-        public static void UploadBaitAndZone(string fish, string rod, string ID1, string ID2, string ID3, List<XmlNode> bait, List<XmlNode> zones, XmlNode fishNode, ref Dictionary<XmlNode, XmlNode> updatedBait, ref Dictionary<XmlNode, XmlNode> updatedZones)
+        public static void UploadBaitAndZone(string fish, string rod, string ID1, string ID2, string ID3, IEnumerable<XmlNode> bait, IEnumerable<XmlNode> zones, XmlNode fishNode, ref Dictionary<XmlNode, XmlNode> updatedBait, ref Dictionary<XmlNode, XmlNode> updatedZones)
         {
             if (OpenConnection())
             {
@@ -512,11 +511,11 @@ namespace Fishing
                         cmd.Parameters.AddWithValue(MySQLParamFishID, fishId);
                         if (z.EndsWith(ZoneSelbinaPirates))
                         {
-                            cmd.Parameters.AddWithValue(MySQLParamZoneID, (int)FFACETools.Zone.Ferry_between_Mhaura__Selbina_Pirates);
+                            cmd.Parameters.AddWithValue(MySQLParamZoneID, (int)Zone.Ferry_between_Mhaura__Selbina_Pirates);
                         }
                         else if (z.EndsWith(ZoneMhauraPirates))
                         {
-                            cmd.Parameters.AddWithValue(MySQLParamZoneID, (int)FFACETools.Zone.Ferry_between_Selbina__Mhaura_Pirates);
+                            cmd.Parameters.AddWithValue(MySQLParamZoneID, (int)Zone.Ferry_between_Selbina__Mhaura_Pirates);
                         }
                         else
                         {
@@ -724,7 +723,7 @@ namespace Fishing
                 {
                     StatusDisplay.Info(Resources.SQLMessageVersionCheck);
                 }
-                String[] versionInfo = FileVersionInfo.GetVersionInfo(FishingForm.ProgramExeName).FileVersion.Split(new char[1] { Resources.Period });
+                String[] versionInfo = FileVersionInfo.GetVersionInfo(FishingForm.ProgramExeName).FileVersion.Split(new char[] { Resources.Period });
 
                 using (MySqlCommand cmd = Connection.CreateCommand())
                 {
@@ -828,14 +827,8 @@ namespace Fishing
                     }
                     if (null != fishNode.Attributes[FishDB.XMLAttrNew])
                     {
-                        foreach (XmlNode node in fishNode[FishDB.XMLNodeBaits].ChildNodes)
-                        {
-                            baits.Add(node);
-                        }
-                        foreach (XmlNode node in fishNode[FishDB.XMLNodeZones].ChildNodes)
-                        {
-                            zones.Add(node);
-                        }
+                        baits.AddRange(fishNode[FishDB.XMLNodeBaits].ChildNodes.Cast<XmlNode>());
+                        zones.AddRange(fishNode[FishDB.XMLNodeZones].ChildNodes.Cast<XmlNode>());
                         try
                         {
                             if (UploadFish(fish, rod, fishNode.Attributes[FishDB.XMLAttrID1].Value, fishNode.Attributes[FishDB.XMLAttrID2].Value, fishNode.Attributes[FishDB.XMLAttrID3].Value))
@@ -860,14 +853,8 @@ namespace Fishing
                     }
                     else
                     {
-                        foreach (XmlNode node in fishNode.SelectNodes(FishDB.XPathNewBait))
-                        {
-                            baits.Add(node);
-                        }
-                        foreach (XmlNode node in fishNode.SelectNodes(FishDB.XPathNewZones))
-                        {
-                            zones.Add(node);
-                        }
+                        baits.AddRange(fishNode.SelectNodes(FishDB.XPathNewBait).Cast<XmlNode>());
+                        zones.AddRange(fishNode.SelectNodes(FishDB.XPathNewZones).Cast<XmlNode>());
                     }
                     if (baits.Count > 0 || zones.Count > 0)
                     {
@@ -1019,7 +1006,7 @@ namespace Fishing
                             {
                                 FishDB.ChangeName(fish.ToFishDBFishie(), renamedFish[fish], true);
                             }
-                            catch (Exception)
+                            catch
                             {
                             }
                         }

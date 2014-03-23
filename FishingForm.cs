@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Media;
@@ -48,6 +48,16 @@ namespace Fishing
             "You may also enter several commands, separated by semicolons or newlines. Fishing will attempt to resume after the number of seconds indicated in the number box to the right."
         };
 
+        private static readonly string[] MessageSaveLogs =
+        {
+            "Log names will be appended. eg.",
+            "",
+            "FF.rtf will result in FFLog.rtf, FFFish.rtf, FFTell.rtf, etc."
+        };
+
+        // These constants should never change--Don't use for language dependent strings
+        private static readonly char[] ExtensionSeparator = {'.'};
+
         private const string DllNameFFACE = "FFACE.dll";
         private const string DllNameHook = "hook.dll";
         private const string DllNameItemizer = "itemizer.dll";
@@ -60,8 +70,16 @@ namespace Fishing
         private const string CommandChatReply = "/t <r> ";
         private const string CommandChatTell = "/t ";
         private const string CommandFish = "/fish";
+        private const string CommandFormatItemizerGetStack = "/gets {0} {1}";
+        private const string CommandFormatItemtoolsGetStack = "/moveitem {0} {1} inventory 99";
+        private const string CommandFormatItemizerPutStack = "/puts {0} {1}";
+        private const string CommandFormatItemtoolsPutStack = "/moveitem {0} inventory {1} 12";
         private const string CommandFormatItemMe = "/item \"{0}\" <me>";
-        private const string CommandCancelStatus = "//cancel {0}";
+        private const string CommandFormatCancelStatus = "//cancel {0}";
+        private const string CommandPartCase = "case";
+        private const string CommandPartInventory = "inventory";
+        private const string CommandPartSack = "sack";
+        private const string CommandPartSatchel = "satchel";
         private const string CommandWarp = "/ma \"Warp\" <me>";
         private const string CommandLogout = "/logout";
         private const string CommandShutdown = "/shutdown";
@@ -76,6 +94,8 @@ namespace Fishing
         private const string EquipFormatWaist = "/equip waist \"{0}\"";
         private const string EquipFormatLRing = "/equip ring1 \"{0}\"";
         private const string EquipFormatRRing = "/equip ring2 \"{0}\"";
+        private const string ExtensionRichText = "rtf";
+        private const string ExtensionUTF8Text = "txt";
         private const string FormatLogTimestamp = "[hh:mm:ss] ";
         private const string FormatTimestampVanaMinute = "00";
         private const string FormatTimestampEarthTime = "MMM. d, yyyy h:mm:ss tt";
@@ -84,10 +104,8 @@ namespace Fishing
         private const string FormatFishHP = "{0}/{1} [{2}s]";
         private const string GUIChatDetectButtonAdd = "+";
         private const string GUIChatDetectButtonRemove = "-";
-        private const string GUIFormatNoCatch = "{0} / {1}";
         private const string GUILblBlank = "--";
         private const string GUIFormatLblBait = "{0} [{1}]";
-        private const string GUIFormatVanaTime = "{0}/{1}/{2}, {3}, {4}:{5}, {6} Moon ({7}%)";
         private const string GUIFormatLblSkillDecimal = " (.{0})";
         private const string GUIFormatLblSkillDecimalRange = " (.{0} - .{1})";
         private const string GUILblNA = "N/A";
@@ -96,6 +114,7 @@ namespace Fishing
         private const string GUIFormatLblVanaClock = "{0}:{1}";
         private const string GUIButtonResizeBig = ">";
         private const string GUIButtonResizeSmall = "<";
+        private const string GUIFormatSaveTypes = "{0}|*.{1}|{2}|*.{3}";
         private const string ProcessPOLName = "pol";
         internal const string ProgramExeName = "Fishing.exe";
         private const string RegexAllSpaces = @"^[\s]+$";
@@ -116,11 +135,10 @@ namespace Fishing
 
         private static ProcessSelector.POLProcess _Process { get; set; }
         private static Random rnd = new Random();
-        private static ThreadStart ts;
         private static Thread workerThread;
         private static SizeF currentScaleFactor = new SizeF(1f, 1f);
         private static FishingFormDBLogger DBLogger;
-        private static DebugLogger DebugLog;
+        private static Logger DebugLog;
         private static bool ItemizerAvailable = false;
         private static bool ItemToolsAvailable = false;
 
@@ -192,10 +210,42 @@ namespace Fishing
         #endregion //Members
 
         #region Constructor/Destructor
-
-        internal FishingForm(string[] arglist)
+        
+        internal FishingForm(IEnumerable<string> arglist)
         {
             InitializeComponent();
+
+            #region DebugLogging
+
+            DebugLog = new DebugLogger((string message, Color color) =>
+#if DEBUG
+ rtbDebug.UIThread(delegate
+ {
+     if (!string.IsNullOrEmpty(message))
+     {
+         try
+         {
+             rtbDebug.SelectionStart = rtbDebug.Text.Length;
+             rtbDebug.SelectionColor = Color.SlateBlue;
+             rtbDebug.SelectedText = DateTime.Now.ToString(FormatLogTimestamp);
+             rtbDebug.SelectionColor = FishChat.BrightenColor(color);
+             rtbDebug.SelectedText = message + Environment.NewLine;
+             rtbDebug.SelectionStart = rtbDebug.Text.Length - 1;
+             rtbDebug.ScrollToCaret();
+         }
+         catch (ArgumentOutOfRangeException)
+         {
+         }
+     }
+ })
+#else
+            { }
+#endif
+);
+
+            Thread.CurrentThread.Name = "UIThread";
+
+            #endregion //DebugLogging
 
             RestoreLocation();
 
@@ -206,7 +256,7 @@ namespace Fishing
 
             if (args.Count > 1)
             {
-                if (args[1].ToLower() == Resources.ArgumentStart) { btnStart_Click(btnStart, MouseEventArgs.Empty); }
+                if (args[1].ToLower() == Resources.ArgumentStart) { btnStart_Click(btnStart, EventArgs.Empty); }
             }
 
             #region FormElements
@@ -295,44 +345,58 @@ namespace Fishing
             FishDB.OnChanged += new FishDB.DBChanged(PopulateLists);
             FishStats.OnChanged += new FishStats.FishStatsChanged(UpdateStats);
 
-            #region DebugLogging
-
-            DebugLog = new DebugLogger((string message, Color color) => 
-#if DEBUG
-                rtbDebug.UIThread(() =>
-            {
-                try
-                {
-                    rtbDebug.SelectionStart = rtbDebug.Text.Length;
-                    rtbDebug.SelectionColor = Color.SlateBlue;
-                    rtbDebug.SelectedText = DateTime.Now.ToString(FormatLogTimestamp);
-                    rtbDebug.SelectionColor = color;
-                    rtbDebug.SelectedText = message + Environment.NewLine;
-                    rtbDebug.SelectionStart = rtbDebug.Text.Length - 1;
-                    rtbDebug.ScrollToCaret();
-                }
-                catch (ArgumentOutOfRangeException)
-                {
-                }
-            })
-#else
-            { }
-#endif
-            );
-
-            #endregion //DebugLogging
-
             #endregion //FormElements
 
             #region Database
 
-            DBLogger = new FishingFormDBLogger(this);
+            DBLogger = new FishingFormDBLogger((string message, Color color) => rtbDB.UIThread(delegate
+            {
+                if (!string.IsNullOrEmpty(message))
+                {
+                    try
+                    {
+                        rtbDB.SelectionStart = rtbDB.Text.Length;
+                        rtbDB.SelectionColor = Color.SlateBlue;
+                        rtbDB.SelectedText = DateTime.Now.ToString(FormatLogTimestamp);
+                        rtbDB.SelectionColor = FishChat.BrightenColor(color);
+                        rtbDB.SelectedText = message + Environment.NewLine;
+                        rtbDB.SelectionStart = rtbDB.Text.Length - 1;
+                        rtbDB.ScrollToCaret();
+                    }
+                    catch (ArgumentOutOfRangeException)
+                    {
+                    }
+                }
+            }));
             FishSQL.StatusDisplay = DBLogger;
-            Thread databaseInitThread = new Thread(new ThreadStart(CheckDatabase));
-            databaseInitThread.IsBackground = true;
+            Thread databaseInitThread = new Thread(new ThreadStart(CheckDatabase))
+            {
+                IsBackground = true,
+                Name = "DatabaseInitThread"
+            };
             databaseInitThread.Start();
 
             #endregion //Database
+
+            #region Debug
+
+            tabChat.Controls.Remove(tabChatPageDebug);
+#if DEBUG || TEST
+            showDebugToolStripMenuItem.Visible = true;
+#else
+            showDebugToolStripMenuItem.Visible = false;
+#endif
+#if DEBUG
+            toolStripSeparatorChatBoxes.Visible = true;
+#else
+            toolStripSeparatorChatBoxes.Visible = false;
+#endif
+#if TEST
+            toolStripSeparatorChatBoxes.Visible = true;
+#else
+            testToolStripMenuItem.Visible = false;
+#endif
+            #endregion //Debug
 
         }
         ~FishingForm()
@@ -410,28 +474,33 @@ namespace Fishing
         /// </summary>
         private void CheckDatabase()
         {
+            DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                "Checking Database");
             try
             {
                 if (!FishSQL.OpenConnection())
                 {
+                    DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                        "Returning: Could not open connection");
                     return;
                 }
                 if (!FishSQL.IsProgramUpdated())
                 {
+                    DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                        "New Version Found");
                     string message = FishSQL.GetVersionMessage();
                     string[] messageArray = MessageVersionUpdate;
                     if (!string.IsNullOrEmpty(message))
                     {
-                        messageArray = MessageVersionUpdate.Concat(new string[] { "", message }).ToArray();
+                        messageArray = MessageVersionUpdate.Concat(new string[] { string.Empty, message }).ToArray();
                     }
                     MessageBox.Show(string.Join(Environment.NewLine, messageArray));
-                    foreach (string s in messageArray)
-                    {
-                        UpdateDBLog(s);
-                    }
+                    DBLogger.Info(string.Join(Environment.NewLine, messageArray));
                 }
 
                 // Make sure _FFACE is populated so we can actually resolve zone names and such
+                DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                    "Checking that FFACE is instantiated.");
                 while (_FFACE == null)
                 {
                     Thread.Sleep(1000);
@@ -442,37 +511,64 @@ namespace Fishing
                 }
                 try
                 {
+                    DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                        "Checking for FishDB Updates");
                     FishDB.GetUpdates();
                 }
                 catch (Exception e)
                 {
+
+                    DebugLog.Error("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                        "Error getting updates:");
+                    DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                        e.ToString());
                     DBLogger.Error(Resources.MessageDBErrorXML);
                     DBLogger.Info(e.ToString());
                 }
-                try{
+                try
+                {
+                    DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                        "Uploading new fish, if they exist");
                     FishSQL.DoUploadFish();
                 }
                 catch (Exception e)
                 {
+                    DebugLog.Error("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                        "Error uploading fish:");
+                    DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                        e.ToString());
                     DBLogger.Error(Resources.MessageDBErrorUpload);
                     DBLogger.Info(e.ToString());
                 }
-                try{
+                try
+                {
+                    DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                        "Downloading new fish");
                     FishSQL.DoDownloadFish();
                 }
                 catch (Exception e)
                 {
+                    DebugLog.Error("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                        "Error downloading fish:");
+                    DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                        e.ToString());
                     DBLogger.Error(Resources.MessageDBErrorDownload);
                     DBLogger.Info(e.ToString());
                 }
             }
             catch (Exception e)
             {
+                DebugLog.Error("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                    "Another error happened in DB transactions:");
+                DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                    e.ToString());
                 DBLogger.Error(Resources.MessageDBErrorGeneral);
                 DBLogger.Info(e.ToString());
             }
             finally
             {
+                DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                    "Closing DB Connection");
                 FishSQL.CloseConnection();
                 DBLogger.EndDBTransaction(Resources.MessageDBSyncFinish);
             }
@@ -484,8 +580,10 @@ namespace Fishing
         /// </summary>
         /// <param name="characterName">Character name on desired process</param>
 		private void ChooseProcess(string characterName)
-		{
-            using (ProcessSelector ChooseProcess = new ProcessSelector())
+        {
+            DebugLog.Info("({0}) [{1}] {2} {3}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                "Choosing FFXI Process for character:", characterName);
+            using (ProcessSelector chooseProcess = new ProcessSelector())
             {
                 if (characterName != null && characterName != Resources.ArgumentNoArgs)
                 {
@@ -493,17 +591,19 @@ namespace Fishing
                     {
                         if (Process.GetProcessesByName(ProcessPOLName)[i].MainWindowTitle == characterName)
                         {
-                            ChooseProcess.ThisProcess = new ProcessSelector.POLProcess(Process.GetProcessesByName(ProcessPOLName)[i].Id, Process.GetProcessesByName(ProcessPOLName)[i].MainWindowTitle);
+                            chooseProcess.ThisProcess = new ProcessSelector.POLProcess(Process.GetProcessesByName(ProcessPOLName)[i].Id, Process.GetProcessesByName(ProcessPOLName)[i].MainWindowTitle);
                             break;
                         }
                     }
                 }
-                if (!ChooseProcess.error && null == ChooseProcess.ThisProcess)
+                if (!chooseProcess.error && null == chooseProcess.ThisProcess)
                 {
-                    ChooseProcess.ShowDialog();
+                    chooseProcess.ShowDialog();
                 }
-				if (null == ChooseProcess.ThisProcess)
+				if (null == chooseProcess.ThisProcess)
 				{
+				    DebugLog.Warning("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+				        "Failed to get FFXI Process");
 					_FFACE = null;
 					_Player = null;
                     FileVersionInfo ver = FileVersionInfo.GetVersionInfo(ProgramExeName);
@@ -515,17 +615,19 @@ namespace Fishing
 
                 try   //if you can't create an instance, there's probably no FFACE.dll, or an old FFACE version
                 {
-                    _FFACE = new FFACE(ChooseProcess.ThisProcess.POLID);
+                    DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                        "Setting up FFACE");
+                    _FFACE = new FFACE(chooseProcess.ThisProcess.POLID);
                     _Player = new FFACE.PlayerTools(_FFACE._InstanceID);
                     playerChatLinkshell = new Regex(string.Format(RegexFormatChatLinkshell, _Player.Name));
                     playerChatParty = new Regex(string.Format(RegexFormatChatParty, _Player.Name));
                     playerChatSay = new Regex(string.Format(RegexFormatChatSay, _Player.Name));
                     FileVersionInfo ver = FileVersionInfo.GetVersionInfo(ProgramExeName);
-                    this.Text = string.Format(FormatProgramTitleLoggedIn, ver.FileVersion, ChooseProcess.ThisProcess.POLName);
+                    this.Text = string.Format(FormatProgramTitleLoggedIn, ver.FileVersion, chooseProcess.ThisProcess.POLName);
 
                     //windower path
                     //_FFACE = new FFACE((int)PID);
-                    Process pol = Process.GetProcessById((int)ChooseProcess.ThisProcess.POLID);
+                    Process pol = Process.GetProcessById(chooseProcess.ThisProcess.POLID);
                     foreach (ProcessModule mod in pol.Modules)
                     {
                         if (mod.ModuleName.ToLower() == DllNameHook)
@@ -555,23 +657,28 @@ namespace Fishing
                 }
                 catch (DllNotFoundException)   //occurs when FFACE.dll cannot be found
                 {
+                    DebugLog.Error("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                        "Couldn't find FFACE.dll");
                     if (File.Exists(Path.Combine(Application.StartupPath, DllNameFFACE)))
                     {
-                        MessageBox.Show(Resources.MessageErrorAdministratorNeeded, Resources.MessageTitleError);
+                        MessageBox.Show(Resources.MessageErrorAdministratorNeeded, Resources.MessageTitleFishingFormError);
                     }
                     else
                     {
-                        MessageBox.Show(Resources.MessageErrorFFACEMissing, Resources.MessageTitleError);
+                        MessageBox.Show(Resources.MessageErrorFFACEMissing, Resources.MessageTitleFishingFormError);
                     }
+                    // Consider not exiting for debug here
                     Environment.Exit(0);
                 }
                 catch (EntryPointNotFoundException)   //occurs when 'CreateInstance' entry point in FFACE.dll cannot be found
                 {
-                    MessageBox.Show(string.Join(Environment.NewLine, MessageErrorFFACEVersion), Resources.MessageTitleError);
+                    DebugLog.Error("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                        "FFACE entry point could not be found.");
+                    MessageBox.Show(string.Join(Environment.NewLine, MessageErrorFFACEVersion), Resources.MessageTitleFishingFormError);
                     Environment.Exit(0);
                 }
 
-                _Process = ChooseProcess.ThisProcess;  //store instanced property for possible need to Reattach()
+                _Process = chooseProcess.ThisProcess;  //store instanced property for possible need to Reattach()
 
             }
 		}
@@ -588,10 +695,14 @@ namespace Fishing
         // TODO This would be where to start/change if implementing a FSM paradigm for the bot
         private void BackgroundFishing()
         {
+            DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                "Begin fishing loop");
             while (_FFACE.Player.Zone == currentZone)
             {
                 if (((int)numMaxNoCatch.Value < consecutiveNoCatchCount))
                 {
+                    DebugLog.Warning("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                        "Stopping because no-catch value has been exceeded.");
                     SetNoCatch(consecutiveNoCatchCount = 0);
                     Fatigued(Resources.StatusFatigueNoCatches);
                     return;
@@ -600,12 +711,16 @@ namespace Fishing
                 // Stop at skill level
                 if (cbSkillCap.Checked && numSkillCap.Value <= Math.Max(_FFACE.Player.GetCraftDetails(Craft.Fishing).Level, skillLevel))
                 {
+                    DebugLog.Warning("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                        "Stopping because skill cap has been reached.");
                     Stop(false, Resources.StatusErrorSkillCapped);
                     return;
                 }
 
 				if (Status.Fishing != currentStatus && Status.FishBite != currentStatus && Status.LostCatch != currentStatus)
 				{
+				    DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+				        "Casting after random time: We're not currently fishing");
 					decimal randomCast = Math.Round((decimal)rnd.NextDouble() * (numCastIntervalHigh.Value - numCastIntervalLow.Value), 1);
 					decimal castWait = numCastIntervalLow.Value + randomCast;
 					SetStatus(string.Format(Resources.StatusFormatCastingSeconds, castWait));
@@ -616,6 +731,8 @@ namespace Fishing
                 Fish();
             }
 
+            DebugLog.Warning("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                "Stopping because zone has changed.");
             Stop(true, Resources.StatusErrorZoneChanged);
 
         } // @ private void BackgroundFishing()
@@ -627,37 +744,49 @@ namespace Fishing
         /// <param name="bait">Name of the currently selected bait</param>
         private void RetrieveBait(string bait)
         {
+            DebugLog.Info("({0}) [{1}] {2} {3}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                "Attempting to retrieve bait", bait);
             if (cbBaitItemizerItemTools.Checked)
             {
+                DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                    "Attempting to get bait using Itemizer or ItemTools.");
                 string baitLocation;
                 if (cbBaitItemizerSack.Checked && _FFACE.Item.GetSackItemCount((ushort)Dictionaries.baitDictionary[bait]) > 0)
                 {
-                    baitLocation = "sack";
+                    baitLocation = CommandPartSack;
                 }
                 else if (cbBaitItemizerSatchel.Checked && _FFACE.Item.GetSatchelItemCount((ushort)Dictionaries.baitDictionary[bait]) > 0)
                 {
-                    baitLocation = "satchel";
+                    baitLocation = CommandPartSatchel;
                 }
                 else if (cbBaitItemizerCase.Checked && _FFACE.Item.GetCaseItemCount((ushort)Dictionaries.baitDictionary[bait]) > 0)
                 {
-                    baitLocation = "case";
+                    baitLocation = CommandPartCase;
                 }
                 else
                 {
+                    DebugLog.Warning("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                        "No bait found in or none checked of sack, satchel, or case.");
                     return;
                 }
                 string quotedBait = string.Format(Resources.FormatQuoteArg, bait);
                 if (ItemizerAvailable)
                 {
-                    DoMoveItem(string.Format("/gets {0} {1}", quotedBait, baitLocation), baitLocation, "inventory", (ushort)Dictionaries.baitDictionary[bait]);
+                    DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                        "Moving bait using Itemizer");
+                    DoMoveItem(string.Format(CommandFormatItemizerGetStack, quotedBait, baitLocation), baitLocation, CommandPartInventory, (ushort)Dictionaries.baitDictionary[bait]);
                 }
                 else if (ItemToolsAvailable)
                 {
-                    DoMoveItem(string.Format("/moveitem {0} {1} inventory 99", quotedBait, baitLocation), baitLocation, "inventory", (ushort)Dictionaries.baitDictionary[bait]);
+                    DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                        "Moving bait using ItemTools");
+                    DoMoveItem(string.Format(CommandFormatItemtoolsGetStack, quotedBait, baitLocation), baitLocation, CommandPartInventory, (ushort)Dictionaries.baitDictionary[bait]);
                 }
             }
             else if (cbBaitactionOther.Checked && !string.IsNullOrEmpty(tbBaitactionOther.Text))
             {
+                DebugLog.Info("({0}) [{1}] {2} {3}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                    "Attempting to get bait using oter command:", tbBaitactionOther.Text);
                 string quotedBait = string.Format(Resources.FormatQuoteArg, bait);
                 foreach (string command in tbBaitactionOther.Text.Split(new String[] {Resources.Semicolon, Environment.NewLine}, StringSplitOptions.RemoveEmptyEntries))
                 {
@@ -674,24 +803,34 @@ namespace Fishing
         /// <returns>true if rod and bait are set in options or equipped</returns>
         private bool IsRodBaitSet()
         {
+            DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                "Checking that bait and rod are set in options or equipped in game.");
             if (_FFACE == null)
             {
+                DebugLog.Warning("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                    "FFACE not instantiated. No rod/bait found.");
                 return false;
             }
             string bait = tbBaitGear.Text;
             if (string.IsNullOrEmpty(bait))
             {
+                DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                    "Checking for bait from ingame (not set in options).");
                 bait = FishUtils.GetBaitName(_FFACE.Item.GetEquippedItemID(EquipSlot.Ammo));
             }
             string rod = tbRodGear.Text;
             if (string.IsNullOrEmpty(rod))
             {
+                DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                    "Checking for rod from ingame (not set in options).");
                 rod = FishUtils.GetRodName(_FFACE.Item.GetEquippedItemID(EquipSlot.Range));
             }
             currentZone = _FFACE.Player.Zone;
 
             if ((!string.IsNullOrEmpty(rod)) && (!string.IsNullOrEmpty(bait)))
             {
+                DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                    "Rod, bait, and zone found.");
                 SetBait(bait);
                 SetRod(rod);
                 SetLblZone(FishUtils.GetZoneName(currentZone));
@@ -700,6 +839,8 @@ namespace Fishing
             }
             else
             {
+                DebugLog.Warning("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                    "Rod or bait not found, stopping.");
                 LastBaitName = LastRodName = string.Empty;
                 SetLblZone(string.Empty);
                 Stop(false, Resources.StatusErrorNoBaitOrRodEquipped);
@@ -715,8 +856,12 @@ namespace Fishing
         /// <returns>true if rod and bait are equipped</returns>
         private bool IsRodBaitEquipped()
         {
+            DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                "Checking if rod and bait are equipped in game (did equip commands execute correctly?)");
             if (_FFACE == null)
             {
+                DebugLog.Warning("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                    "FFACE not instantiated. No rod/bait found.");
                 return false;
             }
             string bait = FishUtils.GetBaitName(_FFACE.Item.GetEquippedItemID(EquipSlot.Ammo));
@@ -724,6 +869,8 @@ namespace Fishing
 
             if ((!string.IsNullOrEmpty(rod)) && (!string.IsNullOrEmpty(bait)))
             {
+                DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                    "Rod and bait found equipped ingame.");
                 SetBait(bait);
                 SetRod(rod);
 
@@ -731,6 +878,8 @@ namespace Fishing
             }
             else
             {
+                DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                    "Rod or bait not equipped in game");
                 return false;
             }
         }
@@ -742,6 +891,8 @@ namespace Fishing
         /// <returns>true if bait and rod equipped at end of function</returns>
         private bool CheckRodAndBait()
         {
+            DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                "Checking for rod and bait in options or ingame, and equipping if necessary.");
             string strZone = FishUtils.GetZoneName(_FFACE.Player.Zone);
             string strBait = LastBaitName;
             string strRod = LastRodName;
@@ -753,6 +904,8 @@ namespace Fishing
             // Just starting or zoned
             if ((string.IsNullOrEmpty(lblZone.Text)) || (lblZone.Text != strZone))
             {
+                DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                    "Zone changed or just started program.");
                 SetLblZone(strZone);
                 PopulateLists();
             }
@@ -760,6 +913,8 @@ namespace Fishing
             // No rod or bait equipped. Try equipping
             if (string.IsNullOrEmpty(rod) || string.IsNullOrEmpty(bait) || LastBaitName != bait || LastRodName != rod)
             {
+                DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                    "Rod or bait not equipped, sending equip commands.");
                 DoEquipping(strRodEquipMessage, (ushort)Dictionaries.rodDictionary[LastRodName], EquipSlot.Range);
                 DoEquipping(strBaitEquipMessage, (ushort)Dictionaries.baitDictionary[LastBaitName], EquipSlot.Ammo);
             }
@@ -768,20 +923,28 @@ namespace Fishing
             {
                 if ((LastBaitName != strBait) || (LastRodName != strRod) || (lblZone.Text != strZone))
                 {
+                    DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                        "Rod, bait, or zone changed since last loop.");
                     PopulateLists();
                 }
             }
             else  //if IsRodBaitEquipped returns false, most likely out of bait, try to get it from sack/satchel/case with itemizer/itemtools
             { //if that doesn't work, return false
                 RetrieveBait(LastBaitName);
+                DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                    "Attempting to equip retrieved bait");
                 DoEquipping(strRodEquipMessage, (ushort)Dictionaries.rodDictionary[LastRodName], EquipSlot.Range);
                 DoEquipping(strBaitEquipMessage, (ushort)Dictionaries.baitDictionary[LastBaitName], EquipSlot.Ammo);
 
                 if (!IsRodBaitEquipped())
                 {
+                    DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                        "Bait or rod still not equipped.");
                     return false;
                 }
             }
+            DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                "Rod and bait checks out okay.");
             return true;
         }
 
@@ -793,11 +956,15 @@ namespace Fishing
         {
             if (cbSneakFishing.Checked)
             {
+                DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                    "Checking sneak status.");
                 if (!IsStatusEffectActive(StatusEffect.Sneak))
                 {
                     // Check to make sure we have enough MP
                     if (_FFACE.Player.MPCurrent >= 12)
                     {
+                        DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                            "Sending command to cast sneak.");
                         _FFACE.Windower.SendString(CommandCastSneak);
                         Thread.Sleep(500);
                         // While we are casting, sleep the thread.
@@ -811,6 +978,8 @@ namespace Fishing
                     }
                     else
                     {
+                        DebugLog.Warning("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                            "Not enough MP to cast sneak. Stopping");
                         Stop(false, Resources.StatusErrorSneakLackMP);
                         return;
                     }
@@ -819,6 +988,8 @@ namespace Fishing
 
             if (!CheckRodAndBait())
             {
+                DebugLog.Warning("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                    "Rod and bait check failed. Stopping");
                 OutOfBait(Resources.StatusErrorNoBait);
                 return;
             }
@@ -828,6 +999,8 @@ namespace Fishing
 			CheckEnchantment();
             SetStatus(string.Format(Resources.StatusFormatCastingBait, LastBaitName, baitLeft));
 
+            DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                "Sending command to start fishing");
             _FFACE.Windower.SendString(CommandFish);
 
         }
@@ -838,12 +1011,9 @@ namespace Fishing
         /// <returns>True the statuseffect is active</returns>
         private static bool IsStatusEffectActive(StatusEffect seffect)
         {
-            foreach (var statuseffects in _FFACE.Player.StatusEffects)
-            {
-                if (statuseffects == seffect)
-                    return true;
-            }
-            return false;
+            DebugLog.Info("({0}) [{1}] {2} {3}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                "Checking if status effect is active:", seffect.ToString());
+            return _FFACE.Player.StatusEffects.Any(statuseffects => statuseffects == seffect);
         } // @ private bool IsSneakActive()
 
         /// <summary>
@@ -851,7 +1021,9 @@ namespace Fishing
         /// </summary> 
         private static void CancelSpell(StatusEffect seffect)
         {
-            _FFACE.Windower.SendString(string.Format(CommandCancelStatus, (short)seffect));
+            DebugLog.Info("({0}) [{1}] {2} {3}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                "Cancelling status effect:", seffect.ToString());
+            _FFACE.Windower.SendString(string.Format(CommandFormatCancelStatus, (short)seffect));
         } // @ private void CancelSpell(StatusEffect seffect)
 
         /// <summary>
@@ -860,6 +1032,8 @@ namespace Fishing
         /// <returns><c>FishResult</c> status noting type of fish caught (or lost)</returns>
         private FishResult FightFish()
         {
+            DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                "Fighting fish to 0 HP, using FFACE call.");
             SetStatus(string.Format(Resources.StatusFormatFightingFish, currentFish));
             FishResult result = FightTo(0);
             SetProgress(0);
@@ -867,9 +1041,13 @@ namespace Fishing
 
             if (FishResult.LostCatch == result)
             {
+                DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                    "Lost catch.");
                 return FishResult.LostCatch;
             }
 
+            DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                "Checking if fish still on line and mashing enter, if necessary.");
             while (_FFACE.Fish.FishOnLine)
             {
                 _FFACE.Windower.SendKeyPress(KeyCode.EnterKey);
@@ -888,8 +1066,9 @@ namespace Fishing
             string strQuest = string.Format(Resources.ChatFormatQuestBox, strPlayerName);
             string strInvFull = string.Format(Resources.ChatFormatInventoryFull, strPlayerName);
             bool foundMatch = false;
-            bool caughtmonster = false;
 
+            DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                "Checking chat log for new fish name.");
             while (false == foundMatch)
             {
                 for (int i = 0; i < 5; i++)
@@ -900,6 +1079,9 @@ namespace Fishing
 
                         if (chatLine.Contains(Resources.ChatLostCatch))
                         {
+                            DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(),
+                                DebugLogger.GetCurrentMethod(),
+                                "Chat indicates fish was a lost catch");
                             strNewFish = Resources.FishNameLostCatch;
                             result = FishResult.LostCatch;
                             foundMatch = true;
@@ -908,15 +1090,20 @@ namespace Fishing
 
                         if (chatLine.Contains(strMonster))
                         {
+                            DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(),
+                                DebugLogger.GetCurrentMethod(),
+                                "Chat indicates fish was a monster.");
                             strNewFish = Resources.FishNameMonster;
                             result = FishResult.Monster;
                             foundMatch = true;
-                            caughtmonster = true;
                             break;
                         }
 
                         if (chatLine.Contains(Resources.ChatLostTooSmall))
                         {
+                            DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(),
+                                DebugLogger.GetCurrentMethod(),
+                                "Chat indicates fish was too small.");
                             strNewFish = Resources.FishNameTooSmall;
                             result = FishResult.TooSmall;
                             foundMatch = true;
@@ -925,6 +1112,9 @@ namespace Fishing
 
                         if (chatLine.Contains(Resources.ChatLostTooLarge))
                         {
+                            DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(),
+                                DebugLogger.GetCurrentMethod(),
+                                "Chat indicates fish was too big.");
                             strNewFish = Resources.FishNameTooLarge;
                             result = FishResult.TooLarge;
                             foundMatch = true;
@@ -933,6 +1123,9 @@ namespace Fishing
 
                         if (chatLine.Contains(Resources.ChatHookLineBreak))
                         {
+                            DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(),
+                                DebugLogger.GetCurrentMethod(),
+                                "Chat indicates the fish broke the fishing line.");
                             strNewFish = Resources.FishNameBreakLine;
                             result = FishResult.LineBreak;
                             foundMatch = true;
@@ -941,6 +1134,9 @@ namespace Fishing
 
                         if (chatLine.Contains(Resources.ChatRodBreak))
                         {
+                            DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(),
+                                DebugLogger.GetCurrentMethod(),
+                                "Chat indicates the rod broke.");
                             strNewFish = Resources.FishNameBreakRod;
                             result = FishResult.RodBreak;
                             foundMatch = true;
@@ -949,6 +1145,9 @@ namespace Fishing
 
                         if (chatLine.Contains(Resources.ChatLostLackSkill))
                         {
+                            DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(),
+                                DebugLogger.GetCurrentMethod(),
+                                "Chat indicates the fish was lost due to lack of skill.");
                             strNewFish = Resources.FishNameLackSkill;
                             result = FishResult.LackSkill;
                             foundMatch = true;
@@ -958,12 +1157,18 @@ namespace Fishing
                         if (chatLine.Contains(strObtain))
                         {
                             strNewFish = chatLine.Substring(strObtain.Length);
+                            DebugLog.Info("({0}) [{1}] {2} {3}", DebugLogger.GetCurrentThread(),
+                                DebugLogger.GetCurrentMethod(),
+                                "Fish was obtained:", strNewFish);
                             foundMatch = true;
                             break;
                         }
 
                         if (chatLine.Contains(strQuest))
                         {
+                            DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(),
+                                DebugLogger.GetCurrentMethod(),
+                                "Chat indicates a quest box was fished up");
                             strNewFish = Resources.FishNameQuestBox;
                             foundMatch = true;
                             break;
@@ -971,6 +1176,9 @@ namespace Fishing
 
                         if (chatLine.Contains(strInvFull))
                         {
+                            DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(),
+                                DebugLogger.GetCurrentMethod(),
+                                "Chat indicates inventory is full");
                             result = FishResult.InventoryProblem;
                             foundMatch = true;
                             break;
@@ -978,6 +1186,9 @@ namespace Fishing
 
                         if (chatLine.Contains(Resources.ChatLostShipDock))
                         {
+                            DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(),
+                                DebugLogger.GetCurrentMethod(),
+                                "Chat indicates the fish was lost due to the ferry docking.");
                             strNewFish = Resources.FishNameLostCatch;
                             result = FishResult.Zoned;
                             foundMatch = true;
@@ -987,12 +1198,18 @@ namespace Fishing
                         if (chatLine.Contains(strCaught))
                         {
                             strNewFish = chatLine.Substring(strCaught.Length);
+                            DebugLog.Info("({0}) [{1}] {2} {3}", DebugLogger.GetCurrentThread(),
+                                DebugLogger.GetCurrentMethod(),
+                                "Chat indicates a new fish was caught:", strNewFish);
                             foundMatch = true;
                             break;
                         }
 
                         if (chatLine.Contains(strTempFish))
                         {
+                            DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(),
+                                DebugLogger.GetCurrentMethod(),
+                                "Chat indicates you fished up a temporary item fish");
                             strNewFish = chatLine.Substring(strTempFish.Length);
                             foundMatch = true;
                             break;
@@ -1002,16 +1219,10 @@ namespace Fishing
                 Thread.Sleep(100);
             }
 
-            // [Fix] Stop on no bait or caught a monster
-            if (caughtmonster)
-            {
-                // TODO What is/was this clause for?
-                caughtmonster = false;
-                //Stop(false, "Monster Caught!!!");
-            }
-
             if (Resources.FishNameUnknown == currentFish)
             {
+                DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                    "Fish name/type could not be determined from chat.");
                 currentFish = strNewFish;
             }
 
@@ -1028,6 +1239,8 @@ namespace Fishing
         /// else <c>Released</c></returns>
         private FishResult FightFishFake(FishSize size)
         {
+            DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                "Fake fighting fish");
             int max, min;
             int fishesMaxHP = _FFACE.Fish.HPMax;
 
@@ -1048,6 +1261,8 @@ namespace Fishing
 
             if (FishResult.LostCatch == result)
             {
+                DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                    "Fish was lost (intended)");
                 return FishResult.LostCatch;
             }
 
@@ -1063,6 +1278,8 @@ namespace Fishing
         /// is lost, else <c>Success</c></returns>
         private FishResult FightTo(int fishFinalHP)
         {
+            DebugLog.Info("({0}) [{1}] {2} {3} {4}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                "Fighting fish to", fishFinalHP, "HP using FFACE call.");
             int currentFishHP = _FFACE.Fish.HPCurrent;
             decimal randomReaction = Math.Round((decimal)rnd.NextDouble() * (numReactionHigh.Value - numReactionLow.Value), 1);
             decimal sleepInterval = numReactionLow.Value + randomReaction;
@@ -1085,6 +1302,8 @@ namespace Fishing
 
                 if (cbReaction.Checked)
                 {
+                    DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                        "Sleeping for fake reaction time.");
                     Thread.Sleep((int)sleepInterval * 1000);
                 }
 
@@ -1092,6 +1311,8 @@ namespace Fishing
                 {
                     if (cbExtend.Checked && _FFACE.Fish.HPCurrent > 0 && extendtime)
                     {
+                        DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                            "Extending fish timeout by 30 seconds.");
                         extendtime = false;
                         short extendReelTime = (short)(_FFACE.Fish.Timeout + 30);
                         _FFACE.Fish.SetFishTimeOut(extendReelTime);
@@ -1099,6 +1320,8 @@ namespace Fishing
 
                     if (cbQuickKill.Checked && _FFACE.Fish.HPCurrent > 0 && killtimer)
                     {
+                        DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                            "Quick killing fish.");
                         killtimer = false;
                         int killSleep = (1000 * (int)numQuickKill.Value);
                         SetLblHP(string.Empty);
@@ -1109,6 +1332,8 @@ namespace Fishing
 
                     if (cbAutoKill.Checked && _FFACE.Fish.HPCurrent > 0 && _FFACE.Fish.Timeout <= 5)
                     {
+                        DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                            "Timeout warning: killing fish");
                         _FFACE.Fish.SetHP(0);
                     } //kill fish at warning if option enabled
 
@@ -1117,6 +1342,8 @@ namespace Fishing
                         WinClear();
                         WaitUntil(Status.Standing);
 
+                        DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                            "Lost fish catch.");
                         return FishResult.LostCatch;
                     }
 
@@ -1135,10 +1362,16 @@ namespace Fishing
 
             if (_FFACE.Player.Zone != currentZone)
             {
+                DebugLog.Warning("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                    "Zone changed. Stopping");
                 Stop(true, Resources.StatusErrorZoneChanged);
+                DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                    "Lost catch due to zone change.");
                 return FishResult.LostCatch;
             }
 
+            DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                "Fish was fought successfully");
             return FishResult.Success;
 
         } // @ private FishResult FightTo(int fishFinalHP)
@@ -1148,7 +1381,9 @@ namespace Fishing
         /// the character is standing.
         /// </summary>
 		private void DoLostCatch()
-		{
+        {
+            DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                "Catch lost, setting variables and GUI stuff.");
 			WinClear();
 			SetNoCatch(++consecutiveNoCatchCount);
 
@@ -1192,9 +1427,13 @@ namespace Fishing
         /// <param name="ID3">fish's third ID</param>
         private void RegisterFish(bool isNewFish, string ID1, string ID2, string ID3)
         {
+            DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                "Registering fish and resolving ingame name to friendly name.");
             currentFish = FishUtils.GetFishName(currentFish);
             if (isNewFish && Resources.FishNameUnknown != currentFish)
             {
+                DebugLog.Info("({0}) [{1}] {2} {3}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                    "New type of fish caught and added to database:", currentFish);
                 FishDB.AddNewFish(ref currentFish, lblZone.Text, LastBaitName, LastRodName, ID1, ID2, ID3, false, false);
             }
         }
@@ -1210,12 +1449,16 @@ namespace Fishing
 
             if ((Status.Healing == currentStatus) || (Status.Sitting == currentStatus))
             {
+                DebugLog.Warning("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                    "Character is healing or sitting. Stopping.");
                 Stop(false, Resources.StatusErrorHealing);
                 return;
             }
 
             if (_FFACE.Player.Zone != currentZone)
             {
+                DebugLog.Warning("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                    "Zone changed. Stopping");
                 Stop(true, Resources.StatusErrorZoneChanged);
                 return;
             }
@@ -1235,7 +1478,9 @@ namespace Fishing
 			}
 
 			if (Status.Fishing != currentStatus && Status.FishBite != currentStatus)
-            {
+			{
+			    DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+			        "Waiting until fishing or chat log error info.");
                 for (int i = 0; i < 10; i++)
                 {
                     if ((i < FishChat.chatLog.Count) && (!string.IsNullOrEmpty(FishChat.chatLog[i].Text)))
@@ -1244,6 +1489,9 @@ namespace Fishing
 
                         if (chatLine.Equals(Resources.ChatWaitLonger))
                         {
+                            DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(),
+                                DebugLogger.GetCurrentMethod(),
+                                "Not fishing because chat says we've got to wait longer to cast.");
                             SetStatus(Resources.StatusInfoAddTime);
                             IncreaseCastTime();
                             Thread.Sleep(2000);
@@ -1252,6 +1500,9 @@ namespace Fishing
 
                         if (chatLine.Equals(Resources.ChatNoBait))
                         {
+                            DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(),
+                                DebugLogger.GetCurrentMethod(),
+                                "Not fishing because chat says we're out of bait");
                             if (!CheckRodAndBait())
                             {
                                 OutOfBait(Resources.StatusErrorNoBait);
@@ -1261,8 +1512,14 @@ namespace Fishing
 
                         if (chatLine.Equals(Resources.ChatRodBreak))
                         {
+                            DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(),
+                                DebugLogger.GetCurrentMethod(),
+                                "Not fishing because our rod is broken");
                             if (!CheckRodAndBait())
                             {
+                                DebugLog.Warning("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(),
+                                    DebugLogger.GetCurrentMethod(),
+                                    "Stopping because our rod is broken and we don't have a replacement.");
                                 Stop(false, Resources.StatusErrorRodBroken);
                                 return;
                             }
@@ -1270,12 +1527,18 @@ namespace Fishing
 
                         if (chatLine.Equals(Resources.ChatBadLocation))
                         {
+                            DebugLog.Warning("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(),
+                                DebugLogger.GetCurrentMethod(),
+                                "Stopping because we're not in a place where you can fish.");
                             Stop(false, Resources.StatusErrorMovePlayer);
                             return;
                         }
 
                         if (_FFACE.Player.Zone != currentZone)
                         {
+                            DebugLog.Warning("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(),
+                                DebugLogger.GetCurrentMethod(),
+                                "Stopping because zone changed.");
                             Stop(true, Resources.StatusErrorZoneChanged);
                             return;
                         }
@@ -1286,8 +1549,12 @@ namespace Fishing
 			// Leave room for lag
 			if (Status.Fishing != currentStatus && Status.FishBite != currentStatus)
 			{
+			    DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+			        "Extra check to make sure we're fishing.");
                 if (Status.LostCatch == currentStatus)
                 {
+                    DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                        "We lost our catch while waiting to be fishing.");
                     DoLostCatch();
                     return;
                 }
@@ -1298,15 +1565,21 @@ namespace Fishing
             {
 				if (Status.LostCatch == currentStatus)
 				{
+				    DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                        "Something happened and we lost our catch.");
 					DoLostCatch();
 					return;
 				}
 				if (!CheckProcess())
 				{
+				    DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+				        "Process is no longer available.");
 					return;
 				}
 				else
 				{
+				    DebugLog.Warning("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+				        "Stopping for unknown reason.");
 					Stop(false, Resources.StatusErrorUnknown);
 					return;
 				}
@@ -1314,6 +1587,8 @@ namespace Fishing
 
 			if (Status.FishBite != currentStatus)
 			{
+			    DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+			        "Waiting for a fish to bite");
 				SetStatus(Resources.StatusInfoWaitBite);
                 SetLblHP(string.Empty);
 			}
@@ -1325,6 +1600,8 @@ namespace Fishing
                 //if nothing is caught
                 if (Status.LostCatch == currentStatus)
                 {
+                    DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                        "We lost our catch");
 					DoLostCatch();
                     break;
                 }
@@ -1332,11 +1609,13 @@ namespace Fishing
                 //fish on the hook, fight if its the accepted fish, release otherwise
                 if (Status.FishBite == currentStatus)
                 {
+                    DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                        "A fish bit, checking if we want it or not.");
                     bool isNewFish;
                     FFACE.FishTools.FishID currentID = _FFACE.Fish.ID;
-                    string ID1 = currentID.ID1.ToString();
-                    string ID2 = currentID.ID2.ToString();
-                    string ID3 = currentID.ID3.ToString();
+                    string ID1 = currentID.ID1.ToString(CultureInfo.InvariantCulture);
+                    string ID2 = currentID.ID2.ToString(CultureInfo.InvariantCulture);
+                    string ID3 = currentID.ID3.ToString(CultureInfo.InvariantCulture);
                     bool fishAccepted = FishDB.FishAccepted(out currentFish, out isNewFish, cbCatchUnknown.Checked, LastRodName, lblZone.Text, LastBaitName, ID1, ID2, ID3);
 
                     SetNoCatch(consecutiveNoCatchCount = 0);
@@ -1349,6 +1628,9 @@ namespace Fishing
 
                             if (chatLine.Equals(Resources.ChatHookSmallFish))
                             {
+                                DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(),
+                                    DebugLogger.GetCurrentMethod(),
+                                    "Hooked a small fish, checking if we want to fight or release it.");
                                 if (cbIgnoreSmallFish.Checked)
                                 {
                                     RegisterFish(fishAccepted, ID1, ID2, ID3);
@@ -1378,6 +1660,9 @@ namespace Fishing
 
                             if (chatLine.Equals(Resources.ChatHookLargeFish))
                             {
+                                DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(),
+                                    DebugLogger.GetCurrentMethod(),
+                                    "Hooked a large fish, checking if we want to fight or release it.");
                                 if (cbIgnoreLargeFish.Checked)
                                 {
                                     RegisterFish(fishAccepted, ID1, ID2, ID3);
@@ -1407,6 +1692,9 @@ namespace Fishing
 
                             if (chatLine.Equals(Resources.ChatHookMonster))
                             {
+                                DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(),
+                                    DebugLogger.GetCurrentMethod(),
+                                    "Hooked a monster, checking if we want to fight or release it.");
                                 if (cbIgnoreMonster.Checked)
                                 {
                                     RegisterFish(fishAccepted, ID1, ID2, ID3);
@@ -1429,6 +1717,9 @@ namespace Fishing
 
                             if (chatLine.Equals(Resources.ChatHookItem))
                             {
+                                DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(),
+                                    DebugLogger.GetCurrentMethod(),
+                                    "Hooked an item, checking if we want to fight or release it.");
                                 if (cbIgnoreItem.Checked)
                                 {
                                     RegisterFish(fishAccepted, ID1, ID2, ID3);
@@ -1469,24 +1760,36 @@ namespace Fishing
         /// </summary>
         private void CheckInventory()
         {
+            DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                "Checking inventoroy and moving things if necessary");
             //move items with itemizer or itemtools or custom script
             if (_FFACE.Item.InventoryCount == _FFACE.Item.InventoryMax
                     && (cbInventoryItemizerItemTools.Checked || cbFullactionOther.Checked))
             {
                 if (cbInventoryItemizerItemTools.Checked)
                 {
+                    DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                        "Inventory full, moving things using Itemizer or ItemTools.");
                     foreach (Fishie fishie in lbWanted.Items)
                     {
                         if (!(cbInventoryItemizerSack.Checked && _FFACE.Item.SackCount < _FFACE.Item.SackMax) &&
                             !(cbInventoryItemizerSatchel.Checked && _FFACE.Item.SatchelCount < _FFACE.Item.SatchelMax) &&
                             !(cbInventoryItemizerCase.Checked && _FFACE.Item.CaseCount < _FFACE.Item.CaseMax))
                         {
+                            DebugLog.Warning("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(),
+                                DebugLogger.GetCurrentMethod(),
+                                "No alternate location checked of sack, satchel, or case. Can't move fish.");
                             break;
                         }
                         // Get best guess for the fish name
                         string name = FishUtils.GetFishName(fishie.name);
+                        DebugLog.Info("({0}) [{1}] {2} {3} {4} {5}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                            "Resolved fish from wanted list ", fishie.name, "as", name);
                         if (!Dictionaries.fishDictionary.ContainsKey(name) || _FFACE.Item.GetInventoryItemCount((ushort)Dictionaries.fishDictionary[name]) == 0)
                         {
+                            DebugLog.Info("({0}) [{1}] {2} {3}", DebugLogger.GetCurrentThread(),
+                                DebugLogger.GetCurrentMethod(),
+                                name, "not found in fish dictionary or inventory. Name might be wrong.");
                             continue;
                         }
                         string quoteName = string.Format(Resources.FormatQuoteArg, name);
@@ -1494,46 +1797,66 @@ namespace Fishing
                         if (_FFACE.Item.GetInventoryItemCount((ushort)Dictionaries.fishDictionary[name]) > 0 &&
                             cbInventoryItemizerSack.Checked && _FFACE.Item.SackCount < _FFACE.Item.SackMax)
                         {
-                            storagemedium = Resources.CommandPartSack;
+                            storagemedium = CommandPartSack;
                             if (ItemizerAvailable)
                             {
-                                MoveItems(string.Format("/puts {0} {1}", quoteName, storagemedium), ref name, ref storagemedium);
+                                DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(),
+                                    DebugLogger.GetCurrentMethod(),
+                                    "Trying to move fish to sack using Itemizer.");
+                                MoveItems(string.Format(CommandFormatItemizerPutStack, quoteName, storagemedium), ref name, ref storagemedium);
                             }
                             else if (ItemToolsAvailable)
                             {
-                                MoveItems(string.Format("/moveitem {0} inventory {1} 12", quoteName, storagemedium), ref name, ref storagemedium);
+                                DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(),
+                                    DebugLogger.GetCurrentMethod(),
+                                    "Trying to move fish to sack using ItemTools.");
+                                MoveItems(string.Format(CommandFormatItemtoolsPutStack, quoteName, storagemedium), ref name, ref storagemedium);
                             }
                         }
                         if (_FFACE.Item.GetInventoryItemCount((ushort)Dictionaries.fishDictionary[name]) > 0 &&
                             cbInventoryItemizerSatchel.Checked && _FFACE.Item.SatchelCount < _FFACE.Item.SatchelMax)
                         {
-                            storagemedium = Resources.CommandPartSatchel;
+                            storagemedium = CommandPartSatchel;
                             if (ItemizerAvailable)
                             {
-                                MoveItems(string.Format("/puts {0} {1}", quoteName, storagemedium), ref name, ref storagemedium);
+                                DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(),
+                                    DebugLogger.GetCurrentMethod(),
+                                    "Trying to move fish to satchel using Itemizer.");
+                                MoveItems(string.Format(CommandFormatItemizerPutStack, quoteName, storagemedium), ref name, ref storagemedium);
                             }
                             else if (ItemToolsAvailable)
                             {
-                                MoveItems(string.Format("/moveitem {0} inventory {1} 12", quoteName, storagemedium), ref name, ref storagemedium);
+                                DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(),
+                                    DebugLogger.GetCurrentMethod(),
+                                    "Trying to move fish to satchel using ItemTools.");
+                                MoveItems(string.Format(CommandFormatItemtoolsPutStack, quoteName, storagemedium), ref name, ref storagemedium);
                             }
                         }
                         if (_FFACE.Item.GetInventoryItemCount((ushort)Dictionaries.fishDictionary[name]) > 0 &&
                             cbInventoryItemizerCase.Checked && _FFACE.Item.CaseCount < _FFACE.Item.CaseMax)
                         {
-                            storagemedium = Resources.CommandPartCase;
+                            storagemedium = CommandPartCase;
                             if (ItemizerAvailable)
                             {
-                                MoveItems(string.Format("/puts {0} {1}", quoteName, storagemedium), ref name, ref storagemedium);
+                                DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(),
+                                    DebugLogger.GetCurrentMethod(),
+                                    "Trying to move fish to case using Itemizer.");
+                                MoveItems(string.Format(CommandFormatItemizerPutStack, quoteName, storagemedium), ref name, ref storagemedium);
                             }
                             else if (ItemToolsAvailable)
                             {
-                                MoveItems(string.Format("/moveitem {0} inventory {1} 12", quoteName, storagemedium), ref name, ref storagemedium);
+                                DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(),
+                                    DebugLogger.GetCurrentMethod(),
+                                    "Trying to move fish to case using ItemTools.");
+                                MoveItems(string.Format(CommandFormatItemtoolsPutStack, quoteName, storagemedium), ref name, ref storagemedium);
                             }
                         }
                     }
                 }
                 else if (cbFullactionOther.Checked && !string.IsNullOrEmpty(tbFullactionOther.Text))
                 {
+                    DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                        "Inventory full, moving fish to other locations using other command.");
                     SetStatus(Resources.StatusInfoFullInventoryCommand);
 
                     foreach (Fishie fishie in lbWanted.Items)
@@ -1545,6 +1868,8 @@ namespace Fishing
                             continue;
                         }
                         name = string.Format(Resources.FormatQuoteArg, name);
+                        DebugLog.Info("({0}) [{1}] {2} {3}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                            "Sending command to FFXI:", string.Format(cbFullactionOther.Text, name));
                         _FFACE.Windower.SendString(string.Format(tbFullactionOther.Text, name));
                         Thread.Sleep((int)(numFullactionOtherTime.Value * 1000));
                     }
@@ -1552,24 +1877,34 @@ namespace Fishing
             }
             if (_FFACE.Item.InventoryCount == _FFACE.Item.InventoryMax && cbFullActionStop.Checked)
             {
+                DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                    "Inventory still full.");
                 if (cbFullactionWarp.Checked)
                 {
                     SetStatus(Resources.StatusInfoFullInventoryWarp);
+                    DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                        "Sending command to warp");
                     _FFACE.Windower.SendString(CommandWarp);
                     Thread.Sleep(30000);
                 }
                 if (cbFullactionLogout.Checked)
                 {
                     SetStatus(Resources.StatusInfoFullInventoryLogout);
+                    DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                        "Sending command to log out.");
                     _FFACE.Windower.SendString(CommandLogout);
                     Thread.Sleep(30000);
                 }
                 else if (cbFullactionShutdown.Checked)
                 {
                     SetStatus(Resources.StatusInfoFullInventoryShutdown);
+                    DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                        "Sending command to shut down.");
                     _FFACE.Windower.SendString(CommandShutdown);
                     Thread.Sleep(30000);
                 }
+                DebugLog.Warning("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                    "Inventory full, stopping.");
                 Stop(false, Resources.StatusErrorFullInventory);
             }
         }
@@ -1582,9 +1917,11 @@ namespace Fishing
         /// <param name="storagearea">Name of storage area being moved to</param>
         private void MoveItems(string command, ref string itemname, ref string storagearea)
         {
+            DebugLog.Info("({0}) [{1}] {2} {3} {4} {5}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                "Trying to move as many", itemname, "as possible to", storagearea);
             // Look up item ID
             int tempitemid = FFACE.ParseResources.GetItemId(itemname);
-            if (storagearea == Resources.CommandPartSack)
+            if (storagearea == CommandPartSack)
             {
                 // If we find the itemid and the sack is not full move item to sack
                 if (tempitemid > 0 && ( _FFACE.Item.SackCount != _FFACE.Item.SackMax ))
@@ -1597,7 +1934,7 @@ namespace Fishing
                         // Update Status
                         SetStatus(string.Format(Resources.StatusFormatMoveToSack, itemname, inventorycount));
                         // Send string to POL
-                        DoMoveItem(command, "inventory", storagearea, (ushort)Dictionaries.fishDictionary[itemname]);
+                        DoMoveItem(command, CommandPartInventory, storagearea, (ushort)Dictionaries.fishDictionary[itemname]);
 						inventorycount = _FFACE.Item.GetInventoryItemCount((ushort)tempitemid);
                     }
                     SetStatus(string.Format(Resources.StatusFormatMoveSackFinished, itemname));
@@ -1608,7 +1945,7 @@ namespace Fishing
 					Thread.Sleep(750);
                 }
             }
-            if (storagearea == Resources.CommandPartSatchel)
+            if (storagearea == CommandPartSatchel)
             {
                 if (tempitemid > 0 && ( _FFACE.Item.SatchelCount != _FFACE.Item.SatchelMax ))
                 {
@@ -1620,7 +1957,7 @@ namespace Fishing
                         // Update Status
                         SetStatus(string.Format(Resources.StatusFormatMoveToSatchel, itemname, inventorycount));
                         // Send string to POL
-                        DoMoveItem(command, "inventory", storagearea, (ushort)Dictionaries.fishDictionary[itemname]);
+                        DoMoveItem(command, CommandPartInventory, storagearea, (ushort)Dictionaries.fishDictionary[itemname]);
 						inventorycount = _FFACE.Item.GetInventoryItemCount((ushort)tempitemid);
                     }
                     SetStatus(string.Format(Resources.StatusFormatMoveSatchelFinished, itemname));
@@ -1631,7 +1968,7 @@ namespace Fishing
 					Thread.Sleep(750);
                 }
             }
-            if (storagearea == Resources.CommandPartCase)
+            if (storagearea == CommandPartCase)
             {
                 if (tempitemid > 0 && ( _FFACE.Item.CaseCount != _FFACE.Item.CaseMax ))
                 {
@@ -1643,7 +1980,7 @@ namespace Fishing
                         // Update Status
                         SetStatus(string.Format(Resources.StatusFormatMoveToCase, itemname, inventorycount));
                         // Send string to POL
-                        DoMoveItem(command, "inventory", storagearea, (ushort)Dictionaries.fishDictionary[itemname]);
+                        DoMoveItem(command, CommandPartInventory, storagearea, (ushort)Dictionaries.fishDictionary[itemname]);
 						inventorycount = _FFACE.Item.GetInventoryItemCount((ushort)tempitemid);
                     }
                     SetStatus(string.Format(Resources.StatusFormatMoveCaseFinished, itemname));
@@ -1662,6 +1999,8 @@ namespace Fishing
         /// <returns><c>FishResult</c>.<c>Released</c></returns>
         private FishResult Release()
         {
+            DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                "Releasing fish on line");
             WinClear();
             SetStatus(string.Format(Resources.StatusFormatReleaseFish, currentFish));
             decimal randomReaction = Math.Round((decimal)rnd.NextDouble() * (numReactionHigh.Value - numReactionLow.Value), 1);
@@ -1694,11 +2033,15 @@ namespace Fishing
         /// <param name="result">Fishing result to log</param>
         private void LogResult(FishResult result)
         {
+            DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                "Logging fishing result, updating stats.");
             FishStats.totalCastCount++;
 
             switch (result)
             {
                 case FishResult.Error:
+                    DebugLog.Warning("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                        "Stopping due to an error.");
                     Stop(false, Resources.StatusErrorCantFish);
                     break;
                 case FishResult.InventoryProblem:
@@ -1706,6 +2049,8 @@ namespace Fishing
                     FishStats.AddFish(FishStats.releasedFishes, currentFish);
                     if (cbFullActionStop.Checked)
                     {
+                        DebugLog.Warning("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                            "Stopping due to full inventory");
                         Stop(false, Resources.StatusErrorInventoryProblem);
                     }
                     break;
@@ -1723,6 +2068,8 @@ namespace Fishing
                     break;
                 case FishResult.Monster:
                     FishStats.monsterCount++;
+                    DebugLog.Warning("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                        "Caught a monster, stopping.");
                     Stop(false, Resources.StatusErrorMonster);
                     break;
                 case FishResult.Released:
@@ -1735,6 +2082,8 @@ namespace Fishing
                     SetStatus(Resources.StatusInfoRodBroken);
                     if (!CheckRodAndBait())
                     {
+                        DebugLog.Warning("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                            "Stopping due to broken rod");
                         Stop(false, Resources.StatusErrorRodBroken);
                     }
                     break;
@@ -1747,6 +2096,9 @@ namespace Fishing
                         consecutiveCatchCount++;
                         if (consecutiveCatchCount == (int)numMaxCatch.Value)
                         {
+                            DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(),
+                                DebugLogger.GetCurrentMethod(),
+                                "Fatigue limit reached");
                             consecutiveCatchCount = 0;
                             Fatigued(Resources.StatusFatiguedMaxCatchLimit);
                         }
@@ -1763,6 +2115,8 @@ namespace Fishing
                 case FishResult.Zoned:
                     FishStats.lostCatchCount++;
                     FishStats.AddFish(FishStats.lostCatchFishes, currentFish);
+                    DebugLog.Warning("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                        "Stoppping due to zone change.");
                     Stop(true, Resources.StatusErrorZoned);
                     break;
             }
@@ -1775,6 +2129,8 @@ namespace Fishing
         /// <param name="status">enum FFACETools.Status to wait for</param>
         private void WaitUntil(Status status)
         {
+            DebugLog.Info("({0}) [{1}] {2} {3}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                "Waiting (for as long as it takes) until player status is", status.ToString());
             while (status != currentStatus)
             {
                 if (_FFACE.Player.Zone == currentZone)
@@ -1783,6 +2139,8 @@ namespace Fishing
                 }
                 else
                 {
+                    DebugLog.Warning("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                        "Zone changed. Stopping");
                     Stop(true, Resources.StatusErrorZoneChanged);
                     break;
                 }
@@ -1798,6 +2156,8 @@ namespace Fishing
         /// <param name="quit">amount of time (in milliseconds)</param>
         private void WaitUntil(Status status, int quit)
         {
+            DebugLog.Info("({0}) [{1}] {2} {3}, {4}, {5}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                "Waiting (for up to ", (decimal) quit/1000M, "seconds for status to be", status.ToString());
             Stopwatch sw = new Stopwatch();
             sw.Start();
 
@@ -1809,6 +2169,8 @@ namespace Fishing
                 }
                 else
                 {
+                    DebugLog.Warning("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                        "Zone changed. Stopping");
                     Stop(true, Resources.StatusErrorZoneChanged);
                     break;
                 }
@@ -1825,14 +2187,20 @@ namespace Fishing
         /// <param name="slot">Slot being equipped to</param>
         private void DoEquipping(string equipString, ushort itemID, EquipSlot slot)
         {
+            DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                "Checking if an item is equipped and equipping it if necessary.");
             // Is the item even available? (This doesn't grab from sack, satchel, or case)
             if (_FFACE.Item.GetInventoryItemCount(itemID) > 0)
             {
                 bool equipped = _FFACE.Item.GetEquippedItemID(slot) == itemID;
                 if (equipped)
                 {
+                    DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                        "Item already equipped");
                     return;
                 }
+                DebugLog.Info("({0}) [{1}] {2} {3}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                    "Sending string to equip:", equipString);
                 _FFACE.Windower.SendString(equipString);
                 Stopwatch sw = new Stopwatch();
                 sw.Start();
@@ -1841,6 +2209,8 @@ namespace Fishing
                 {
                     if (_FFACE.Item.GetEquippedItemID(slot) == itemID)
                     {
+                        DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                            "Item successfully equipped.");
                         equipped = true;
                         break;
                     }
@@ -1848,11 +2218,16 @@ namespace Fishing
                 }
                 if (!equipped)
                 {
+                    DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                        "Trying one more time to equip the item, waiting up to 5 seconds.");
                     _FFACE.Windower.SendString(equipString);
                     while (sw.ElapsedMilliseconds < 5000)
                     {
                         if (_FFACE.Item.GetEquippedItemID(slot) == itemID)
                         {
+                            DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(),
+                                DebugLogger.GetCurrentMethod(),
+                                "Item successfully equipped");
                             break;
                         }
                         Thread.Sleep(100);
@@ -1871,13 +2246,13 @@ namespace Fishing
         {
             switch (location)
             {
-                case "sack":
+                case CommandPartSack:
                     return _FFACE.Item.GetSackItemCount(itemID);
-                case "satchel":
+                case CommandPartSatchel:
                     return _FFACE.Item.GetSatchelItemCount(itemID);
-                case "case":
+                case CommandPartCase:
                     return _FFACE.Item.GetCaseItemCount(itemID);
-                case "inventory":
+                case CommandPartInventory:
                     return _FFACE.Item.GetInventoryItemCount(itemID);
             }
             return 0;
@@ -1894,10 +2269,14 @@ namespace Fishing
         /// <param name="itemID">item ID being moved</param>
         private void DoMoveItem(string command, string fromLoc, string toLoc, ushort itemID)
         {
+            DebugLog.Info("({0}) [{1}] {2} {3} {4} {5}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                "Trying to move items from", fromLoc, "to", toLoc);
             uint fromCount = GetLocationItemCount(fromLoc, itemID);
             uint toCount = GetLocationItemCount(toLoc, itemID);
             if (fromCount > 0)
             {
+                DebugLog.Info("({0}) [{1}] {2} {3}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                    "Sending command to move item:", command);
                 _FFACE.Windower.SendString(command);
                 Stopwatch sw = new Stopwatch();
                 sw.Start();
@@ -1906,6 +2285,8 @@ namespace Fishing
                 {
                     if (GetLocationItemCount(toLoc, itemID) > toCount && GetLocationItemCount(fromLoc, itemID) < fromCount)
                     {
+                        DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                            "Command received, item moved");
                         moved = true;
                         break;
                     }
@@ -1913,10 +2294,15 @@ namespace Fishing
                 }
                 if (!moved)
                 {
+                    DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                        "Waiting up to 5 more seconds for item to move");
                     while (sw.ElapsedMilliseconds < 5000)
                     {
                         if (GetLocationItemCount(toLoc, itemID) > toCount && GetLocationItemCount(fromLoc, itemID) < fromCount)
                         {
+                            DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(),
+                                DebugLogger.GetCurrentMethod(),
+                                "Item moved successfully");
                             break;
                         }
                         Thread.Sleep(100);
@@ -1946,8 +2332,10 @@ namespace Fishing
         /// Releases the current instance of FFACETools,
         /// then reattaches to the originally chosen PID.
         /// </summary>
-        public void Reattach()
+        private void Reattach()
         {
+            DebugLog.Warning("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                "An issue happened, trying to reattach to chosen FFXI process. Stopping if we were fishing.");
             bool wasFishing = Resources.GUIButtonStop == btnStart.Text;
 
             Stop(false, Resources.StatusErrorChatGet);
@@ -1962,11 +2350,15 @@ namespace Fishing
 
                 if (wasFishing)
                 {
+                    DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                        "Reattached, restarting fishing");
                     SetStatus(Resources.StatusInfoReattachedRestart);
                     Start();  //restart the fishing loop if the user was fishing
                 }
                 else
                 {
+                    DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                        "Reattached successfully");
                     SetStatus(Resources.StatusInfoReattachSuccess);
                 }
             }
@@ -1978,11 +2370,15 @@ namespace Fishing
         /// </summary>
         /// <returns>true if process is still available</returns>
 		private bool CheckProcess()
-		{
+        {
+            DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                "Checking if process is still available");
 			if (_Process == null || !_Process.IsAvailable)
 			{
 				if (workerThread != null)
 				{
+				    DebugLog.Warning("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+				        "Process is gone, stopping.");
 					Stop(false, Resources.StatusErrorLoggedOut);
 				}
 				ChooseProcess(null);
@@ -2000,10 +2396,14 @@ namespace Fishing
         /// </summary>
         private void Start()
         {
+            DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                "Starting fishing");
             LastBaitName = LastRodName = lblZone.Text = string.Empty;
             ClearLists();
 			if (!CheckProcess())
 			{
+			    DebugLog.Warning("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+			        "Process missing, not starting.");
 				return;
 			}
 			FishStats.startTicks = DateTime.Now.Ticks;
@@ -2024,9 +2424,13 @@ namespace Fishing
                 PopulateLists();
                 CheckEnchantment();
 
-                ts = new ThreadStart(BackgroundFishing);
-                workerThread = new Thread(ts);
-                workerThread.IsBackground = true;
+                DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                    "Making and starting fishing worker thread");
+                workerThread = new Thread(new ThreadStart(BackgroundFishing))
+                {
+                    IsBackground = true,
+                    Name = "WorkerThread"
+                };
                 workerThread.Start();
 
                 btnStart.Text = Resources.GUIButtonStop;
@@ -2039,7 +2443,9 @@ namespace Fishing
         /// Equips fishing gear selected in options.
         /// </summary>
 		private void GearUp()
-		{
+        {
+            DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                "Equipping any gear set in options");
 			if (!string.IsNullOrEmpty(tbBodyGear.Text) && FishUtils.GetGearName(_FFACE.Item.GetEquippedItemID(EquipSlot.Body)) != tbBodyGear.Text)
 			{
 				_FFACE.Windower.SendString(string.Format(EquipFormatBody, tbBodyGear.Text));
@@ -2090,6 +2496,8 @@ namespace Fishing
         /// <returns>Number of enchantments that are missing/needed</returns>
         private int GetNeededEnchantments()
         {
+            DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                "Checking how many enchantments need to be casted.");
             int enchantmentsNeeded = 0;
             if (cbLRingGear.Enabled && cbLRingGear.Checked)
             {
@@ -2117,6 +2525,8 @@ namespace Fishing
 			// Check if fishing support is available and not on (Fisherman's belt)
 			if (cbWaistGear.Enabled && cbWaistGear.Checked)
 			{
+			    DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+			        "Checking for belt enchantment");
 				bool enchantInactive = true;
 				foreach (StatusEffect se in _Player.StatusEffects)
                 {
@@ -2127,6 +2537,8 @@ namespace Fishing
 				}
 				if (enchantInactive)
 				{
+				    DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+				        "Casting belt enchantment");
 					SetStatus(Resources.StatusInfoEnchantBelt);
 					_FFACE.Windower.SendString(string.Format(CommandFormatItemMe, tbWaistGear.Text));
                     Thread.Sleep(500);
@@ -2138,6 +2550,8 @@ namespace Fishing
 			// Check if left ring enchantments are available and not on
 			if (cbLRingGear.Enabled && cbLRingGear.Checked && enchantmentsNeeded > 0)
 			{
+			    DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+			        "Trying to cast left ring enchantment");
 				SetStatus(string.Format(Resources.StatusInfoEnchantLRing, tbLRingGear.Text));
 				_FFACE.Windower.SendString(string.Format(CommandFormatItemMe, tbLRingGear.Text));
                 Thread.Sleep(500);
@@ -2147,6 +2561,8 @@ namespace Fishing
 			// Check if right ring enchantments are available and not on
 			if (cbRRingGear.Enabled && cbRRingGear.Checked && enchantmentsNeeded > 0)
 			{
+			    DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+			        "Trying to cast right ring enchantment");
 				SetStatus(string.Format(Resources.StatusInfoEnchantRRing, tbRRingGear.Text));
                 _FFACE.Windower.SendString(string.Format(CommandFormatItemMe, tbRRingGear.Text));
                 Thread.Sleep(500);
@@ -2161,24 +2577,34 @@ namespace Fishing
         /// are finished executing</param>
         private void OutOfBait(string message)
         {
+            DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                "Out of bait");
             if (cbBaitActionWarp.Checked)
             {
+                DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                    "Out of bait, warping");
                 _FFACE.Windower.SendString(CommandWarp);
                 SetStatus(Resources.StatusInfoBaitWarping);
                 Thread.Sleep(30000);
             }
             if (cbBaitActionShutdown.Checked)
             {
+                DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                    "Out of bait, shutting down");
                 _FFACE.Windower.SendString(CommandShutdown);
                 SetStatus(Resources.StatusInfoBaitShutdown);
                 Thread.Sleep(33000);
             }
             else if (cbBaitActionLogout.Checked)
             {
+                DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                    "Out of bait, logging out");
                 _FFACE.Windower.SendString(CommandLogout);
                 SetStatus(Resources.StatusInfoBaitLogout);
                 Thread.Sleep(33000);
             }
+            DebugLog.Warning("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                "Out of bait, stopping");
             Stop(false, message);
         }
 
@@ -2189,23 +2615,33 @@ namespace Fishing
         /// are finished executing</param>
         private void Fatigued(string message)
         {
+            DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                "Fatigued");
             if (cbFatiguedActionWarp.Checked)
             {
+                DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                    "Fatigued, warping");
                 _FFACE.Windower.SendString(CommandWarp);
                 SetStatus(Resources.StatusInfoFatiguedWarping);
                 Thread.Sleep(30000);
             }
             if (cbFatiguedActionShutdown.Checked)
             {
+                DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                    "Fatigued, shutting down.");
                 _FFACE.Windower.SendString(CommandShutdown);
                 SetStatus(Resources.StatusInfoFatiguedShutdown);
             }
             else if (cbFatiguedActionLogout.Checked)
             {
+                DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                    "Fatigued, logging out");
                 _FFACE.Windower.SendString(CommandLogout);
                 SetStatus(Resources.StatusInfoFatiguedLogout);
             }
             Thread.Sleep(33000);
+            DebugLog.Warning("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                "Fatigued, stopping");
             Stop(false, message);
         }
 
@@ -2228,6 +2664,8 @@ namespace Fishing
 
                 if (statusWarningColor)
                 {
+                    DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                        "Setting status strip and start button colors to red/white");
                     statusStripMain.BackColor = Color.Red;
                     statusStripMain.ForeColor = Color.White;
                     btnStart.BackColor = Color.Red;
@@ -2263,6 +2701,9 @@ namespace Fishing
                         // in case the last consumable bait was used after stopping
                         if (string.IsNullOrEmpty(FishUtils.GetBaitName(_FFACE.Item.GetEquippedItemID(EquipSlot.Ammo))))
                         {
+                            DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(),
+                                DebugLogger.GetCurrentMethod(),
+                                "Equipping bait, as the last was used up while stopping");
                             WaitUntil(Status.Standing);
                             DoEquipping(equipMessage, (ushort)Dictionaries.baitDictionary[LastBaitName], EquipSlot.Ammo);
                         }
@@ -2270,6 +2711,8 @@ namespace Fishing
 
                     if (stopSound && cbStopSound.Checked && File.Exists(FileWarningWav))
                     {
+                        DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                            "Playing stop sound");
                         SoundPlayer spWave = new SoundPlayer(FileWarningWav);
                         spWave.Play();
                     }
@@ -2282,6 +2725,8 @@ namespace Fishing
                         ExtendChat();
                     }
 
+                    DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                        "Aborting worker thread");
                     workerThread.Abort();
                     // while(workerThread.IsAlive) { Thread.Sleep(100); }  //*golfandsurf* removed to correct freeze problem.
                     workerThread = null;
@@ -2452,7 +2897,7 @@ namespace Fishing
         {
             this.UIThread(delegate
             {
-                lblNoCatchAt.Text = string.Format(GUIFormatNoCatch, consecutiveNoCatchCount, numMaxNoCatch.Value);
+                lblNoCatchAt.Text = string.Format(Resources.GUIFormatNoCatch, consecutiveNoCatchCount, numMaxNoCatch.Value, releases);
             });
         } // @ private void SetNoCatch(int releases)
 
@@ -2641,10 +3086,9 @@ namespace Fishing
             // Do any custom say actions
             if (cbChatDetect.Checked && actions > 0)
             {
-                string testLine;
                 for (int i = newCount - 1; i >= 0; --i)
                 {
-                    testLine = chatLines[i].Text;
+                    string testLine = chatLines[i].Text;
                     if (testPrefix.IsMatch(testLine))
                     {
                         if ((actions & (int)ChatAction.Stop) == (int)ChatAction.Stop)
@@ -2700,27 +3144,6 @@ namespace Fishing
         } // @ private void UpdateChatLogs(RichTextBox rtb, int linesToParse)
 
         /// <summary>
-        /// Add a chat line to the DB chat log.
-        /// </summary>
-        /// <param name="line">string to add</param>
-        public void UpdateDBLog(string line)
-        {
-            rtbDB.UIThread(delegate
-            {
-                if (!string.IsNullOrEmpty(line))
-                {
-                    rtbDB.SelectionStart = rtbDB.Text.Length;
-                    rtbDB.SelectionColor = Color.SlateBlue;
-                    rtbDB.SelectedText = DateTime.Now.ToString(FormatLogTimestamp);
-                    rtbDB.SelectionColor = Color.White;
-                    rtbDB.SelectedText = line + Environment.NewLine;
-                    rtbDB.SelectionStart = rtbDB.Text.Length - 1;
-                    rtbDB.ScrollToCaret();
-                }
-            });
-        } // private void UpdateDBLog(string line)
-
-        /// <summary>
         /// Update the fish stats page
         /// </summary>
         private void UpdateStats()
@@ -2751,7 +3174,7 @@ namespace Fishing
         /// <summary>
         /// Helper method. Scale a Y position coordinate based on recorded scaling factors.
         /// </summary>
-        /// <param name="width">Y coordinate to scale</param>
+        /// <param name="height">Y coordinate to scale</param>
         /// <returns>Scaled Y coordinate</returns>
         private int ScaleHeight(int height)
         {
@@ -2862,7 +3285,7 @@ namespace Fishing
             }
 
             // the rest
-            lblVanaTime.Text = string.Format(GUIFormatVanaTime, vanaNow.Month, vanaNow.Day, vanaNow.Year, vanaNow.DayType, vanaNow.Hour, vanaNow.Minute.ToString(FormatTimestampVanaMinute), vanaNow.GetMoonPhaseName(vanaNow.MoonPhase), vanaNow.MoonPercent);
+            lblVanaTime.Text = string.Format(Resources.GUIFormatVanaTime, vanaNow.Month, vanaNow.Day, vanaNow.Year, vanaNow.DayType, vanaNow.Hour, vanaNow.Minute.ToString(FormatTimestampVanaMinute), vanaNow.GetMoonPhaseName(vanaNow.MoonPhase), vanaNow.MoonPercent);
             lblEarthTime.Text = DateTime.Now.ToString(FormatTimestampEarthTime);
 			string skillS = _FFACE == null ? GUILblBlank : Math.Max(_FFACE.Player.GetCraftDetails(Craft.Fishing).Level, skillLevel).ToString();
 			if (_FFACE != null && (skillDecimalMin > 0 || skillDecimalMax > 0))
@@ -2998,10 +3421,10 @@ namespace Fishing
 
         #region Events_Chat
 
-        private const int bufferSize = 20;
+        private const int BufferSize = 20;
         private static int bufferPosition = 0;
         private static Regex allSpaces = new Regex(RegexAllSpaces);
-        private static List<string> chatBuffer = new List<string>(bufferSize);
+        private static List<string> chatBuffer = new List<string>(BufferSize);
 
         private void btnChatSend_Click(object sender, EventArgs e)
         {
@@ -3010,16 +3433,16 @@ namespace Fishing
                 SetStatus(Resources.StatusInfoNoProcess);
                 return;
             }
-            if ((0 < tbChat.Text.Length) && (!tbChat.Text.Equals(allSpaces)))
+            if ((0 < tbChat.Text.Length) && (!allSpaces.IsMatch(tbChat.Text)))
             {
                 _FFACE.Windower.SendString(tbChat.Text);
                 chatBuffer.Insert(0, tbChat.Text);
                 bufferPosition = 0;
                 tbChat.Clear();
 
-                if (chatBuffer.Count > bufferSize)
+                if (chatBuffer.Count > BufferSize)
                 {
-                    chatBuffer.RemoveRange(bufferSize, (chatBuffer.Count - bufferSize));
+                    chatBuffer.RemoveRange(BufferSize, (chatBuffer.Count - BufferSize));
                     chatBuffer.TrimExcess();
                 }
             }
@@ -3035,7 +3458,7 @@ namespace Fishing
                     switch (bufferPosition)
                     {
                         case 0:
-                            if ((0 < tbChat.Text.Length) && (!tbChat.Text.Equals(allSpaces)))
+                            if ((0 < tbChat.Text.Length) && (!allSpaces.IsMatch(tbChat.Text)))
                             {
                                 chatBuffer.Insert(0, tbChat.Text);
                                 tbChat.Text = chatBuffer[(bufferPosition + 1)];
@@ -3047,14 +3470,14 @@ namespace Fishing
                                 bufferPosition++;
                             }
 
-                            if (chatBuffer.Count > bufferSize)
+                            if (chatBuffer.Count > BufferSize)
                             {
-                                chatBuffer.RemoveRange(bufferSize, (chatBuffer.Count - bufferSize));
+                                chatBuffer.RemoveRange(BufferSize, (chatBuffer.Count - BufferSize));
                                 chatBuffer.TrimExcess();
                             }
 
                             break;
-                        case (bufferSize - 1):
+                        case (BufferSize - 1):
                             break;
                         default:
                             tbChat.Text = chatBuffer[bufferPosition];
@@ -3597,8 +4020,6 @@ namespace Fishing
             partyActions = 0;
             shellActions = 0;
             sayActions = 0;
-            string type;
-            string action;
             ChatAction tmpAction = 0;
             for (int i = 0; i < chatDetectBtnChatRemoveList.Count; ++i)
             {
@@ -3606,12 +4027,12 @@ namespace Fishing
                 {
                     continue;
                 }
-                type = chatDetectCmbChatTypeList[i].SelectedItem.ToString();
+                string type = chatDetectCmbChatTypeList[i].SelectedItem.ToString();
                 if (chatDetectCmbChatActionList[i].SelectedItem == null)
                 {
                     continue;
                 }
-                action = chatDetectCmbChatActionList[i].SelectedItem.ToString();
+                string action = chatDetectCmbChatActionList[i].SelectedItem.ToString();
                 if (action.Equals(Resources.GUIChatDetectActionStop))
                 {
                     tmpAction = ChatAction.Stop;
@@ -3656,6 +4077,8 @@ namespace Fishing
                 stopSound = false;
                 statusWarningColor = false;
                 bool storeChatBig = chatbig;
+                DebugLog.Warning("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                    "User clicked stop. Stopping");
                 Stop(false, Resources.StatusErrorIdle);
                 chatbig = storeChatBig;
             }
@@ -3697,6 +4120,8 @@ namespace Fishing
         {
             if (_FFACE.Player.Status == Status.FishBite && _FFACE.Fish.HPCurrent > 0 && _FFACE.Fish.FishOnLine)
             {
+                DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                    "User clicked progress bar, killing fish");
                 _FFACE.Fish.SetHP(0);
             }
         }
@@ -3731,12 +4156,10 @@ namespace Fishing
             Process.Start(e.LinkText);
         }
 
-#if DEBUG
         private void rtbDebug_LinkClicked(object sender, LinkClickedEventArgs e)
         {
             Process.Start(e.LinkText);
         }
-#endif
 
         private void btnRefreshLists_Click(object sender, EventArgs e)
         {
@@ -3764,10 +4187,8 @@ namespace Fishing
 
         private void btnSettingsReset_Click(object sender, EventArgs e)
         {
-            string message = Resources.MessageSettingsReset;
-            string caption = Resources.MessageTitleSettingsReset;
-            MessageBoxButtons buttons = MessageBoxButtons.YesNo;
-            DialogResult result = MessageBox.Show(message, caption, buttons);
+            DialogResult result = MessageBox.Show(Resources.MessageSettingsReset,
+                Resources.MessageTitleSettingsReset, MessageBoxButtons.YesNo);
 
             if (DialogResult.Yes == result)
             {
@@ -3855,10 +4276,7 @@ namespace Fishing
                     btnChatDetectAdd_Remove_click(chatDetectBtnChatRemoveList[0], MouseEventArgs.Empty);
                 }
 
-                if (null != Settings.Default.WindowSize)
-                {
-                    this.Size = Settings.Default.WindowSize = new Size(540, 255);
-                }
+                this.Size = Settings.Default.WindowSize = new Size(540, 255);
 
                 SetNoCatch((int)Settings.Default.MaxNoCatch);
                 this.TopMost = true;
@@ -3868,10 +4286,8 @@ namespace Fishing
 
         private void btnSettingsSave_Click(object sender, EventArgs e)
         {
-            string message = Resources.MessageSettingsSave;
-            string caption = Resources.MessageTitleSettingsSave;
-            MessageBoxButtons buttons = MessageBoxButtons.YesNo;
-            DialogResult result = MessageBox.Show(message, caption, buttons);
+            DialogResult result = MessageBox.Show(Resources.MessageSettingsSave,
+                Resources.MessageTitleSettingsSave, MessageBoxButtons.YesNo);
 
             if (DialogResult.Yes == result)
             {
@@ -4063,10 +4479,7 @@ namespace Fishing
                 this.TopMost = false;
             }
 
-            if (null != Settings.Default.WindowSize)
-            {
-                this.Size = Settings.Default.WindowSize;
-            }
+            this.Size = Settings.Default.WindowSize;
 
             RestoreLocation();
 
@@ -4109,40 +4522,43 @@ namespace Fishing
 
                 // calculate the difference between server time and 
                 // 1/1/1970 00:00:00 unix time -> "Vana'Diel time in seconds"
-                long timeInSeconds = ((long)baseTime + 92514960) * 25;
+                long timeInSeconds = (baseTime + 92514960) * 25;
 
                 // how many days
-                decimal dayOfYear = Math.Floor((decimal)(timeInSeconds / (decimal)86400));
+                decimal dayOfYear = Math.Floor((decimal)timeInSeconds / 86400M);
 
-                vanaNow = new FFACETools.FFACE.TimerTools.VanaTime();
-                vanaNow.DayType = (Weekday)(dayOfYear % 8);
-                vanaNow.Day = (byte)((dayOfYear % 30) + 1);
-                vanaNow.Month = (byte)(((dayOfYear % 360) / 30) + 1);
-                vanaNow.Year = (short)(dayOfYear / 360);
-                vanaNow.Hour = (byte)((timeInSeconds / 3600) % 24);
-                vanaNow.Minute = (byte)((timeInSeconds / 60) % 60);
+                // This uses a lot of M (decimal) and L (long) instead of casts
+                // Usually, types don't matter, but it does for decimals and their operators
+                // The (possibly better, but longer/more cluttered) alternative is things like decimal.Remainder
+                vanaNow = new FFACE.TimerTools.VanaTime();
+                vanaNow.DayType = (Weekday)(dayOfYear % 8M);
+                vanaNow.Day = (byte)((dayOfYear % 30M) + 1M);
+                vanaNow.Month = (byte)(((dayOfYear % 360M) / 30M) + 1M);
+                vanaNow.Year = (short)(dayOfYear / 360M);
+                vanaNow.Hour = (byte)((timeInSeconds / 3600L) % 24L);
+                vanaNow.Minute = (byte)((timeInSeconds / 60L) % 60L);
                 // can't floor on a long, so need to shrink it first
-                vanaNow.Second = (byte)((timeInSeconds - (System.Math.Floor((decimal)(timeInSeconds / 60)) * 60)));
+                vanaNow.Second = (byte)((timeInSeconds - Math.Floor(timeInSeconds / 60M) * 60M));
 
                 // calculate moon phase/percent
-                decimal moonPhase = (dayOfYear + (decimal)26) % 84;
+                decimal moonPhase = (dayOfYear + 26M) % 84M;
 
                 // calculate moon percent
-                decimal moonPercent = (((42 - moonPhase) * 100) / 42);
+                decimal moonPercent = (((42M - moonPhase) * 100M) / 42M);
                 if (0 > moonPercent)
                     moonPercent = Math.Abs(moonPercent);
 
                 // get final moon percent
-                vanaNow.MoonPercent = (byte)Math.Floor((moonPercent + (decimal)0.5));
+                vanaNow.MoonPercent = (byte)Math.Floor(moonPercent + 0.5M);
 
                 // get final moon phase
                 if (38 <= moonPhase)
                 {
-                    vanaNow.MoonPhase = (MoonPhase)Math.Floor((moonPhase - (decimal)38) / (decimal)7);
+                    vanaNow.MoonPhase = (MoonPhase)Math.Floor((moonPhase - 38M) / 7M);
                 }
                 else
                 {
-                    vanaNow.MoonPhase = (MoonPhase)Math.Floor((moonPhase + (decimal)46) / (decimal)7);
+                    vanaNow.MoonPhase = (MoonPhase)Math.Floor((moonPhase + 46M) / 7M);
                 }
             }
 
@@ -4184,7 +4600,7 @@ namespace Fishing
             midnight = midnight.AddHours(9).AddDays(1);
 			midnight = new DateTime(midnight.Year, midnight.Month, midnight.Day);
 			return midnight;
-		}
+		} // @ private DateTime GetNextMidnight
 
         /// <summary>
         /// Restart fishing based on checked options and program state
@@ -4194,9 +4610,11 @@ namespace Fishing
             // If option is checked and program is not currently fishing
             if (cbMidnightRestart.Checked && null == workerThread)
             {
+                DebugLog.Info("({0}) [{1}] {2}", DebugLogger.GetCurrentThread(), DebugLogger.GetCurrentMethod(),
+                    "Japanese midnight passed. Restarting fishing");
                 Start();
             }
-        }
+        } // @ private void RestartFishing
 
         private void timer_DisplayProgressEvent(object sender, ElapsedEventArgs e)
         {
@@ -4208,7 +4626,7 @@ namespace Fishing
 
         #region Events_Wanted/UnwantedLists
 
-        ListBox selectedListBox;
+        private ListBox selectedListBox;
 
         private void changeNameToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -4313,9 +4731,10 @@ namespace Fishing
             ContextMenuStrip cms = (ContextMenuStrip) tsi.Owner;
             RichTextBox rtb = (RichTextBox) cms.SourceControl;
 
-            saveFileDialog.Filter = "Rich Text Format|*.rtf|Plain UTF-8 Text|*.txt";
-            saveFileDialog.DefaultExt = "rtf";
-            saveFileDialog.Title = "Save " + ((TabPage) rtb.Parent).Text + " Log";
+            saveFileDialog.Filter = string.Format(GUIFormatSaveTypes, Resources.GUISaveRichText, ExtensionRichText,
+                Resources.GUISaveUTF8Text, ExtensionUTF8Text);
+            saveFileDialog.DefaultExt = ExtensionRichText;
+            saveFileDialog.Title = string.Format(Resources.GUIFormatSaveLog, ((TabPage)rtb.Parent).Text);
 
             if (saveFileDialog.ShowDialog() == DialogResult.OK && saveFileDialog.FileName.Length > 0)
             {
@@ -4340,12 +4759,12 @@ namespace Fishing
             }
 #endif
 
-            MessageBox.Show(this, "Log names will be appended. eg." + Environment.NewLine + "" +
-                "FF.rtf will result in FFLog.rtf, FFFish.rtf, FFTell.rtf, etc.",
-                "Choose a base filename", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            saveFileDialog.Filter = "Rich Text Format|*.rtf|Plain UTF-8 Text|*.txt";
-            saveFileDialog.DefaultExt = "rtf";
-            saveFileDialog.Title = "Save Logs";
+            MessageBox.Show(this, string.Join(Environment.NewLine, MessageSaveLogs),
+                Resources.GUISaveLogsTitle, MessageBoxButtons.OK, MessageBoxIcon.Information);
+            saveFileDialog.Filter = string.Format(GUIFormatSaveTypes, Resources.GUISaveRichText, ExtensionRichText,
+                Resources.GUISaveUTF8Text, ExtensionUTF8Text);
+            saveFileDialog.DefaultExt = ExtensionRichText;
+            saveFileDialog.Title = Resources.GUISaveLogs;
 
             if (saveFileDialog.ShowDialog() == DialogResult.OK && saveFileDialog.FileName.Length > 0)
             {
@@ -4361,71 +4780,65 @@ namespace Fishing
 
         private void saveLog(RichTextBox rtb, string fileName)
         {
-            if (Path.GetExtension(fileName) == ".rtf")
+            string ext = Path.GetExtension(fileName);
+            if (ext == null)
             {
-                rtb.SaveFile(fileName, RichTextBoxStreamType.RichText);
+                return;
             }
-            else if (Path.GetExtension(fileName) == ".txt")
+            switch (ext.TrimStart(ExtensionSeparator))
             {
-                rtb.SaveFile(fileName, RichTextBoxStreamType.UnicodePlainText);
+                case ExtensionRichText:
+                    rtb.SaveFile(fileName, RichTextBoxStreamType.RichText);
+                    break;
+                case ExtensionUTF8Text:
+                    rtb.SaveFile(fileName, RichTextBoxStreamType.UnicodePlainText);
+                    break;
             }
         }
 
-#if DEBUG
         private void showDebugToolStripMenuItem_Click(object sender, EventArgs e)
         {
+#if DEBUG
             showDebugToolStripMenuItem.Checked = !showDebugToolStripMenuItem.Checked;
             if (showDebugToolStripMenuItem.Checked)
             {
-                this.tabChat.Controls.Add(this.tabChatPageDebug);
+                tabChat.Controls.Add(tabChatPageDebug);
             }
             else
             {
-                if (this.tabChat.SelectedTab == this.tabChatPageDebug)
+                if (tabChat.SelectedTab == tabChatPageDebug)
                 {
-                    this.tabChat.SelectedTab = this.tabChatPageDB;
+                    tabChat.SelectedTab = tabChatPageDB;
                 }
-                this.tabChat.Container.Remove(this.tabChatPageDebug);
+                tabChat.Controls.Remove(tabChatPageDebug);
             }
-        }
 #endif
+        }
 #if TEST
 
-        private string stupidIpsum()
+        private readonly List<string> fishWords = new List<string>();  
+        private readonly string[] fishPhrases =
         {
-            var words = new[]
+            "Found a {0}!", "Caught seventy billion {0}!!!", "Dropped a {0}.",
+            "Hey, I got a {0}, want it?", "{0}が有ります。", "私は{0}見た", "{0}～すごいいね～",
+            "{0}が食べ物ですか？"
+        };
+
+        private string FishyIpsum()
+        {
+            if (fishWords.Count == 0)
             {
-                "lorem", "ipsum", "dolor", "sit", "amet", "consectetuer",
-                "adipiscing", "elit", "sed", "diam", "nonummy", "nibh", "euismod",
-                "tincidunt", "ut", "laoreet", "dolore", "magna", "aliquam", "erat"
-            };
-
-            int numSentences = rnd.Next(2 - 1)
-                               + 1 + 1;
-            int numWords = rnd.Next(10 - 1) + 1 + 1;
-
-            string result = string.Empty;
-
-            for (int p = 0; p < 1; p++)
-            {
-                for (int s = 0; s < numSentences; s++)
-                {
-                    for (int w = 0; w < numWords; w++)
-                    {
-                        if (w > 0)
-                        {
-                            result += " ";
-                        }
-                        result += words[rnd.Next(words.Length)];
-                    }
-                    result += ". ";
-                }
+                // Initialize From the FishDic Dictionaries
+                fishWords.AddRange(Dictionaries.baitDictionary.Keys);
+                fishWords.AddRange(Dictionaries.fishDictionary.Keys);
             }
-            return result;
-        }
 
+            return string.Format(fishPhrases[rnd.Next(fishPhrases.Length)], fishWords[rnd.Next(fishWords.Count)]);
+        }
+#endif
         private void testToolStripMenuItem_Click(object sender, EventArgs e)
         {
+#if TEST
             int j = 0;
             KnownColor[] colorNames = (KnownColor[])Enum.GetValues(typeof(KnownColor));
             foreach (ChatMode type in new ChatMode[]
@@ -4438,7 +4851,7 @@ namespace Fishing
                 foreach (int i in Enumerable.Range(0, 4))
                 {
                     FFACE.ChatTools.ChatLine cl = new FFACE.ChatTools.ChatLine();
-                    cl.Text = stupidIpsum(); 
+                    cl.Text = FishyIpsum(); 
                     KnownColor randomColorName = colorNames[rnd.Next(colorNames.Length)];
                     cl.Color = Color.FromKnownColor(randomColorName);
                     cl.Now = DateTime.Now.AddSeconds(j * 4 + i).ToString(FormatLogTimestamp);
@@ -4473,8 +4886,6 @@ namespace Fishing
                             FishChat.tellLog.Insert(0, cl);
                             FishChat.tellLogAdded++;
                             break;
-                        default:
-                            break;
                     }
                 }
                 ++j;
@@ -4487,15 +4898,14 @@ namespace Fishing
             UpdateChatLogs(rtbShell, FishChat.shellLog, FishChat.shellLogAdded);
             UpdateChatLogs(rtbSay, FishChat.sayLog, FishChat.sayLogAdded);
 
-            DBLogger.Info(stupidIpsum());
-            DBLogger.Info(stupidIpsum());
-            DBLogger.Warning(stupidIpsum());
-            DBLogger.Warning(stupidIpsum());
-            DBLogger.Error(stupidIpsum());
-            DBLogger.Error(stupidIpsum());
-        }
-
+            DBLogger.Info(FishyIpsum());
+            DBLogger.Info(FishyIpsum());
+            DBLogger.Warning(FishyIpsum());
+            DBLogger.Warning(FishyIpsum());
+            DBLogger.Error(FishyIpsum());
+            DBLogger.Error(FishyIpsum());
 #endif
+        }
 
         #endregion //Events_ChatLogs
 

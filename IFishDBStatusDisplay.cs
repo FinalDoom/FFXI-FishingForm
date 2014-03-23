@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Fishing
+﻿namespace Fishing
 {
-    interface IFishDBStatusDisplay
+    interface IFishDBStatusDisplay : ILogger
     {
         /**
          * <summary>Start interaction with remote database. Returns false if transaction already in progress.
@@ -84,16 +79,5 @@ namespace Fishing
          * <summary>Set a message indicating an error has been encountered.</summary>
          * <param name="message">The error message</param>
          */
-        void Error(string message);
-        /**
-         * <summary>Set a message indicating an warning condition has been encountered.</summary>
-         * <param name="message">The warning message</param>
-         */
-        void Warning(string message);
-        /**
-         * <summary>Set a general message.</summary>
-         * <param name="message">The message</param>
-         */
-        void Info(string message);
     }
 }
