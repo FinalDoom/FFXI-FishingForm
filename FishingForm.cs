@@ -6,6 +6,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Media;
+using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Timers;
@@ -116,7 +117,6 @@ namespace Fishing
         private const string GUIButtonResizeSmall = "<";
         private const string GUIFormatSaveTypes = "{0}|*.{1}|{2}|*.{3}";
         private const string ProcessPOLName = "pol";
-        internal const string ProgramExeName = "Fishing.exe";
         private const string RegexAllSpaces = @"^[\s]+$";
         private const string RegexChatIncomingTell = @"^\w+>> ";
         private const string RegexChatMode = @"(?:/(?:[slpt]|say|linkshell|party|tell)\b(?: <r>)? )?(.*)";
@@ -606,8 +606,8 @@ namespace Fishing
 				        "Failed to get FFXI Process");
 					_FFACE = null;
 					_Player = null;
-                    FileVersionInfo ver = FileVersionInfo.GetVersionInfo(ProgramExeName);
-                    this.Text = string.Format(FormatProgramTitleNoChar, ver.FileVersion);
+				    string ver = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion;
+                    this.Text = string.Format(FormatProgramTitleNoChar, ver);
                     _Process = null;
                     FFACE.WindowerPath = Resources.PathWindowerResourcesError;
 					return;
@@ -622,8 +622,8 @@ namespace Fishing
                     playerChatLinkshell = new Regex(string.Format(RegexFormatChatLinkshell, _Player.Name));
                     playerChatParty = new Regex(string.Format(RegexFormatChatParty, _Player.Name));
                     playerChatSay = new Regex(string.Format(RegexFormatChatSay, _Player.Name));
-                    FileVersionInfo ver = FileVersionInfo.GetVersionInfo(ProgramExeName);
-                    this.Text = string.Format(FormatProgramTitleLoggedIn, ver.FileVersion, chooseProcess.ThisProcess.POLName);
+                    string ver = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion;
+                    this.Text = string.Format(FormatProgramTitleLoggedIn, ver, chooseProcess.ThisProcess.POLName);
 
                     //windower path
                     //_FFACE = new FFACE((int)PID);
