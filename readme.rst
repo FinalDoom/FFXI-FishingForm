@@ -2,6 +2,11 @@
 FishingForm FinalDoom Edition
 =============================
 
+    Note: I have taken down the database and added a dump to the project files as I can no
+    longer justify the monthly server expense. This should not affect program functionality.
+    It will just pop up an error that it wasn't able to connect to the database. If anyone
+    wants to host the database themselves, you're more than welcome.
+
 --------
 Overview
 --------
