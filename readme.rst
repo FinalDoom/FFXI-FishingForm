@@ -6,7 +6,8 @@ Unfortunately, it looks like the necessary FFACE.dll can no longer be downloaded
 It used to be hosted on FFEVO, which appears to have been down for several years. If anyone
 knows of a new source, please let me know. It is possible this could be ported to utilitze
 Ashita, if that is still soemthing that works. However, I no longer have access to FFXI
-myself.
+myself. It's possible the most recent FFACE is available at https://github.com/h1pp0/FishingForm/commit/263dc4184ae0e422e8ced160f90c8333873fbcf7
+but I am unable to verify it myself.
 
 If anyone wants to pick it up, fixing the missing portions should be somewhat simple, but
 probably less effective than the FFACE method. What we'd need are:
