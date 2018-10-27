@@ -10,6 +10,7 @@ myself.
 
 If anyone wants to pick it up, fixing the missing portions should be somewhat simple, but
 probably less effective than the FFACE method. What we'd need are:
+
 * offsets to the fish ID pointers
 * A class to "fight" the fish
  I believe FFACE did this by circumventing the normal input channels and input interpretation
