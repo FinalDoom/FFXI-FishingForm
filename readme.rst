@@ -1,3 +1,22 @@
+==========
+Deprecated
+==========
+
+Unfortunately, it looks like the necessary FFACE.dll can no longer be downloaded or updated.
+It used to be hosted on FFEVO, which appears to have been down for several years. If anyone
+knows of a new source, please let me know. It is possible this could be ported to utilitze
+Ashita, if that is still soemthing that works. However, I no longer have access to FFXI
+myself.
+
+If anyone wants to pick it up, fixing the missing portions should be somewhat simple, but
+probably less effective than the FFACE method. What we'd need are:
+* offsets to the fish ID pointers
+* A class to "fight" the fish
+ I believe FFACE did this by circumventing the normal input channels and input interpretation
+ and passing the inputs directly to where they needed to be -- or perhaps even calling the
+ "fish being fought correctly" function directly.
+ We can go the simple route of inputting left and right, but that is slower and more error-prone.
+
 =============================
 FishingForm FinalDoom Edition
 =============================
